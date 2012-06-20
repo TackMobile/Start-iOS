@@ -13,9 +13,16 @@
 		F383C182158B851200B91F31 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F383C180158B851200B91F31 /* InfoPlist.strings */; };
 		F383C184158B851200B91F31 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C183158B851200B91F31 /* main.m */; };
 		F383C188158B851200B91F31 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C187158B851200B91F31 /* AppDelegate.m */; };
-		F383C18B158B851200B91F31 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C18A158B851200B91F31 /* ViewController.m */; };
+		F383C18B158B851200B91F31 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C18A158B851200B91F31 /* MasterViewController.m */; };
 		F383C18E158B851300B91F31 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = F383C18C158B851300B91F31 /* ViewController_iPhone.xib */; };
 		F383C191158B851300B91F31 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = F383C18F158B851300B91F31 /* ViewController_iPad.xib */; };
+		F383C19C158B874C00B91F31 /* AlarmView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C19B158B874C00B91F31 /* AlarmView.m */; };
+		F383C19F158B879F00B91F31 /* SelectAlarmView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C19E158B879F00B91F31 /* SelectAlarmView.m */; };
+		F383C1A5158B87F000B91F31 /* SelectSongView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C1A4158B87F000B91F31 /* SelectSongView.m */; };
+		F383C1A8158B880500B91F31 /* SelectActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C1A7158B880500B91F31 /* SelectActionView.m */; };
+		F383C1AB158B883B00B91F31 /* SelectDurationView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C1AA158B883A00B91F31 /* SelectDurationView.m */; };
+		F383C1B3158B8E7000B91F31 /* CountdownTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C1B2158B8E7000B91F31 /* CountdownTimer.m */; };
+		F3CD846E158FB0A400703717 /* SelectedTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CD846D158FB0A400703717 /* SelectedTimeView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,16 +30,30 @@
 		F383C177158B851200B91F31 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F383C179158B851200B91F31 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		F383C17B158B851200B91F31 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		F383C17F158B851200B91F31 /* Start-Info.plist */ = {isa = PBXFileReference; path = "Start-Info.plist"; sourceTree = "<group>"; };
+		F383C17F158B851200B91F31 /* Start-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Start-Info.plist"; sourceTree = "<group>"; };
 		F383C181158B851200B91F31 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		F383C183158B851200B91F31 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		F383C185158B851200B91F31 /* Start-Prefix.pch */ = {isa = PBXFileReference; path = "Start-Prefix.pch"; sourceTree = "<group>"; };
-		F383C186158B851200B91F31 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		F383C185158B851200B91F31 /* Start-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Start-Prefix.pch"; sourceTree = "<group>"; };
+		F383C186158B851200B91F31 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		F383C187158B851200B91F31 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		F383C189158B851200B91F31 /* ViewController.h */ = {isa = PBXFileReference; path = ViewController.h; sourceTree = "<group>"; };
-		F383C18A158B851200B91F31 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		F383C189158B851200B91F31 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		F383C18A158B851200B91F31 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		F383C18D158B851300B91F31 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
 		F383C190158B851300B91F31 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
+		F383C19A158B874C00B91F31 /* AlarmView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AlarmView.h; path = views/AlarmView.h; sourceTree = "<group>"; };
+		F383C19B158B874C00B91F31 /* AlarmView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AlarmView.m; path = views/AlarmView.m; sourceTree = "<group>"; };
+		F383C19D158B879F00B91F31 /* SelectAlarmView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectAlarmView.h; path = views/SelectAlarmView.h; sourceTree = "<group>"; };
+		F383C19E158B879F00B91F31 /* SelectAlarmView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectAlarmView.m; path = views/SelectAlarmView.m; sourceTree = "<group>"; };
+		F383C1A3158B87F000B91F31 /* SelectSongView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectSongView.h; path = views/SelectSongView.h; sourceTree = "<group>"; };
+		F383C1A4158B87F000B91F31 /* SelectSongView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectSongView.m; path = views/SelectSongView.m; sourceTree = "<group>"; };
+		F383C1A6158B880500B91F31 /* SelectActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectActionView.h; path = views/SelectActionView.h; sourceTree = "<group>"; };
+		F383C1A7158B880500B91F31 /* SelectActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectActionView.m; path = views/SelectActionView.m; sourceTree = "<group>"; };
+		F383C1A9158B883A00B91F31 /* SelectDurationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectDurationView.h; sourceTree = "<group>"; };
+		F383C1AA158B883A00B91F31 /* SelectDurationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectDurationView.m; sourceTree = "<group>"; };
+		F383C1B1158B8E7000B91F31 /* CountdownTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CountdownTimer.h; path = models/CountdownTimer.h; sourceTree = "<group>"; };
+		F383C1B2158B8E7000B91F31 /* CountdownTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CountdownTimer.m; path = models/CountdownTimer.m; sourceTree = "<group>"; };
+		F3CD846C158FB0A400703717 /* SelectedTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectedTimeView.h; path = views/SelectedTimeView.h; sourceTree = "<group>"; };
+		F3CD846D158FB0A400703717 /* SelectedTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectedTimeView.m; path = views/SelectedTimeView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,10 +102,10 @@
 			children = (
 				F383C186158B851200B91F31 /* AppDelegate.h */,
 				F383C187158B851200B91F31 /* AppDelegate.m */,
-				F383C189158B851200B91F31 /* ViewController.h */,
-				F383C18A158B851200B91F31 /* ViewController.m */,
-				F383C18C158B851300B91F31 /* ViewController_iPhone.xib */,
-				F383C18F158B851300B91F31 /* ViewController_iPad.xib */,
+				F383C197158B85D100B91F31 /* Xibs */,
+				F383C198158B85E400B91F31 /* Controllers */,
+				F383C199158B870400B91F31 /* Views */,
+				F383C1B0158B8E4200B91F31 /* Models */,
 				F383C17E158B851200B91F31 /* Supporting Files */,
 			);
 			path = Start;
@@ -99,6 +120,52 @@
 				F383C185158B851200B91F31 /* Start-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		F383C197158B85D100B91F31 /* Xibs */ = {
+			isa = PBXGroup;
+			children = (
+				F383C18C158B851300B91F31 /* ViewController_iPhone.xib */,
+				F383C18F158B851300B91F31 /* ViewController_iPad.xib */,
+			);
+			name = Xibs;
+			sourceTree = "<group>";
+		};
+		F383C198158B85E400B91F31 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				F383C189158B851200B91F31 /* MasterViewController.h */,
+				F383C18A158B851200B91F31 /* MasterViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
+		F383C199158B870400B91F31 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F383C19D158B879F00B91F31 /* SelectAlarmView.h */,
+				F383C19E158B879F00B91F31 /* SelectAlarmView.m */,
+				F383C19A158B874C00B91F31 /* AlarmView.h */,
+				F383C19B158B874C00B91F31 /* AlarmView.m */,
+				F383C1A3158B87F000B91F31 /* SelectSongView.h */,
+				F383C1A4158B87F000B91F31 /* SelectSongView.m */,
+				F383C1A6158B880500B91F31 /* SelectActionView.h */,
+				F383C1A7158B880500B91F31 /* SelectActionView.m */,
+				F383C1A9158B883A00B91F31 /* SelectDurationView.h */,
+				F383C1AA158B883A00B91F31 /* SelectDurationView.m */,
+				F3CD846C158FB0A400703717 /* SelectedTimeView.h */,
+				F3CD846D158FB0A400703717 /* SelectedTimeView.m */,
+			);
+			name = Views;
+			sourceTree = "<group>";
+		};
+		F383C1B0158B8E4200B91F31 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F383C1B1158B8E7000B91F31 /* CountdownTimer.h */,
+				F383C1B2158B8E7000B91F31 /* CountdownTimer.m */,
+			);
+			name = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -166,7 +233,14 @@
 			files = (
 				F383C184158B851200B91F31 /* main.m in Sources */,
 				F383C188158B851200B91F31 /* AppDelegate.m in Sources */,
-				F383C18B158B851200B91F31 /* ViewController.m in Sources */,
+				F383C18B158B851200B91F31 /* MasterViewController.m in Sources */,
+				F383C19C158B874C00B91F31 /* AlarmView.m in Sources */,
+				F383C19F158B879F00B91F31 /* SelectAlarmView.m in Sources */,
+				F383C1A5158B87F000B91F31 /* SelectSongView.m in Sources */,
+				F383C1A8158B880500B91F31 /* SelectActionView.m in Sources */,
+				F383C1AB158B883B00B91F31 /* SelectDurationView.m in Sources */,
+				F383C1B3158B8E7000B91F31 /* CountdownTimer.m in Sources */,
+				F3CD846E158FB0A400703717 /* SelectedTimeView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +362,7 @@
 				F383C196158B851300B91F31 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
