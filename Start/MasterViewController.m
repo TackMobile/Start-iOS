@@ -12,53 +12,183 @@
 @end
 
 @implementation MasterViewController
-@synthesize selectAlarmView;
+@synthesize pListModel, selectAlarmView;
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	alarms = [[NSMutableArray alloc] init];
-    
+    // get the saved alarm index
+    NSNumber *savedAlarmIndex = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"currAlarmIndex"];
+    currAlarmIndex = (savedAlarmIndex)?[savedAlarmIndex intValue]:1;
+    shouldSwitch = SwitchAlarmNone;
+    pListModel = [[PListModel alloc] init];
+
+    // views
     CGRect frameRect = [[UIScreen mainScreen] applicationFrame];
     CGRect selectAlarmRect = CGRectMake(0, frameRect.size.height-50, frameRect.size.width, 50);
 
     currAlarmRect = CGRectMake(0, 0, frameRect.size.width, frameRect.size.height);
-    newAlarmRect = CGRectOffset(currAlarmRect, -frameRect.size.width, 0);
+    prevAlarmRect = CGRectOffset(currAlarmRect, -frameRect.size.width, 0);
     nextAlarmRect = CGRectOffset(currAlarmRect, frameRect.size.width, 0);
 
     selectAlarmView = [[SelectAlarmView alloc] initWithFrame:selectAlarmRect delegate:self];
     
     [self.view addSubview:selectAlarmView];
-    
-    // TESTING    
+
+    // init the alams that were stored
+    NSArray *userAlarms = [pListModel getAlarms];
+    if ([userAlarms count]>0) {
+        for (NSDictionary *alarmInfo in userAlarms) {
+            [selectAlarmView addAlarmAnimated:NO];
+            [self addAlarmWithInfo:alarmInfo switchTo:NO];
+        }
+        [self switchAlarmWithIndex:currAlarmIndex];
+    }
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
+- (void) saveAlarms {
+    // save alarms
+    NSLog(@"saving alarms...");
+    NSMutableArray *alarmsData = [[NSMutableArray alloc] init];
+    for (AlarmView *alarm in alarms)
+        [alarmsData addObject:[NSDictionary dictionaryWithDictionary:alarm.alarmInfo]];
+    
+    [pListModel saveAlarms:alarmsData];
+}
+
+- (void) addAlarmWithInfo:(NSDictionary *)alarmInfo switchTo:(BOOL)switchToAlarm {    
+    currAlarmIndex = [alarms count];
+    AlarmView *newAlarm = [[AlarmView alloc] initWithFrame:prevAlarmRect index:currAlarmIndex delegate:self alarmInfo:alarmInfo];
+    [alarms addObject:newAlarm];
+    [self.view insertSubview:newAlarm atIndex:0];
+    if (switchToAlarm)
+        [self switchAlarmWithIndex:currAlarmIndex];
+    [newAlarm viewWillAppear];
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-        return (interfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - Positioning & SelectAlarmViewDelegate
+- (void) switchAlarmWithIndex:(int)index {
+    shouldSwitch = SwitchAlarmNone;
+        
+    if (index < 0 || index >= [alarms count])
+        index = currAlarmIndex;
+    
+    AlarmView *currAlarm = [alarms objectAtIndex:currAlarmIndex];
+    float currOffset = currAlarm.frame.origin.x;
+    float animOffset = (index-currAlarmIndex)*currAlarmRect.size.width - currOffset;
+    
+    for (AlarmView *alarmView in alarms) {
+        CGRect newAlarmRect = CGRectOffset(currAlarmRect, (currAlarmIndex - alarmView.index)*currAlarmRect.size.width + currOffset, 0);
+        CGRect animateToRect = CGRectOffset(newAlarmRect, animOffset, 0);
+        
+        [alarmView setFrame:newAlarmRect];
+        [alarmView setNewRect:animateToRect];
+    }
+    
+    currAlarmIndex = index;
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:currAlarmIndex] forKey:@"currAlarmIndex"];
+    [selectAlarmView makeAlarmActiveAtIndex:currAlarmIndex];
+    
+    [self animateAlarmsToNewRect];
+}
+
+- (void) animateAlarmsToRested {
+    [UIView animateWithDuration:.2 animations:^{
+        for (AlarmView *alarmView in alarms) {
+            if (alarmView.index < currAlarmIndex)
+                [alarmView setFrame:nextAlarmRect];
+            else if (alarmView.index == currAlarmIndex)
+                [alarmView setFrame:currAlarmRect];
+            else
+                [alarmView setFrame:prevAlarmRect];
+        }
+    }];
+}
+
+- (void) animateAlarmsToNewRect {
+    [UIView animateWithDuration:.2 animations:^{
+        for (AlarmView *alarmView in alarms) {
+            [alarmView setFrame:alarmView.newRect];
+        }
+    }];
+}
+
+#pragma mark - AlarmViewDelegate
+-(PListModel *)getPListModel {
+    return pListModel;
+}
+
+- (void) alarmView:(AlarmView *)alarmView draggedWithXVel:(float)xVel {   
+    if (![alarmView canMove])
+        return;
+    
+    int alarmIndex = alarmView.index;
+    
+    if (fabsf(xVel) > 15) {
+        if (xVel < 0)
+            shouldSwitch = SwitchAlarmNext;
+        else 
+            shouldSwitch = SwitchAlarmPrev;
+    } else if ((xVel < 0 && shouldSwitch == SwitchAlarmPrev) || (xVel > 0 && shouldSwitch == SwitchAlarmNext)) {
+            shouldSwitch = SwitchAlarmNone;
+    }
+
+    CGRect alarmRect = CGRectOffset(alarmView.frame, xVel, 0);
+    // reduce vel if on edges
+    if ((alarmRect.origin.x > 0 && currAlarmIndex==[alarms count]-1) 
+        || (alarmRect.origin.x < 0 && currAlarmIndex == 0))
+        alarmRect = CGRectOffset(alarmRect, -xVel*4/5, 0);
+    
+    CGRect leftAlarmRect = CGRectOffset(alarmRect, -alarmRect.size.width, 0);
+    CGRect rightAlarmRect = CGRectOffset(alarmRect, alarmRect.size.width, 0);
+    
+    if (alarmIndex > 0)
+        [[alarms objectAtIndex:alarmIndex-1] setFrame:rightAlarmRect];
+    if (alarmIndex < [alarms count]-1)
+        [[alarms objectAtIndex:alarmIndex+1] setFrame:leftAlarmRect];
+    
+    [alarmView setFrame:alarmRect];
+}
+
+- (void) alarmView:(AlarmView *)alarmView stoppedDraggingWithX:(float)x {
+
+    int alarmIndex = alarmView.index;
+    
+    if (fabsf(x) > currAlarmRect.size.width / 2) {
+        if (x < 0)
+            [self switchAlarmWithIndex:alarmIndex-1];
+        else
+            [self switchAlarmWithIndex:alarmIndex+1];
+    } else if (shouldSwitch != SwitchAlarmNone) {
+        [self switchAlarmWithIndex:alarmIndex + shouldSwitch];
     } else {
-        return YES;
+        [self switchAlarmWithIndex:currAlarmIndex];
     }
 }
 
+-(void) durationViewWithIndex:(int)index draggedWithPercent:(float)percent {
+    [selectAlarmView makeAlarmSetAtIndex:index percent:percent];
+}
+
+- (void) alarmViewOpeningMenuWithPercent:(float)percent {
+    [selectAlarmView setAlpha:1-percent];
+}
+- (void) alarmViewClosingMenuWithPercent:(float)percent {
+    [selectAlarmView setAlpha:percent];
+}
+
+
 #pragma mark - SelectAlarmViewDelegate
 - (void) alarmAdded {
-    AlarmView *newAlarm = [[AlarmView alloc] initWithFrame:newAlarmRect];
-    [alarms insertObject:newAlarm atIndex:0];
-    [self.view insertSubview:newAlarm atIndex:0];
-    
-    [UIView animateWithDuration:.2 animations:^{
-        for (int i=1; i<[alarms count]; i++)
-            [[alarms objectAtIndex:i] setFrame:newAlarmRect];
-        [[alarms objectAtIndex:0] setFrame:currAlarmRect];
-    }];
+    [selectAlarmView addAlarmAnimated:YES];
+    [self addAlarmWithInfo:nil switchTo:YES];
 }
 
 @end

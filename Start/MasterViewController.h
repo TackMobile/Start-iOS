@@ -9,17 +9,35 @@
 #import <UIKit/UIKit.h>
 #import "AlarmView.h"
 #import "SelectAlarmView.h"
+#import "PListModel.h"
 
-@interface MasterViewController : UIViewController <SelectAlarmViewDelegate> {
+enum SwitchAlarmDirection {
+    SwitchAlarmNext = -1,
+    SwitchAlarmNone,
+    SwitchAlarmPrev
+};
+
+@interface MasterViewController : UIViewController <SelectAlarmViewDelegate, AlarmViewDelegate> {
     NSMutableArray *alarms;
     
-    CGRect newAlarmRect;
+    CGRect prevAlarmRect;
     CGRect currAlarmRect;
     CGRect nextAlarmRect;
+    
+    int currAlarmIndex;
+    
+    int shouldSwitch;
 }
 
 @property (nonatomic, strong) SelectAlarmView *selectAlarmView;
+@property (nonatomic, strong) PListModel *pListModel;
+
+- (void) saveAlarms;
 
 - (void) alarmAdded;
+- (void) alarmView:(AlarmView *)alarmView draggedWithXVel:(float)xVel;
+- (void) alarmView:(AlarmView *)alarmView stoppedDraggingWithX:(float)x;
+
+
 
 @end

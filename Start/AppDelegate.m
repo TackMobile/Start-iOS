@@ -11,19 +11,14 @@
 #import "MasterViewController.h"
 
 @implementation AppDelegate
-
 @synthesize window = _window;
 @synthesize viewController = _viewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    /*if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-     self.viewController = [[ViewController alloc] initWithNibName:@"ViewController_iPhone" bundle:nil];
-     } else {
-     self.viewController = [[ViewController alloc] initWithNibName:@"ViewController_iPad" bundle:nil];
-     }*/
-    
+{    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    [TestFlight takeOff:@"8c164a2e084013eae880e49cf6a4e005_NTU1MTAyMDEyLTAzLTIyIDE4OjE2OjE5LjAzNzQ2OA"];
 
     self.viewController = [[MasterViewController alloc] initWithNibName:@"ViewController_iPhone" bundle:nil];
     self.window.rootViewController = self.viewController;
@@ -41,6 +36,7 @@
 {
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    [self.viewController saveAlarms];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application

@@ -20,29 +20,44 @@
         date = [[NSDate alloc] init];
         
         // Views
-        CGRect timeLabelRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height/2);
-        CGRect meridiemLabelRect = CGRectMake(0, self.frame.size.width/4, self.frame.size.width, self.frame.size.width/2);
-        CGRect editingPartRect = CGRectMake(0, 0, 0, 0);
+        UIFont *timeLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:50];
+        UIFont *mdLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:26];
         
-        timeLabel = [[UILabel alloc] initWithFrame:timeLabelRect];
-        meridiemLabel = [[UILabel alloc] initWithFrame:meridiemLabelRect];
-        editingPartIndicator = [[UIView alloc] initWithFrame:editingPartRect];
+        timeLabel = [[UILabel alloc] init];
+        meridiemLabel = [[UILabel alloc] init];
+        editingPartIndicator = [[UIView alloc] init];
         
         [timeLabel setTextAlignment:UITextAlignmentCenter];
         [timeLabel setTextColor:[UIColor whiteColor]];
         [timeLabel setBackgroundColor:[UIColor clearColor]];
+        [timeLabel setFont:timeLabelFont];
+        
         [meridiemLabel setTextAlignment:UITextAlignmentCenter];
         [meridiemLabel setTextColor:[UIColor whiteColor]];
         [meridiemLabel setBackgroundColor:[UIColor clearColor]];
+        [meridiemLabel setFont:mdLabelFont];
+        
         [editingPartIndicator setBackgroundColor:[UIColor whiteColor]];
         
         [self addSubview:timeLabel];
         [self addSubview:meridiemLabel];
         [self addSubview:editingPartIndicator];
-                
+        
+        [self layoutSubviews];
         // TESTING
     }
     return self;
+}
+
+- (void) layoutSubviews {
+    CGSize timeLabelSize = [[timeLabel text] sizeWithFont:[timeLabel font]];
+    CGSize mdLabelSize = [[meridiemLabel text] sizeWithFont:[meridiemLabel font]];
+    
+    CGRect timeLabelRect = CGRectMake((self.frame.size.width - timeLabelSize.width)/2, (self.frame.size.height-timeLabelSize.height)/2 - 5, timeLabelSize.width, timeLabelSize.height);
+    CGRect meridiemLabelRect = CGRectMake((self.frame.size.width - mdLabelSize.width)/2, timeLabelRect.origin.y+timeLabelSize.height-3, mdLabelSize.width, mdLabelSize.height);
+    
+    [timeLabel setFrame:timeLabelRect];
+    [meridiemLabel setFrame:meridiemLabelRect];
 }
 
 #pragma mark - Drawing
@@ -60,12 +75,11 @@
     // update&position the label
     [dateFormatter setDateFormat:@"h:mm"];
     [timeLabel setText:[dateFormatter stringFromDate:date]];
-    CGSize labelSize = [timeLabel.text sizeWithFont:[timeLabel font]];
-    CGRect labelRect = CGRectMake(floorf((self.frame.size.width-labelSize.width)/2), (self.frame.size.height/2-labelSize.height)/2, labelSize.width, labelSize.height);
-    timeLabel.frame = labelRect;
     
     [dateFormatter setDateFormat:@"a"];
     [meridiemLabel setText:[dateFormatter stringFromDate:date]];
+    
+    [self layoutSubviews];
     
     // change the partIndicator
     [dateFormatter setDateFormat:@"h"];
@@ -88,7 +102,8 @@
         default:
             break;
     }
-    CGRect editingPartRect = CGRectMake(labelRect.origin.x + indicatorXOffset, labelRect.origin.y + labelRect.size.height, indicatorWidth, 3);
+    CGRect labelRect = timeLabel.frame;
+    CGRect editingPartRect = CGRectMake(labelRect.origin.x + indicatorXOffset, labelRect.origin.y + labelRect.size.height-6, indicatorWidth, 1);
     [editingPartIndicator setFrame:editingPartRect];
 }
 
