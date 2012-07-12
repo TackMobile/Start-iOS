@@ -88,11 +88,7 @@
     } else {
         // init the duration picker & theme & action & song
         // select duration
-        NSTimeInterval nowInterval = [[NSDate date] timeIntervalSince1970];
-        NSTimeInterval alarmInterval = [(NSDate *)[alarmInfo objectForKey:@"date"] timeIntervalSince1970];
-        NSTimeInterval duration = alarmInterval-nowInterval;
-        duration = (duration<0)?duration+86400:duration;
-        [selectDurationView setTimeInterval:duration];
+        [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
         // select song
         [selectSongView selectCellWithID:(NSNumber *)[alarmInfo objectForKey:@"songID"]];
         // select action
@@ -153,16 +149,36 @@
         [delegate alarmViewClosingMenuWithPercent:percent];
 }
 
-- (void) updateTheme {
+- (void) updateThemeWithArtwork:(UIImage *)artwork {
     int themeID = [(NSNumber *)[alarmInfo objectForKey:@"themeID"] intValue];
     NSDictionary *theme;
-    if (themeID > -1) { // preset theme
+    if (themeID < 6 && themeID > -1) { // preset theme
         theme = [musicManager getThemeWithID:themeID];
-        [backgroundImage setImage:[theme objectForKey:@"bgImg"]];
+        artwork = [theme objectForKey:@"bgImg"];
         [selectDurationView updateTheme:theme];
+    }
+    if (artwork) {
+        // fade in the background 
+        UIImageView *oldBg = [[UIImageView alloc] initWithImage:backgroundImage.image];
+        [oldBg setFrame:backgroundImage.frame];
+        [oldBg setAlpha:1];
+        [backgroundImage setImage:artwork];
+        [self insertSubview:oldBg aboveSubview:backgroundImage];
+        [UIView animateWithDuration:.35 animations:^{
+            [oldBg setAlpha:0];
+        }];
     }
    // else // no theme
         //theme = [musicManager getThemeForSongID:[alarmInfo objectForKey:@"songID"]];
+}
+
+- (void) updateProperties {
+    // make sure the date is in future
+    while ([(NSDate *)[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0)
+        [alarmInfo setObject:[NSDate dateWithTimeInterval:86400 sinceDate:[alarmInfo objectForKey:@"date"]] forKey:@"date"];
+    
+    [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+    [countdownView updateWithDate:[alarmInfo objectForKey:@"date"]];
 }
 
 #pragma mark - SelectSongViewDelegate
@@ -229,10 +245,7 @@
     [alarmInfo setObject:persistentMediaItemID forKey:@"songID"];
     [alarmInfo setObject:themeID forKey:@"themeID"];
     
-    [self updateTheme];
-    // set the background
-    if (artwork != nil)
-        [backgroundImage setImage:artwork];
+    [self updateThemeWithArtwork:artwork];
 }
 
 #pragma mark - SelectActionViewDelegate

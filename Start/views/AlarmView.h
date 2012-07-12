@@ -27,7 +27,6 @@
 -(void) alarmViewClosingMenuWithPercent:(float)percent;
 
 -(void) durationViewWithIndex:(int)index draggedWithPercent:(float)percent;
-
 @end
 
 enum AlarmViewShouldSet {
@@ -70,6 +69,7 @@ enum AlarmViewShouldSet {
 
 @property (nonatomic, strong) CountdownTimer *countdownTimer;
 
+- (void) updateProperties;
 - (void) viewWillAppear;
 - (bool) canMove;
 - (id) initWithFrame:(CGRect)frame index:(int)aIndex delegate:(id<AlarmViewDelegate>)aDelegate alarmInfo:(NSDictionary *)theAlarmInfo;

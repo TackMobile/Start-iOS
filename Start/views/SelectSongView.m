@@ -102,11 +102,6 @@
 }
 
 - (void) songSelected:(NSIndexPath *)indexPath {
-    if ([delegate respondsToSelector:@selector(compressSelectSong)])
-        [delegate compressSelectSong];
-    
-    [songTableView setUserInteractionEnabled:NO];
-    
     if (indexPath != selectedIndexPath 
         || !artworkPresent) {
         
@@ -119,9 +114,10 @@
         
         if (indexPath.section == 1) { // none
             songID = [NSNumber numberWithInt:-1];
+            themeID = [NSNumber numberWithInt:floor(rand()*5)]; // random theme
         } else if (indexPath.section == 2) { // preset
             songID = [NSNumber numberWithInt:indexPath.row];
-            
+            themeID = [NSNumber numberWithInt:indexPath.row];
         } else if (indexPath.section == 3) {
             songID = [(MPMediaItem *)[librarySongs objectAtIndex:indexPath.row] valueForProperty:MPMediaItemPropertyPersistentID];
             themeID = [NSNumber numberWithInt:-1];
@@ -134,15 +130,6 @@
             [delegate songSelected:songID withArtwork:artwork theme:themeID];
         }
     }
-    
-    // hide cells above and below
-    SongCell *showCell = (SongCell *)[songTableView cellForRowAtIndexPath:selectedIndexPath];
-    [UIView animateWithDuration:.2 animations:^{
-        for (UITableViewCell *visibleCell in [songTableView visibleCells])
-            [visibleCell setAlpha:(visibleCell == showCell)?1:0];
-        for (UIView *headerView in headerViews)
-            [headerView setAlpha:0];
-    }];
 }
 
 - (void) quickSelectCell {
@@ -313,8 +300,27 @@
     else
         [tableView setContentSize:CGSizeMake(tableView.contentSize.width, maxBottom)];
     
-    [self songSelected:indexPath];
     [tableView scrollRectToVisible:contentRect animated:YES];
+    
+    // animation
+    if ([delegate respondsToSelector:@selector(compressSelectSong)])
+        [delegate compressSelectSong];
+    
+    [songTableView setUserInteractionEnabled:NO];
+    
+    // hide cells above and below
+    SongCell *showCell = (SongCell *)[songTableView cellForRowAtIndexPath:indexPath];
+    [UIView animateWithDuration:.2 animations:^{
+        for (UITableViewCell *visibleCell in [songTableView visibleCells])
+            [visibleCell setAlpha:(visibleCell == showCell)?1:0];
+        for (UIView *headerView in headerViews)
+            [headerView setAlpha:0];
+    }];
+    
+    // asynch
+    [self performSelectorInBackground:@selector(songSelected:) withObject:indexPath];
+    
+    
 }
 
 - (NSIndexPath *)songIndexPathFromID:(NSNumber *)pID {

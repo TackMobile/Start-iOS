@@ -12,7 +12,7 @@
 @end
 
 @implementation MasterViewController
-@synthesize pListModel, selectAlarmView;
+@synthesize pListModel, selectAlarmView, tickTimer;
 
 - (void)viewDidLoad
 {
@@ -23,7 +23,7 @@
     currAlarmIndex = (savedAlarmIndex)?[savedAlarmIndex intValue]:1;
     shouldSwitch = SwitchAlarmNone;
     pListModel = [[PListModel alloc] init];
-
+    
     // views
     CGRect frameRect = [[UIScreen mainScreen] applicationFrame];
     CGRect selectAlarmRect = CGRectMake(0, frameRect.size.height-50, frameRect.size.width, 50);
@@ -45,6 +45,16 @@
         }
         [self switchAlarmWithIndex:currAlarmIndex];
     }
+    
+    [self beginTick];
+}
+
+- (void) beginTick {
+    tickTimer = [NSTimer timerWithTimeInterval:0.1 target:self selector:@selector(updateAlarmViews:) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:tickTimer forMode:NSDefaultRunLoopMode];
+}
+- (void) pauseTick {
+    [tickTimer invalidate];
 }
 
 - (void) saveAlarms {
@@ -55,6 +65,28 @@
         [alarmsData addObject:[NSDictionary dictionaryWithDictionary:alarm.alarmInfo]];
     
     [pListModel saveAlarms:alarmsData];
+}
+
+- (void) updateAlarmViews:(NSTimer *)timer {
+    for (AlarmView *alarmView in alarms) {
+        [alarmView updateProperties];
+    }
+}
+
+- (void) scheduleLocalNotifications {
+    /*for (AlarmView *alarmView in alarms) {
+        NSDictionary *alarmInfo = [alarmView alarmInfo];
+        if ([(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue]) {
+            UILocalNotification *notif = [[UILocalNotification alloc] init];
+            NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                      [NSNumber numberWithInt:alarmView.index], @"alarmIndex", nil];
+            notif.fireDate = [alarmInfo objectForKey:@"date"];
+            // notif.soundName = ;
+            notif.alertBody = @"Alarm Triggered";
+            notif.userInfo = userInfo;
+            [[UIApplication sharedApplication] scheduleLocalNotification:notif];
+        }
+    }*/
 }
 
 - (void) addAlarmWithInfo:(NSDictionary *)alarmInfo switchTo:(BOOL)switchToAlarm {    

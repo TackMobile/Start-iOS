@@ -6,9 +6,19 @@
 		<key>themeID</key>
 		<string>0</string>
 		<key>artist</key>
-		<string>Joe Designerson</string>
+		<string>Mr. Waveform</string>
 		<key>title</key>
-		<string>Theme Name</string>
+		<string>The sea hits the shore</string>
+		<key>filename</key>
+		<string>waves.wav</string>
+	</dict>
+	<dict>
+		<key>themeID</key>
+		<string>0</string>
+		<key>artist</key>
+		<string>Donald Glover</string>
+		<key>title</key>
+		<string>How the sun sets</string>
 		<key>filename</key>
 		<string>waves.wav</string>
 	</dict>
@@ -18,7 +28,7 @@
 		<key>artist</key>
 		<string>Joe Designerson</string>
 		<key>title</key>
-		<string>Theme Name</string>
+		<string>The American Idol</string>
 		<key>filename</key>
 		<string>waves.wav</string>
 	</dict>
@@ -26,9 +36,9 @@
 		<key>themeID</key>
 		<string>0</string>
 		<key>artist</key>
-		<string>Joe Designerson</string>
+		<string>Hal Suitcase</string>
 		<key>title</key>
-		<string>Theme Name</string>
+		<string>May and July</string>
 		<key>filename</key>
 		<string>waves.wav</string>
 	</dict>
@@ -36,9 +46,9 @@
 		<key>themeID</key>
 		<string>0</string>
 		<key>artist</key>
-		<string>Joe Designerson</string>
+		<string>Barn House Tunes</string>
 		<key>title</key>
-		<string>Theme Name</string>
+		<string>Cow Bells</string>
 		<key>filename</key>
 		<string>waves.wav</string>
 	</dict>
@@ -46,19 +56,9 @@
 		<key>themeID</key>
 		<string>0</string>
 		<key>artist</key>
-		<string>Joe Designerson</string>
+		<string>SKRILLEX</string>
 		<key>title</key>
-		<string>Theme Name</string>
-		<key>filename</key>
-		<string>waves.wav</string>
-	</dict>
-	<dict>
-		<key>themeID</key>
-		<string>0</string>
-		<key>artist</key>
-		<string>Joe Designerson</string>
-		<key>title</key>
-		<string>Theme Name</string>
+		<string>Mad Baloons Popping</string>
 		<key>filename</key>
 		<string>waves.wav</string>
 	</dict>

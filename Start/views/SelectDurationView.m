@@ -23,6 +23,7 @@
         [self setNeedsDisplay];
         handleSelected = SelectDurationNoHandle;
         draggingOrientation = SelectDurationDraggingNone;
+        changing = NO;
         
         originalFrame = frame;
         
@@ -92,6 +93,7 @@
             handleSelected = SelectDurationNoHandle;
             return;
         }
+        changing = YES;
         
         if ([delegate respondsToSelector:@selector(durationDidBeginChanging:)])
             [delegate durationDidBeginChanging:self];
@@ -147,6 +149,8 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    changing = NO;
+    
     if ([[touches anyObject] tapCount] > 0)
         if ([delegate respondsToSelector:@selector(durationViewTapped:)])
             [delegate durationViewTapped:self];
@@ -185,19 +189,33 @@
     return hours * 3600 + minutes * 60;
 }
 -(void) setTimeInterval:(NSTimeInterval)timeInterval {
-    int totalMin = ((int)timeInterval - ((int)timeInterval%60))/60;
+    if (changing)
+        return;
+    int totalMin = ((int)timeInterval - (int)timeInterval%60)/60;
     int minutes = totalMin % 60;
     int hours = (totalMin - minutes)/60;
     
     float innerVal = (float)hours / 24.0 ;
     float outerVal = (float)minutes / 60.0f;
     
+    // remember the previous angles
+    float prevOuter = outerAngle;
+    float prevInner = innerAngle;
+    
     innerAngle = DEGREES_TO_RADIANS( innerVal * 360);
     outerAngle = DEGREES_TO_RADIANS( outerVal * 360);
     
-    [self setNeedsDisplay];
-    if ([delegate respondsToSelector:@selector(durationDidEndChanging:)])
-        [delegate durationDidEndChanging:self];
+    if (innerAngle != prevInner || outerAngle != prevOuter) {
+        [self setNeedsDisplay];
+    }
+}
+-(void) setDate:(NSDate *)date {
+    // select duration
+    NSTimeInterval nowInterval = [[NSDate date] timeIntervalSince1970];
+    NSTimeInterval alarmInterval = [date timeIntervalSince1970];
+    NSTimeInterval duration = alarmInterval-nowInterval;
+    duration = (duration<0)?duration+86400:duration;
+    [self setTimeInterval:duration];
 }
 
 - (bool) touchAngle:(float)touchAngle isWithinAngle:(float)angle {

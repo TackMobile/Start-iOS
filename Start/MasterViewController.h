@@ -31,10 +31,13 @@ enum SwitchAlarmDirection {
 
 @property (nonatomic, strong) SelectAlarmView *selectAlarmView;
 @property (nonatomic, strong) PListModel *pListModel;
+@property (nonatomic, strong) NSTimer *tickTimer;
 
 - (void) saveAlarms;
+- (void) scheduleLocalNotifications;
 
 - (void) alarmAdded;
+- (void) updateAlarmViews:(NSTimer *)timer;
 - (void) alarmView:(AlarmView *)alarmView draggedWithXVel:(float)xVel;
 - (void) alarmView:(AlarmView *)alarmView stoppedDraggingWithX:(float)x;
 
