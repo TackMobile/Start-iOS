@@ -29,7 +29,7 @@
         PListModel *pListModel = [delegate getPListModel];
         
         // Views
-        CGRect bgImageRect = CGRectMake((self.frame.size.width-self.frame.size.height)/2, 0, self.frame.size.height, self.frame.size.height);
+        bgImageRect = CGRectMake((self.frame.size.width-self.frame.size.height)/2, 0, self.frame.size.height, self.frame.size.height);
         CGRect toolBarRect = CGRectMake(0, 0, self.frame.size.width, 135);
         selectSongRect = CGRectMake(-22, 0, self.frame.size.width-75, 80);
         selectActionRect = CGRectMake(self.frame.size.width-60, 0, 60, 80);
@@ -60,7 +60,10 @@
         [self setBackgroundColor:[UIColor blackColor]];
         [countdownView setAlpha:0];
         
-        //TESTING
+        // TESTING
+        [selectActionView setBackgroundColor:[UIColor blueColor]];
+        [selectSongView setBackgroundColor:[UIColor blueColor]];
+
     }
     return self;
 }
@@ -102,6 +105,9 @@
 #pragma mark - Touches
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {    
     UITouch *touch = [touches anyObject];
+    
+    NSLog(@"%i", [touches count]);
+    
 
     CGPoint touchLoc = [touch locationInView:self];
     CGPoint prevTouchLoc = [touch previousLocationInView:self];
@@ -133,6 +139,31 @@
 }
 
 #pragma mark - Posiitoning/Drawing
+// parallax shiz
+- (void) shiftedFromActiveByPercent:(float)percent {
+    if (pickingSong || pickingAction)
+        return;
+    
+    float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
+    
+    float durPickOffset =       200 * percent;
+    float songPickOffset =      75 * percent;
+    float actionPickOffset =    30 * percent;
+    float backgroundOffset =    (bgImageRect.size.width - screenWidth)/2 * percent;
+    
+    CGRect shiftedDurRect = CGRectOffset(isSet?alarmSetDurRect:selectDurRect, durPickOffset, 0);
+    CGRect shiftedCountdownRect = CGRectOffset(countdownRect, durPickOffset, 0);
+    CGRect shiftedSongRect = CGRectOffset(selectSongRect, songPickOffset, 0);
+    CGRect shiftedActionRect = CGRectOffset(selectActionRect, actionPickOffset, 0);
+    CGRect shiftedBgImgRect = CGRectOffset(bgImageRect, backgroundOffset, 0);
+    
+    [selectDurationView setFrame:shiftedDurRect];
+    [selectedTimeView setCenter:selectDurationView.center];
+    [countdownView setFrame:shiftedCountdownRect];
+    [selectSongView setFrame:shiftedSongRect];
+    [selectActionView setFrame:shiftedActionRect];
+    [backgroundImage setFrame:shiftedBgImgRect];
+}
 - (void) menuOpenWithPercent:(float)percent {
     [backgroundImage setAlpha:1.0f-(.8/(1.0f/percent))];
     if ([delegate respondsToSelector:@selector(alarmViewOpeningMenuWithPercent:)])
@@ -179,6 +210,7 @@
     
     [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
     [countdownView updateWithDate:[alarmInfo objectForKey:@"date"]];
+
 }
 
 #pragma mark - SelectSongViewDelegate
@@ -212,7 +244,7 @@
         [countdownView setFrame:countdownPushedRect];
         [countdownView setAlpha:isSet?.6:0];
     }];
-    
+        
     return YES;
 }
 -(void) compressSelectSong {
@@ -347,8 +379,13 @@
 }
 
 -(void) durationDidEndChanging:(SelectDurationView *)selectDuration {
-    // save the time selected
-    NSDate *dateSelected = [NSDate dateWithTimeIntervalSinceNow:[selectDuration getTimeInterval]];
+     // save the time selected
+     NSDate *dateSelected = [NSDate dateWithTimeIntervalSinceNow:[selectDuration getTimeInterval]];
+     // zero the minute
+    
+     NSTimeInterval time = round([dateSelected timeIntervalSinceReferenceDate] / 60.0) * 60.0;
+     dateSelected = [NSDate dateWithTimeIntervalSinceReferenceDate:time];
+
     [alarmInfo setObject:dateSelected forKey:@"date"];
     
     // update selectedTime View

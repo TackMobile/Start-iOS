@@ -34,6 +34,10 @@ const float spacer = -2;
         [self addSubview:songLabel];
         [self addSubview:artistLabel];
         
+        // gestureRecognizer
+        UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
+        [longPress setMinimumPressDuration:.5];
+        [self addGestureRecognizer:longPress];
     }
     return self;
 }
@@ -59,6 +63,11 @@ const float spacer = -2;
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+#pragma mark - gestures
+-(void) longPresss:(UIGestureRecognizer *)gestRecog {
+    NSLog(@"longPress");
 }
 
 @end

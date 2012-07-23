@@ -234,10 +234,10 @@
 }
 
 -(void) setSnappedOuterAngle:(float)angle {
-    outerAngle = roundf(angle/(M_PI * 2 / 120)) * (M_PI * 2 / 120);
+    outerAngle = roundf(angle/(M_PI * 2 / 60)) * (M_PI * 2 / 60) + (M_PI * 2 / 120);
 }
 -(void) setSnappedInnerAngle:(float)angle {
-    innerAngle = roundf(angle/(M_PI * 2 / 48)) * (M_PI * 2 / 48);
+    innerAngle = roundf(angle/(M_PI * 2 / 24)) * (M_PI * 2 / 24) + (M_PI * 2 / 48);
 }
 
 
@@ -298,7 +298,7 @@
     UIBezierPath *centerCircle = [UIBezierPath bezierPathWithOvalInRect:centerRect];
     
     [[theme objectForKey:@"outerColor"] setFill];  [outerCircle fill];
-    [[theme objectForKey:@"innerColor"] setFill]; [innerCircle fill];
+    [[theme objectForKey:@"innerColor"] setFill];  [innerCircle fill];
     [[theme objectForKey:@"centerColor"] setFill]; [centerCircle fill];
     
     // thicker lines

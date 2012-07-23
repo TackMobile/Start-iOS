@@ -42,6 +42,7 @@ enum AlarmViewShouldSet {
     CGRect selectActionRect;
     CGRect alarmSetDurRect;
     CGRect countdownRect;
+    CGRect bgImageRect;
     
     MusicManager *musicManager;
     
@@ -69,7 +70,9 @@ enum AlarmViewShouldSet {
 
 @property (nonatomic, strong) CountdownTimer *countdownTimer;
 
+- (void) shiftedFromActiveByPercent:(float)percent;
 - (void) updateProperties;
+
 - (void) viewWillAppear;
 - (bool) canMove;
 - (id) initWithFrame:(CGRect)frame index:(int)aIndex delegate:(id<AlarmViewDelegate>)aDelegate alarmInfo:(NSDictionary *)theAlarmInfo;

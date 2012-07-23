@@ -116,12 +116,17 @@
     float currOffset = currAlarm.frame.origin.x;
     float animOffset = (index-currAlarmIndex)*currAlarmRect.size.width - currOffset;
     
+    float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
+    
     for (AlarmView *alarmView in alarms) {
         CGRect newAlarmRect = CGRectOffset(currAlarmRect, (currAlarmIndex - alarmView.index)*currAlarmRect.size.width + currOffset, 0);
         CGRect animateToRect = CGRectOffset(newAlarmRect, animOffset, 0);
         
         [alarmView setFrame:newAlarmRect];
         [alarmView setNewRect:animateToRect];
+        
+        [alarmView shiftedFromActiveByPercent:newAlarmRect.origin.x/screenWidth];
+
     }
     
     currAlarmIndex = index;
@@ -131,23 +136,12 @@
     [self animateAlarmsToNewRect];
 }
 
-- (void) animateAlarmsToRested {
-    [UIView animateWithDuration:.2 animations:^{
-        for (AlarmView *alarmView in alarms) {
-            if (alarmView.index < currAlarmIndex)
-                [alarmView setFrame:nextAlarmRect];
-            else if (alarmView.index == currAlarmIndex)
-                [alarmView setFrame:currAlarmRect];
-            else
-                [alarmView setFrame:prevAlarmRect];
-        }
-    }];
-}
-
 - (void) animateAlarmsToNewRect {
+    float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
     [UIView animateWithDuration:.2 animations:^{
         for (AlarmView *alarmView in alarms) {
             [alarmView setFrame:alarmView.newRect];
+            [alarmView shiftedFromActiveByPercent:alarmView.newRect.origin.x/screenWidth];
         }
     }];
 }
@@ -181,12 +175,19 @@
     CGRect leftAlarmRect = CGRectOffset(alarmRect, -alarmRect.size.width, 0);
     CGRect rightAlarmRect = CGRectOffset(alarmRect, alarmRect.size.width, 0);
     
-    if (alarmIndex > 0)
+    float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
+    
+    if (alarmIndex > 0) {
         [[alarms objectAtIndex:alarmIndex-1] setFrame:rightAlarmRect];
-    if (alarmIndex < [alarms count]-1)
+        [[alarms objectAtIndex:alarmIndex-1] shiftedFromActiveByPercent:rightAlarmRect.origin.x/screenWidth];
+    } 
+    if (alarmIndex < [alarms count]-1) {
         [[alarms objectAtIndex:alarmIndex+1] setFrame:leftAlarmRect];
+        [[alarms objectAtIndex:alarmIndex+1] shiftedFromActiveByPercent:leftAlarmRect.origin.x/screenWidth];
+    }
     
     [alarmView setFrame:alarmRect];
+    [alarmView shiftedFromActiveByPercent:alarmRect.origin.x/screenWidth];
 }
 
 - (void) alarmView:(AlarmView *)alarmView stoppedDraggingWithX:(float)x {
