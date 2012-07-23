@@ -8,21 +8,24 @@
 
 #import <UIKit/UIKit.h>
 #import "ActionCell.h"
+#import "NPTableView.h"
 
 @protocol SelectActionViewDelegate <NSObject>
 -(BOOL) expandSelectActionView;
 -(void) actionSelected:(NSNumber *)actionID;
 @end
 
-@interface SelectActionView : UIView <UITableViewDataSource, UITableViewDelegate> {
+@interface SelectActionView : UIView <UITableViewDataSource, UITableViewDelegate, NPTableViewDelegate> {
     CGRect compressedFrame;
     NSIndexPath *selectedIndexPath;
+    
+    bool needsQuickSelect;
 }
 
 @property (nonatomic, strong) id<SelectActionViewDelegate> delegate;
 
 @property (nonatomic, strong) NSArray *actions;
-@property (nonatomic, strong) UITableView *actionTableView;
+@property (nonatomic, strong) NPTableView *actionTableView;
 
 - (void) quickSelectCell;
 - (void) selectActionWithID:(NSNumber *)aID;

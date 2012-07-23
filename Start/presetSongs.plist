@@ -6,9 +6,9 @@
 		<key>themeID</key>
 		<string>0</string>
 		<key>artist</key>
-		<string>Mr. Waveform</string>
+		<string>Capn&apos; Crunch</string>
 		<key>title</key>
-		<string>The sea hits the shore</string>
+		<string>All Aboard</string>
 		<key>filename</key>
 		<string>waves.wav</string>
 	</dict>
@@ -16,9 +16,9 @@
 		<key>themeID</key>
 		<string>0</string>
 		<key>artist</key>
-		<string>Donald Glover</string>
+		<string>Frank Ocean</string>
 		<key>title</key>
-		<string>How the sun sets</string>
+		<string>Pacific Boats</string>
 		<key>filename</key>
 		<string>waves.wav</string>
 	</dict>
@@ -28,7 +28,7 @@
 		<key>artist</key>
 		<string>Joe Designerson</string>
 		<key>title</key>
-		<string>The American Idol</string>
+		<string>Comical Sans</string>
 		<key>filename</key>
 		<string>waves.wav</string>
 	</dict>
@@ -36,9 +36,9 @@
 		<key>themeID</key>
 		<string>0</string>
 		<key>artist</key>
-		<string>Hal Suitcase</string>
+		<string>Mr. Pixel</string>
 		<key>title</key>
-		<string>May and July</string>
+		<string>Retina Chaos</string>
 		<key>filename</key>
 		<string>waves.wav</string>
 	</dict>
@@ -46,9 +46,9 @@
 		<key>themeID</key>
 		<string>0</string>
 		<key>artist</key>
-		<string>Barn House Tunes</string>
+		<string>Stan Greenly</string>
 		<key>title</key>
-		<string>Cow Bells</string>
+		<string>Shiny Prius</string>
 		<key>filename</key>
 		<string>waves.wav</string>
 	</dict>
@@ -56,9 +56,9 @@
 		<key>themeID</key>
 		<string>0</string>
 		<key>artist</key>
-		<string>SKRILLEX</string>
+		<string>While True</string>
 		<key>title</key>
-		<string>Mad Baloons Popping</string>
+		<string>Infinite Loop</string>
 		<key>filename</key>
 		<string>waves.wav</string>
 	</dict>

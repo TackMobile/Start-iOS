@@ -60,10 +60,8 @@
         [self setBackgroundColor:[UIColor blackColor]];
         [countdownView setAlpha:0];
         
-        // TESTING
-        [selectActionView setBackgroundColor:[UIColor blueColor]];
-        [selectSongView setBackgroundColor:[UIColor blueColor]];
-
+        CGRect selectActionTableViewRect = CGRectMake(0, 0, self.frame.size.width-75, self.frame.size.height);
+        [selectActionView.actionTableView setFrame:selectActionTableViewRect];
     }
     return self;
 }
@@ -76,10 +74,6 @@
     index = aIndex;
     delegate = aDelegate;
     return [self initWithFrame:frame];
-}
-
-- (bool) canMove {
-    return !(pickingSong || pickingAction);
 }
 
 - (void) viewWillAppear {
@@ -100,6 +94,10 @@
         if ([(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue])
             [self animateSelectDurToSet:YES];
     }
+}
+
+- (bool) canMove {
+    return !(pickingSong || pickingAction);
 }
 
 #pragma mark - Touches
@@ -147,8 +145,8 @@
     float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
     
     float durPickOffset =       200 * percent;
-    float songPickOffset =      75 * percent;
-    float actionPickOffset =    30 * percent;
+    float songPickOffset =      100 * percent;
+    float actionPickOffset =    75 * percent;
     float backgroundOffset =    (bgImageRect.size.width - screenWidth)/2 * percent;
     
     CGRect shiftedDurRect = CGRectOffset(isSet?alarmSetDurRect:selectDurRect, durPickOffset, 0);

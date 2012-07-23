@@ -76,6 +76,7 @@
 		F383C1A8158B880500B91F31 /* SelectActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C1A7158B880500B91F31 /* SelectActionView.m */; };
 		F383C1B3158B8E7000B91F31 /* CountdownTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C1B2158B8E7000B91F31 /* CountdownTimer.m */; };
 		F3CD846E158FB0A400703717 /* SelectedTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CD846D158FB0A400703717 /* SelectedTimeView.m */; };
+		F3E5C39515BDBE10006959F4 /* NPTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E5C39415BDBE10006959F4 /* NPTableView.m */; };
 		F3F825C51598CCD00017B752 /* toolbarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = F3F825C41598CCD00017B752 /* toolbarBG.png */; };
 		F3F825CB1598E63C0017B752 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3F825CA1598E63C0017B752 /* Roboto-Light.ttf */; };
 		F3FD676D15A740E90002AFC9 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FD676915A740E90002AFC9 /* libTestFlight.a */; };
@@ -182,6 +183,8 @@
 		F383C1B2158B8E7000B91F31 /* CountdownTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CountdownTimer.m; path = models/CountdownTimer.m; sourceTree = "<group>"; };
 		F3CD846C158FB0A400703717 /* SelectedTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectedTimeView.h; path = views/SelectedTimeView.h; sourceTree = "<group>"; };
 		F3CD846D158FB0A400703717 /* SelectedTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectedTimeView.m; path = views/SelectedTimeView.m; sourceTree = "<group>"; };
+		F3E5C39315BDBE10006959F4 /* NPTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPTableView.h; path = views/NPTableView.h; sourceTree = "<group>"; };
+		F3E5C39415BDBE10006959F4 /* NPTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NPTableView.m; path = views/NPTableView.m; sourceTree = "<group>"; };
 		F3F825C41598CCD00017B752 /* toolbarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = toolbarBG.png; path = img/toolbarBG.png; sourceTree = "<group>"; };
 		F3F825CA1598E63C0017B752 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
 		F3FD676915A740E90002AFC9 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
@@ -396,6 +399,8 @@
 				F383C19D158B879F00B91F31 /* SelectAlarmView.h */,
 				F383C19E158B879F00B91F31 /* SelectAlarmView.m */,
 				F327EC9B15938BE0008B962F /* AlarmView */,
+				F3E5C39315BDBE10006959F4 /* NPTableView.h */,
+				F3E5C39415BDBE10006959F4 /* NPTableView.m */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -657,6 +662,7 @@
 				F3FD677D15AB67E50002AFC9 /* LeftHeaderView.m in Sources */,
 				F3FEC0A315ABC3010032B893 /* ReturnButtonView.m in Sources */,
 				F3FEC0A715AC86360032B893 /* CountdownView.m in Sources */,
+				F3E5C39515BDBE10006959F4 /* NPTableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

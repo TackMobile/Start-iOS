@@ -19,12 +19,13 @@
         [self setClipsToBounds:YES];
         compressedFrame = frame;
         selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        needsQuickSelect = NO;
         
         // views
         CGRect screenBounds = [[UIScreen mainScreen] applicationFrame];
         CGRect actionTableRect = CGRectMake(0, 0, self.frame.size.width, screenBounds.size.height);
         
-        actionTableView = [[UITableView alloc] initWithFrame:actionTableRect style:UITableViewStylePlain];
+        actionTableView = [[NPTableView alloc] initWithFrame:actionTableRect style:UITableViewStylePlain];
         [actionTableView setDelegate:self];
         [actionTableView setDataSource:self];
         [actionTableView setUserInteractionEnabled:NO];
@@ -35,13 +36,6 @@
         [self addSubview:actionTableView];
         
         // TESTING
-        /*actions = [[NSMutableArray alloc] init];
-        NSDictionary *actionDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"Action Title", @"title", [NSNumber numberWithInt:5], @"actionID", @"mailIcon", @"icon", nil];
-        for (int i=0; i<10; i++)
-            [actions addObject:actionDict];
-        
-        NSDictionary *noActionDict = [[NSDictionary alloc] initWithObjectsAndKeys:@"No Action", @"title", [NSNumber numberWithInt:-1], @"actionID", @"noActionIcon", @"icon", nil];
-        [actions replaceObjectAtIndex:0 withObject:noActionDict];*/
     }
     return self;
 }
@@ -53,10 +47,10 @@
 }
 
 - (void) selectActionWithID:(NSNumber *)aID {
-    [actionTableView reloadData];
     int actionID = [aID intValue];
     selectedIndexPath = [NSIndexPath indexPathForRow:actionID inSection:0];
-    [self quickSelectCell];
+    needsQuickSelect = YES;
+    //[self quickSelectCell];
 }
 
 #pragma mark - Positioning
@@ -90,8 +84,6 @@
                     [visibleCell.actionTitle setAlpha:1];
                 }
             }];
-            
-            [actionTableView setFrame:CGRectMake(0, 0, self.frame.size.width, actionTableView.frame.size.height)];
         }
 }
 
@@ -120,15 +112,14 @@
         cell = [[ActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NormalActionCell];
         
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        
-        if (indexPath.row == 0)
-            [cell.actionTitle setAlpha:0];
+        [cell setAlpha:0];
     }
     
     NSDictionary *action = [actions objectAtIndex:indexPath.row];
     cell.actionTitle.text = [action objectForKey:@"title"];
-    [cell.actionTitle setAlpha:1];
     [cell.icon setImage:[UIImage imageNamed:[action objectForKey:@"iconFilename"]]];
+    
+    [cell.actionTitle setAlpha:1];
     
     return cell;
 }
@@ -163,6 +154,29 @@
     selectedIndexPath = indexPath;
     [actionTableView scrollRectToVisible:contentRect animated:YES];
     [self actionSelectedAtIndexPath:indexPath];
+}
+
+#pragma mark - NPTableViewDelegate
+- (void)willReloadData {
+    NSLog(@"willreload");
+}
+- (void)didReloadData {
+    NSLog(@"didreload");
+
+}
+- (void)willLayoutSubviews {
+    NSLog(@"willLAYOUT");
+
+}
+- (void)didLayoutSubviews {
+    NSLog(@"didLAYOUT");
+    
+    NSLog(@"%i", [[actionTableView visibleCells] count]);
+
+    if (needsQuickSelect) {
+        [self quickSelectCell];
+        needsQuickSelect = NO;
+    }
 }
 
 @end

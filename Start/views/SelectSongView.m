@@ -56,11 +56,13 @@
             
             LeftHeaderView *headerView = [[LeftHeaderView alloc] initWithCellRect:cellRect sectionHeight:lastRect.origin.y+lastRect.size.height-cellRect.origin.y];
             
+            [headerView setAlpha:0];
+            
             [headerView.icon setImage:icon];
             [headerViews addObject:headerView];
             [songTableView addSubview:headerView];
         }
-        // add the return button
+        // add the return button (it is invisible and stays on the right margin)
         ReturnButtonView *returnButton = [[ReturnButtonView alloc] initWithCellRect:[songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]] sectionHeight:100000];
         [returnButton.button addTarget:self action:@selector(returnButtonTapped:) forControlEvents:UIControlEventTouchDown];
         [songTableView addSubview:returnButton];
