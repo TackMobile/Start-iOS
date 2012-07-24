@@ -27,6 +27,8 @@
 -(void) alarmViewClosingMenuWithPercent:(float)percent;
 
 -(void) durationViewWithIndex:(int)index draggedWithPercent:(float)percent;
+
+-(void)alarmViewPinched:(AlarmView *)alarmView;
 @end
 
 enum AlarmViewShouldSet {
@@ -51,6 +53,7 @@ enum AlarmViewShouldSet {
     bool pickingSong;
     bool pickingAction;
     bool cancelTouch;
+    bool pinched;
 }
 @property (nonatomic, strong) id<AlarmViewDelegate> delegate;
 @property CGRect newRect;

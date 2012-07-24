@@ -105,6 +105,12 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
+// used when deleting an alarm
+-(void) updateAlarmIndexes {
+    for (int i=[alarms count]-1; i>=0; i--)
+        [[alarms objectAtIndex:i] setIndex:i];
+}
+
 #pragma mark - Positioning & SelectAlarmViewDelegate
 - (void) switchAlarmWithIndex:(int)index {
     shouldSwitch = SwitchAlarmNone;
@@ -112,8 +118,14 @@
     if (index < 0 || index >= [alarms count])
         index = currAlarmIndex;
     
-    AlarmView *currAlarm = [alarms objectAtIndex:currAlarmIndex];
-    float currOffset = currAlarm.frame.origin.x;
+    float currOffset;
+    if (currAlarmIndex < [alarms count]) {
+        AlarmView *currAlarm = [alarms objectAtIndex:currAlarmIndex];
+        currOffset = currAlarm.frame.origin.x;
+    } else {
+        currOffset = 0;
+    }
+    
     float animOffset = (index-currAlarmIndex)*currAlarmRect.size.width - currOffset;
     
     float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
@@ -216,7 +228,18 @@
 - (void) alarmViewClosingMenuWithPercent:(float)percent {
     [selectAlarmView setAlpha:percent];
 }
-
+-(void)alarmViewPinched:(AlarmView *)alarmView {
+    if ([alarms count] < 2)
+        return;
+    
+    NSLog(@"deleting index: %i", alarmView.index);
+    
+    [alarms removeObject:alarmView];
+    [self updateAlarmIndexes];
+    
+    [alarmView removeFromSuperview];
+    [selectAlarmView deleteAlarm:alarmView.index];
+}
 
 #pragma mark - SelectAlarmViewDelegate
 - (void) alarmAdded {

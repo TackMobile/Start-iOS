@@ -53,22 +53,22 @@ const float setAlarmY = 15;
 
 #pragma mark - Actions
 - (void) plusButtonTapped:(id)button {
+    // return if there are already max_alarms
+    if (numAlarms == MAX_ALARMS)
+        return;
+    
     if ([delegate respondsToSelector:@selector(alarmAdded)])
         [delegate alarmAdded];
 }
 
 - (void) deleteAlarm:(int)index {
     numAlarms--;
-    [self animateRemoveAlarmAtIndex:index];
+    [self animateRemoveAlarmAtIndex:numAlarms - index];
     return;
 }
-- (void) addAlarmAnimated:(bool)animated {    
-    // return if there are already max_alarms
-    if (numAlarms == MAX_ALARMS)
-        return;
-    else
-        numAlarms++;
-    
+- (void) addAlarmAnimated:(bool)animated {        
+    numAlarms++;
+
     // position new alarmbutton
     CGRect newAlarmRect = CGRectMake(0, restedY, 0, 2);
     UIView *newAlarm = [[UIView alloc] initWithFrame:newAlarmRect];
@@ -84,6 +84,8 @@ const float setAlarmY = 15;
     
 }
 - (void) makeAlarmActiveAtIndex:(int)index {
+    NSLog(@"alarms: %i, buttons: %i, switchTO: %i", numAlarms, [alarmButtons count], index);
+    
     int buttonIndex = numAlarms - 1 - index;
     
     for (UIView *alarmButton in alarmButtons)
@@ -131,6 +133,9 @@ const float setAlarmY = 15;
         }
     } completion:^(BOOL finished) {
         [alarmButtons removeObjectAtIndex:index];
+        int switchIndex = index==0?0:index-1;
+        if ([delegate respondsToSelector:@selector(switchAlarmWithIndex:)])
+            [delegate switchAlarmWithIndex:numAlarms - 1 - switchIndex];
     }];
 }
 

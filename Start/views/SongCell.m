@@ -36,7 +36,7 @@ const float spacer = -2;
         
         // gestureRecognizer
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
-        [longPress setMinimumPressDuration:.5];
+        [longPress setMinimumPressDuration:.2];
         [self addGestureRecognizer:longPress];
     }
     return self;
@@ -66,7 +66,7 @@ const float spacer = -2;
 }
 
 #pragma mark - gestures
--(void) longPresss:(UIGestureRecognizer *)gestRecog {
+-(void) longPress:(UIGestureRecognizer *)gestRecog {
     NSLog(@"longPress");
 }
 

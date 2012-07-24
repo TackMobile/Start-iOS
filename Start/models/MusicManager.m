@@ -40,9 +40,7 @@
                                 [UIColor blackColor],@"outerHandleColor",
                                 [UIColor blackColor],@"innerHandleColor",
                                 [UIImage imageNamed:@"squares"], @"bgImg",
-                                nil];
-    NSLog(@"%@", pListTheme);
-    
+                                nil];    
     float opacity = 1.0;
     
     opacity = [(NSNumber *)[pListTheme objectForKey:@"outerRingOpacity"] floatValue];

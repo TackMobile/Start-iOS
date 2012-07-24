@@ -109,7 +109,7 @@
         
         selectedIndexPath = indexPath;
         
-        NSNumber *songID;
+        NSNumber *songID = [[NSNumber alloc] init];
         UIImage *artwork = nil;
         //testing
         NSNumber *themeID = [NSNumber numberWithInt:0];
@@ -329,7 +329,7 @@
     int row = 0;
     for (int i=0; i<[librarySongs count]; i++) {
         MPMediaItem *mediaItem = [librarySongs objectAtIndex:i];
-        if ([[mediaItem valueForKey:MPMediaItemPropertyPersistentID] isEqualToNumber:pID] ) {
+        if ([pID intValue] == [[mediaItem valueForKey:MPMediaItemPropertyPersistentID] intValue]) {
             row = i;
             break;
         }
@@ -403,7 +403,6 @@
     [songTableView reloadData];
     
     // update the headers
-    NSLog(@"%i", [songTableView numberOfSections]);
     LeftHeaderView *songHeader = [headerViews objectAtIndex:2];
     [songHeader updateCellRect:[songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]]];
     [songHeader updateWithContentOffset:0];

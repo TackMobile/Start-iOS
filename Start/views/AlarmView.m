@@ -24,6 +24,7 @@
         pickingSong = NO;
         pickingAction = NO;
         cancelTouch = NO;
+        pinched = NO;
         
         musicManager = [[MusicManager alloc] init];
         PListModel *pListModel = [delegate getPListModel];
@@ -53,6 +54,11 @@
         [self addSubview:selectSongView];
         [self addSubview:selectActionView];
         [self addSubview:selectedTimeView];
+        
+        // pinch to delete
+        UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(alarmPinched:)];
+        [pinch setCancelsTouchesInView:NO];
+        [self addGestureRecognizer:pinch];
         
         [selectedTimeView updateTimeInterval:[selectDurationView getTimeInterval] part:SelectDurationNoHandle];
         [toolbarImage setImage:[UIImage imageNamed:@"toolbarBG"]];
@@ -104,9 +110,6 @@
 - (void) touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {    
     UITouch *touch = [touches anyObject];
     
-    NSLog(@"%i", [touches count]);
-    
-
     CGPoint touchLoc = [touch locationInView:self];
     CGPoint prevTouchLoc = [touch previousLocationInView:self];
     
@@ -134,6 +137,14 @@
     cancelTouch = NO;
     if ([delegate respondsToSelector:@selector(alarmView:stoppedDraggingWithX:)])
         [delegate alarmView:self stoppedDraggingWithX:self.frame.origin.x];
+}
+
+-(void)alarmPinched:(UIPinchGestureRecognizer *)pinchRecog {    
+    if (pinchRecog.velocity < -5 && [delegate respondsToSelector:@selector(alarmViewPinched:)] && !pinched) {
+        pinched = YES;
+        [delegate alarmViewPinched:self];
+        NSLog(@"I WAS PINCHED: %i", self.index);
+    }
 }
 
 #pragma mark - Posiitoning/Drawing

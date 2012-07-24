@@ -50,7 +50,6 @@
     int actionID = [aID intValue];
     selectedIndexPath = [NSIndexPath indexPathForRow:actionID inSection:0];
     needsQuickSelect = YES;
-    //[self quickSelectCell];
 }
 
 #pragma mark - Positioning
@@ -112,14 +111,18 @@
         cell = [[ActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NormalActionCell];
         
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        [cell setAlpha:0];
     }
     
     NSDictionary *action = [actions objectAtIndex:indexPath.row];
     cell.actionTitle.text = [action objectForKey:@"title"];
     [cell.icon setImage:[UIImage imageNamed:[action objectForKey:@"iconFilename"]]];
     
+    [cell setAlpha:1];
     [cell.actionTitle setAlpha:1];
+    if ([selectedIndexPath compare:indexPath] == NSOrderedSame)
+        [cell.actionTitle setAlpha:0];
+    else
+        [cell setAlpha:0];
     
     return cell;
 }
@@ -158,21 +161,12 @@
 
 #pragma mark - NPTableViewDelegate
 - (void)willReloadData {
-    NSLog(@"willreload");
 }
 - (void)didReloadData {
-    NSLog(@"didreload");
-
 }
 - (void)willLayoutSubviews {
-    NSLog(@"willLAYOUT");
-
 }
-- (void)didLayoutSubviews {
-    NSLog(@"didLAYOUT");
-    
-    NSLog(@"%i", [[actionTableView visibleCells] count]);
-
+- (void)didLayoutSubviews {    
     if (needsQuickSelect) {
         [self quickSelectCell];
         needsQuickSelect = NO;
