@@ -61,6 +61,7 @@
 		F36DA99E1598F855003A4F3C /* ActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F36DA99D1598F855003A4F3C /* ActionCell.m */; };
 		F36DA9A315993BBF003A4F3C /* SelectDurationView.m in Sources */ = {isa = PBXBuildFile; fileRef = F36DA9A215993BBF003A4F3C /* SelectDurationView.m */; };
 		F36DA9A515993C67003A4F3C /* plusButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F36DA9A415993C67003A4F3C /* plusButton.png */; };
+		F3721DA915BF5CF500A365D1 /* MusicPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3721DA815BF5CF500A365D1 /* MusicPlayer.m */; };
 		F383C178158B851200B91F31 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F383C177158B851200B91F31 /* UIKit.framework */; };
 		F383C17A158B851200B91F31 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F383C179158B851200B91F31 /* Foundation.framework */; };
 		F383C17C158B851200B91F31 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F383C17B158B851200B91F31 /* CoreGraphics.framework */; };
@@ -157,6 +158,8 @@
 		F36DA9A115993BBF003A4F3C /* SelectDurationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectDurationView.h; path = views/SelectDurationView.h; sourceTree = "<group>"; };
 		F36DA9A215993BBF003A4F3C /* SelectDurationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectDurationView.m; path = views/SelectDurationView.m; sourceTree = "<group>"; };
 		F36DA9A415993C67003A4F3C /* plusButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plusButton.png; path = img/plusButton.png; sourceTree = "<group>"; };
+		F3721DA715BF5CF500A365D1 /* MusicPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicPlayer.h; path = models/MusicPlayer.h; sourceTree = "<group>"; };
+		F3721DA815BF5CF500A365D1 /* MusicPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MusicPlayer.m; path = models/MusicPlayer.m; sourceTree = "<group>"; };
 		F383C173158B851200B91F31 /* Start.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Start.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F383C177158B851200B91F31 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F383C179158B851200B91F31 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -414,6 +417,8 @@
 				F383C1B2158B8E7000B91F31 /* CountdownTimer.m */,
 				F327EC9515938906008B962F /* MusicManager.h */,
 				F327EC9615938906008B962F /* MusicManager.m */,
+				F3721DA715BF5CF500A365D1 /* MusicPlayer.h */,
+				F3721DA815BF5CF500A365D1 /* MusicPlayer.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -663,6 +668,7 @@
 				F3FEC0A315ABC3010032B893 /* ReturnButtonView.m in Sources */,
 				F3FEC0A715AC86360032B893 /* CountdownView.m in Sources */,
 				F3E5C39515BDBE10006959F4 /* NPTableView.m in Sources */,
+				F3721DA915BF5CF500A365D1 /* MusicPlayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

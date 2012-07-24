@@ -16,6 +16,9 @@
 #import "CountdownView.h"
 #import "MusicManager.h"
 
+//testing
+#import "MusicPlayer.h"
+
 @class AlarmView;
 
 @protocol AlarmViewDelegate <NSObject>
@@ -53,7 +56,6 @@ enum AlarmViewShouldSet {
     bool pickingSong;
     bool pickingAction;
     bool cancelTouch;
-    bool pinched;
 }
 @property (nonatomic, strong) id<AlarmViewDelegate> delegate;
 @property CGRect newRect;

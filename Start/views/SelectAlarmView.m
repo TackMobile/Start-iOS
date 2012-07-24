@@ -53,10 +53,13 @@ const float setAlarmY = 15;
 
 #pragma mark - Actions
 - (void) plusButtonTapped:(id)button {
+    TFLog(@"plus button tapped");
     // return if there are already max_alarms
     if (numAlarms == MAX_ALARMS)
         return;
     
+    TFLog(@"attempting to add");
+
     if ([delegate respondsToSelector:@selector(alarmAdded)])
         [delegate alarmAdded];
 }

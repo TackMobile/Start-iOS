@@ -234,10 +234,10 @@
 }
 
 -(void) setSnappedOuterAngle:(float)angle {
-    outerAngle = roundf(angle/(M_PI * 2 / 60)) * (M_PI * 2 / 60) + (M_PI * 2 / 120);
+    outerAngle = angle; //roundf(angle/(M_PI * 2 / 60)) * (M_PI * 2 / 60) + (M_PI * 2 / 120);
 }
 -(void) setSnappedInnerAngle:(float)angle {
-    innerAngle = roundf(angle/(M_PI * 2 / 24)) * (M_PI * 2 / 24) + (M_PI * 2 / 48);
+    innerAngle = angle; //roundf(angle/(M_PI * 2 / 24)) * (M_PI * 2 / 24) + (M_PI * 2 / 48);
 }
 
 

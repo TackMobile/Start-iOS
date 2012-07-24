@@ -24,7 +24,6 @@
         pickingSong = NO;
         pickingAction = NO;
         cancelTouch = NO;
-        pinched = NO;
         
         musicManager = [[MusicManager alloc] init];
         PListModel *pListModel = [delegate getPListModel];
@@ -140,8 +139,8 @@
 }
 
 -(void)alarmPinched:(UIPinchGestureRecognizer *)pinchRecog {    
-    if (pinchRecog.velocity < -5 && [delegate respondsToSelector:@selector(alarmViewPinched:)] && !pinched) {
-        pinched = YES;
+    if (pinchRecog.velocity < -5 && [delegate respondsToSelector:@selector(alarmViewPinched:)] 
+        && pinchRecog.state == UIGestureRecognizerStateBegan) {
         [delegate alarmViewPinched:self];
         NSLog(@"I WAS PINCHED: %i", self.index);
     }

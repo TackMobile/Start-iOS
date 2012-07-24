@@ -243,8 +243,11 @@
 
 #pragma mark - SelectAlarmViewDelegate
 - (void) alarmAdded {
+    TFLog(@"delegate alarm added");
     [selectAlarmView addAlarmAnimated:YES];
+    TFLog(@"animated alarm add succesful");
     [self addAlarmWithInfo:nil switchTo:YES];
+    TFLog(@"added alarm with info");
 }
 
 @end

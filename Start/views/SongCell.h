@@ -7,8 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MusicPlayer.h"
 
-@interface SongCell : UITableViewCell
+@interface SongCell : UITableViewCell {
+    MusicPlayer *musicPlayer;
+}
 
 @property NSNumber *persistentID;
 

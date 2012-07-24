@@ -19,6 +19,7 @@ const float spacer = -2;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         persistentID =[[NSNumber alloc] initWithInt:-1 ];
+        musicPlayer = [[MusicPlayer alloc]init];
         
         songLabel = [[UILabel alloc] init];
         artistLabel = [[UILabel alloc] init];
@@ -67,7 +68,11 @@ const float spacer = -2;
 
 #pragma mark - gestures
 -(void) longPress:(UIGestureRecognizer *)gestRecog {
-    NSLog(@"longPress");
+    if ([persistentID intValue] != -1 && gestRecog.state == UIGestureRecognizerStateBegan)
+        [musicPlayer playSongWithID:persistentID];
+    
+    if (gestRecog.state == UIGestureRecognizerStateEnded)
+        [musicPlayer stop];
 }
 
 @end
