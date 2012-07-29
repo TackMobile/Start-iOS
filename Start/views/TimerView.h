@@ -1,13 +1,17 @@
 //
-//  TimerView.h
+//  CountdownView.h
 //  Start
 //
-//  Created by Nick Place on 7/28/12.
+//  Created by Nick Place on 7/10/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 @interface TimerView : UIView
+
+@property (nonatomic, strong) UILabel *timerLabel;
+
+- (void) updateWithDate:(NSDate *)newDate;
 
 @end

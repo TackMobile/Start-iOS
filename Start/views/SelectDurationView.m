@@ -33,6 +33,8 @@
                  [UIColor colorWithWhite:1 alpha:.7],@"innerRingColor",
                  [UIColor colorWithWhite:0 alpha:.7],@"outerColor",
                  [UIColor colorWithWhite:1 alpha:.35],@"innerColor",
+                 [UIColor clearColor],@"outerFillColor",
+                 [UIColor clearColor],@"innerFillColor",
                  [UIColor colorWithWhite:0 alpha:.8],@"centerColor",
                  [UIColor whiteColor],@"outerHandleColor",
                  [UIColor whiteColor],@"innerHandleColor",
@@ -193,8 +195,8 @@
     return hours * 3600 + minutes * 60 +30;
 }
 -(void) setTimeInterval:(NSTimeInterval)timeInterval {
-    if (changing)
-        return;
+    //if (changing)
+    //    return;
     
     float innerVal = timeInterval / 86400.0f ;
     float outerVal = (float)((int)timeInterval % 3600) / 3600;

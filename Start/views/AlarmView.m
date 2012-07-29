@@ -13,7 +13,7 @@
 @synthesize alarmInfo;
 @synthesize backgroundImage, toolbarImage;
 @synthesize selectSongView, selectActionView, selectDurationView, selectedTimeView, deleteLabel;
-@synthesize countdownView, countdownTimer, selectAlarmBg;
+@synthesize countdownView, timerView, countdownTimer, selectAlarmBg;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -40,22 +40,25 @@
         timerModeDurRect = CGRectOffset(selectDurRect, 0, 150);
         selectedTimeRect = CGRectExtendFromPoint(CGRectCenter(selectDurRect), 65, 65);
         countdownRect = CGRectMake(0, alarmSetDurRect.origin.y+alarmSetDurRect.size.height, self.frame.size.width, self.frame.size.height - (alarmSetDurRect.origin.y+alarmSetDurRect.size.height) - 65);
+        CGRect timerRect = CGRectMake(0, timerModeDurRect.origin.y-countdownRect.size.height, self.frame.size.width, countdownRect.size.height);
         CGRect deleteLabelRect = CGRectMake(0, 0, self.frame.size.width, 70);
         CGRect selectAlarmRect = CGRectMake(0, self.frame.size.height-50, self.frame.size.width, 50);
         
         backgroundImage = [[UIImageView alloc] initWithFrame:bgImageRect];
         toolbarImage = [[UIImageView alloc] initWithFrame:toolBarRect];
-        selectSongView = [[SelectSongView alloc] initWithFrame:selectSongRect delegate:self presetSongs:[pListModel getPresetSongs]];
+        //selectSongView = [[SelectSongView alloc] initWithFrame:selectSongRect delegate:self presetSongs:[pListModel getPresetSongs]];
         selectActionView = [[SelectActionView alloc] initWithFrame:selectActionRect delegate:self actions:[pListModel getActions]];
         selectDurationView = [[SelectDurationView alloc] initWithFrame:selectDurRect delegate:self];
         selectedTimeView = [[SelectedTimeView alloc] initWithFrame:selectedTimeRect];
         countdownView = [[CountdownView alloc] initWithFrame:countdownRect];
+        timerView = [[TimerView alloc] initWithFrame:timerRect];
         deleteLabel = [[UILabel alloc] initWithFrame:deleteLabelRect];
         selectAlarmBg = [[UIView alloc] initWithFrame:selectAlarmRect];
         
         [self addSubview:backgroundImage];
         [self addSubview:selectAlarmBg];
         [self addSubview:countdownView];
+        [self addSubview:timerView];
         [self addSubview:selectDurationView];
         [self addSubview:toolbarImage];
         [self addSubview:selectSongView];
@@ -81,6 +84,7 @@
         [backgroundImage setImage:[UIImage imageNamed:@"noAlbumImage"]];
         [self setBackgroundColor:[UIColor blackColor]];
         [countdownView setAlpha:0];
+        [timerView setAlpha:0];
         
         CGRect selectActionTableViewRect = CGRectMake(0, 0, self.frame.size.width-75, self.frame.size.height);
         [selectActionView.actionTableView setFrame:selectActionTableViewRect];
@@ -101,7 +105,7 @@
 - (void) viewWillAppear {
     // init the picker's stuff
     if (!alarmInfo) {
-        NSArray *infoKeys = [[NSArray alloc] initWithObjects:@"date", @"songID", @"actionID", @"isSet", @"themeID", @"isTimerMode", @"timerStarted", nil];
+        NSArray *infoKeys = [[NSArray alloc] initWithObjects:@"date", @"songID", @"actionID", @"isSet", @"themeID", @"isTimerMode", @"timerDateBegan", nil];
         NSArray *infoObjects = [[NSArray alloc] initWithObjects:[NSDate date], [NSNumber numberWithInt:0],[NSNumber numberWithInt:0], [NSNumber numberWithBool:NO], [NSNumber numberWithInt:-1], [NSNumber numberWithBool:NO], [NSDate date], nil];
         alarmInfo = [[NSMutableDictionary alloc] initWithObjects:infoObjects forKeys:infoKeys];
     } else {
@@ -336,8 +340,11 @@
     while ([(NSDate *)[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0)
         [alarmInfo setObject:[NSDate dateWithTimeInterval:86400 sinceDate:[alarmInfo objectForKey:@"date"]] forKey:@"date"];
     
-    [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+    if (selectDurationView.handleSelected == SelectDurationNoHandle)
+        [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
     [countdownView updateWithDate:[alarmInfo objectForKey:@"date"]];
+    if (isTimerMode)
+        [timerView updateWithDate:[alarmInfo objectForKey:@"timerDateBegan"]];
 }
 
 - (CGRect) currRestedSelecDurRect {
@@ -488,7 +495,12 @@
 
 #pragma mark - SelectDurationViewDelegate
 -(void) durationDidChange:(SelectDurationView *)selectDuration {
-    // update selectedTimeView
+    /*NSDate *dateSelected = [NSDate dateWithTimeIntervalSinceNow:[selectDuration getTimeInterval]];
+    // zero the minute
+    NSTimeInterval time = round([dateSelected timeIntervalSinceNow] / 60.0) * 60.0;
+    [selectDuration setTimeInterval:time];*/
+    
+    // update selected time
     [selectedTimeView updateTimeInterval:[selectDuration getTimeInterval] part:selectDuration.handleSelected];
 }
 
@@ -540,7 +552,7 @@
     } completion:^(BOOL finished) {
         [selectedTimeView setCenter:selectDurationView.center];
         [UIView animateWithDuration:.1 animations:^{
-            [selectedTimeView setAlpha:1];
+             [selectedTimeView setAlpha:1];
         }];
     }];
 }
@@ -605,6 +617,7 @@
         [delegate durationViewWithIndex:index draggedWithPercent:-percentDragged];
         // fade in countdowntimer
         [countdownView setAlpha:-percentDragged];
+        [timerView setAlpha:percentDragged];
     }
 }
 -(void) durationViewStoppedDraggingWithY:(float)y {
@@ -627,9 +640,14 @@
         timer = YES;
     }
     
+    // reset the timer if it is new
+    if (!isTimerMode && timer)
+        [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
+
+    
     isSet = set;
     isTimerMode = timer;
-    
+        
     // save the set bool
     [alarmInfo setObject:[NSNumber numberWithBool:isSet] forKey:@"isSet"];
     [alarmInfo setObject:[NSNumber numberWithBool:isTimerMode] forKey:@"isTimerMode"];
@@ -639,7 +657,7 @@
 }
 
 -(bool) shouldLockPicker {
-    return (isSet || ![self canMove]);
+    return (isSet || isTimerMode || ![self canMove]);
 }
 
 #pragma mark - Animation
@@ -659,6 +677,8 @@
         [selectedTimeView setCenter:selectDurationView.center];
         // animate fade of countdowntimer
         [countdownView setAlpha:(isSet?1:0)];
+        [timerView setAlpha:(isTimerMode?1:0)];
+
     }];  
 }
 

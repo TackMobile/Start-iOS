@@ -35,7 +35,6 @@
     selectAlarmView = [[SelectAlarmView alloc] initWithFrame:selectAlarmRect delegate:self];
     
     [self.view addSubview:selectAlarmView];
-
     // init the alams that were stored
     NSArray *userAlarms = [pListModel getAlarms];
     if ([userAlarms count]>0) {
@@ -254,3 +253,25 @@
 }
 
 @end
+
+/*
+ UIImage* first = [UIImage imageNamed:@"Oceanside"];
+ UIImage* second = [UIImage imageNamed:@"NightSky"];
+ CGSize sizeToSet;
+ int mergeArea = 200;
+ sizeToSet.width = first.size.width + second.size.width - mergeArea;
+ sizeToSet.height = first.size.height;
+ 
+ UIGraphicsBeginImageContext(sizeToSet);
+ 
+ [first drawAtPoint:CGPointMake(0, 0)];
+ [second drawAtPoint:CGPointMake(first.size.width - mergeArea, 0) blendMode:kCGBlendModeXOR alpha:1.0f];
+ 
+ UIImageView* imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 300, 300)];
+ [imageView setCenter:self.view.center];
+ [imageView setImage:UIGraphicsGetImageFromCurrentImageContext()];
+ 
+ UIGraphicsEndImageContext();
+ 
+ [[self view]addSubview:imageView];
+ */

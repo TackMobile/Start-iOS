@@ -15,6 +15,7 @@
 #import "SelectedTimeView.h"
 #import "PListModel.h"
 #import "CountdownView.h"
+#import "TimerView.h"
 #import "MusicManager.h"
 
 //testing
@@ -78,6 +79,7 @@ enum AlarmViewShouldSet {
 @property (nonatomic, strong) SelectDurationView *selectDurationView;
 @property (nonatomic, strong) SelectedTimeView *selectedTimeView;
 @property (nonatomic, strong) CountdownView *countdownView;
+@property (nonatomic, strong) TimerView *timerView;
 @property (nonatomic, strong) UIView *selectAlarmBg;
 @property (nonatomic, strong) UILabel *deleteLabel;
 
