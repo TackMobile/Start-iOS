@@ -51,6 +51,7 @@ enum AlarmViewShouldSet {
     CGRect alarmSetDurRect;
     CGRect timerModeDurRect;
     CGRect countdownRect;
+    CGRect timerRect;
     CGRect bgImageRect;
     
     MusicManager *musicManager;

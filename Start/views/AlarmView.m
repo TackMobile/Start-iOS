@@ -40,13 +40,13 @@
         timerModeDurRect = CGRectOffset(selectDurRect, 0, 150);
         selectedTimeRect = CGRectExtendFromPoint(CGRectCenter(selectDurRect), 65, 65);
         countdownRect = CGRectMake(0, alarmSetDurRect.origin.y+alarmSetDurRect.size.height, self.frame.size.width, self.frame.size.height - (alarmSetDurRect.origin.y+alarmSetDurRect.size.height) - 65);
-        CGRect timerRect = CGRectMake(0, timerModeDurRect.origin.y-countdownRect.size.height, self.frame.size.width, countdownRect.size.height);
+        timerRect = CGRectMake(0, timerModeDurRect.origin.y-countdownRect.size.height, self.frame.size.width, countdownRect.size.height);
         CGRect deleteLabelRect = CGRectMake(0, 0, self.frame.size.width, 70);
         CGRect selectAlarmRect = CGRectMake(0, self.frame.size.height-50, self.frame.size.width, 50);
         
         backgroundImage = [[UIImageView alloc] initWithFrame:bgImageRect];
         toolbarImage = [[UIImageView alloc] initWithFrame:toolBarRect];
-        //selectSongView = [[SelectSongView alloc] initWithFrame:selectSongRect delegate:self presetSongs:[pListModel getPresetSongs]];
+        selectSongView = [[SelectSongView alloc] initWithFrame:selectSongRect delegate:self presetSongs:[pListModel getPresetSongs]];
         selectActionView = [[SelectActionView alloc] initWithFrame:selectActionRect delegate:self actions:[pListModel getActions]];
         selectDurationView = [[SelectDurationView alloc] initWithFrame:selectDurRect delegate:self];
         selectedTimeView = [[SelectedTimeView alloc] initWithFrame:selectedTimeRect];
@@ -369,6 +369,8 @@
     CGRect selectDurPushedRect = CGRectOffset(selectDurationView.frame, selectSongView.frame.size.width, 0);
     CGRect selectActionPushedRect = CGRectOffset(selectActionView.frame, 90, 0);
     CGRect countdownPushedRect = CGRectOffset(countdownView.frame, selectSongView.frame.size.width-50, 0);
+    CGRect timerPushedRect = CGRectOffset(timerRect, selectSongView.frame.size.width-50, 0);
+
     
     [UIView animateWithDuration:.2 animations:^{
         [self menuOpenWithPercent:1];
@@ -376,16 +378,19 @@
         [selectSongView setFrame:newSelectSongRect];
         
         [selectDurationView setFrame:selectDurPushedRect];
-        [selectDurationView setAlpha:.9];
+        [selectDurationView setAlpha:.6];
         
         [selectedTimeView setCenter:selectDurationView.center];
-        [selectedTimeView setAlpha:.9];
+        [selectedTimeView setAlpha:.6];
         
         [selectActionView setFrame:selectActionPushedRect];
-        [selectActionView setAlpha:.9];
+        [selectActionView setAlpha:.6];
         
         [countdownView setFrame:countdownPushedRect];
         [countdownView setAlpha:isSet?.6:0];
+        
+        [timerView setFrame:timerPushedRect];
+        [timerView setAlpha:isTimerMode?.6:0];
     }];
         
     return YES;
@@ -412,6 +417,9 @@
         
         [countdownView setFrame:countdownRect];
         [countdownView setAlpha:isSet?1:0];
+        
+        [timerView setFrame:timerRect];
+        [timerView setAlpha:isTimerMode?1:0];
     }];
 }
      
@@ -433,6 +441,7 @@
     CGRect selectDurPushedRect = CGRectOffset(selectDurationView.frame, -newSelectActionRect.size.width, 0);
     CGRect selectSongPushedRect = CGRectOffset(selectSongView.frame, -selectSongView.frame.size.width + 30, 0);
     CGRect countdownPushedRect = CGRectOffset(countdownView.frame, -selectSongView.frame.size.width+50, 0);
+    CGRect timerPushedRect = CGRectOffset(timerRect, selectSongView.frame.size.width-50, 0);
 
     
     [UIView animateWithDuration:.2 animations:^{
@@ -450,7 +459,11 @@
         
         [countdownView setFrame:countdownPushedRect];
         [countdownView setAlpha:isSet?.6:0];
+        
+        [timerView setFrame:timerPushedRect];
+        [timerView setAlpha:isTimerMode?.6:0];
     }];
+    
     
     
     return YES;
@@ -481,6 +494,9 @@
         
         [countdownView setFrame:countdownRect];
         [countdownView setAlpha:isSet?1:0];
+        
+        [timerView setFrame:timerRect];
+        [timerView setAlpha:isTimerMode?1:0];
     }];
 }
 
