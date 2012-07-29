@@ -228,26 +228,29 @@
 - (void) alarmViewClosingMenuWithPercent:(float)percent {
     [selectAlarmView setAlpha:percent];
 }
--(void)alarmViewPinched:(AlarmView *)alarmView {
+-(bool)alarmViewPinched:(AlarmView *)alarmView {
     if ([alarms count] < 2)
-        return;
-    
-    NSLog(@"deleting index: %i", alarmView.index);
+        return false;
     
     [alarms removeObject:alarmView];
+    [selectAlarmView deleteAlarm:alarmView.index];
     [self updateAlarmIndexes];
     
-    [alarmView removeFromSuperview];
-    [selectAlarmView deleteAlarm:alarmView.index];
+    [UIView animateWithDuration:.2 animations:^{
+        [alarmView setAlpha:0];
+    } completion:^(BOOL finished) {
+        [alarmView removeFromSuperview];
+    }];
+    return true;
 }
 
 #pragma mark - SelectAlarmViewDelegate
 - (void) alarmAdded {
-    TFLog(@"delegate alarm added");
+    //TFLog(@"delegate alarm added");
     [selectAlarmView addAlarmAnimated:YES];
-    TFLog(@"animated alarm add succesful");
+    //TFLog(@"animated alarm add succesful");
     [self addAlarmWithInfo:nil switchTo:YES];
-    TFLog(@"added alarm with info");
+    //TFLog(@"added alarm with info");
 }
 
 @end

@@ -11,6 +11,9 @@
 
 @interface MusicPlayer : NSObject {
     NSArray *library;
+    
+    id samplingTarget;
+    SEL samplingSelector;
 }
 
 @property (nonatomic, strong) MPMusicPlayerController *musicPlayer;
@@ -18,5 +21,8 @@
 
 - (void) playSongWithID:(NSNumber *)songID;
 - (void) stop;
+
+@property double playPercent;
+- (void) addTargetForSampling:(id)aTarget selector:(SEL)aSelector;
 
 @end

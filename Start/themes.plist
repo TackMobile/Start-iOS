@@ -3,172 +3,220 @@
 <plist version="1.0">
 <array>
 	<dict>
-		<key>innerRingColor</key>
-		<string>111f20</string>
-		<key>innerRingOpacity</key>
-		<real>0.9</real>
-		<key>outerRingColor</key>
-		<string>111f20</string>
-		<key>outerRingOpacity</key>
-		<real>0.9</real>
-		<key>innerHandleColor</key>
-		<string>000000</string>
-		<key>outerHandleColor</key>
-		<string>ffffff</string>
-		<key>centerColor</key>
-		<string>0c1319</string>
-		<key>centerOpacity</key>
-		<real>0.87</real>
 		<key>innerColor</key>
-		<string>cfdfae</string>
+		<string>00adef</string>
 		<key>innerOpacity</key>
-		<real>0.53</real>
-		<key>outerColor</key>
-		<string>111f20</string>
-		<key>outerOpacity</key>
-		<real>0.8</real>
-		<key>bgFilename</key>
-		<string>biker.jpg</string>
-	</dict>
-	<dict>
+		<real>0.4</real>
 		<key>innerRingColor</key>
-		<string>111f20</string>
-		<key>innerRingOpacity</key>
-		<real>0.9</real>
-		<key>outerRingColor</key>
-		<string>111f20</string>
-		<key>outerRingOpacity</key>
-		<real>0.9</real>
-		<key>innerHandleColor</key>
-		<string>000000</string>
-		<key>outerHandleColor</key>
 		<string>ffffff</string>
-		<key>centerColor</key>
-		<string>0c1319</string>
-		<key>centerOpacity</key>
-		<real>0.87</real>
-		<key>innerColor</key>
-		<string>cfdfae</string>
-		<key>innerOpacity</key>
-		<real>0.53</real>
+		<key>innerRingOpacity</key>
+		<integer>1</integer>
+		<key>innerFillColor</key>
+		<string>ffffff</string>
+		<key>innerFillOpacity</key>
+		<integer>0</integer>
+		<key>innerHandleColor</key>
+		<string>ffffff</string>
 		<key>outerColor</key>
-		<string>ff0000</string>
+		<string>2e3092</string>
 		<key>outerOpacity</key>
 		<real>0.5</real>
-		<key>bgFilename</key>
-		<string>shapes.jpg</string>
-	</dict>
-	<dict>
-		<key>innerRingColor</key>
-		<string>111f20</string>
-		<key>innerRingOpacity</key>
-		<real>0.9</real>
 		<key>outerRingColor</key>
-		<string>111f20</string>
+		<string>ffffff</string>
 		<key>outerRingOpacity</key>
-		<real>0.9</real>
-		<key>innerHandleColor</key>
-		<string>000000</string>
+		<integer>1</integer>
+		<key>outerFillColor</key>
+		<string>ffffff</string>
+		<key>outerFillOpacity</key>
+		<integer>0</integer>
 		<key>outerHandleColor</key>
 		<string>ffffff</string>
 		<key>centerColor</key>
-		<string>0c1319</string>
+		<string>000000</string>
 		<key>centerOpacity</key>
-		<real>0.87</real>
-		<key>innerColor</key>
-		<string>cfdfae</string>
-		<key>innerOpacity</key>
-		<real>0.53</real>
-		<key>outerColor</key>
-		<string>00ff00</string>
-		<key>outerOpacity</key>
-		<real>0.6</real>
+		<real>0.65</real>
 		<key>bgFilename</key>
-		<string>two.png</string>
+		<string>NightSky</string>
 	</dict>
 	<dict>
+		<key>innerColor</key>
+		<string>262261</string>
+		<key>innerOpacity</key>
+		<real>0.3</real>
 		<key>innerRingColor</key>
-		<string>111f20</string>
+		<string>ffffff</string>
 		<key>innerRingOpacity</key>
-		<real>0.9</real>
-		<key>outerRingColor</key>
-		<string>111f20</string>
-		<key>outerRingOpacity</key>
-		<real>0.9</real>
+		<integer>1</integer>
+		<key>innerFillColor</key>
+		<string>ffffff</string>
+		<key>innerFillOpacity</key>
+		<real>0.3</real>
 		<key>innerHandleColor</key>
-		<string>000000</string>
+		<string>ffffff</string>
+		<key>outerColor</key>
+		<string>ffffff</string>
+		<key>outerOpacity</key>
+		<real>0.5</real>
+		<key>outerRingColor</key>
+		<string>ffffff</string>
+		<key>outerRingOpacity</key>
+		<integer>0</integer>
+		<key>outerFillColor</key>
+		<string>ffffff</string>
+		<key>outerFillOpacity</key>
+		<real>0.3</real>
 		<key>outerHandleColor</key>
 		<string>ffffff</string>
 		<key>centerColor</key>
-		<string>0c1319</string>
+		<string>003582</string>
 		<key>centerOpacity</key>
-		<real>0.87</real>
-		<key>innerColor</key>
-		<string>cfdfae</string>
-		<key>innerOpacity</key>
-		<real>0.53</real>
-		<key>outerColor</key>
-		<string>0000ff</string>
-		<key>outerOpacity</key>
 		<real>0.8</real>
 		<key>bgFilename</key>
-		<string>artist.jpg</string>
+		<string>Oceanside</string>
 	</dict>
 	<dict>
-		<key>innerRingColor</key>
-		<string>111f20</string>
-		<key>innerRingOpacity</key>
-		<real>0.9</real>
-		<key>outerRingColor</key>
-		<string>111f20</string>
-		<key>outerRingOpacity</key>
-		<real>0.9</real>
-		<key>innerHandleColor</key>
-		<string>000000</string>
-		<key>outerHandleColor</key>
-		<string>ffffff</string>
-		<key>centerColor</key>
-		<string>0c1319</string>
-		<key>centerOpacity</key>
-		<real>0.87</real>
 		<key>innerColor</key>
-		<string>cfdfae</string>
+		<string>262261</string>
 		<key>innerOpacity</key>
-		<real>0.53</real>
+		<real>0.3</real>
+		<key>innerRingColor</key>
+		<string>ffffff</string>
+		<key>innerRingOpacity</key>
+		<integer>1</integer>
+		<key>innerFillColor</key>
+		<string>ffffff</string>
+		<key>innerFillOpacity</key>
+		<real>0.3</real>
+		<key>innerHandleColor</key>
+		<string>ffffff</string>
 		<key>outerColor</key>
 		<string>ffffff</string>
 		<key>outerOpacity</key>
-		<real>0.8</real>
-		<key>bgFilename</key>
-		<string>books.jpg</string>
-	</dict>
-	<dict>
-		<key>innerRingColor</key>
-		<string>111f20</string>
-		<key>innerRingOpacity</key>
-		<real>0.9</real>
+		<real>0.5</real>
 		<key>outerRingColor</key>
-		<string>111f20</string>
+		<string>ffffff</string>
 		<key>outerRingOpacity</key>
-		<real>0.9</real>
-		<key>innerHandleColor</key>
-		<string>000000</string>
+		<integer>0</integer>
+		<key>outerFillColor</key>
+		<string>ffffff</string>
+		<key>outerFillOpacity</key>
+		<real>0.3</real>
 		<key>outerHandleColor</key>
 		<string>ffffff</string>
 		<key>centerColor</key>
-		<string>0c1319</string>
+		<string>003582</string>
 		<key>centerOpacity</key>
-		<real>0.87</real>
-		<key>innerColor</key>
-		<string>cfdfae</string>
-		<key>innerOpacity</key>
-		<real>0.53</real>
-		<key>outerColor</key>
-		<string>cc33f0</string>
-		<key>outerOpacity</key>
 		<real>0.8</real>
 		<key>bgFilename</key>
-		<string>squares.jpg</string>
+		<string>OceanSide</string>
+	</dict>
+	<dict>
+		<key>innerColor</key>
+		<string>262261</string>
+		<key>innerOpacity</key>
+		<real>0.3</real>
+		<key>innerRingColor</key>
+		<string>ffffff</string>
+		<key>innerRingOpacity</key>
+		<integer>1</integer>
+		<key>innerFillColor</key>
+		<string>ffffff</string>
+		<key>innerFillOpacity</key>
+		<real>0.3</real>
+		<key>innerHandleColor</key>
+		<string>ffffff</string>
+		<key>outerColor</key>
+		<string>ffffff</string>
+		<key>outerOpacity</key>
+		<real>0.5</real>
+		<key>outerRingColor</key>
+		<string>ffffff</string>
+		<key>outerRingOpacity</key>
+		<integer>0</integer>
+		<key>outerFillColor</key>
+		<string>ffffff</string>
+		<key>outerFillOpacity</key>
+		<real>0.3</real>
+		<key>outerHandleColor</key>
+		<string>ffffff</string>
+		<key>centerColor</key>
+		<string>003582</string>
+		<key>centerOpacity</key>
+		<real>0.8</real>
+		<key>bgFilename</key>
+		<string>OceanSide</string>
+	</dict>
+	<dict>
+		<key>innerColor</key>
+		<string>262261</string>
+		<key>innerOpacity</key>
+		<real>0.3</real>
+		<key>innerRingColor</key>
+		<string>ffffff</string>
+		<key>innerRingOpacity</key>
+		<integer>1</integer>
+		<key>innerFillColor</key>
+		<string>ffffff</string>
+		<key>innerFillOpacity</key>
+		<real>0.3</real>
+		<key>innerHandleColor</key>
+		<string>ffffff</string>
+		<key>outerColor</key>
+		<string>ffffff</string>
+		<key>outerOpacity</key>
+		<real>0.5</real>
+		<key>outerRingColor</key>
+		<string>ffffff</string>
+		<key>outerRingOpacity</key>
+		<integer>0</integer>
+		<key>outerFillColor</key>
+		<string>ffffff</string>
+		<key>outerFillOpacity</key>
+		<real>0.3</real>
+		<key>outerHandleColor</key>
+		<string>ffffff</string>
+		<key>centerColor</key>
+		<string>003582</string>
+		<key>centerOpacity</key>
+		<real>0.8</real>
+		<key>bgFilename</key>
+		<string>OceanSide</string>
+	</dict>
+	<dict>
+		<key>innerColor</key>
+		<string>262261</string>
+		<key>innerOpacity</key>
+		<real>0.3</real>
+		<key>innerRingColor</key>
+		<string>ffffff</string>
+		<key>innerRingOpacity</key>
+		<integer>1</integer>
+		<key>innerFillColor</key>
+		<string>ffffff</string>
+		<key>innerFillOpacity</key>
+		<real>0.3</real>
+		<key>innerHandleColor</key>
+		<string>ffffff</string>
+		<key>outerColor</key>
+		<string>ffffff</string>
+		<key>outerOpacity</key>
+		<real>0.5</real>
+		<key>outerRingColor</key>
+		<string>ffffff</string>
+		<key>outerRingOpacity</key>
+		<integer>0</integer>
+		<key>outerFillColor</key>
+		<string>ffffff</string>
+		<key>outerFillOpacity</key>
+		<real>0.3</real>
+		<key>outerHandleColor</key>
+		<string>ffffff</string>
+		<key>centerColor</key>
+		<string>003582</string>
+		<key>centerOpacity</key>
+		<real>0.8</real>
+		<key>bgFilename</key>
+		<string>OceanSide</string>
 	</dict>
 </array>
 </plist>

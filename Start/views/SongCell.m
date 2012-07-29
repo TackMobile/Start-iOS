@@ -10,6 +10,7 @@
 
 @implementation SongCell
 @synthesize artistLabel, songLabel, persistentID;
+@synthesize delegate;
 
 const float indent = 34;
 const float spacer = -2;
@@ -19,7 +20,6 @@ const float spacer = -2;
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         persistentID =[[NSNumber alloc] initWithInt:-1 ];
-        musicPlayer = [[MusicPlayer alloc]init];
         
         songLabel = [[UILabel alloc] init];
         artistLabel = [[UILabel alloc] init];
@@ -68,11 +68,15 @@ const float spacer = -2;
 
 #pragma mark - gestures
 -(void) longPress:(UIGestureRecognizer *)gestRecog {
-    if ([persistentID intValue] != -1 && gestRecog.state == UIGestureRecognizerStateBegan)
-        [musicPlayer playSongWithID:persistentID];
+    if ([delegate respondsToSelector:@selector(sampleSongWithID:)] && [persistentID intValue] != -1 && gestRecog.state == UIGestureRecognizerStateBegan)
+        [delegate sampleSongWithID:persistentID];
+    
+    //if ([persistentID intValue] != -1 && gestRecog.state == UIGestureRecognizerStateBegan)
+    //    [musicPlayer playSongWithID:persistentID];
     
     if (gestRecog.state == UIGestureRecognizerStateEnded)
-        [musicPlayer stop];
+       if ([delegate respondsToSelector:@selector(stopSamplingSong)])
+           [delegate stopSamplingSong];
 }
 
 @end

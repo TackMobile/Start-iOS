@@ -10,6 +10,11 @@
 		F3109CB915AF4558008A2B94 /* biker.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3109CB615AF4558008A2B94 /* biker.jpg */; };
 		F3109CBA15AF4558008A2B94 /* shapes.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3109CB715AF4558008A2B94 /* shapes.jpg */; };
 		F3109CBB15AF4558008A2B94 /* two.png in Resources */ = {isa = PBXBuildFile; fileRef = F3109CB815AF4558008A2B94 /* two.png */; };
+		F3143CDD15C448CC0098A276 /* NightSky.png in Resources */ = {isa = PBXBuildFile; fileRef = F3143CDB15C448CC0098A276 /* NightSky.png */; };
+		F3143CDE15C448CC0098A276 /* NightSky@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3143CDC15C448CC0098A276 /* NightSky@2x.png */; };
+		F3143CE215C454BE0098A276 /* Oceanside.png in Resources */ = {isa = PBXBuildFile; fileRef = F3143CE015C454BE0098A276 /* Oceanside.png */; };
+		F3143CE315C454BE0098A276 /* Oceanside@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3143CE115C454BE0098A276 /* Oceanside@2x.png */; };
+		F3143CE615C4D9AE0098A276 /* TimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3143CE515C4D9AE0098A276 /* TimerView.m */; };
 		F31670E515A1109200725274 /* SearchSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F31670E415A1109200725274 /* SearchSongCell.m */; };
 		F317239615A63C5200007124 /* PListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F317239515A63C5200007124 /* PListModel.m */; };
 		F317240C15A66A4700007124 /* calendar-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F31723E615A66A4700007124 /* calendar-icon.png */; };
@@ -100,6 +105,12 @@
 		F3109CB615AF4558008A2B94 /* biker.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = biker.jpg; path = img/theme/biker.jpg; sourceTree = "<group>"; };
 		F3109CB715AF4558008A2B94 /* shapes.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = shapes.jpg; path = img/theme/shapes.jpg; sourceTree = "<group>"; };
 		F3109CB815AF4558008A2B94 /* two.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = two.png; path = img/theme/two.png; sourceTree = "<group>"; };
+		F3143CDB15C448CC0098A276 /* NightSky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NightSky.png; sourceTree = "<group>"; };
+		F3143CDC15C448CC0098A276 /* NightSky@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NightSky@2x.png"; sourceTree = "<group>"; };
+		F3143CE015C454BE0098A276 /* Oceanside.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Oceanside.png; sourceTree = "<group>"; };
+		F3143CE115C454BE0098A276 /* Oceanside@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Oceanside@2x.png"; sourceTree = "<group>"; };
+		F3143CE415C4D9AD0098A276 /* TimerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimerView.h; path = views/TimerView.h; sourceTree = "<group>"; };
+		F3143CE515C4D9AE0098A276 /* TimerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimerView.m; path = views/TimerView.m; sourceTree = "<group>"; };
 		F31670E315A1109100725274 /* SearchSongCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchSongCell.h; path = views/SearchSongCell.h; sourceTree = "<group>"; };
 		F31670E415A1109200725274 /* SearchSongCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SearchSongCell.m; path = views/SearchSongCell.m; sourceTree = "<group>"; };
 		F317239415A63C5200007124 /* PListModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PListModel.h; path = models/PListModel.h; sourceTree = "<group>"; };
@@ -227,6 +238,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F3143CD915C4489C0098A276 /* NightSky */ = {
+			isa = PBXGroup;
+			children = (
+				F3143CDB15C448CC0098A276 /* NightSky.png */,
+				F3143CDC15C448CC0098A276 /* NightSky@2x.png */,
+			);
+			name = NightSky;
+			sourceTree = "<group>";
+		};
+		F3143CDF15C454AC0098A276 /* OceanSide */ = {
+			isa = PBXGroup;
+			children = (
+				F3143CE015C454BE0098A276 /* Oceanside.png */,
+				F3143CE115C454BE0098A276 /* Oceanside@2x.png */,
+			);
+			name = OceanSide;
+			sourceTree = "<group>";
+		};
 		F31670F715A24F8C00725274 /* icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,6 +279,8 @@
 				F3CD846D158FB0A400703717 /* SelectedTimeView.m */,
 				F3FEC0A515AC86340032B893 /* CountdownView.h */,
 				F3FEC0A615AC86350032B893 /* CountdownView.m */,
+				F3143CE415C4D9AD0098A276 /* TimerView.h */,
+				F3143CE515C4D9AE0098A276 /* TimerView.m */,
 			);
 			name = AlarmView;
 			sourceTree = "<group>";
@@ -518,6 +549,8 @@
 		F3FEC0AF15AC8FD00032B893 /* themes */ = {
 			isa = PBXGroup;
 			children = (
+				F3143CDF15C454AC0098A276 /* OceanSide */,
+				F3143CD915C4489C0098A276 /* NightSky */,
 				F3109CB615AF4558008A2B94 /* biker.jpg */,
 				F3109CB715AF4558008A2B94 /* shapes.jpg */,
 				F3109CB815AF4558008A2B94 /* two.png */,
@@ -638,6 +671,10 @@
 				F3109CB915AF4558008A2B94 /* biker.jpg in Resources */,
 				F3109CBA15AF4558008A2B94 /* shapes.jpg in Resources */,
 				F3109CBB15AF4558008A2B94 /* two.png in Resources */,
+				F3143CDD15C448CC0098A276 /* NightSky.png in Resources */,
+				F3143CDE15C448CC0098A276 /* NightSky@2x.png in Resources */,
+				F3143CE215C454BE0098A276 /* Oceanside.png in Resources */,
+				F3143CE315C454BE0098A276 /* Oceanside@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -669,6 +706,7 @@
 				F3FEC0A715AC86360032B893 /* CountdownView.m in Sources */,
 				F3E5C39515BDBE10006959F4 /* NPTableView.m in Sources */,
 				F3721DA915BF5CF500A365D1 /* MusicPlayer.m in Sources */,
+				F3143CE615C4D9AE0098A276 /* TimerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

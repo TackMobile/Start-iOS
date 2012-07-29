@@ -11,7 +11,7 @@
 @implementation SelectSongView
 @synthesize delegate;
 @synthesize musicManager;
-@synthesize songTableView;
+@synthesize songTableView, songDurationIndicator;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -30,10 +30,13 @@
         // views
         CGRect screenBounds = [[UIScreen mainScreen] applicationFrame];
         CGRect songTableRect = CGRectMake(0, 0, screenBounds.size.width, screenBounds.size.height);
+        CGRect songDurIndRect = CGRectMake(0, 0, 0, 2);
         
         songTableView = [[UITableView alloc] initWithFrame:songTableRect style:UITableViewStylePlain];
+        songDurationIndicator = [[UIView alloc] initWithFrame:songDurIndRect];
         
         [self addSubview:songTableView];
+        [self addSubview:songDurationIndicator];
         
         [songTableView setUserInteractionEnabled:NO];
         [songTableView setDelegate:self];
@@ -43,6 +46,8 @@
         [songTableView setBackgroundColor:[UIColor clearColor]];
                 
         [songTableView reloadData];
+        
+        [songDurationIndicator setBackgroundColor:[UIColor whiteColor]];
         
         // set up the headers
         NSArray *headerIcons = [NSArray arrayWithObjects:[UIImage imageNamed:@"no-sound-icon"],
@@ -62,16 +67,19 @@
             [headerViews addObject:headerView];
             [songTableView addSubview:headerView];
         }
+        
         // add the return button (it is invisible and stays on the right margin)
         ReturnButtonView *returnButton = [[ReturnButtonView alloc] initWithCellRect:[songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]] sectionHeight:100000];
         [returnButton.button addTarget:self action:@selector(returnButtonTapped:) forControlEvents:UIControlEventTouchDown];
         [songTableView addSubview:returnButton];
         [headerViews addObject:returnButton];
         
-        
-        // TESTING
         // scroll away from search
         [songTableView setContentOffset:CGPointMake(0, 65)];
+        
+        // initialize the musicplayer
+        musicPlayer = [[MusicPlayer alloc] init];
+        [musicPlayer addTargetForSampling:self selector:@selector(songPlayingTick:)];
         
     }
     return self;
@@ -144,7 +152,7 @@
 - (void) selectCellWithID:(NSNumber *)cellNumID {
     [songTableView reloadData];
     NSIndexPath *indexToSelect;
-    if ([cellNumID isEqualToNumber:[NSNumber numberWithInt:0]])
+    if ([cellNumID isEqualToNumber:[NSNumber numberWithInt:-1]])
         indexToSelect = [NSIndexPath indexPathForRow:0 inSection:1];// No song
     else {
         selectedIndexPath = [self songIndexPathFromID:cellNumID];
@@ -206,6 +214,7 @@
     if (cell == nil) {
         cell = [[SongCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:NormalSongCell];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        [cell setDelegate:self];
     }
     
     NSString *songTitle;
@@ -326,15 +335,19 @@
 }
 
 - (NSIndexPath *)songIndexPathFromID:(NSNumber *)pID {
-    int row = 0;
-    for (int i=0; i<[librarySongs count]; i++) {
-        MPMediaItem *mediaItem = [librarySongs objectAtIndex:i];
-        if ([pID intValue] == [[mediaItem valueForKey:MPMediaItemPropertyPersistentID] intValue]) {
-            row = i;
-            break;
+    if ([pID intValue] < 6) { // preset song
+        return [NSIndexPath indexPathForRow:[pID intValue] inSection:2];
+    } else {
+        int row = 0;
+        for (int i=0; i<[librarySongs count]; i++) {
+            MPMediaItem *mediaItem = [librarySongs objectAtIndex:i];
+            if ([pID intValue] == [[mediaItem valueForKey:MPMediaItemPropertyPersistentID] intValue]) {
+                row = i;
+                break;
+            }
         }
+        return [NSIndexPath indexPathForRow:row inSection:3];
     }
-    return [NSIndexPath indexPathForRow:row inSection:3];
 }
 #pragma mark - scrollViewDelegate
 - (void) scrollViewWillBeginDragging:(UIScrollView *)scrollView {
@@ -410,7 +423,24 @@
         [[headerViews objectAtIndex:i] setAlpha:1];
 }
 
-#pragma mark - funcitons
+#pragma mark - songCellDelegate
+-(void)sampleSongWithID:(NSNumber *)songID {
+    [musicPlayer playSongWithID:songID];
+}
+-(void)stopSamplingSong {
+    [musicPlayer stop];
+}
+
+-(void)songPlayingTick:(MusicPlayer *)aMusicPlayer {
+    float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
+    
+    float durationWidth = aMusicPlayer.playPercent * screenWidth;
+    CGRect durRect = CGRectMake(0, 0, durationWidth, 2);
+    
+    [songDurationIndicator setFrame:durRect];
+}
+
+#pragma mark - functions
 CGRect CGRectExpand(CGRect rect, float top, float right, float bottom, float left) {
     return CGRectMake(rect.origin.x - left, rect.origin.y-top, rect.size.width+right+left, rect.size.height+top+bottom);
 }

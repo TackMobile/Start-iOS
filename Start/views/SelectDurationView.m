@@ -172,6 +172,10 @@
     draggingOrientation = SelectDurationDraggingNone;
 }
 
+- (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+    [self touchesEnded:touches withEvent:event];
+}
+
 #pragma mark - Properties
 - (void) updateTheme:(NSDictionary *)newTheme {
     theme = newTheme;
@@ -186,17 +190,14 @@
     int hours = (int)(innerValue * 24);
     int minutes = (int)(outerValue * 60);
     
-    return hours * 3600 + minutes * 60;
+    return hours * 3600 + minutes * 60 +30;
 }
 -(void) setTimeInterval:(NSTimeInterval)timeInterval {
     if (changing)
         return;
-    int totalMin = ((int)timeInterval - (int)timeInterval%60)/60;
-    int minutes = totalMin % 60;
-    int hours = (totalMin - minutes)/60;
     
-    float innerVal = (float)hours / 24.0 ;
-    float outerVal = (float)minutes / 60.0f;
+    float innerVal = timeInterval / 86400.0f ;
+    float outerVal = (float)((int)timeInterval % 3600) / 3600;
     
     // remember the previous angles
     float prevOuter = outerAngle;
@@ -206,7 +207,7 @@
     outerAngle = DEGREES_TO_RADIANS( outerVal * 360);
     
     if (innerAngle != prevInner || outerAngle != prevOuter) {
-        [self setNeedsDisplay];
+    //    [self setNeedsDisplay];
     }
 }
 -(void) setDate:(NSDate *)date {
@@ -264,16 +265,18 @@
 
 #pragma mark - Drawing
 /* THEME FORMAT:
-             NSDictionary *theme = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                 [UIColor colorWithWhite:1 alpha:.7],@"outerRingColor",
-                 [UIColor colorWithWhite:1 alpha:.7],@"innerRingColor",
-                 [UIColor colorWithWhite:0 alpha:.7],@"outerColor",
-                 [UIColor colorWithWhite:1 alpha:.35],@"innerColor",
-                 [UIColor colorWithWhite:0 alpha:.8],@"centerColor",
-                 [UIColor whiteColor],@"outerHandleColor",
-                 [UIColor whiteColor],@"innerHandleColor",
-                 [UIImage imageNamed:@"squares"],@"bgFilename"
-                 nil];
+     NSMutableDictionary *theme = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                 [UIColor blackColor],@"outerRingColor",
+                                 [UIColor blackColor],@"innerRingColor",
+                                 [UIColor blackColor],@"outerColor",
+                                 [UIColor blackColor],@"outerFillColor",
+                                 [UIColor blackColor],@"innerColor",
+                                 [UIColor blackColor],@"innerFillColor",
+                                 [UIColor blackColor],@"centerColor",
+                                 [UIColor blackColor],@"outerHandleColor",
+                                 [UIColor blackColor],@"innerHandleColor",
+                                 [UIImage imageNamed:@"squares"], @"bgImg",
+                                 nil]; 
  */
 
 - (void)drawRect:(CGRect)rect
@@ -285,26 +288,43 @@
     float startAngle = DEGREES_TO_RADIANS(-90);
     CGRect centerRect = CGRectMake(center.x-centerRadius, center.y-centerRadius, centerRadius*2, centerRadius*2);
     
+    // outer
     UIBezierPath *outerCircle = [UIBezierPath bezierPath];
-    [outerCircle moveToPoint:center];
-    [outerCircle addArcWithCenter:center radius:outerRadius startAngle:startAngle endAngle:outerAngle+startAngle clockwise:YES];
+    [outerCircle addArcWithCenter:center radius:innerRadius startAngle:startAngle endAngle:outerAngle+startAngle clockwise:YES];
+    [outerCircle addArcWithCenter:center radius:outerRadius startAngle:outerAngle+startAngle endAngle:startAngle clockwise:NO];
     [outerCircle closePath];
     
-    UIBezierPath *innerCircle = [UIBezierPath bezierPath];
-    [innerCircle moveToPoint:center];
-    [innerCircle addArcWithCenter:center radius:innerRadius startAngle:startAngle endAngle:innerAngle+startAngle clockwise:YES];
-    [innerCircle closePath];
+    UIBezierPath *outerFill = [UIBezierPath bezierPath];
+    [outerFill addArcWithCenter:center radius:innerRadius startAngle:outerAngle+startAngle endAngle:startAngle clockwise:YES];
+    [outerFill addArcWithCenter:center radius:outerRadius startAngle:startAngle endAngle:outerAngle+startAngle clockwise:NO];
+    [outerFill closePath];
     
-    UIBezierPath *centerCircle = [UIBezierPath bezierPathWithOvalInRect:centerRect];
-    
-    [[theme objectForKey:@"outerColor"] setFill];  [outerCircle fill];
-    [[theme objectForKey:@"innerColor"] setFill];  [innerCircle fill];
-    [[theme objectForKey:@"centerColor"] setFill]; [centerCircle fill];
-    
-    // thicker lines
     UIBezierPath *outerLine = [UIBezierPath bezierPath];
     [outerLine moveToPoint:[self vectorFromAngle:outerAngle distance:innerRadius origin:center]];
     [outerLine addLineToPoint:[self vectorFromAngle:outerAngle distance:outerRadius origin:center]];
+
+    // inner
+    UIBezierPath *innerCircle = [UIBezierPath bezierPath];
+    [innerCircle addArcWithCenter:center radius:centerRadius startAngle:startAngle endAngle:innerAngle+startAngle clockwise:YES];
+    [innerCircle addArcWithCenter:center radius:innerRadius startAngle:innerAngle+startAngle endAngle:startAngle clockwise:NO];
+    [innerCircle closePath];
+    
+    UIBezierPath *innerFill = [UIBezierPath bezierPath];
+    [innerFill addArcWithCenter:center radius:centerRadius startAngle:innerAngle+startAngle endAngle:startAngle clockwise:YES];
+    [innerFill addArcWithCenter:center radius:innerRadius startAngle:startAngle endAngle:innerAngle+startAngle clockwise:NO];
+    [innerFill closePath];
+    
+    UIBezierPath *centerCircle = [UIBezierPath bezierPathWithOvalInRect:centerRect];
+    
+    [[theme objectForKey:@"outerColor"] setFill];       [outerCircle fill];
+    [[theme objectForKey:@"outerFillColor"] setFill];   [outerFill fill];
+    
+    [[theme objectForKey:@"innerColor"] setFill];       [innerCircle fill];
+    [[theme objectForKey:@"innerFillColor"] setFill];   [innerFill fill];
+
+    [[theme objectForKey:@"centerColor"] setFill];      [centerCircle fill];
+    
+    // thicker lines
     
     UIBezierPath *innerLine = [UIBezierPath bezierPath];
     [innerLine moveToPoint:[self vectorFromAngle:innerAngle distance:centerRadius origin:center]];

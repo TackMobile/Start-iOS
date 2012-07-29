@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 #import "SelectSongView.h"
 #import "SelectActionView.h"
 #import "SelectDurationView.h"
@@ -31,12 +32,13 @@
 
 -(void) durationViewWithIndex:(int)index draggedWithPercent:(float)percent;
 
--(void)alarmViewPinched:(AlarmView *)alarmView;
+-(bool)alarmViewPinched:(AlarmView *)alarmView;
 @end
 
 enum AlarmViewShouldSet {
     AlarmViewShouldSet = 0,
     AlarmViewShouldUnSet,
+    AlarmViewShouldTimer,
     AlarmViewShouldNone
 };
 
@@ -46,6 +48,7 @@ enum AlarmViewShouldSet {
     CGRect selectSongRect;
     CGRect selectActionRect;
     CGRect alarmSetDurRect;
+    CGRect timerModeDurRect;
     CGRect countdownRect;
     CGRect bgImageRect;
     
@@ -56,10 +59,13 @@ enum AlarmViewShouldSet {
     bool pickingSong;
     bool pickingAction;
     bool cancelTouch;
+        
+    UIImageView *durImageView;
 }
 @property (nonatomic, strong) id<AlarmViewDelegate> delegate;
 @property CGRect newRect;
 @property bool isSet;
+@property bool isTimerMode;
 @property int index;
 
 @property (nonatomic, strong) NSMutableDictionary *alarmInfo;
@@ -72,6 +78,8 @@ enum AlarmViewShouldSet {
 @property (nonatomic, strong) SelectDurationView *selectDurationView;
 @property (nonatomic, strong) SelectedTimeView *selectedTimeView;
 @property (nonatomic, strong) CountdownView *countdownView;
+@property (nonatomic, strong) UIView *selectAlarmBg;
+@property (nonatomic, strong) UILabel *deleteLabel;
 
 @property (nonatomic, strong) CountdownTimer *countdownTimer;
 

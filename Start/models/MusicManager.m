@@ -35,7 +35,9 @@
                                 [UIColor blackColor],@"outerRingColor",
                                 [UIColor blackColor],@"innerRingColor",
                                 [UIColor blackColor],@"outerColor",
+                                [UIColor blackColor],@"outerFillColor",
                                 [UIColor blackColor],@"innerColor",
+                                [UIColor blackColor],@"innerFillColor",
                                 [UIColor blackColor],@"centerColor",
                                 [UIColor blackColor],@"outerHandleColor",
                                 [UIColor blackColor],@"innerHandleColor",
@@ -53,9 +55,17 @@
     opacity = [(NSNumber *)[pListTheme objectForKey:@"outerOpacity"] floatValue];
     [theme setObject:[UIColor colorWithHexString:[pListTheme objectForKey:@"outerColor"] andAlpha:opacity]
               forKey:@"outerColor"];
+    opacity = [(NSNumber *)[pListTheme objectForKey:@"outerFillOpacity"] floatValue];
+    [theme setObject:[UIColor colorWithHexString:[pListTheme objectForKey:@"outerFillColor"] andAlpha:opacity]
+              forKey:@"outerFillColor"];
+    
     opacity = [(NSNumber *)[pListTheme objectForKey:@"innerOpacity"] floatValue];
     [theme setObject:[UIColor colorWithHexString:[pListTheme objectForKey:@"innerColor"] andAlpha:opacity]
               forKey:@"innerColor"];
+    opacity = [(NSNumber *)[pListTheme objectForKey:@"innerFillOpacity"] floatValue];
+    [theme setObject:[UIColor colorWithHexString:[pListTheme objectForKey:@"innerFillColor"] andAlpha:opacity]
+              forKey:@"innerFillColor"];
+    
     opacity = [(NSNumber *)[pListTheme objectForKey:@"centerOpacity"] floatValue];
     [theme setObject:[UIColor colorWithHexString:[pListTheme objectForKey:@"centerColor"] andAlpha:opacity]
               forKey:@"centerColor"];

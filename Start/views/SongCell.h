@@ -9,9 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "MusicPlayer.h"
 
-@interface SongCell : UITableViewCell {
-    MusicPlayer *musicPlayer;
-}
+@protocol SongCellDelegate <NSObject>
+-(void)sampleSongWithID:(NSNumber *)songID;
+-(void)stopSamplingSong;
+
+@end
+
+@interface SongCell : UITableViewCell
+
+@property (nonatomic, strong) id<SongCellDelegate> delegate;
 
 @property NSNumber *persistentID;
 

@@ -40,8 +40,6 @@ const float setAlarmY = 15;
         restedY = alarmContainer.frame.size.height/2 - 1;
         [plusButton setImage:[UIImage imageNamed:@"plusButton"] forState:UIControlStateNormal];
                 
-        //TESTING
-        [self setBackgroundColor:[UIColor colorWithWhite:0 alpha:.5]];
     }
     return self;
 }
@@ -53,12 +51,12 @@ const float setAlarmY = 15;
 
 #pragma mark - Actions
 - (void) plusButtonTapped:(id)button {
-    TFLog(@"plus button tapped");
+    //TFLog(@"plus button tapped");
     // return if there are already max_alarms
     if (numAlarms == MAX_ALARMS)
         return;
     
-    TFLog(@"attempting to add");
+    //TFLog(@"attempting to add");
 
     if ([delegate respondsToSelector:@selector(alarmAdded)])
         [delegate alarmAdded];
@@ -86,9 +84,7 @@ const float setAlarmY = 15;
         [self arrangeButtons];
     
 }
-- (void) makeAlarmActiveAtIndex:(int)index {
-    NSLog(@"alarms: %i, buttons: %i, switchTO: %i", numAlarms, [alarmButtons count], index);
-    
+- (void) makeAlarmActiveAtIndex:(int)index {    
     int buttonIndex = numAlarms - 1 - index;
     
     for (UIView *alarmButton in alarmButtons)

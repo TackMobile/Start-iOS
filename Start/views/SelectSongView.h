@@ -22,7 +22,7 @@
 @end
 
 
-@interface SelectSongView : UIView <UITableViewDataSource, UITableViewDelegate, SearchSongCellDelegate> {
+@interface SelectSongView : UIView <UITableViewDataSource, UITableViewDelegate, SearchSongCellDelegate, SongCellDelegate> {
     bool isOpen;
     bool isSearching;
     bool artworkPresent;
@@ -35,21 +35,17 @@
     
     NSMutableArray *headerViews;
     
+    MusicPlayer *musicPlayer;
 }
 @property (nonatomic, strong) id<SelectSongViewDelegate> delegate;
 
 @property (nonatomic, strong) MusicManager *musicManager;
 
 @property (nonatomic, strong) UITableView *songTableView;
+@property (nonatomic, strong) UIView *songDurationIndicator;
 
 - (void) quickSelectCell;
 - (void) selectCellWithID:(NSNumber *)cellNumID ;
+-(void)songPlayingTick:(MusicPlayer *)aMusicPlayer;
 - (id) initWithFrame:(CGRect)frame delegate:(id<SelectSongViewDelegate>)aDelegate presetSongs:(NSArray *)thePresetSongs;
-
-@end
-
-@interface DUTableView : UITableView
-
-- (void) reloadDataWithCompletion:( void (^) (void) )completionBlock;
-
 @end
