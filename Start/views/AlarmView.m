@@ -340,6 +340,10 @@
     while ([(NSDate *)[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0)
         [alarmInfo setObject:[NSDate dateWithTimeInterval:86400 sinceDate:[alarmInfo objectForKey:@"date"]] forKey:@"date"];
     
+    // check to see if it will go off
+    if (isSet && floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5)
+        NSLog(@"beep beep beep");
+    
     if (selectDurationView.handleSelected == SelectDurationNoHandle)
         [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
     [countdownView updateWithDate:[alarmInfo objectForKey:@"date"]];
@@ -368,8 +372,8 @@
     CGRect newSelectSongRect = CGRectMake(0, selectSongRect.origin.y, screenSize.width, self.frame.size.height);
     CGRect selectDurPushedRect = CGRectOffset(selectDurationView.frame, selectSongView.frame.size.width, 0);
     CGRect selectActionPushedRect = CGRectOffset(selectActionView.frame, 90, 0);
-    CGRect countdownPushedRect = CGRectOffset(countdownView.frame, selectSongView.frame.size.width-50, 0);
-    CGRect timerPushedRect = CGRectOffset(timerRect, selectSongView.frame.size.width-50, 0);
+    CGRect countdownPushedRect = CGRectOffset(countdownView.frame, selectSongView.frame.size.width, 0);
+    CGRect timerPushedRect = CGRectOffset(timerRect, selectSongView.frame.size.width, 0);
 
     
     [UIView animateWithDuration:.2 animations:^{
@@ -403,10 +407,7 @@
         [self menuCloseWithPercent:1];
         [selectSongView setFrame:selectSongRect];
         
-        if (isSet)
-            [selectDurationView setFrame:alarmSetDurRect];
-        else
-            [selectDurationView setFrame:selectDurRect];
+        [selectDurationView setFrame:[self currRestedSelecDurRect]];
         [selectDurationView setAlpha:1];
         
         [selectedTimeView setCenter:selectDurationView.center];
@@ -440,8 +441,8 @@
     CGRect newSelectActionRect = CGRectMake(75, 0, self.frame.size.width-75, self.frame.size.height);
     CGRect selectDurPushedRect = CGRectOffset(selectDurationView.frame, -newSelectActionRect.size.width, 0);
     CGRect selectSongPushedRect = CGRectOffset(selectSongView.frame, -selectSongView.frame.size.width + 30, 0);
-    CGRect countdownPushedRect = CGRectOffset(countdownView.frame, -selectSongView.frame.size.width+50, 0);
-    CGRect timerPushedRect = CGRectOffset(timerRect, selectSongView.frame.size.width-50, 0);
+    CGRect countdownPushedRect = CGRectOffset(countdownView.frame, -newSelectActionRect.size.width, 0);
+    CGRect timerPushedRect = CGRectOffset(timerRect, -newSelectActionRect.size.width, 0);
 
     
     [UIView animateWithDuration:.2 animations:^{
@@ -480,10 +481,7 @@
         [self menuCloseWithPercent:1];
         [selectActionView setFrame:selectActionRect];
         
-        if (isSet)
-            [selectDurationView setFrame:alarmSetDurRect];
-        else
-            [selectDurationView setFrame:selectDurRect];
+        [selectDurationView setFrame:[self currRestedSelecDurRect]];
         [selectDurationView setAlpha:1];
         
         [selectedTimeView setCenter:selectDurationView.center];
@@ -511,10 +509,10 @@
 
 #pragma mark - SelectDurationViewDelegate
 -(void) durationDidChange:(SelectDurationView *)selectDuration {
-    /*NSDate *dateSelected = [NSDate dateWithTimeIntervalSinceNow:[selectDuration getTimeInterval]];
+    NSDate *dateSelected = [NSDate dateWithTimeIntervalSinceNow:[selectDuration getTimeInterval]];
     // zero the minute
     NSTimeInterval time = round([dateSelected timeIntervalSinceNow] / 60.0) * 60.0;
-    [selectDuration setTimeInterval:time];*/
+    [selectDuration setTimeInterval:time];
     
     // update selected time
     [selectedTimeView updateTimeInterval:[selectDuration getTimeInterval] part:selectDuration.handleSelected];
@@ -636,31 +634,29 @@
         [timerView setAlpha:percentDragged];
     }
 }
+
 -(void) durationViewStoppedDraggingWithY:(float)y {
     if (pickingSong || pickingAction)
         return;
     
     bool set = NO;
     bool timer = NO;
-    if (shouldSet == AlarmViewShouldSet)
+    if (shouldSet == AlarmViewShouldSet
+        || selectDurationView.frame.origin.y < (selectDurRect.origin.y + alarmSetDurRect.origin.y )/2)
         set = YES;
     else if (shouldSet == AlarmViewShouldUnSet)
         set = NO;
-    else if (shouldSet == AlarmViewShouldTimer) {
-        set = NO;
-        timer = YES;
-    } else if (selectDurationView.frame.origin.y < (selectDurRect.origin.y + alarmSetDurRect.origin.y )/2) // more than halfway to setting
-        set = YES;
-    else if (selectDurationView.frame.origin.y > (selectDurRect.origin.y + timerModeDurRect.origin.y )/2) { // moret han halfway to timer mode
+    else if (shouldSet == AlarmViewShouldTimer
+             || selectDurationView.frame.origin.y > (selectDurRect.origin.y + timerModeDurRect.origin.y )/2) {
         set = NO;
         timer = YES;
     }
     
     // reset the timer if it is new
-    if (!isTimerMode && timer)
+    if (!isTimerMode && timer) {
         [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
+    }
 
-    
     isSet = set;
     isTimerMode = timer;
         

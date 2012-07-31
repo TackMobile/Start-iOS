@@ -73,7 +73,7 @@
 }
 
 - (void) scheduleLocalNotifications {
-    /*for (AlarmView *alarmView in alarms) {
+    for (AlarmView *alarmView in alarms) {
         NSDictionary *alarmInfo = [alarmView alarmInfo];
         if ([(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue]) {
             UILocalNotification *notif = [[UILocalNotification alloc] init];
@@ -85,7 +85,7 @@
             notif.userInfo = userInfo;
             [[UIApplication sharedApplication] scheduleLocalNotification:notif];
         }
-    }*/
+    }
 }
 
 - (void) addAlarmWithInfo:(NSDictionary *)alarmInfo switchTo:(BOOL)switchToAlarm {    

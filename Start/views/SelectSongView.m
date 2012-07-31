@@ -53,6 +53,11 @@
         NSArray *headerIcons = [NSArray arrayWithObjects:[UIImage imageNamed:@"no-sound-icon"],
                                 [UIImage imageNamed:@"tone-icon"], [UIImage imageNamed:@"song-icon"], nil];
         for (int i=1; i<4; i++) {
+            if (i == 3 && [librarySongs count] == 0) {
+                TFLog(@"there are no library songs loaded");
+                break;
+            }
+            
             UIImage *icon = [headerIcons objectAtIndex:i-1];
             NSIndexPath *cellIndexPath = [NSIndexPath indexPathForRow:0 inSection:i];
             NSIndexPath *lastCellPath = [NSIndexPath indexPathForRow:[songTableView numberOfRowsInSection:i]-1 inSection:i];
@@ -260,6 +265,8 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (isSearching)
         return 2;
+    if ([librarySongs count] == 0)
+        return 3;
     return 4;
 }
 
