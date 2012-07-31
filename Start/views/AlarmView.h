@@ -61,6 +61,7 @@ enum AlarmViewShouldSet {
     bool pickingSong;
     bool pickingAction;
     bool cancelTouch;
+    bool countdownEnded;
         
     UIImageView *durImageView;
 }
@@ -91,6 +92,7 @@ enum AlarmViewShouldSet {
 
 - (void) viewWillAppear;
 - (bool) canMove;
+- (void) alarmCountdownEnded;
 - (id) initWithFrame:(CGRect)frame index:(int)aIndex delegate:(id<AlarmViewDelegate>)aDelegate alarmInfo:(NSDictionary *)theAlarmInfo;
 
 @end

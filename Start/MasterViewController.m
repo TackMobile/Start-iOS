@@ -12,6 +12,7 @@
 @end
 
 @implementation MasterViewController
+@synthesize alarms;
 @synthesize pListModel, selectAlarmView, tickTimer;
 
 - (void)viewDidLoad

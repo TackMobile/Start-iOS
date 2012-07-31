@@ -11,7 +11,9 @@
 
 @class MasterViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate> {
+    bool notActive;
+}
 
 @property (strong, nonatomic) UIWindow *window;
 

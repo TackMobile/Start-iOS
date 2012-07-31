@@ -18,9 +18,7 @@ enum SwitchAlarmDirection {
     SwitchAlarmPrev
 };
 
-@interface MasterViewController : UIViewController <SelectAlarmViewDelegate, AlarmViewDelegate> {
-    NSMutableArray *alarms;
-    
+@interface MasterViewController : UIViewController <SelectAlarmViewDelegate, AlarmViewDelegate> {    
     CGRect prevAlarmRect;
     CGRect currAlarmRect;
     CGRect nextAlarmRect;
@@ -29,7 +27,8 @@ enum SwitchAlarmDirection {
     
     int shouldSwitch;
 }
-
+@property (nonatomic, strong)     NSMutableArray *alarms;
+;
 @property (nonatomic, strong) SelectAlarmView *selectAlarmView;
 @property (nonatomic, strong) PListModel *pListModel;
 @property (nonatomic, strong) NSTimer *tickTimer;

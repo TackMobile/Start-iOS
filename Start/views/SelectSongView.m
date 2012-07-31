@@ -10,7 +10,7 @@
 
 @implementation SelectSongView
 @synthesize delegate;
-@synthesize musicManager;
+@synthesize musicManager, musicPlayer;
 @synthesize songTableView, songDurationIndicator;
 
 - (id)initWithFrame:(CGRect)frame

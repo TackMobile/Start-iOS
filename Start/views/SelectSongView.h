@@ -36,12 +36,11 @@
     NSArray *presetSongs;
     
     NSMutableArray *headerViews;
-    
-    MusicPlayer *musicPlayer;
 }
 @property (nonatomic, strong) id<SelectSongViewDelegate> delegate;
 
 @property (nonatomic, strong) MusicManager *musicManager;
+@property (nonatomic, strong) MusicPlayer *musicPlayer;
 
 @property (nonatomic, strong) UITableView *songTableView;
 @property (nonatomic, strong) UIView *songDurationIndicator;

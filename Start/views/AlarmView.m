@@ -24,6 +24,7 @@
         pickingSong = NO;
         pickingAction = NO;
         cancelTouch = NO;
+        countdownEnded = NO;
         
         musicManager = [[MusicManager alloc] init];
         PListModel *pListModel = [delegate getPListModel];
@@ -127,6 +128,14 @@
 
 - (bool) canMove {
     return !(pickingSong || pickingAction);
+}
+
+- (void) alarmCountdownEnded {
+    if (!countdownEnded && isSet) {
+        // play music
+        [selectSongView.musicPlayer playSongWithID:[alarmInfo objectForKey:@"songID"]];
+        countdownEnded = YES;
+    }
 }
 
 #pragma mark - Touches
@@ -342,10 +351,11 @@
     
     // check to see if it will go off
     if (isSet && floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5)
-        NSLog(@"beep beep beep");
+        [self alarmCountdownEnded];
     
     if (selectDurationView.handleSelected == SelectDurationNoHandle)
         [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+    
     [countdownView updateWithDate:[alarmInfo objectForKey:@"date"]];
     if (isTimerMode)
         [timerView updateWithDate:[alarmInfo objectForKey:@"timerDateBegan"]];
@@ -636,8 +646,16 @@
 }
 
 -(void) durationViewStoppedDraggingWithY:(float)y {
+    // future: put this is own method
+    
     if (pickingSong || pickingAction)
         return;
+    
+    if (countdownEnded) {
+        countdownEnded = NO;
+        [selectSongView.musicPlayer stop];
+        // LAUNCH ACTION;
+    }
     
     bool set = NO;
     bool timer = NO;
