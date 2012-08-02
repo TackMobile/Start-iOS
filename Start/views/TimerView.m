@@ -27,6 +27,8 @@
         [timerLabel setBackgroundColor:[UIColor clearColor]];
         [timerLabel setFont:timerFont];
         
+        [timerLabel setText:@"00:00:00"];
+        
     }
     return self;
 }

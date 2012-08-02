@@ -56,6 +56,7 @@
 		F317243015A66A4800007124 /* weather-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F317240A15A66A4700007124 /* weather-icon.png */; };
 		F317243115A66A4800007124 /* weather-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F317240B15A66A4700007124 /* weather-icon@2x.png */; };
 		F317243315A66FD000007124 /* search-divider.png in Resources */ = {isa = PBXBuildFile; fileRef = F317243215A66FCF00007124 /* search-divider.png */; };
+		F326511615C9F1E500ABAF60 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F326511515C9F1E500ABAF60 /* QuartzCore.framework */; };
 		F327EC9715938906008B962F /* MusicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F327EC9615938906008B962F /* MusicManager.m */; };
 		F327EC9A15938BBF008B962F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F327EC9915938BBF008B962F /* MediaPlayer.framework */; };
 		F33F641E15951F10000372AE /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = F33F641D15951F10000372AE /* UIImage+StackBlur.m */; };
@@ -83,6 +84,8 @@
 		F383C1B3158B8E7000B91F31 /* CountdownTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C1B2158B8E7000B91F31 /* CountdownTimer.m */; };
 		F3CD846E158FB0A400703717 /* SelectedTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CD846D158FB0A400703717 /* SelectedTimeView.m */; };
 		F3E5C39515BDBE10006959F4 /* NPTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E5C39415BDBE10006959F4 /* NPTableView.m */; };
+		F3E78B6B15C8BA2C0028ED08 /* Treescape.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E78B6915C8BA2C0028ED08 /* Treescape.png */; };
+		F3E78B6C15C8BA2C0028ED08 /* Treescape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E78B6A15C8BA2C0028ED08 /* Treescape@2x.png */; };
 		F3F825C51598CCD00017B752 /* toolbarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = F3F825C41598CCD00017B752 /* toolbarBG.png */; };
 		F3F825CB1598E63C0017B752 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3F825CA1598E63C0017B752 /* Roboto-Light.ttf */; };
 		F3FD676D15A740E90002AFC9 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FD676915A740E90002AFC9 /* libTestFlight.a */; };
@@ -154,6 +157,7 @@
 		F317240A15A66A4700007124 /* weather-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "weather-icon.png"; path = "img/weather-icon.png"; sourceTree = "<group>"; };
 		F317240B15A66A4700007124 /* weather-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "weather-icon@2x.png"; path = "img/weather-icon@2x.png"; sourceTree = "<group>"; };
 		F317243215A66FCF00007124 /* search-divider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search-divider.png"; path = "img/search-divider.png"; sourceTree = "<group>"; };
+		F326511515C9F1E500ABAF60 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F327EC9515938906008B962F /* MusicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicManager.h; path = models/MusicManager.h; sourceTree = "<group>"; };
 		F327EC9615938906008B962F /* MusicManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MusicManager.m; path = models/MusicManager.m; sourceTree = "<group>"; };
 		F327EC9915938BBF008B962F /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -199,6 +203,8 @@
 		F3CD846D158FB0A400703717 /* SelectedTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectedTimeView.m; path = views/SelectedTimeView.m; sourceTree = "<group>"; };
 		F3E5C39315BDBE10006959F4 /* NPTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPTableView.h; path = views/NPTableView.h; sourceTree = "<group>"; };
 		F3E5C39415BDBE10006959F4 /* NPTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NPTableView.m; path = views/NPTableView.m; sourceTree = "<group>"; };
+		F3E78B6915C8BA2C0028ED08 /* Treescape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Treescape.png; sourceTree = "<group>"; };
+		F3E78B6A15C8BA2C0028ED08 /* Treescape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Treescape@2x.png"; sourceTree = "<group>"; };
 		F3F825C41598CCD00017B752 /* toolbarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = toolbarBG.png; path = img/toolbarBG.png; sourceTree = "<group>"; };
 		F3F825CA1598E63C0017B752 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
 		F3FD676915A740E90002AFC9 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
@@ -226,6 +232,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F326511615C9F1E500ABAF60 /* QuartzCore.framework in Frameworks */,
 				F327EC9A15938BBF008B962F /* MediaPlayer.framework in Frameworks */,
 				F383C178158B851200B91F31 /* UIKit.framework in Frameworks */,
 				F383C17A158B851200B91F31 /* Foundation.framework in Frameworks */,
@@ -354,9 +361,10 @@
 		F383C168158B851100B91F31 = {
 			isa = PBXGroup;
 			children = (
+				F326511515C9F1E500ABAF60 /* QuartzCore.framework */,
+				F327EC9915938BBF008B962F /* MediaPlayer.framework */,
 				F3FD677115A741730002AFC9 /* libz.dylib */,
 				F3FD676815A740E90002AFC9 /* TestFlightSDK1.0 */,
-				F327EC9915938BBF008B962F /* MediaPlayer.framework */,
 				F383C17D158B851200B91F31 /* Start */,
 				F383C176158B851200B91F31 /* Frameworks */,
 				F383C174158B851200B91F31 /* Products */,
@@ -454,6 +462,15 @@
 			name = Models;
 			sourceTree = "<group>";
 		};
+		F3E78B6815C8BA1C0028ED08 /* Treescape */ = {
+			isa = PBXGroup;
+			children = (
+				F3E78B6915C8BA2C0028ED08 /* Treescape.png */,
+				F3E78B6A15C8BA2C0028ED08 /* Treescape@2x.png */,
+			);
+			name = Treescape;
+			sourceTree = "<group>";
+		};
 		F3F825C61598E56E0017B752 /* resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -549,6 +566,7 @@
 		F3FEC0AF15AC8FD00032B893 /* themes */ = {
 			isa = PBXGroup;
 			children = (
+				F3E78B6815C8BA1C0028ED08 /* Treescape */,
 				F3143CDF15C454AC0098A276 /* OceanSide */,
 				F3143CD915C4489C0098A276 /* NightSky */,
 				F3109CB615AF4558008A2B94 /* biker.jpg */,
@@ -675,6 +693,8 @@
 				F3143CDE15C448CC0098A276 /* NightSky@2x.png in Resources */,
 				F3143CE215C454BE0098A276 /* Oceanside.png in Resources */,
 				F3143CE315C454BE0098A276 /* Oceanside@2x.png in Resources */,
+				F3E78B6B15C8BA2C0028ED08 /* Treescape.png in Resources */,
+				F3E78B6C15C8BA2C0028ED08 /* Treescape@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

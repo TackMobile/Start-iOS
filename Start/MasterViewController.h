@@ -21,7 +21,7 @@ enum SwitchAlarmDirection {
 @interface MasterViewController : UIViewController <SelectAlarmViewDelegate, AlarmViewDelegate> {    
     CGRect prevAlarmRect;
     CGRect currAlarmRect;
-    CGRect nextAlarmRect;
+    float asideOffset;
     
     int currAlarmIndex;
     

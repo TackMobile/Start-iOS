@@ -76,7 +76,7 @@
 	</dict>
 	<dict>
 		<key>innerColor</key>
-		<string>00adef</string>
+		<string>F1F1F2</string>
 		<key>innerOpacity</key>
 		<real>0.4</real>
 		<key>innerRingColor</key>
@@ -90,7 +90,7 @@
 		<key>innerHandleColor</key>
 		<string>ffffff</string>
 		<key>outerColor</key>
-		<string>2e3092</string>
+		<string>FFDEB0</string>
 		<key>outerOpacity</key>
 		<real>0.5</real>
 		<key>outerRingColor</key>
@@ -104,11 +104,11 @@
 		<key>outerHandleColor</key>
 		<string>ffffff</string>
 		<key>centerColor</key>
-		<string>000000</string>
+		<string>8A5D3B</string>
 		<key>centerOpacity</key>
-		<real>0.65</real>
+		<real>0.6</real>
 		<key>bgFilename</key>
-		<string>NightSky</string>
+		<string>Treescape</string>
 	</dict>
 	<dict>
 		<key>innerColor</key>

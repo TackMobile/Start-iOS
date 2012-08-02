@@ -29,9 +29,9 @@
     CGRect frameRect = [[UIScreen mainScreen] applicationFrame];
     CGRect selectAlarmRect = CGRectMake(0, frameRect.size.height-50, frameRect.size.width, 50);
 
-    currAlarmRect = CGRectMake(0, 0, frameRect.size.width, frameRect.size.height);
-    prevAlarmRect = CGRectOffset(currAlarmRect, -frameRect.size.width, 0);
-    nextAlarmRect = CGRectOffset(currAlarmRect, frameRect.size.width, 0);
+    currAlarmRect = CGRectMake(-20, 0, frameRect.size.width+40, frameRect.size.height);
+    prevAlarmRect = CGRectOffset(currAlarmRect, -frameRect.size.width-20, 0);
+    asideOffset = frameRect.size.width+20;
 
     selectAlarmView = [[SelectAlarmView alloc] initWithFrame:selectAlarmRect delegate:self];
     
@@ -94,6 +94,7 @@
     AlarmView *newAlarm = [[AlarmView alloc] initWithFrame:prevAlarmRect index:currAlarmIndex delegate:self alarmInfo:alarmInfo];
     [alarms addObject:newAlarm];
     [self.view insertSubview:newAlarm atIndex:0];
+    [self updateGradients];
     if (switchToAlarm)
         [self switchAlarmWithIndex:currAlarmIndex];
     [newAlarm viewWillAppear];
@@ -111,8 +112,44 @@
         [[alarms objectAtIndex:i] setIndex:i];
 }
 
+- (void) updateGradients {
+    for (AlarmView *alarmView in alarms) {
+        float percent = 20.0f/alarmView.frame.size.width;
+        
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        NSArray *gradientColors;
+        if (alarmView.index == 0 )
+            gradientColors = [NSArray arrayWithObjects:
+                               (id)[[UIColor clearColor] CGColor],
+                               (id)[[UIColor blackColor] CGColor],
+                               (id)[[UIColor blackColor] CGColor],
+                               (id)[[UIColor clearColor] CGColor], nil];
+        else
+            gradientColors = [NSArray arrayWithObjects:
+                              (id)[[UIColor clearColor] CGColor],
+                              (id)[[UIColor blackColor] CGColor],
+                              (id)[[UIColor blackColor] CGColor],
+                              (id)[[UIColor blackColor] CGColor], nil];
+        
+        NSArray *gradientLocations = [NSArray arrayWithObjects:
+                                      [NSNumber numberWithFloat:0.0f],
+                                      [NSNumber numberWithFloat:percent],
+                                      [NSNumber numberWithFloat:1-percent],
+                                      [NSNumber numberWithFloat:1.0f], nil];
+        
+        [gradient setColors:gradientColors];
+        [gradient setLocations:gradientLocations];
+        [gradient setFrame:CGRectMake(0, 0, currAlarmRect.size.width, currAlarmRect.size.height)];
+        [gradient setStartPoint:CGPointMake(0, .5)];
+        [gradient setEndPoint:CGPointMake(1, .5)];
+        [alarmView.layer setMask:gradient];
+        [alarmView.layer setMasksToBounds:YES];
+    }
+}
+
 #pragma mark - Positioning & SelectAlarmViewDelegate
 - (void) switchAlarmWithIndex:(int)index {
+    
     shouldSwitch = SwitchAlarmNone;
         
     if (index < 0 || index >= [alarms count])
@@ -121,23 +158,23 @@
     float currOffset;
     if (currAlarmIndex < [alarms count]) {
         AlarmView *currAlarm = [alarms objectAtIndex:currAlarmIndex];
-        currOffset = currAlarm.frame.origin.x;
+        currOffset = currAlarm.frame.origin.x + 20;
     } else {
         currOffset = 0;
     }
     
-    float animOffset = (index-currAlarmIndex)*currAlarmRect.size.width - currOffset;
-    
     float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
+
+    float animOffset = (index-currAlarmIndex)*(asideOffset) - currOffset;
     
     for (AlarmView *alarmView in alarms) {
-        CGRect newAlarmRect = CGRectOffset(currAlarmRect, (currAlarmIndex - alarmView.index)*currAlarmRect.size.width + currOffset, 0);
+        CGRect newAlarmRect = CGRectOffset(currAlarmRect, ((currAlarmIndex - alarmView.index)*(asideOffset) + currOffset) , 0);
         CGRect animateToRect = CGRectOffset(newAlarmRect, animOffset, 0);
         
         [alarmView setFrame:newAlarmRect];
         [alarmView setNewRect:animateToRect];
         
-        [alarmView shiftedFromActiveByPercent:newAlarmRect.origin.x/screenWidth];
+        [alarmView shiftedFromActiveByPercent:(newAlarmRect.origin.x+20)/screenWidth];
 
     }
     
@@ -153,7 +190,7 @@
     [UIView animateWithDuration:.2 animations:^{
         for (AlarmView *alarmView in alarms) {
             [alarmView setFrame:alarmView.newRect];
-            [alarmView shiftedFromActiveByPercent:alarmView.newRect.origin.x/screenWidth];
+            [alarmView shiftedFromActiveByPercent:(alarmView.newRect.origin.x+20)/screenWidth];
         }
     }];
 }
@@ -184,22 +221,22 @@
         || (alarmRect.origin.x < 0 && currAlarmIndex == 0))
         alarmRect = CGRectOffset(alarmRect, -xVel*4/5, 0);
     
-    CGRect leftAlarmRect = CGRectOffset(alarmRect, -alarmRect.size.width, 0);
-    CGRect rightAlarmRect = CGRectOffset(alarmRect, alarmRect.size.width, 0);
+    CGRect leftAlarmRect = CGRectOffset(alarmRect, -asideOffset, 0);
+    CGRect rightAlarmRect = CGRectOffset(alarmRect, asideOffset, 0);
     
     float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
     
     if (alarmIndex > 0) {
         [[alarms objectAtIndex:alarmIndex-1] setFrame:rightAlarmRect];
-        [[alarms objectAtIndex:alarmIndex-1] shiftedFromActiveByPercent:rightAlarmRect.origin.x/screenWidth];
+        [[alarms objectAtIndex:alarmIndex-1] shiftedFromActiveByPercent:(rightAlarmRect.origin.x+20)/screenWidth];
     } 
     if (alarmIndex < [alarms count]-1) {
         [[alarms objectAtIndex:alarmIndex+1] setFrame:leftAlarmRect];
-        [[alarms objectAtIndex:alarmIndex+1] shiftedFromActiveByPercent:leftAlarmRect.origin.x/screenWidth];
+        [[alarms objectAtIndex:alarmIndex+1] shiftedFromActiveByPercent:(leftAlarmRect.origin.x+20)/screenWidth];
     }
     
     [alarmView setFrame:alarmRect];
-    [alarmView shiftedFromActiveByPercent:alarmRect.origin.x/screenWidth];
+    [alarmView shiftedFromActiveByPercent:(alarmRect.origin.x+20)/screenWidth];
 }
 
 - (void) alarmView:(AlarmView *)alarmView stoppedDraggingWithX:(float)x {
@@ -241,6 +278,7 @@
     } completion:^(BOOL finished) {
         [alarmView removeFromSuperview];
     }];
+    [self updateGradients];
     return true;
 }
 

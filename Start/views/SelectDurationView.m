@@ -282,7 +282,7 @@
  */
 
 - (void)drawRect:(CGRect)rect
-{   
+{
     CGContextRef aRef = UIGraphicsGetCurrentContext();
     CGContextSaveGState(aRef);
     

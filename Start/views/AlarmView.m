@@ -31,19 +31,21 @@
         
         // Views
         CGSize bgImageSize = CGSizeMake(520, 480);
+        CGRect frameRect = [[UIScreen mainScreen] applicationFrame];
+        float offset = 20;
         
         bgImageRect = CGRectMake((self.frame.size.width-bgImageSize.width)/2, (self.frame.size.height-bgImageSize.height)/2, bgImageSize.width, bgImageSize.height);
         CGRect toolBarRect = CGRectMake(0, 0, self.frame.size.width, 135);
-        selectSongRect = CGRectMake(-22, 0, self.frame.size.width-75, 80);
-        selectActionRect = CGRectMake(self.frame.size.width-60, 0, 60, 80);
-        selectDurRect = CGRectMake(0, self.frame.size.height-self.frame.size.width-45, self.frame.size.width, self.frame.size.width);
+        selectSongRect = CGRectMake(offset-22, 0, frameRect.size.width-75, 80);
+        selectActionRect = CGRectMake(offset+frameRect.size.width-60, 0, 60, 80);
+        selectDurRect = CGRectMake(offset, self.frame.size.height-frameRect.size.width-45, frameRect.size.width, frameRect.size.width);
         alarmSetDurRect = CGRectOffset(selectDurRect, 0, -150);
         timerModeDurRect = CGRectOffset(selectDurRect, 0, 150);
         selectedTimeRect = CGRectExtendFromPoint(CGRectCenter(selectDurRect), 65, 65);
-        countdownRect = CGRectMake(0, alarmSetDurRect.origin.y+alarmSetDurRect.size.height, self.frame.size.width, self.frame.size.height - (alarmSetDurRect.origin.y+alarmSetDurRect.size.height) - 65);
-        timerRect = CGRectMake(0, timerModeDurRect.origin.y-countdownRect.size.height, self.frame.size.width, countdownRect.size.height);
-        CGRect deleteLabelRect = CGRectMake(0, 0, self.frame.size.width, 70);
-        CGRect selectAlarmRect = CGRectMake(0, self.frame.size.height-50, self.frame.size.width, 50);
+        countdownRect = CGRectMake(offset, alarmSetDurRect.origin.y+alarmSetDurRect.size.height, frameRect.size.width, self.frame.size.height - (alarmSetDurRect.origin.y+alarmSetDurRect.size.height) - 65);
+        timerRect = CGRectMake(offset, timerModeDurRect.origin.y-countdownRect.size.height, frameRect.size.width, countdownRect.size.height);
+        CGRect deleteLabelRect = CGRectMake(offset, 0, frameRect.size.width, 70);
+        CGRect selectAlarmRect = CGRectMake(offset, self.frame.size.height-50, frameRect.size.width, 50);
         
         backgroundImage = [[UIImageView alloc] initWithFrame:bgImageRect];
         toolbarImage = [[UIImageView alloc] initWithFrame:toolBarRect];
@@ -87,7 +89,7 @@
         [countdownView setAlpha:0];
         [timerView setAlpha:0];
         
-        CGRect selectActionTableViewRect = CGRectMake(0, 0, self.frame.size.width-75, self.frame.size.height);
+        CGRect selectActionTableViewRect = CGRectMake(0, 0, frameRect.size.width-75, self.frame.size.height);
         [selectActionView.actionTableView setFrame:selectActionTableViewRect];
     }
     return self;
@@ -231,45 +233,6 @@
             [durImageView removeFromSuperview];
         }];
     }
-    
-    
-    /*
-    if (((pinchRecog.velocity < 0 && pinchRecog.state == UIGestureRecognizerStateBegan)
-         || (pinchRecog.state == UIGestureRecognizerStateChanged && pinchRecog.scale <= 1.0))) {
-        float scale = (powf(pinchRecog.scale, 2) >= 0)?powf(pinchRecog.scale, 2):0;
-        [deleteLabel setAlpha:1-scale];
-        if (isSet) {
-            [countdownView setAlpha:scale];
-        }
-        [selectDurationView setAlpha:scale];
-        [toolbarImage setAlpha:scale];
-        [selectSongView setAlpha:scale];
-        [selectActionView setAlpha:scale];
-        [selectedTimeView setAlpha:scale];
-    } else if (pinchRecog.state == UIGestureRecognizerStateEnded) {
-        if (pinchRecog.scale < .7) {
-            if ([delegate respondsToSelector:@selector(alarmViewPinched:)] )
-                if ([delegate alarmViewPinched:self])
-                    return;
-        }
-        [UIView animateWithDuration:.2 animations:^{
-            [deleteLabel setAlpha:0];
-            if (isSet) {
-                [countdownView setAlpha:1];
-            }
-            [selectDurationView setAlpha:1];
-            [toolbarImage setAlpha:1];
-            [selectSongView setAlpha:1];
-            [selectActionView setAlpha:1];
-            [selectedTimeView setAlpha:1];
-        }];
-    }*/
-    
-    /*if (((pinchRecog.velocity < 0 && pinchRecog.state == UIGestureRecognizerStateBegan)
-        || (pinchRecog.state == UIGestureRecognizerStateChanged && pinchRecog.scale <= 1.0))
-        && [delegate respondsToSelector:@selector(alarmViewPinched:scale:state:)] ) {
-        [delegate alarmViewPinched:self scale:pinchRecog.scale state:pinchRecog.state];
-    }*/
 }
 
 #pragma mark - Posiitoning/Drawing
@@ -278,7 +241,7 @@
     if (pickingSong || pickingAction)
         return;
     
-    float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
+    float screenWidth = self.frame.size.width;
     
     float durPickOffset =       200 * percent;
     float songPickOffset =      100 * percent;
@@ -379,7 +342,7 @@
         
     CGSize screenSize = [[UIScreen mainScreen] applicationFrame].size;
     
-    CGRect newSelectSongRect = CGRectMake(0, selectSongRect.origin.y, screenSize.width, self.frame.size.height);
+    CGRect newSelectSongRect = CGRectMake(20, selectSongRect.origin.y, screenSize.width, self.frame.size.height);
     CGRect selectDurPushedRect = CGRectOffset(selectDurationView.frame, selectSongView.frame.size.width, 0);
     CGRect selectActionPushedRect = CGRectOffset(selectActionView.frame, 90, 0);
     CGRect countdownPushedRect = CGRectOffset(countdownView.frame, selectSongView.frame.size.width, 0);
@@ -448,7 +411,7 @@
         return NO;
     pickingAction = YES;
     
-    CGRect newSelectActionRect = CGRectMake(75, 0, self.frame.size.width-75, self.frame.size.height);
+    CGRect newSelectActionRect = CGRectMake(75+20, 0, [[UIScreen mainScreen] applicationFrame].size.width-75, self.frame.size.height);
     CGRect selectDurPushedRect = CGRectOffset(selectDurationView.frame, -newSelectActionRect.size.width, 0);
     CGRect selectSongPushedRect = CGRectOffset(selectSongView.frame, -selectSongView.frame.size.width + 30, 0);
     CGRect countdownPushedRect = CGRectOffset(countdownView.frame, -newSelectActionRect.size.width, 0);
