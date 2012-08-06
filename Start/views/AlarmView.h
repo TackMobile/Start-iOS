@@ -75,6 +75,7 @@ enum AlarmViewShouldSet {
 @property (nonatomic, strong) NSMutableDictionary *alarmInfo;
 
 @property (nonatomic, strong) UIImageView *backgroundImage;
+@property (nonatomic, strong) UIImageView *patternOverlay;
 @property (nonatomic, strong) UIImageView *toolbarImage;
 
 @property (nonatomic, strong) SelectSongView *selectSongView;

@@ -11,7 +11,7 @@
 @implementation AlarmView
 @synthesize delegate, index, isSet, isTimerMode, newRect;
 @synthesize alarmInfo;
-@synthesize backgroundImage, toolbarImage;
+@synthesize backgroundImage, patternOverlay, toolbarImage;
 @synthesize selectSongView, selectActionView, selectDurationView, selectedTimeView, deleteLabel;
 @synthesize countdownView, timerView, countdownTimer, selectAlarmBg;
 
@@ -49,6 +49,7 @@
         CGRect selectAlarmRect = CGRectMake(0, self.frame.size.height-50, self.frame.size.width, 50);
         
         backgroundImage = [[UIImageView alloc] initWithFrame:bgImageRect];
+        patternOverlay = [[UIImageView alloc] initWithFrame:bgImageRect];
         toolbarImage = [[UIImageView alloc] initWithFrame:toolBarRect];
         selectSongView = [[SelectSongView alloc] initWithFrame:selectSongRect delegate:self presetSongs:[pListModel getPresetSongs]];
         selectActionView = [[SelectActionView alloc] initWithFrame:selectActionRect delegate:self actions:[pListModel getActions]];
@@ -61,6 +62,7 @@
         selectAlarmBg = [[UIView alloc] initWithFrame:selectAlarmRect];
         
         [self addSubview:backgroundImage];
+        [self addSubview:patternOverlay];
         [self addSubview:selectAlarmBg];
         [self addSubview:countdownView];
         [self addSubview:timerView];
@@ -81,6 +83,8 @@
         
         [selectAlarmBg setBackgroundColor:[UIColor colorWithWhite:0 alpha:.5]];
         
+        [patternOverlay setImage:[UIImage imageNamed:@"overlayPattern"]];
+        
         // pinch to delete
         UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(alarmPinched:)];
         [self addGestureRecognizer:pinch];
@@ -92,6 +96,7 @@
         [self setBackgroundColor:[UIColor blackColor]];
         [countdownView setAlpha:0];
         [timerView setAlpha:0];
+        [patternOverlay setAlpha:0];
         CGRect selectActionTableViewRect = CGRectMake(0, 0, frameRect.size.width-75, self.frame.size.height);
         [selectActionView.actionTableView setFrame:selectActionTableViewRect];
         
@@ -277,6 +282,7 @@
     
     CGRect shiftedDurRect = CGRectOffset([self currRestedSelecDurRect], durPickOffset, 0);
     CGRect shiftedCountdownRect = CGRectOffset(countdownRect, durPickOffset, 0);
+    CGRect shiftedTimerRect = CGRectOffset(timerRect, durPickOffset, 0);
     CGRect shiftedSongRect = CGRectOffset(selectSongRect, songPickOffset, 0);
     CGRect shiftedActionRect = CGRectOffset(selectActionRect, actionPickOffset, 0);
     CGRect shiftedBgImgRect = CGRectOffset(bgImageRect, backgroundOffset, 0);
@@ -284,6 +290,7 @@
     [selectDurationView setFrame:shiftedDurRect];
     [selectedTimeView setCenter:selectDurationView.center];
     [countdownView setFrame:shiftedCountdownRect];
+    [timerView setFrame:shiftedTimerRect];
     [selectSongView setFrame:shiftedSongRect];
     [selectActionView setFrame:shiftedActionRect];
     [backgroundImage setFrame:shiftedBgImgRect];
@@ -312,10 +319,12 @@
         artwork = [theme objectForKey:@"bgImg"];
         [toolbarImage setAlpha:0];
         [selectAlarmBg setAlpha:0];
+        [patternOverlay setAlpha:0];
         [selectDurationView updateTheme:theme];
     } else {
         [toolbarImage setAlpha:1];
         [selectAlarmBg setAlpha:1];
+        [patternOverlay setAlpha:1];
     }
     if (artwork) {
         // fade in the background 

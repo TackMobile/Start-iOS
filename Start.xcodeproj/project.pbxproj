@@ -90,6 +90,8 @@
 		F3E78B6C15C8BA2C0028ED08 /* Treescape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E78B6A15C8BA2C0028ED08 /* Treescape@2x.png */; };
 		F3F825C51598CCD00017B752 /* toolbarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = F3F825C41598CCD00017B752 /* toolbarBG.png */; };
 		F3F825CB1598E63C0017B752 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3F825CA1598E63C0017B752 /* Roboto-Light.ttf */; };
+		F3FB4C0D15CF4E280045AB1D /* overlayPattern.png in Resources */ = {isa = PBXBuildFile; fileRef = F3FB4C0C15CF4E280045AB1D /* overlayPattern.png */; };
+		F3FB4C0F15CF51230045AB1D /* overlayPattern@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3FB4C0E15CF51230045AB1D /* overlayPattern@2x.png */; };
 		F3FD676D15A740E90002AFC9 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FD676915A740E90002AFC9 /* libTestFlight.a */; };
 		F3FD676E15A740E90002AFC9 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = F3FD676A15A740E90002AFC9 /* README.txt */; };
 		F3FD676F15A740E90002AFC9 /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F3FD676B15A740E90002AFC9 /* release_notes.txt */; };
@@ -211,6 +213,8 @@
 		F3E78B6A15C8BA2C0028ED08 /* Treescape@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Treescape@2x.png"; sourceTree = "<group>"; };
 		F3F825C41598CCD00017B752 /* toolbarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = toolbarBG.png; path = img/toolbarBG.png; sourceTree = "<group>"; };
 		F3F825CA1598E63C0017B752 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
+		F3FB4C0C15CF4E280045AB1D /* overlayPattern.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = overlayPattern.png; path = img/theme/overlayPattern.png; sourceTree = "<group>"; };
+		F3FB4C0E15CF51230045AB1D /* overlayPattern@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "overlayPattern@2x.png"; path = "img/theme/overlayPattern@2x.png"; sourceTree = "<group>"; };
 		F3FD676915A740E90002AFC9 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		F3FD676A15A740E90002AFC9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
 		F3FD676B15A740E90002AFC9 /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
@@ -579,6 +583,8 @@
 		F3FEC0AF15AC8FD00032B893 /* themes */ = {
 			isa = PBXGroup;
 			children = (
+				F3FB4C0E15CF51230045AB1D /* overlayPattern@2x.png */,
+				F3FB4C0C15CF4E280045AB1D /* overlayPattern.png */,
 				F326511C15CAD61C00ABAF60 /* Brandon */,
 				F3E78B6815C8BA1C0028ED08 /* Treescape */,
 				F3143CDF15C454AC0098A276 /* OceanSide */,
@@ -711,6 +717,8 @@
 				F3E78B6C15C8BA2C0028ED08 /* Treescape@2x.png in Resources */,
 				F326511A15CAD61400ABAF60 /* Brandon.png in Resources */,
 				F326511B15CAD61400ABAF60 /* Brandon@2x.png in Resources */,
+				F3FB4C0D15CF4E280045AB1D /* overlayPattern.png in Resources */,
+				F3FB4C0F15CF51230045AB1D /* overlayPattern@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
