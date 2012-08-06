@@ -101,7 +101,7 @@
     else
         return [self getRandomImage];
     
-    CGRect screenBounds = [[UIScreen mainScreen] applicationFrame];
+    float bgImageWidth = 520;
     
     // get the madia artwork
     MPMediaItemArtwork *mediaArtwork = [song valueForProperty:MPMediaItemPropertyArtwork];
@@ -110,7 +110,8 @@
     if (CGSizeEqualToSize(CGSizeMake(0, 0), mediaArtwork.bounds.size)) {
         mediaArtworkImage = [self getRandomImage];
     } else {
-        mediaArtworkImage = [mediaArtwork imageWithSize:CGSizeMake(screenBounds.size.height, screenBounds.size.height)];
+        mediaArtworkImage = [mediaArtwork imageWithSize:CGSizeMake(bgImageWidth, 
+                                                                   (mediaArtwork.bounds.size.width/bgImageWidth)*mediaArtwork.bounds.size.height)];
         // convert to correct colorspace
         if (CGImageGetColorSpace(mediaArtworkImage.CGImage) != CGColorSpaceCreateDeviceRGB())
             mediaArtworkImage = [mediaArtworkImage normalize];

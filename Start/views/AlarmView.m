@@ -13,7 +13,7 @@
 @synthesize alarmInfo;
 @synthesize backgroundImage, patternOverlay, toolbarImage;
 @synthesize selectSongView, selectActionView, selectDurationView, selectedTimeView, deleteLabel;
-@synthesize countdownView, timerView, countdownTimer, selectAlarmBg;
+@synthesize countdownView, timerView, selectAlarmBg;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -54,6 +54,7 @@
         selectSongView = [[SelectSongView alloc] initWithFrame:selectSongRect delegate:self presetSongs:[pListModel getPresetSongs]];
         selectActionView = [[SelectActionView alloc] initWithFrame:selectActionRect delegate:self actions:[pListModel getActions]];
         selectDurationView = [[SelectDurationView alloc] initWithFrame:selectDurRect delegate:self];
+        durImageView = [[UIImageView alloc] init];
         selectedTimeView = [[SelectedTimeView alloc] initWithFrame:selectedTimeRect];
         countdownView = [[CountdownView alloc] initWithFrame:countdownRect];
         UIView *durationMaskView = [[UIView alloc] initWithFrame:durationMaskRect];
@@ -68,6 +69,7 @@
         [self addSubview:timerView];
         [self addSubview:durationMaskView];
             [durationMaskView addSubview:selectDurationView];
+        [self addSubview:durImageView];
         [self addSubview:toolbarImage];
         [self addSubview:selectSongView];
         [self addSubview:selectActionView];
@@ -84,6 +86,9 @@
         [selectAlarmBg setBackgroundColor:[UIColor colorWithWhite:0 alpha:.5]];
         
         [patternOverlay setImage:[UIImage imageNamed:@"overlayPattern"]];
+        
+        [durImageView setAlpha:0];
+        [durImageView setUserInteractionEnabled:NO];
         
         // pinch to delete
         UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(alarmPinched:)];
@@ -154,9 +159,11 @@
         // set isSet
         if ([(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue]) {
             isSet = YES;
-            [self animateSelectDurToRest];
-
         }
+        if ([(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue]) {
+            isTimerMode = YES;
+        }
+        [self animateSelectDurToRest];
     }
 }
 
@@ -167,7 +174,7 @@
 - (void) alarmCountdownEnded {
     if (!countdownEnded && isSet) {
         // play music
-        [selectSongView.musicPlayer playSongWithID:[alarmInfo objectForKey:@"songID"]];
+        [selectSongView.musicPlayer playSongWithID:[alarmInfo objectForKey:@"songID"] vibrate:YES];
         countdownEnded = YES;
     }
 }
@@ -213,7 +220,10 @@
     if (![self canMove])
         return;
     
+    [selectDurationView touchesCancelled:nil withEvent:nil];
     if (pinchRecog.velocity < 0 && pinchRecog.state == UIGestureRecognizerStateBegan) {
+        [durImageView setAlpha:0];
+
         [UIView animateWithDuration:.2 animations:^{
             [selectSongView setAlpha:0];
             [selectActionView setAlpha:0];
@@ -227,13 +237,15 @@
         [selectedTimeView.layer renderInContext:UIGraphicsGetCurrentContext()];
         UIImage *durImage = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
-        durImageView = [[UIImageView alloc] initWithImage:durImage];
+        [durImageView setImage:durImage];
+        [durImageView sizeToFit];
         [durImageView setCenter:selectDurationView.center];
         // switch out the duration picker with a fake!
         [selectDurationView setAlpha:0];
         [selectedTimeView setAlpha:0];
-        [self insertSubview:durImageView aboveSubview:selectDurationView];
+        [durImageView setAlpha:1];
     } else if (pinchRecog.state == UIGestureRecognizerStateChanged) {
+        [selectDurationView setAlpha:0];
         if (pinchRecog.scale > 1)
             pinchRecog.scale = 1;
         float scale = 1-(.1 * (1-pinchRecog.scale));
@@ -262,7 +274,7 @@
         } completion:^(BOOL finished) {
             [selectDurationView setAlpha:1];
             [selectedTimeView setAlpha:1];
-            [durImageView removeFromSuperview];
+            [durImageView setAlpha:0];
         }];
     }
 }
@@ -276,13 +288,14 @@
     float screenWidth = self.frame.size.width;
     
     float durPickOffset =       200 * percent;
+    float countDownOffset =     260 * percent;
     float songPickOffset =      100 * percent;
     float actionPickOffset =    75 * percent;
     float backgroundOffset =    (bgImageRect.size.width - screenWidth)/2 * percent;
     
     CGRect shiftedDurRect = CGRectOffset([self currRestedSelecDurRect], durPickOffset, 0);
-    CGRect shiftedCountdownRect = CGRectOffset(countdownRect, durPickOffset, 0);
-    CGRect shiftedTimerRect = CGRectOffset(timerRect, durPickOffset, 0);
+    CGRect shiftedCountdownRect = CGRectOffset(countdownRect, countDownOffset, 0);
+    CGRect shiftedTimerRect = CGRectOffset(timerRect, countDownOffset, 0);
     CGRect shiftedSongRect = CGRectOffset(selectSongRect, songPickOffset, 0);
     CGRect shiftedActionRect = CGRectOffset(selectActionRect, actionPickOffset, 0);
     CGRect shiftedBgImgRect = CGRectOffset(bgImageRect, backgroundOffset, 0);
@@ -325,6 +338,8 @@
         [toolbarImage setAlpha:1];
         [selectAlarmBg setAlpha:1];
         [patternOverlay setAlpha:1];
+        theme = [musicManager getThemeWithID:6];
+        [selectDurationView updateTheme:theme];
     }
     if (artwork) {
         // fade in the background 
@@ -638,9 +653,10 @@
     [selectedTimeView setCenter:selectDurationView.center];
     
     if ([delegate respondsToSelector:@selector(durationViewWithIndex:draggedWithPercent:)]) {
-        float percentDragged = (alarmSetDurRect.origin.y + selectDurationView.frame.origin.y) / (selectDurRect.origin.y - alarmSetDurRect.origin.y)-.2;
+        float percentDragged = (selectDurationView.frame.origin.y - selectDurRect.origin.y) / 150;
         [delegate durationViewWithIndex:index draggedWithPercent:-percentDragged];
         // fade in countdowntimer
+        NSLog(@"%f", percentDragged);
         [countdownView setAlpha:-percentDragged];
         [selectedTimeView setAlpha:1-percentDragged];
         [timerView setAlpha:percentDragged];

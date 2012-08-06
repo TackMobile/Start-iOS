@@ -302,7 +302,7 @@
         
         [self endSearch];
     }
-    
+    NSLog(@"indexpath: %i, %i", indexPath.section, indexPath.row);
     CGRect cellRect = [tableView rectForRowAtIndexPath:indexPath];
     CGRect bottomRect = [tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:[tableView numberOfRowsInSection:[tableView numberOfSections]-1]-1 inSection:[tableView numberOfSections]-1]];
     
@@ -342,7 +342,7 @@
 }
 
 - (NSIndexPath *)songIndexPathFromID:(NSNumber *)pID {
-    if ([pID intValue] < 6) { // preset song
+    if ([pID intValue] < 6 && [pID intValue] > -1) { // preset song
         return [NSIndexPath indexPathForRow:[pID intValue] inSection:2];
     } else {
         int row = 0;
@@ -439,7 +439,7 @@
 
 #pragma mark - songCellDelegate
 -(void)sampleSongWithID:(NSNumber *)songID {
-    [musicPlayer playSongWithID:songID];
+    [musicPlayer playSongWithID:songID vibrate:NO];
 }
 -(void)stopSamplingSong {
     [musicPlayer stop];

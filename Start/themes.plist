@@ -218,5 +218,41 @@
 		<key>bgFilename</key>
 		<string>Oceanside</string>
 	</dict>
+	<dict>
+		<key>innerColor</key>
+		<string>ffffff</string>
+		<key>innerOpacity</key>
+		<real>0.3</real>
+		<key>innerRingColor</key>
+		<string>ffffff</string>
+		<key>innerRingOpacity</key>
+		<integer>1</integer>
+		<key>innerFillColor</key>
+		<string>ffffff</string>
+		<key>innerFillOpacity</key>
+		<integer>0</integer>
+		<key>innerHandleColor</key>
+		<string>ffffff</string>
+		<key>outerColor</key>
+		<string>000000</string>
+		<key>outerOpacity</key>
+		<real>0.7</real>
+		<key>outerRingColor</key>
+		<string>ffffff</string>
+		<key>outerRingOpacity</key>
+		<integer>1</integer>
+		<key>outerFillColor</key>
+		<string>ffffff</string>
+		<key>outerFillOpacity</key>
+		<integer>0</integer>
+		<key>outerHandleColor</key>
+		<string>ffffff</string>
+		<key>centerColor</key>
+		<string>5555ee</string>
+		<key>centerOpacity</key>
+		<real>0.8</real>
+		<key>bgFilename</key>
+		<string>Oceanside</string>
+	</dict>
 </array>
 </plist>

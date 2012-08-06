@@ -21,7 +21,7 @@
     return self;
 }
 
-- (void) playSongWithID:(NSNumber *)songID { 
+- (void) playSongWithID:(NSNumber *)songID vibrate:(bool)vibrate { 
     if (!library) {
         // get music library 
         MPMediaQuery *songQuery = [[MPMediaQuery alloc] init];
@@ -35,15 +35,17 @@
             break;
         }
     }
+    shouldVibrate = vibrate;
     [self updatePlayerQueueWithMediaCollection:playCollection];
 }
 
 - (void) stop {
     [musicPlayer stop];
+    shouldVibrate = NO;
 }
 
 -  (void) updatePlayerQueueWithMediaCollection: (MPMediaItemCollection *) mediaItemCollection {
-    
+    [musicPlayer stop];
 	// Configure the music player, but only if the user chose at least one song to play
 	if (mediaItemCollection) {
         // apply the new media item collection as a playback queue for the music player
@@ -54,6 +56,7 @@
     
     // start the tick
     [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(songPlayingTick:) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(vibratingTick:) userInfo:nil repeats:YES];
     
 }
 
@@ -75,6 +78,14 @@
         if ([samplingTarget respondsToSelector:samplingSelector])
             [samplingTarget performSelector:samplingSelector withObject:self];
         
+    }
+}
+
+- (void) vibratingTick:(NSTimer *)timer {
+    if (shouldVibrate)
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+    else {
+        [timer invalidate];
     }
 }
 

@@ -70,11 +70,10 @@ const float spacer = -2;
 -(void) longPress:(UIGestureRecognizer *)gestRecog {
     if ([delegate respondsToSelector:@selector(sampleSongWithID:)] && [persistentID intValue] != -1 && gestRecog.state == UIGestureRecognizerStateBegan)
         [delegate sampleSongWithID:persistentID];
-    
-    //if ([persistentID intValue] != -1 && gestRecog.state == UIGestureRecognizerStateBegan)
-    //    [musicPlayer playSongWithID:persistentID];
-    
-    if (gestRecog.state == UIGestureRecognizerStateEnded)
+        
+    if (gestRecog.state == UIGestureRecognizerStateEnded
+        || gestRecog.state == UIGestureRecognizerStateCancelled
+        || gestRecog.state == UIGestureRecognizerStateFailed)
        if ([delegate respondsToSelector:@selector(stopSamplingSong)])
            [delegate stopSamplingSong];
 }

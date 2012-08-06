@@ -101,7 +101,8 @@
     }
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {  
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+    NSLog(@"moved");
     UITouch *touch = [touches anyObject];
     
     CGPoint touchLoc = [touch locationInView:self];
@@ -175,6 +176,7 @@
 
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     [self touchesEnded:touches withEvent:event];
+    NSLog(@"cencelled");
 }
 
 #pragma mark - Properties
@@ -194,8 +196,11 @@
     return hours * 3600 + minutes * 60 +30;
 }
 -(void) setTimeInterval:(NSTimeInterval)timeInterval {
-    //if (changing)
-    //    return;
+    // snapped angles
+    NSDate *dateSelected = [NSDate dateWithTimeIntervalSinceNow:timeInterval];
+    // zero the minute
+    NSTimeInterval time = round([dateSelected timeIntervalSinceNow] / 60.0) * 60.0;
+    timeInterval = time;
     
     float innerVal = timeInterval / 86400.0f ;
     float outerVal = (float)((int)timeInterval % 3600) / 3600;
@@ -209,15 +214,9 @@
     
     innerAngle = innerAngle<M_PI*2?innerAngle:innerAngle-(M_PI*2);
     outerAngle = outerAngle<M_PI*2?outerAngle:outerAngle-(M_PI*2);
-    
-    /*NSDate *dateSelected = [NSDate dateWithTimeIntervalSinceNow:[selectDuration getTimeInterval]];
-    // zero the minute
-    NSTimeInterval time = round([dateSelected timeIntervalSinceNow] / 60.0) * 60.0;
-    [selectDuration setTimeInterval:time];*/
-
 
     if (innerAngle != prevInner || outerAngle != prevOuter) {
-        /////
+        [self setNeedsDisplay];
     }
 }
 -(void) setDate:(NSDate *)date {

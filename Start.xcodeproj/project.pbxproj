@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		F3109CB915AF4558008A2B94 /* biker.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3109CB615AF4558008A2B94 /* biker.jpg */; };
-		F3109CBA15AF4558008A2B94 /* shapes.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3109CB715AF4558008A2B94 /* shapes.jpg */; };
-		F3109CBB15AF4558008A2B94 /* two.png in Resources */ = {isa = PBXBuildFile; fileRef = F3109CB815AF4558008A2B94 /* two.png */; };
 		F3143CDD15C448CC0098A276 /* NightSky.png in Resources */ = {isa = PBXBuildFile; fileRef = F3143CDB15C448CC0098A276 /* NightSky.png */; };
 		F3143CDE15C448CC0098A276 /* NightSky@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3143CDC15C448CC0098A276 /* NightSky@2x.png */; };
 		F3143CE215C454BE0098A276 /* Oceanside.png in Resources */ = {isa = PBXBuildFile; fileRef = F3143CE015C454BE0098A276 /* Oceanside.png */; };
@@ -61,6 +58,7 @@
 		F326511B15CAD61400ABAF60 /* Brandon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F326511915CAD61400ABAF60 /* Brandon@2x.png */; };
 		F327EC9715938906008B962F /* MusicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F327EC9615938906008B962F /* MusicManager.m */; };
 		F327EC9A15938BBF008B962F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F327EC9915938BBF008B962F /* MediaPlayer.framework */; };
+		F335A2C615D035FA00F0A552 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F335A2C515D035FA00F0A552 /* AudioToolbox.framework */; };
 		F33F641E15951F10000372AE /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = F33F641D15951F10000372AE /* UIImage+StackBlur.m */; };
 		F33F642115966A60000372AE /* userInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = F33F642015966A5F000372AE /* userInfo.plist */; };
 		F33F642615967163000372AE /* noAlbumImage.png in Resources */ = {isa = PBXBuildFile; fileRef = F33F642415967163000372AE /* noAlbumImage.png */; };
@@ -83,7 +81,6 @@
 		F383C19F158B879F00B91F31 /* SelectAlarmView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C19E158B879F00B91F31 /* SelectAlarmView.m */; };
 		F383C1A5158B87F000B91F31 /* SelectSongView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C1A4158B87F000B91F31 /* SelectSongView.m */; };
 		F383C1A8158B880500B91F31 /* SelectActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C1A7158B880500B91F31 /* SelectActionView.m */; };
-		F383C1B3158B8E7000B91F31 /* CountdownTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C1B2158B8E7000B91F31 /* CountdownTimer.m */; };
 		F3CD846E158FB0A400703717 /* SelectedTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CD846D158FB0A400703717 /* SelectedTimeView.m */; };
 		F3E5C39515BDBE10006959F4 /* NPTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E5C39415BDBE10006959F4 /* NPTableView.m */; };
 		F3E78B6B15C8BA2C0028ED08 /* Treescape.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E78B6915C8BA2C0028ED08 /* Treescape.png */; };
@@ -103,15 +100,9 @@
 		F3FD677D15AB67E50002AFC9 /* LeftHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FD677C15AB67E50002AFC9 /* LeftHeaderView.m */; };
 		F3FEC0A315ABC3010032B893 /* ReturnButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FEC0A215ABC3010032B893 /* ReturnButtonView.m */; };
 		F3FEC0A715AC86360032B893 /* CountdownView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3FEC0A615AC86350032B893 /* CountdownView.m */; };
-		F3FEC0B315AC8FDF0032B893 /* artist.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3FEC0B015AC8FDF0032B893 /* artist.jpg */; };
-		F3FEC0B415AC8FDF0032B893 /* books.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3FEC0B115AC8FDF0032B893 /* books.jpg */; };
-		F3FEC0B515AC8FDF0032B893 /* squares.jpg in Resources */ = {isa = PBXBuildFile; fileRef = F3FEC0B215AC8FDF0032B893 /* squares.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		F3109CB615AF4558008A2B94 /* biker.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = biker.jpg; path = img/theme/biker.jpg; sourceTree = "<group>"; };
-		F3109CB715AF4558008A2B94 /* shapes.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = shapes.jpg; path = img/theme/shapes.jpg; sourceTree = "<group>"; };
-		F3109CB815AF4558008A2B94 /* two.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = two.png; path = img/theme/two.png; sourceTree = "<group>"; };
 		F3143CDB15C448CC0098A276 /* NightSky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NightSky.png; sourceTree = "<group>"; };
 		F3143CDC15C448CC0098A276 /* NightSky@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NightSky@2x.png"; sourceTree = "<group>"; };
 		F3143CE015C454BE0098A276 /* Oceanside.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Oceanside.png; sourceTree = "<group>"; };
@@ -167,6 +158,7 @@
 		F327EC9515938906008B962F /* MusicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicManager.h; path = models/MusicManager.h; sourceTree = "<group>"; };
 		F327EC9615938906008B962F /* MusicManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MusicManager.m; path = models/MusicManager.m; sourceTree = "<group>"; };
 		F327EC9915938BBF008B962F /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		F335A2C515D035FA00F0A552 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F33F641C15951F10000372AE /* UIImage+StackBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+StackBlur.h"; path = "Libs/UIImage+StackBlur.h"; sourceTree = "<group>"; };
 		F33F641D15951F10000372AE /* UIImage+StackBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+StackBlur.m"; path = "Libs/UIImage+StackBlur.m"; sourceTree = "<group>"; };
 		F33F642015966A5F000372AE /* userInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = userInfo.plist; path = pList/userInfo.plist; sourceTree = "<group>"; };
@@ -203,8 +195,6 @@
 		F383C1A4158B87F000B91F31 /* SelectSongView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectSongView.m; path = views/SelectSongView.m; sourceTree = "<group>"; };
 		F383C1A6158B880500B91F31 /* SelectActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectActionView.h; path = views/SelectActionView.h; sourceTree = "<group>"; };
 		F383C1A7158B880500B91F31 /* SelectActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectActionView.m; path = views/SelectActionView.m; sourceTree = "<group>"; };
-		F383C1B1158B8E7000B91F31 /* CountdownTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CountdownTimer.h; path = models/CountdownTimer.h; sourceTree = "<group>"; };
-		F383C1B2158B8E7000B91F31 /* CountdownTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CountdownTimer.m; path = models/CountdownTimer.m; sourceTree = "<group>"; };
 		F3CD846C158FB0A400703717 /* SelectedTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectedTimeView.h; path = views/SelectedTimeView.h; sourceTree = "<group>"; };
 		F3CD846D158FB0A400703717 /* SelectedTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectedTimeView.m; path = views/SelectedTimeView.m; sourceTree = "<group>"; };
 		F3E5C39315BDBE10006959F4 /* NPTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPTableView.h; path = views/NPTableView.h; sourceTree = "<group>"; };
@@ -230,9 +220,6 @@
 		F3FEC0A215ABC3010032B893 /* ReturnButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReturnButtonView.m; path = views/ReturnButtonView.m; sourceTree = "<group>"; };
 		F3FEC0A515AC86340032B893 /* CountdownView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CountdownView.h; path = views/CountdownView.h; sourceTree = "<group>"; };
 		F3FEC0A615AC86350032B893 /* CountdownView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CountdownView.m; path = views/CountdownView.m; sourceTree = "<group>"; };
-		F3FEC0B015AC8FDF0032B893 /* artist.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = artist.jpg; path = img/theme/artist.jpg; sourceTree = "<group>"; };
-		F3FEC0B115AC8FDF0032B893 /* books.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = books.jpg; path = img/theme/books.jpg; sourceTree = "<group>"; };
-		F3FEC0B215AC8FDF0032B893 /* squares.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = squares.jpg; path = img/theme/squares.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -240,6 +227,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F335A2C615D035FA00F0A552 /* AudioToolbox.framework in Frameworks */,
 				F326511615C9F1E500ABAF60 /* QuartzCore.framework in Frameworks */,
 				F327EC9A15938BBF008B962F /* MediaPlayer.framework in Frameworks */,
 				F383C178158B851200B91F31 /* UIKit.framework in Frameworks */,
@@ -378,6 +366,7 @@
 		F383C168158B851100B91F31 = {
 			isa = PBXGroup;
 			children = (
+				F335A2C515D035FA00F0A552 /* AudioToolbox.framework */,
 				F326511515C9F1E500ABAF60 /* QuartzCore.framework */,
 				F327EC9915938BBF008B962F /* MediaPlayer.framework */,
 				F3FD677115A741730002AFC9 /* libz.dylib */,
@@ -469,8 +458,6 @@
 			children = (
 				F317239415A63C5200007124 /* PListModel.h */,
 				F317239515A63C5200007124 /* PListModel.m */,
-				F383C1B1158B8E7000B91F31 /* CountdownTimer.h */,
-				F383C1B2158B8E7000B91F31 /* CountdownTimer.m */,
 				F327EC9515938906008B962F /* MusicManager.h */,
 				F327EC9615938906008B962F /* MusicManager.m */,
 				F3721DA715BF5CF500A365D1 /* MusicPlayer.h */,
@@ -589,12 +576,6 @@
 				F3E78B6815C8BA1C0028ED08 /* Treescape */,
 				F3143CDF15C454AC0098A276 /* OceanSide */,
 				F3143CD915C4489C0098A276 /* NightSky */,
-				F3109CB615AF4558008A2B94 /* biker.jpg */,
-				F3109CB715AF4558008A2B94 /* shapes.jpg */,
-				F3109CB815AF4558008A2B94 /* two.png */,
-				F3FEC0B015AC8FDF0032B893 /* artist.jpg */,
-				F3FEC0B115AC8FDF0032B893 /* books.jpg */,
-				F3FEC0B215AC8FDF0032B893 /* squares.jpg */,
 			);
 			name = themes;
 			sourceTree = "<group>";
@@ -703,12 +684,6 @@
 				F3FD677815A7592B0002AFC9 /* alarms.plist in Resources */,
 				F3FD677915A7592B0002AFC9 /* presetSongs.plist in Resources */,
 				F3FD677A15A7592B0002AFC9 /* themes.plist in Resources */,
-				F3FEC0B315AC8FDF0032B893 /* artist.jpg in Resources */,
-				F3FEC0B415AC8FDF0032B893 /* books.jpg in Resources */,
-				F3FEC0B515AC8FDF0032B893 /* squares.jpg in Resources */,
-				F3109CB915AF4558008A2B94 /* biker.jpg in Resources */,
-				F3109CBA15AF4558008A2B94 /* shapes.jpg in Resources */,
-				F3109CBB15AF4558008A2B94 /* two.png in Resources */,
 				F3143CDD15C448CC0098A276 /* NightSky.png in Resources */,
 				F3143CDE15C448CC0098A276 /* NightSky@2x.png in Resources */,
 				F3143CE215C454BE0098A276 /* Oceanside.png in Resources */,
@@ -736,7 +711,6 @@
 				F383C19F158B879F00B91F31 /* SelectAlarmView.m in Sources */,
 				F383C1A5158B87F000B91F31 /* SelectSongView.m in Sources */,
 				F383C1A8158B880500B91F31 /* SelectActionView.m in Sources */,
-				F383C1B3158B8E7000B91F31 /* CountdownTimer.m in Sources */,
 				F3CD846E158FB0A400703717 /* SelectedTimeView.m in Sources */,
 				F327EC9715938906008B962F /* MusicManager.m in Sources */,
 				F33F641E15951F10000372AE /* UIImage+StackBlur.m in Sources */,

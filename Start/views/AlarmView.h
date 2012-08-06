@@ -11,7 +11,6 @@
 #import "SelectSongView.h"
 #import "SelectActionView.h"
 #import "SelectDurationView.h"
-#import "CountdownTimer.h"
 #import "SelectedTimeView.h"
 #import "PListModel.h"
 #import "CountdownView.h"
@@ -44,7 +43,7 @@ enum AlarmViewShouldSet {
     AlarmViewShouldNone
 };
 
-@interface AlarmView : UIView <CountdownTimerDelegate, SelectDurationViewDelegate, SelectSongViewDelegate, SelectActionViewDelegate> {    
+@interface AlarmView : UIView <SelectDurationViewDelegate, SelectSongViewDelegate, SelectActionViewDelegate> {    
     CGRect selectedTimeRect;
     CGRect selectDurRect;
     CGRect selectSongRect;
@@ -86,8 +85,6 @@ enum AlarmViewShouldSet {
 @property (nonatomic, strong) TimerView *timerView;
 @property (nonatomic, strong) UIView *selectAlarmBg;
 @property (nonatomic, strong) UILabel *deleteLabel;
-
-@property (nonatomic, strong) CountdownTimer *countdownTimer;
 
 - (void) shiftedFromActiveByPercent:(float)percent;
 - (void) updateProperties;
