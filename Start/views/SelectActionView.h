@@ -18,6 +18,7 @@
 @interface SelectActionView : UIView <UITableViewDataSource, UITableViewDelegate, NPTableViewDelegate> {
     CGRect compressedFrame;
     NSIndexPath *selectedIndexPath;
+    NSMutableArray *actionCells;
     
     bool needsQuickSelect;
 }

@@ -112,9 +112,9 @@
 	</dict>
 	<dict>
 		<key>innerColor</key>
-		<string>262261</string>
+		<string>F1F1F2</string>
 		<key>innerOpacity</key>
-		<real>0.3</real>
+		<real>0.5</real>
 		<key>innerRingColor</key>
 		<string>ffffff</string>
 		<key>innerRingOpacity</key>
@@ -122,29 +122,29 @@
 		<key>innerFillColor</key>
 		<string>ffffff</string>
 		<key>innerFillOpacity</key>
-		<real>0.3</real>
+		<integer>0</integer>
 		<key>innerHandleColor</key>
 		<string>ffffff</string>
 		<key>outerColor</key>
-		<string>ffffff</string>
+		<string>FFDEB0</string>
 		<key>outerOpacity</key>
 		<real>0.5</real>
 		<key>outerRingColor</key>
 		<string>ffffff</string>
 		<key>outerRingOpacity</key>
-		<integer>0</integer>
+		<integer>1</integer>
 		<key>outerFillColor</key>
 		<string>ffffff</string>
 		<key>outerFillOpacity</key>
-		<real>0.3</real>
+		<integer>0</integer>
 		<key>outerHandleColor</key>
 		<string>ffffff</string>
 		<key>centerColor</key>
-		<string>003582</string>
+		<string>503D89</string>
 		<key>centerOpacity</key>
-		<real>0.8</real>
+		<real>0.5</real>
 		<key>bgFilename</key>
-		<string>Oceanside</string>
+		<string>Brandon</string>
 	</dict>
 	<dict>
 		<key>innerColor</key>

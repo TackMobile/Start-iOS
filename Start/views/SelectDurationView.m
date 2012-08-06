@@ -52,9 +52,6 @@
         
         //TESTING
         [self setBackgroundColor:[UIColor clearColor]];
-        
-        outerAngle = DEGREES_TO_RADIANS(45);
-        innerAngle = DEGREES_TO_RADIANS(90);
     }
     return self;
 }
@@ -71,7 +68,7 @@
     return NO;
 }
 
-- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {    
+- (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {     
     UITouch *touch = [touches anyObject];
     
     CGPoint touchLoc = [touch locationInView:self];
@@ -79,6 +76,8 @@
     float distToTouch = sqrtf(powf(touchLoc.x, 2) + powf(touchLoc.y,2));
     float angleToTouch = [self angleFromVector:touchLoc];
         
+    NSLog(@"%f, %f, %f", outerAngle, innerAngle, angleToTouch);
+    
     // test to see if touch is in range of any handles
     if (distToTouch < centerRadius) {
         handleSelected = SelectDurationCenterHandle;
@@ -136,7 +135,7 @@
                 draggingOrientation = SelectDurationDraggingNone;
         }
         if (draggingOrientation == SelectDurationDraggingHoriz) {
-            [self.superview touchesMoved:touches withEvent:event];
+            [(UIView *)delegate touchesMoved:touches withEvent:event];
         } else if (draggingOrientation == SelectDurationDraggingVert) {
             if ([delegate respondsToSelector:@selector(durationViewDraggedWithYVel:)])
                 [delegate durationViewDraggedWithYVel:touchVel.height];
@@ -158,7 +157,7 @@
             [delegate durationViewTapped:self];
     
     if (draggingOrientation == SelectDurationDraggingHoriz || draggingOrientation == SelectDurationDraggingCancel)
-        [self.superview touchesEnded:touches withEvent:event];
+        [(UIView *)delegate touchesEnded:touches withEvent:event];
     else if (draggingOrientation == SelectDurationDraggingVert)
         if ([delegate respondsToSelector:@selector(durationViewStoppedDraggingWithY:)])
             [delegate durationViewStoppedDraggingWithY:self.frame.origin.y];
@@ -208,8 +207,17 @@
     innerAngle = DEGREES_TO_RADIANS( innerVal * 360);
     outerAngle = DEGREES_TO_RADIANS( outerVal * 360);
     
+    innerAngle = innerAngle<M_PI*2?innerAngle:innerAngle-(M_PI*2);
+    outerAngle = outerAngle<M_PI*2?outerAngle:outerAngle-(M_PI*2);
+    
+    /*NSDate *dateSelected = [NSDate dateWithTimeIntervalSinceNow:[selectDuration getTimeInterval]];
+    // zero the minute
+    NSTimeInterval time = round([dateSelected timeIntervalSinceNow] / 60.0) * 60.0;
+    [selectDuration setTimeInterval:time];*/
+
+
     if (innerAngle != prevInner || outerAngle != prevOuter) {
-    //    [self setNeedsDisplay];
+        /////
     }
 }
 -(void) setDate:(NSDate *)date {
@@ -297,8 +305,8 @@
     [outerCircle closePath];
     
     UIBezierPath *outerFill = [UIBezierPath bezierPath];
-    [outerFill addArcWithCenter:center radius:innerRadius startAngle:outerAngle+startAngle endAngle:startAngle clockwise:YES];
-    [outerFill addArcWithCenter:center radius:outerRadius startAngle:startAngle endAngle:outerAngle+startAngle clockwise:NO];
+    [outerFill addArcWithCenter:center radius:innerRadius startAngle:outerAngle+startAngle endAngle:M_PI*2 clockwise:YES];
+    [outerFill addArcWithCenter:center radius:outerRadius startAngle:M_PI*2 endAngle:outerAngle+startAngle clockwise:NO];
     [outerFill closePath];
     
     UIBezierPath *outerLine = [UIBezierPath bezierPath];
@@ -312,8 +320,8 @@
     [innerCircle closePath];
     
     UIBezierPath *innerFill = [UIBezierPath bezierPath];
-    [innerFill addArcWithCenter:center radius:centerRadius startAngle:innerAngle+startAngle endAngle:startAngle clockwise:YES];
-    [innerFill addArcWithCenter:center radius:innerRadius startAngle:startAngle endAngle:innerAngle+startAngle clockwise:NO];
+    [innerFill addArcWithCenter:center radius:centerRadius startAngle:innerAngle+startAngle endAngle:M_PI*2 clockwise:YES];
+    [innerFill addArcWithCenter:center radius:innerRadius startAngle:M_PI*2 endAngle:innerAngle+startAngle clockwise:NO];
     [innerFill closePath];
     
     UIBezierPath *centerCircle = [UIBezierPath bezierPathWithOvalInRect:centerRect];

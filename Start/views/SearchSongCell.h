@@ -11,6 +11,7 @@
 @protocol SearchSongCellDelegate <NSObject>
 -(void) textChanged:(UITextField *)textField;
 -(void) textCleared:(UITextField *)textField;
+-(bool) shouldBeginSearching;
 -(void) didBeginSearching;
 -(void) didEndSearchingWithText:(NSString*)text;
 

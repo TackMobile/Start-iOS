@@ -57,6 +57,8 @@
 		F317243115A66A4800007124 /* weather-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F317240B15A66A4700007124 /* weather-icon@2x.png */; };
 		F317243315A66FD000007124 /* search-divider.png in Resources */ = {isa = PBXBuildFile; fileRef = F317243215A66FCF00007124 /* search-divider.png */; };
 		F326511615C9F1E500ABAF60 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F326511515C9F1E500ABAF60 /* QuartzCore.framework */; };
+		F326511A15CAD61400ABAF60 /* Brandon.png in Resources */ = {isa = PBXBuildFile; fileRef = F326511815CAD61400ABAF60 /* Brandon.png */; };
+		F326511B15CAD61400ABAF60 /* Brandon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F326511915CAD61400ABAF60 /* Brandon@2x.png */; };
 		F327EC9715938906008B962F /* MusicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F327EC9615938906008B962F /* MusicManager.m */; };
 		F327EC9A15938BBF008B962F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F327EC9915938BBF008B962F /* MediaPlayer.framework */; };
 		F33F641E15951F10000372AE /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = F33F641D15951F10000372AE /* UIImage+StackBlur.m */; };
@@ -158,6 +160,8 @@
 		F317240B15A66A4700007124 /* weather-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "weather-icon@2x.png"; path = "img/weather-icon@2x.png"; sourceTree = "<group>"; };
 		F317243215A66FCF00007124 /* search-divider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search-divider.png"; path = "img/search-divider.png"; sourceTree = "<group>"; };
 		F326511515C9F1E500ABAF60 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		F326511815CAD61400ABAF60 /* Brandon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Brandon.png; sourceTree = "<group>"; };
+		F326511915CAD61400ABAF60 /* Brandon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Brandon@2x.png"; sourceTree = "<group>"; };
 		F327EC9515938906008B962F /* MusicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicManager.h; path = models/MusicManager.h; sourceTree = "<group>"; };
 		F327EC9615938906008B962F /* MusicManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MusicManager.m; path = models/MusicManager.m; sourceTree = "<group>"; };
 		F327EC9915938BBF008B962F /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -271,6 +275,15 @@
 				F3FEC0AD15AC8E8C0032B893 /* SelectAction */,
 			);
 			name = icons;
+			sourceTree = "<group>";
+		};
+		F326511C15CAD61C00ABAF60 /* Brandon */ = {
+			isa = PBXGroup;
+			children = (
+				F326511815CAD61400ABAF60 /* Brandon.png */,
+				F326511915CAD61400ABAF60 /* Brandon@2x.png */,
+			);
+			name = Brandon;
 			sourceTree = "<group>";
 		};
 		F327EC9B15938BE0008B962F /* AlarmView */ = {
@@ -566,6 +579,7 @@
 		F3FEC0AF15AC8FD00032B893 /* themes */ = {
 			isa = PBXGroup;
 			children = (
+				F326511C15CAD61C00ABAF60 /* Brandon */,
 				F3E78B6815C8BA1C0028ED08 /* Treescape */,
 				F3143CDF15C454AC0098A276 /* OceanSide */,
 				F3143CD915C4489C0098A276 /* NightSky */,
@@ -695,6 +709,8 @@
 				F3143CE315C454BE0098A276 /* Oceanside@2x.png in Resources */,
 				F3E78B6B15C8BA2C0028ED08 /* Treescape.png in Resources */,
 				F3E78B6C15C8BA2C0028ED08 /* Treescape@2x.png in Resources */,
+				F326511A15CAD61400ABAF60 /* Brandon.png in Resources */,
+				F326511B15CAD61400ABAF60 /* Brandon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

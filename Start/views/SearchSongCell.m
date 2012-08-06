@@ -85,6 +85,12 @@
 }
 
 #pragma mark - textfield delegate
+-(BOOL) textFieldShouldBeginEditing:(UITextField *)textField {
+    if ([delegate respondsToSelector:@selector(shouldBeginSearching)])
+        if ([delegate shouldBeginSearching])
+            return YES;
+    return NO;
+}
 -(void) textFieldDidChange:(NSDictionary *)userInfo {    
     if (!alertDelTimer)
         alertDelTimer = [NSTimer scheduledTimerWithTimeInterval:.7 target:self selector:@selector(alertDelegateChangedText:) userInfo:nil repeats:NO];

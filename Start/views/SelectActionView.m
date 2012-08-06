@@ -20,6 +20,7 @@
         compressedFrame = frame;
         selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         needsQuickSelect = NO;
+        actionCells = [[NSMutableArray alloc] init];
         
         // views
         CGRect screenBounds = [[UIScreen mainScreen] applicationFrame];
@@ -65,7 +66,7 @@
     // hide cells above and below
     ActionCell *showCell = (ActionCell *)[actionTableView cellForRowAtIndexPath:selectedIndexPath];
     [UIView animateWithDuration:.2 animations:^{
-        for (UITableViewCell *visibleCell in [actionTableView visibleCells])
+        for (UITableViewCell *visibleCell in actionCells)
             [visibleCell setAlpha:(visibleCell == showCell)?1:0];
         [showCell.actionTitle setAlpha:0];
     }];
@@ -78,7 +79,7 @@
             
             // show surrounding cells
             [UIView animateWithDuration:.2 animations:^{
-                for (ActionCell *visibleCell in [actionTableView visibleCells]) {
+                for (ActionCell *visibleCell in actionCells) {
                     [visibleCell setAlpha:1];
                     [visibleCell.actionTitle setAlpha:1];
                 }
@@ -109,21 +110,24 @@
     ActionCell *cell = (ActionCell *)[tableView dequeueReusableCellWithIdentifier:NormalActionCell];
     if (cell == nil) {
         cell = [[ActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NormalActionCell];
-        
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        // add to acitoncells array (for fading cells in/out
+        [actionCells addObject:cell];
+        [cell setAlpha:0];
     }
     
     NSDictionary *action = [actions objectAtIndex:indexPath.row];
     cell.actionTitle.text = [action objectForKey:@"title"];
     [cell.icon setImage:[UIImage imageNamed:[action objectForKey:@"iconFilename"]]];
     
-    [cell setAlpha:1];
-    [cell.actionTitle setAlpha:1];
+    //NSLog(@"getting cell index:%i. selectedindex:%i", indexPath.row, selectedIndexPath.row);
+    
+    //[cell setAlpha:1];
+    //[cell.actionTitle setAlpha:1];
     if ([selectedIndexPath compare:indexPath] == NSOrderedSame)
         [cell.actionTitle setAlpha:0];
-    else
-        [cell setAlpha:0];
-    
+    //if (indexPath.row == selectedIndexPath.row-1 || indexPath.row == selectedIndexPath.row+1)
+    //    [cell setAlpha:0];
     return cell;
 }
 
@@ -163,14 +167,16 @@
 - (void)willReloadData {
 }
 - (void)didReloadData {
-}
-- (void)willLayoutSubviews {
-}
-- (void)didLayoutSubviews {    
     if (needsQuickSelect) {
+        //NSLog(@"layouting. selectedindex:%i", selectedIndexPath.row);
+        
         [self quickSelectCell];
         needsQuickSelect = NO;
     }
+}
+- (void)willLayoutSubviews {
+}
+- (void)didLayoutSubviews {
 }
 
 @end

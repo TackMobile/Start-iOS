@@ -397,6 +397,7 @@
         isSearching = YES;
         
         [songTableView beginUpdates];
+        
         [songTableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSRangeFromString(@"{location=1;length=2}")] withRowAnimation:UITableViewRowAnimationFade];
         [songTableView endUpdates];
     }
@@ -412,6 +413,12 @@
     if ([text isEqualToString:@""]) {
         [self endSearch];
     }
+}
+
+- (bool) shouldBeginSearching {
+    if ([librarySongs count] > 0)
+        return YES;
+    return NO;
 }
 
 - (void) endSearch {

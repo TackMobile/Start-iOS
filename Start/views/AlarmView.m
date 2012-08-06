@@ -37,15 +37,16 @@
         bgImageRect = CGRectMake((self.frame.size.width-bgImageSize.width)/2, (self.frame.size.height-bgImageSize.height)/2, bgImageSize.width, bgImageSize.height);
         CGRect toolBarRect = CGRectMake(0, 0, self.frame.size.width, 135);
         selectSongRect = CGRectMake(offset-22, 0, frameRect.size.width-75, 80);
-        selectActionRect = CGRectMake(offset+frameRect.size.width-60, 0, 60, 80);
+        selectActionRect = CGRectMake(offset+frameRect.size.width-50, 0, 50, 80);
         selectDurRect = CGRectMake(offset, self.frame.size.height-frameRect.size.width-45, frameRect.size.width, frameRect.size.width);
         alarmSetDurRect = CGRectOffset(selectDurRect, 0, -150);
         timerModeDurRect = CGRectOffset(selectDurRect, 0, 150);
         selectedTimeRect = CGRectExtendFromPoint(CGRectCenter(selectDurRect), 65, 65);
+        CGRect durationMaskRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
         countdownRect = CGRectMake(offset, alarmSetDurRect.origin.y+alarmSetDurRect.size.height, frameRect.size.width, self.frame.size.height - (alarmSetDurRect.origin.y+alarmSetDurRect.size.height) - 65);
         timerRect = CGRectMake(offset, timerModeDurRect.origin.y-countdownRect.size.height, frameRect.size.width, countdownRect.size.height);
         CGRect deleteLabelRect = CGRectMake(offset, 0, frameRect.size.width, 70);
-        CGRect selectAlarmRect = CGRectMake(offset, self.frame.size.height-50, frameRect.size.width, 50);
+        CGRect selectAlarmRect = CGRectMake(0, self.frame.size.height-50, self.frame.size.width, 50);
         
         backgroundImage = [[UIImageView alloc] initWithFrame:bgImageRect];
         toolbarImage = [[UIImageView alloc] initWithFrame:toolBarRect];
@@ -54,6 +55,7 @@
         selectDurationView = [[SelectDurationView alloc] initWithFrame:selectDurRect delegate:self];
         selectedTimeView = [[SelectedTimeView alloc] initWithFrame:selectedTimeRect];
         countdownView = [[CountdownView alloc] initWithFrame:countdownRect];
+        UIView *durationMaskView = [[UIView alloc] initWithFrame:durationMaskRect];
         timerView = [[TimerView alloc] initWithFrame:timerRect];
         deleteLabel = [[UILabel alloc] initWithFrame:deleteLabelRect];
         selectAlarmBg = [[UIView alloc] initWithFrame:selectAlarmRect];
@@ -62,7 +64,8 @@
         [self addSubview:selectAlarmBg];
         [self addSubview:countdownView];
         [self addSubview:timerView];
-        [self addSubview:selectDurationView];
+        [self addSubview:durationMaskView];
+            [durationMaskView addSubview:selectDurationView];
         [self addSubview:toolbarImage];
         [self addSubview:selectSongView];
         [self addSubview:selectActionView];
@@ -82,15 +85,38 @@
         UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(alarmPinched:)];
         [self addGestureRecognizer:pinch];
         
+        // initial properties
         [selectedTimeView updateTimeInterval:[selectDurationView getTimeInterval] part:SelectDurationNoHandle];
         [toolbarImage setImage:[UIImage imageNamed:@"toolbarBG"]];
         [backgroundImage setImage:[UIImage imageNamed:@"noAlbumImage"]];
         [self setBackgroundColor:[UIColor blackColor]];
         [countdownView setAlpha:0];
         [timerView setAlpha:0];
-        
         CGRect selectActionTableViewRect = CGRectMake(0, 0, frameRect.size.width-75, self.frame.size.height);
         [selectActionView.actionTableView setFrame:selectActionTableViewRect];
+        
+        // add gradient mask to countdownMaskView
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        NSArray *gradientColors = [NSArray arrayWithObjects:
+                                   (id)[[UIColor clearColor] CGColor],
+                                   (id)[[UIColor whiteColor] CGColor],
+                                   (id)[[UIColor whiteColor] CGColor],
+                                   (id)[[UIColor clearColor] CGColor], nil];
+        
+        float topFadeHeight = toolBarRect.size.height/self.frame.size.height;
+        float bottomFadeHeight = 1 - (selectAlarmRect.size.height/self.frame.size.height);
+        
+        NSArray *gradientLocations = [NSArray arrayWithObjects:
+                                      [NSNumber numberWithFloat:0.05f],
+                                      [NSNumber numberWithFloat:topFadeHeight],
+                                      [NSNumber numberWithFloat:bottomFadeHeight],
+                                      [NSNumber numberWithFloat:1.0f-.05f], nil];
+        
+        [gradient setColors:gradientColors];
+        [gradient setLocations:gradientLocations];
+        [gradient setFrame:durationMaskRect];
+        [durationMaskView.layer setMask:gradient];
+        [durationMaskView.layer setMasksToBounds:YES];
     }
     return self;
 }
@@ -109,8 +135,9 @@
     // init the picker's stuff
     if (!alarmInfo) {
         NSArray *infoKeys = [[NSArray alloc] initWithObjects:@"date", @"songID", @"actionID", @"isSet", @"themeID", @"isTimerMode", @"timerDateBegan", nil];
-        NSArray *infoObjects = [[NSArray alloc] initWithObjects:[NSDate date], [NSNumber numberWithInt:0],[NSNumber numberWithInt:0], [NSNumber numberWithBool:NO], [NSNumber numberWithInt:-1], [NSNumber numberWithBool:NO], [NSDate date], nil];
+        NSArray *infoObjects = [[NSArray alloc] initWithObjects:[NSDate dateWithTimeIntervalSinceNow:77777], [NSNumber numberWithInt:0],[NSNumber numberWithInt:0], [NSNumber numberWithBool:NO], [NSNumber numberWithInt:-1], [NSNumber numberWithBool:NO], [NSDate date], nil];
         alarmInfo = [[NSMutableDictionary alloc] initWithObjects:infoObjects forKeys:infoKeys];
+        [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
     } else {
         // init the duration picker & theme & action & song
         // select duration
@@ -542,6 +569,8 @@
              [selectedTimeView setAlpha:1];
         }];
     }];
+    if ([delegate respondsToSelector:@selector(alarmViewUpdated)])
+        [delegate alarmViewUpdated];
 }
 
 -(void) durationViewTapped:(SelectDurationView *)selectDuration {
@@ -604,6 +633,7 @@
         [delegate durationViewWithIndex:index draggedWithPercent:-percentDragged];
         // fade in countdowntimer
         [countdownView setAlpha:-percentDragged];
+        [selectedTimeView setAlpha:1-percentDragged];
         [timerView setAlpha:percentDragged];
     }
 }
@@ -636,6 +666,10 @@
     // reset the timer if it is new
     if (!isTimerMode && timer) {
         [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
+    } else if (!timer && isTimerMode) {
+        // zero out the timer
+        [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
+        [self updateProperties];
     }
 
     isSet = set;
@@ -647,6 +681,8 @@
     
     shouldSet = AlarmViewShouldNone;
     [self animateSelectDurToRest];
+    if ([delegate respondsToSelector:@selector(alarmViewUpdated)])
+        [delegate alarmViewUpdated];
 }
 
 -(bool) shouldLockPicker {
@@ -668,9 +704,10 @@
     [UIView animateWithDuration:.2 animations:^{
         [selectDurationView setFrame:newFrame];
         [selectedTimeView setCenter:selectDurationView.center];
-        // animate fade of countdowntimer
+        // animate fade of countdowntimer & such
         [countdownView setAlpha:(isSet?1:0)];
         [timerView setAlpha:(isTimerMode?1:0)];
+        [selectedTimeView setAlpha:(isTimerMode)?0:1];
 
     }];  
 }

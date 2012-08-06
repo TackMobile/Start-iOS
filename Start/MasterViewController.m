@@ -65,6 +65,7 @@
         [alarmsData addObject:[NSDictionary dictionaryWithDictionary:alarm.alarmInfo]];
     
     [pListModel saveAlarms:alarmsData];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:currAlarmIndex] forKey:@"currAlarmIndex"];
 }
 
 - (void) updateAlarmViews:(NSTimer *)timer {
@@ -121,20 +122,26 @@
         if (alarmView.index == 0 )
             gradientColors = [NSArray arrayWithObjects:
                                (id)[[UIColor clearColor] CGColor],
+                               (id)[[UIColor colorWithWhite:1 alpha:.1] CGColor],
                                (id)[[UIColor blackColor] CGColor],
                                (id)[[UIColor blackColor] CGColor],
+                               (id)[[UIColor colorWithWhite:1 alpha:.1] CGColor],
                                (id)[[UIColor clearColor] CGColor], nil];
         else
             gradientColors = [NSArray arrayWithObjects:
                               (id)[[UIColor clearColor] CGColor],
+                              (id)[[UIColor colorWithWhite:1 alpha:.1] CGColor],
                               (id)[[UIColor blackColor] CGColor],
                               (id)[[UIColor blackColor] CGColor],
+                              (id)[[UIColor colorWithWhite:1 alpha:1] CGColor],
                               (id)[[UIColor blackColor] CGColor], nil];
         
         NSArray *gradientLocations = [NSArray arrayWithObjects:
                                       [NSNumber numberWithFloat:0.0f],
+                                      [NSNumber numberWithFloat:percent*.2],
                                       [NSNumber numberWithFloat:percent],
                                       [NSNumber numberWithFloat:1-percent],
+                                      [NSNumber numberWithFloat:1-(.2*percent)],
                                       [NSNumber numberWithFloat:1.0f], nil];
         
         [gradient setColors:gradientColors];
@@ -183,6 +190,7 @@
     [selectAlarmView makeAlarmActiveAtIndex:currAlarmIndex];
     
     [self animateAlarmsToNewRect];
+    [self saveAlarms];
 }
 
 - (void) animateAlarmsToNewRect {
@@ -279,7 +287,11 @@
         [alarmView removeFromSuperview];
     }];
     [self updateGradients];
+    [self saveAlarms];
     return true;
+}
+-(void)alarmViewUpdated {
+    [self saveAlarms];
 }
 
 #pragma mark - SelectAlarmViewDelegate

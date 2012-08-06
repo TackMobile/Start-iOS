@@ -34,6 +34,7 @@
 -(void) durationViewWithIndex:(int)index draggedWithPercent:(float)percent;
 
 -(bool)alarmViewPinched:(AlarmView *)alarmView;
+-(void)alarmViewUpdated;
 @end
 
 enum AlarmViewShouldSet {
