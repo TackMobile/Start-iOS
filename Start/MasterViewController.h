@@ -11,6 +11,8 @@
 #import "AlarmView.h"
 #import "SelectAlarmView.h"
 #import "PListModel.h"
+#import "MusicPlayer.h"
+#import "SettingsView.h"
 
 enum SwitchAlarmDirection {
     SwitchAlarmNext = -1,
@@ -19,6 +21,7 @@ enum SwitchAlarmDirection {
 };
 
 @interface MasterViewController : UIViewController <SelectAlarmViewDelegate, AlarmViewDelegate> {    
+    
     CGRect prevAlarmRect;
     CGRect currAlarmRect;
     float asideOffset;
@@ -27,8 +30,12 @@ enum SwitchAlarmDirection {
     
     int shouldSwitch;
 }
-@property (nonatomic, strong)     NSMutableArray *alarms;
-;
+
+//extern const float Spacing;
+
+@property (nonatomic, strong) SettingsView *settingsView;
+@property (nonatomic, strong) MusicPlayer *musicPlayer;
+@property (nonatomic, strong) NSMutableArray *alarms;
 @property (nonatomic, strong) SelectAlarmView *selectAlarmView;
 @property (nonatomic, strong) PListModel *pListModel;
 @property (nonatomic, strong) NSTimer *tickTimer;
@@ -38,6 +45,7 @@ enum SwitchAlarmDirection {
 
 - (void) alarmAdded;
 - (void) updateAlarmViews:(NSTimer *)timer;
+- (void) songPlayingTick:(NSTimer *)timer;
 - (void) alarmView:(AlarmView *)alarmView draggedWithXVel:(float)xVel;
 - (void) alarmView:(AlarmView *)alarmView stoppedDraggingWithX:(float)x;
 

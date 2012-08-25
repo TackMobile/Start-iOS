@@ -45,6 +45,21 @@
 -(NSArray *)getActions {
     if (!actions)
         actions = [self getPList:PListActionsFile];
+    
+    NSMutableArray *newActions = [[NSMutableArray alloc] init];
+    UIApplication *app = [UIApplication sharedApplication];
+    for (int i=0; i<[actions count]; i++) {
+        NSMutableDictionary *action = [[actions objectAtIndex:i] mutableCopy];
+        [action setValue:[NSNumber numberWithBool:NO] forKey:@"canOpen"];
+        NSURL *url = [NSURL URLWithString:[action objectForKey:@"url"]];
+        
+        if (i==0 || [app canOpenURL:url])
+            [newActions addObject:action];
+        
+        //[newActions addObject:action];
+    }
+    actions = newActions;
+    
     return actions;
 }
 

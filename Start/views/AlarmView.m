@@ -10,10 +10,12 @@
 
 @implementation AlarmView
 @synthesize delegate, index, isSet, isTimerMode, newRect;
-@synthesize alarmInfo;
+@synthesize alarmInfo, countdownEnded;
 @synthesize backgroundImage, patternOverlay, toolbarImage;
 @synthesize selectSongView, selectActionView, selectDurationView, selectedTimeView, deleteLabel;
 @synthesize countdownView, timerView, selectAlarmBg;
+
+const float Spacing = 20;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -25,6 +27,7 @@
         pickingAction = NO;
         cancelTouch = NO;
         countdownEnded = NO;
+        isSnoozing = NO;
         
         musicManager = [[MusicManager alloc] init];
         PListModel *pListModel = [delegate getPListModel];
@@ -32,20 +35,19 @@
         // Views
         CGSize bgImageSize = CGSizeMake(520, 480);
         CGRect frameRect = [[UIScreen mainScreen] applicationFrame];
-        float offset = 20;
         
         bgImageRect = CGRectMake((self.frame.size.width-bgImageSize.width)/2, (self.frame.size.height-bgImageSize.height)/2, bgImageSize.width, bgImageSize.height);
         CGRect toolBarRect = CGRectMake(0, 0, self.frame.size.width, 135);
-        selectSongRect = CGRectMake(offset-22, 0, frameRect.size.width-75, 80);
-        selectActionRect = CGRectMake(offset+frameRect.size.width-50, 0, 50, 80);
-        selectDurRect = CGRectMake(offset, self.frame.size.height-frameRect.size.width-45, frameRect.size.width, frameRect.size.width);
+        selectSongRect = CGRectMake(Spacing-22, 0, frameRect.size.width-75, 80);
+        selectActionRect = CGRectMake(Spacing+frameRect.size.width-50, 0, 50, 80);
+        selectDurRect = CGRectMake(Spacing, self.frame.size.height-frameRect.size.width-45, frameRect.size.width, frameRect.size.width);
         alarmSetDurRect = CGRectOffset(selectDurRect, 0, -150);
         timerModeDurRect = CGRectOffset(selectDurRect, 0, 150);
         selectedTimeRect = CGRectExtendFromPoint(CGRectCenter(selectDurRect), 65, 65);
         CGRect durationMaskRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-        countdownRect = CGRectMake(offset, alarmSetDurRect.origin.y+alarmSetDurRect.size.height, frameRect.size.width, self.frame.size.height - (alarmSetDurRect.origin.y+alarmSetDurRect.size.height) - 65);
-        timerRect = CGRectMake(offset, timerModeDurRect.origin.y-countdownRect.size.height, frameRect.size.width, countdownRect.size.height);
-        CGRect deleteLabelRect = CGRectMake(offset, 0, frameRect.size.width, 70);
+        countdownRect = CGRectMake(Spacing, alarmSetDurRect.origin.y+alarmSetDurRect.size.height, frameRect.size.width, self.frame.size.height - (alarmSetDurRect.origin.y+alarmSetDurRect.size.height) - 65);
+        timerRect = CGRectMake(Spacing, timerModeDurRect.origin.y-countdownRect.size.height, frameRect.size.width, countdownRect.size.height);
+        CGRect deleteLabelRect = CGRectMake(Spacing, 0, frameRect.size.width, 70);
         CGRect selectAlarmRect = CGRectMake(0, self.frame.size.height-50, self.frame.size.width, 50);
         
         backgroundImage = [[UIImageView alloc] initWithFrame:bgImageRect];
@@ -85,7 +87,7 @@
         
         [selectAlarmBg setBackgroundColor:[UIColor colorWithWhite:0 alpha:.5]];
         
-        [patternOverlay setImage:[UIImage imageNamed:@"overlayPattern"]];
+        [patternOverlay setImage:[UIImage imageNamed:@"grid"]];
         
         [durImageView setAlpha:0];
         [durImageView setUserInteractionEnabled:NO];
@@ -110,17 +112,17 @@
         NSArray *gradientColors = [NSArray arrayWithObjects:
                                    (id)[[UIColor clearColor] CGColor],
                                    (id)[[UIColor whiteColor] CGColor],
-                                   (id)[[UIColor whiteColor] CGColor],
-                                   (id)[[UIColor clearColor] CGColor], nil];
+                                   /*(id)[[UIColor whiteColor] CGColor],
+                                   (id)[[UIColor clearColor] CGColor],*/ nil];
         
         float topFadeHeight = toolBarRect.size.height/self.frame.size.height;
-        float bottomFadeHeight = 1 - (selectAlarmRect.size.height/self.frame.size.height);
+        //float bottomFadeHeight = 1 - (selectAlarmRect.size.height/self.frame.size.height);
         
         NSArray *gradientLocations = [NSArray arrayWithObjects:
                                       [NSNumber numberWithFloat:0.05f],
                                       [NSNumber numberWithFloat:topFadeHeight],
-                                      [NSNumber numberWithFloat:bottomFadeHeight],
-                                      [NSNumber numberWithFloat:1.0f-.05f], nil];
+                                      /*[NSNumber numberWithFloat:bottomFadeHeight],
+                                      [NSNumber numberWithFloat:1.0f-.05f],*/ nil];
         
         [gradient setColors:gradientColors];
         [gradient setLocations:gradientLocations];
@@ -160,9 +162,9 @@
         if ([(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue]) {
             isSet = YES;
         }
-        if ([(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue]) {
+        /*if ([(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue]) {
             isTimerMode = YES;
-        }
+        }*/ // does not hide selectsong properly
         [self animateSelectDurToRest];
     }
 }
@@ -173,9 +175,9 @@
 
 - (void) alarmCountdownEnded {
     if (!countdownEnded && isSet) {
-        // play music
-        [selectSongView.musicPlayer playSongWithID:[alarmInfo objectForKey:@"songID"] vibrate:YES];
+        [delegate alarmCountdownEnded:self];
         countdownEnded = YES;
+        [selectedTimeView showSnooze];
     }
 }
 
@@ -288,7 +290,7 @@
     float screenWidth = self.frame.size.width;
     
     float durPickOffset =       200 * percent;
-    float countDownOffset =     260 * percent;
+    float countDownOffset =     120 * percent;
     float songPickOffset =      100 * percent;
     float actionPickOffset =    75 * percent;
     float backgroundOffset =    (bgImageRect.size.width - screenWidth)/2 * percent;
@@ -337,7 +339,13 @@
     } else {
         [toolbarImage setAlpha:1];
         [selectAlarmBg setAlpha:1];
-        [patternOverlay setAlpha:1];
+        
+        if (themeID == 0) {
+            [backgroundImage setImage:[UIImage imageNamed:@"noAlbumImage"]];
+            [patternOverlay setAlpha:0];
+        } else
+            [patternOverlay setAlpha:1];
+        
         theme = [musicManager getThemeWithID:6];
         [selectDurationView updateTheme:theme];
     }
@@ -360,17 +368,21 @@
 
 - (void) updateProperties {
     // make sure the date is in future
-    while ([(NSDate *)[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0)
-        [alarmInfo setObject:[NSDate dateWithTimeInterval:86400 sinceDate:[alarmInfo objectForKey:@"date"]] forKey:@"date"];
+    if (!countdownEnded) {
+        while ([(NSDate *)[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0)
+            [alarmInfo setObject:[NSDate dateWithTimeInterval:86400 sinceDate:[alarmInfo objectForKey:@"date"]] forKey:@"date"];
+        // check to see if it will go off
+        if (isSet && floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5)
+            [self alarmCountdownEnded];
+        
+        if (selectDurationView.handleSelected == SelectDurationNoHandle)
+            [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+        
+        [countdownView updateWithDate:[alarmInfo objectForKey:@"date"]];
+    } else {
+        [countdownView updateWithDate:[NSDate date]];
+    }
     
-    // check to see if it will go off
-    if (isSet && floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5)
-        [self alarmCountdownEnded];
-    
-    if (selectDurationView.handleSelected == SelectDurationNoHandle)
-        [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
-    
-    [countdownView updateWithDate:[alarmInfo objectForKey:@"date"]];
     if (isTimerMode)
         [timerView updateWithDate:[alarmInfo objectForKey:@"timerDateBegan"]];
 }
@@ -385,6 +397,9 @@
 }
 
 #pragma mark - SelectSongViewDelegate
+-(id) getDelegateMusicPlayer {
+    return [delegate getMusicPlayer];
+}
 -(BOOL) expandSelectSongView {
     if (pickingAction)
         return NO;
@@ -393,7 +408,7 @@
         
     CGSize screenSize = [[UIScreen mainScreen] applicationFrame].size;
     
-    CGRect newSelectSongRect = CGRectMake(20, selectSongRect.origin.y, screenSize.width, self.frame.size.height);
+    CGRect newSelectSongRect = CGRectMake(Spacing, selectSongRect.origin.y, screenSize.width, self.frame.size.height);
     CGRect selectDurPushedRect = CGRectOffset(selectDurationView.frame, selectSongView.frame.size.width, 0);
     CGRect selectActionPushedRect = CGRectOffset(selectActionView.frame, 90, 0);
     CGRect countdownPushedRect = CGRectOffset(countdownView.frame, selectSongView.frame.size.width, 0);
@@ -462,9 +477,9 @@
         return NO;
     pickingAction = YES;
     
-    CGRect newSelectActionRect = CGRectMake(75+20, 0, [[UIScreen mainScreen] applicationFrame].size.width-75, self.frame.size.height);
+    CGRect newSelectActionRect = CGRectMake(75+Spacing, 0, [[UIScreen mainScreen] applicationFrame].size.width-75, self.frame.size.height);
     CGRect selectDurPushedRect = CGRectOffset(selectDurationView.frame, -newSelectActionRect.size.width, 0);
-    CGRect selectSongPushedRect = CGRectOffset(selectSongView.frame, -selectSongView.frame.size.width + 30, 0);
+    CGRect selectSongPushedRect = CGRectOffset(selectSongView.frame, -selectSongView.frame.size.width + Spacing, 0);
     CGRect countdownPushedRect = CGRectOffset(countdownView.frame, -newSelectActionRect.size.width, 0);
     CGRect timerPushedRect = CGRectOffset(timerRect, -newSelectActionRect.size.width, 0);
 
@@ -543,7 +558,7 @@
 }
 
 -(void) durationDidBeginChanging:(SelectDurationView *)selectDuration {
-    CGRect newSelectedTimeRect = CGRectMake(selectedTimeView.frame.origin.x, -20, selectedTimeView.frame.size.width, selectedTimeView.frame.size.height);
+    CGRect newSelectedTimeRect = CGRectMake(selectedTimeView.frame.origin.x, -30, selectedTimeView.frame.size.width, selectedTimeView.frame.size.height);
     CGRect belowSelectedTimeRect = CGRectOffset(newSelectedTimeRect, 0, 15);
     
     // animate selectedTimeView to toolbar
@@ -603,6 +618,16 @@
         [selectSongView quickSelectCell];
     if (pickingAction)
         [selectActionView quickSelectCell];
+    
+    if (countdownEnded) {
+        countdownEnded = NO;
+        isSnoozing = YES;
+        NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
+        NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
+        [alarmInfo setObject:snoozeDate forKey:@"date"];
+        [selectedTimeView updateTimeInterval:snoozeTime part:SelectDurationNoHandle];
+        [[delegate getMusicPlayer] stop];
+    }
 }
 
 -(BOOL) durationViewSwiped:(UISwipeGestureRecognizerDirection)direction {
@@ -656,9 +681,10 @@
         float percentDragged = (selectDurationView.frame.origin.y - selectDurRect.origin.y) / 150;
         [delegate durationViewWithIndex:index draggedWithPercent:-percentDragged];
         // fade in countdowntimer
-        NSLog(@"%f", percentDragged);
         [countdownView setAlpha:-percentDragged];
         [selectedTimeView setAlpha:1-percentDragged];
+        [selectSongView setAlpha:1-percentDragged];
+        [selectActionView setAlpha:1-percentDragged];
         [timerView setAlpha:percentDragged];
     }
 }
@@ -669,12 +695,6 @@
     if (pickingSong || pickingAction)
         return;
     
-    if (countdownEnded) {
-        countdownEnded = NO;
-        [selectSongView.musicPlayer stop];
-        // LAUNCH ACTION;
-    }
-    
     bool set = NO;
     bool timer = NO;
     if (shouldSet == AlarmViewShouldSet
@@ -682,6 +702,17 @@
         set = YES;
     else if (shouldSet == AlarmViewShouldUnSet)
         set = NO;
+        if (countdownEnded || isSnoozing) { // stop and launch countdown aciton
+            countdownEnded = NO;
+            isSnoozing = NO;
+            
+            NSURL *openURL = [NSURL URLWithString:[[selectActionView.actions objectAtIndex:[[alarmInfo objectForKey:@"actionID"] intValue] ] objectForKey:@"url"]];
+            
+            [[delegate getMusicPlayer] stop];
+            [[UIApplication sharedApplication] openURL:openURL];
+            [selectedTimeView updateTimeInterval:[[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] part:SelectDurationNoHandle];
+            // LAUNCH ACTION;
+        }
     else if (shouldSet == AlarmViewShouldTimer
              || selectDurationView.frame.origin.y > (selectDurRect.origin.y + timerModeDurRect.origin.y )/2) {
         set = NO;
@@ -717,23 +748,23 @@
 #pragma mark - Animation
 - (void) animateSelectDurToRest {
     
-    CGRect newFrame = selectDurRect;
-    if (isSet) 
-        newFrame = alarmSetDurRect;
-    else if (isTimerMode)
-        newFrame = timerModeDurRect;
+    CGRect newFrame = [self currRestedSelecDurRect];
     
     if ([delegate respondsToSelector:@selector(durationViewWithIndex:draggedWithPercent:)])
         [delegate durationViewWithIndex:index draggedWithPercent:(isSet?1:isTimerMode?-1:0)];
+    
+    float alpha1 = (isSet?1:0);
+    float alpha2 = (isTimerMode)?0:1;
     
     [UIView animateWithDuration:.2 animations:^{
         [selectDurationView setFrame:newFrame];
         [selectedTimeView setCenter:selectDurationView.center];
         // animate fade of countdowntimer & such
-        [countdownView setAlpha:(isSet?1:0)];
-        [timerView setAlpha:(isTimerMode?1:0)];
-        [selectedTimeView setAlpha:(isTimerMode)?0:1];
-
+        [countdownView setAlpha:alpha1];
+        [timerView setAlpha:1-alpha2];
+        [selectedTimeView setAlpha:alpha2];
+        [selectSongView setAlpha:alpha2];
+        [selectActionView setAlpha:alpha2];
     }];  
 }
 

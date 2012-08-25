@@ -14,13 +14,13 @@
 		<key>url</key>
 		<string></string>
 		<key>title</key>
-		<string>Calendar</string>
+		<string>x Calendar</string>
 		<key>iconFilename</key>
 		<string>calendar-icon</string>
 	</dict>
 	<dict>
 		<key>url</key>
-		<string></string>
+		<string>fb://profile</string>
 		<key>title</key>
 		<string>Facebook</string>
 		<key>iconFilename</key>
@@ -28,7 +28,7 @@
 	</dict>
 	<dict>
 		<key>url</key>
-		<string></string>
+		<string>music:</string>
 		<key>title</key>
 		<string>Music</string>
 		<key>iconFilename</key>
@@ -36,7 +36,7 @@
 	</dict>
 	<dict>
 		<key>url</key>
-		<string></string>
+		<string>pandora:</string>
 		<key>title</key>
 		<string>Pandora</string>
 		<key>iconFilename</key>
@@ -44,7 +44,7 @@
 	</dict>
 	<dict>
 		<key>url</key>
-		<string></string>
+		<string>path:</string>
 		<key>title</key>
 		<string>Path</string>
 		<key>iconFilename</key>
@@ -52,7 +52,7 @@
 	</dict>
 	<dict>
 		<key>url</key>
-		<string></string>
+		<string>rdio://</string>
 		<key>title</key>
 		<string>Rdio</string>
 		<key>iconFilename</key>
@@ -60,7 +60,7 @@
 	</dict>
 	<dict>
 		<key>url</key>
-		<string></string>
+		<string>http://</string>
 		<key>title</key>
 		<string>Safari</string>
 		<key>iconFilename</key>
@@ -68,7 +68,7 @@
 	</dict>
 	<dict>
 		<key>url</key>
-		<string></string>
+		<string>reeder://</string>
 		<key>title</key>
 		<string>Reeder</string>
 		<key>iconFilename</key>
@@ -76,7 +76,7 @@
 	</dict>
 	<dict>
 		<key>url</key>
-		<string></string>
+		<string>spotify:</string>
 		<key>title</key>
 		<string>Spotify</string>
 		<key>iconFilename</key>
@@ -84,7 +84,7 @@
 	</dict>
 	<dict>
 		<key>url</key>
-		<string></string>
+		<string>twitter://timeline</string>
 		<key>title</key>
 		<string>Twitter</string>
 		<key>iconFilename</key>
@@ -96,7 +96,7 @@
 		<key>url</key>
 		<string></string>
 		<key>title</key>
-		<string>Weather</string>
+		<string>x Weather</string>
 		<key>iconFilename</key>
 		<string>weather-icon</string>
 	</dict>

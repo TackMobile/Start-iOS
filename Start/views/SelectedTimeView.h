@@ -23,8 +23,10 @@ enum SelectedTimeEditingPart {
 
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *meridiemLabel;
+@property (nonatomic, strong) UILabel *snoozeLabel;
 @property (nonatomic, strong) UIView *editingPartIndicator;
 
+- (void) showSnooze;
 - (void) updateTimeInterval:(NSTimeInterval)newTimeInterval part:(int)partEditing;
 
 @end

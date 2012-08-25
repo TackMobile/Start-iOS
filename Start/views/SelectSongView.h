@@ -8,28 +8,27 @@
 
 #import <UIKit/UIKit.h>
 #import "MusicManager.h"
+#import "MusicPlayer.h"
 #import "SongCell.h"
 #import "SearchSongCell.h"
 #import "LeftHeaderView.h"
 #import "ReturnButtonView.h"
 #import "TestFlight.h"
 
-
 @protocol SelectSongViewDelegate <NSObject>
 -(BOOL) expandSelectSongView;
 -(void) songSelected:(NSNumber *)persistentMediaItemID withArtwork:(UIImage *)artwork theme:(NSNumber *)themeID;
 -(void) compressSelectSong;
-// - (void) song selected with album artwork:
+-(id) getDelegateMusicPlayer;
 
 @end
-
 
 @interface SelectSongView : UIView <UITableViewDataSource, UITableViewDelegate, SearchSongCellDelegate, SongCellDelegate> {
     bool isOpen;
     bool isSearching;
     bool artworkPresent;
     NSIndexPath *selectedIndexPath;
-    
+
     CGRect compressedFrame;
     NSArray *librarySongs;
     NSArray *searchedSongs;
@@ -40,13 +39,12 @@
 @property (nonatomic, strong) id<SelectSongViewDelegate> delegate;
 
 @property (nonatomic, strong) MusicManager *musicManager;
-@property (nonatomic, strong) MusicPlayer *musicPlayer;
 
 @property (nonatomic, strong) UITableView *songTableView;
 @property (nonatomic, strong) UIView *songDurationIndicator;
 
 - (void) quickSelectCell;
 - (void) selectCellWithID:(NSNumber *)cellNumID ;
--(void)songPlayingTick:(MusicPlayer *)aMusicPlayer;
+- (void)songPlayingTick:(MusicPlayer *)aMusicPlayer;
 - (id) initWithFrame:(CGRect)frame delegate:(id<SelectSongViewDelegate>)aDelegate presetSongs:(NSArray *)thePresetSongs;
 @end

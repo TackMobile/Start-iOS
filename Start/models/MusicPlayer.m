@@ -9,7 +9,7 @@
 #import "MusicPlayer.h"
 
 @implementation MusicPlayer
-@synthesize musicPlayer, userMediaItemCollection;
+@synthesize musicPlayer, audioPlayer, userMediaItemCollection;
 @synthesize playPercent;
 
 -(id) init {
@@ -17,31 +17,78 @@
     if (self) {
         playPercent = 0.0f;
         musicPlayer = [[MPMusicPlayerController alloc] init];
+        
+        // Begin Audio Session (SILENT)
+        audioSession = [AVAudioSession sharedInstance];
+        
+        NSError *setCategoryError = nil;
+        BOOL success = [audioSession setCategory:AVAudioSessionCategoryPlayback error:&setCategoryError];
+        if (!success) { NSLog(@"%@", setCategoryError); }
+        
+        NSError *activationError = nil;
+        success = [audioSession setActive:YES error:&activationError];
+        if (!success) { NSLog(@"%@", activationError); }
+        
+        [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     }
     return self;
 }
 
-- (void) playSongWithID:(NSNumber *)songID vibrate:(bool)vibrate { 
-    if (!library) {
-        // get music library 
-        MPMediaQuery *songQuery = [[MPMediaQuery alloc] init];
-        library = [songQuery items];
-    }
-    
-    MPMediaItemCollection *playCollection;
-    for (MPMediaItem *mediaItem in library) {
-        if ([[mediaItem valueForKey:MPMediaItemPropertyPersistentID] intValue] == [songID intValue]) {
-            playCollection = [[MPMediaItemCollection alloc] initWithItems:[[NSArray alloc] initWithObjects:mediaItem, nil]];
-            break;
+- (void) playSongWithID:(NSNumber *)songID vibrate:(bool)vibrate {
+    if ([songID intValue] >= 0 && [songID intValue] < 6) {
+        if (!audioLibrary) {
+            pListModel  = [[PListModel alloc] init];
+            audioLibrary = [pListModel getPresetSongs];
         }
+        NSString *wavName = [[audioLibrary objectAtIndex:[songID intValue]] objectForKey:@"filename"];
+        // play audioloop
+        NSString *playerPath = [[NSBundle mainBundle] pathForResource:wavName ofType:@"wav"];
+        
+        [self playAudioWithPath:playerPath volume:.6];
+        
+    } else {
+        //if ([audioPlayer isPlaying])
+        //    [audioPlayer stop];
+        
+        if (!library) {
+            // get music library 
+            MPMediaQuery *songQuery = [[MPMediaQuery alloc] init];
+            library = [songQuery items];
+        }
+        
+        MPMediaItemCollection *playCollection;
+        for (MPMediaItem *mediaItem in library) {
+            if ([[mediaItem valueForKey:MPMediaItemPropertyPersistentID] intValue] == [songID intValue]) {
+                playCollection = [[MPMediaItemCollection alloc] initWithItems:[[NSArray alloc] initWithObjects:mediaItem, nil]];
+                break;
+            }
+        }
+        [self updatePlayerQueueWithMediaCollection:playCollection];
     }
     shouldVibrate = vibrate;
-    [self updatePlayerQueueWithMediaCollection:playCollection];
+    [self beginTick];
+}
+
+- (void) playAudioWithPath:(NSString *)path volume:(float)volume {    
+    NSError *setURLError = nil;
+    
+    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&setURLError];
+    if (setURLError)
+        NSLog(@"%@", setURLError);
+    
+    [audioPlayer setVolume:volume];
+    [audioPlayer setNumberOfLoops:-1];
+    
+    if (![audioPlayer play])
+        NSLog(@"could not play");
 }
 
 - (void) stop {
     [musicPlayer stop];
     shouldVibrate = NO;
+    if (audioPlayer && audioPlayer.isPlaying) {
+        [audioPlayer stop];
+    }
 }
 
 -  (void) updatePlayerQueueWithMediaCollection: (MPMediaItemCollection *) mediaItemCollection {
@@ -53,11 +100,7 @@
         [musicPlayer setQueueWithItemCollection: userMediaItemCollection];
 	}
     [musicPlayer play];
-    
-    // start the tick
-    [NSTimer scheduledTimerWithTimeInterval:.5 target:self selector:@selector(songPlayingTick:) userInfo:nil repeats:YES];
-    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(vibratingTick:) userInfo:nil repeats:YES];
-    
+    [self beginTick];
 }
 
 - (void) addTargetForSampling:(id)aTarget selector:(SEL)aSelector {
@@ -65,19 +108,27 @@
     samplingTarget = aTarget;
 }
 
+- (void) beginTick {
+    // start the tick
+    [NSTimer scheduledTimerWithTimeInterval:.05 target:self selector:@selector(songPlayingTick:) userInfo:nil repeats:YES];
+    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(vibratingTick:) userInfo:nil repeats:YES];
+}
+
 - (void) songPlayingTick:(NSTimer *)timer {
-    if (musicPlayer.playbackState != MPMusicPlaybackStatePlaying) {
+    if (musicPlayer.playbackState != MPMusicPlaybackStatePlaying && ![audioPlayer isPlaying]) {
         [timer invalidate];
         playPercent = 0;
         if ([samplingTarget respondsToSelector:samplingSelector])
             [samplingTarget performSelector:samplingSelector withObject:self];
         return;
     } else {
-        playPercent = musicPlayer.currentPlaybackTime / [(NSNumber *)[musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration] doubleValue];
+        if ([audioPlayer isPlaying])
+            playPercent = audioPlayer.currentTime / audioPlayer.duration;
+        else
+            playPercent = musicPlayer.currentPlaybackTime / [(NSNumber *)[musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration] doubleValue];
         
         if ([samplingTarget respondsToSelector:samplingSelector])
             [samplingTarget performSelector:samplingSelector withObject:self];
-        
     }
 }
 
@@ -85,7 +136,7 @@
     if (shouldVibrate)
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     else {
-        [timer invalidate];
+        return;
     }
 }
 

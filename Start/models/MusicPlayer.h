@@ -8,7 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import <MediaPlayer/MediaPlayer.h>
+#import <AVFoundation/AVAudioPlayer.h>
 #import <AudioToolbox/AudioServices.h>
+#import <AVFoundation/AVAudioSession.h>
+#import "PListModel.h"
 
 @interface MusicPlayer : NSObject {
     NSArray *library;
@@ -17,9 +20,14 @@
     SEL samplingSelector;
     
     bool shouldVibrate;
+    
+    PListModel *pListModel;
+    NSArray *audioLibrary;
+    AVAudioSession *audioSession;
 }
 
 @property (nonatomic, strong) MPMusicPlayerController *musicPlayer;
+@property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 @property (nonatomic, strong) MPMediaItemCollection *userMediaItemCollection;
 
 - (void) playSongWithID:(NSNumber *)songID vibrate:(bool)vibrate ;

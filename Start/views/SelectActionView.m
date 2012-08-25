@@ -49,6 +49,8 @@
 
 - (void) selectActionWithID:(NSNumber *)aID {
     int actionID = [aID intValue];
+    if (actionID > [actions count]-1) // fix for deleting apps
+        actionID=0;
     selectedIndexPath = [NSIndexPath indexPathForRow:actionID inSection:0];
     needsQuickSelect = YES;
 }
@@ -113,7 +115,6 @@
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         // add to acitoncells array (for fading cells in/out
         [actionCells addObject:cell];
-        [cell setAlpha:0];
     }
     
     NSDictionary *action = [actions objectAtIndex:indexPath.row];
@@ -122,12 +123,12 @@
     
     //NSLog(@"getting cell index:%i. selectedindex:%i", indexPath.row, selectedIndexPath.row);
     
-    //[cell setAlpha:1];
-    //[cell.actionTitle setAlpha:1];
+    [cell setAlpha:1];
+    [cell.actionTitle setAlpha:1];
     if ([selectedIndexPath compare:indexPath] == NSOrderedSame)
         [cell.actionTitle setAlpha:0];
-    //if (indexPath.row == selectedIndexPath.row-1 || indexPath.row == selectedIndexPath.row+1)
-    //    [cell setAlpha:0];
+    if (indexPath.row == selectedIndexPath.row-1 || indexPath.row == selectedIndexPath.row+1)
+        [cell setAlpha:0];
     return cell;
 }
 

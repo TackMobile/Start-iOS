@@ -9,7 +9,7 @@
 #import "ActionCell.h"
 
 @implementation ActionCell
-@synthesize actionTitle, icon;
+@synthesize actionTitle, icon, labelOpacity;
 
 const float padding = 26;
 //const float indent = 0;
@@ -20,6 +20,7 @@ const float padding = 26;
     if (self) {
         actionTitle = [[UILabel alloc] init];
         icon = [[UIImageView alloc] init];
+        labelOpacity = 1.0f;
         
         UIFont *actionLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:30];
         
@@ -52,6 +53,13 @@ const float padding = 26;
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+}
+
+-(void) hide {
+    [self setAlpha:0];
+}
+-(void) show {
+    [self setAlpha:labelOpacity];
 }
 
 @end

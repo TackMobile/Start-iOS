@@ -10,7 +10,7 @@
 
 @implementation SelectSongView
 @synthesize delegate;
-@synthesize musicManager, musicPlayer;
+@synthesize musicManager;
 @synthesize songTableView, songDurationIndicator;
 
 - (id)initWithFrame:(CGRect)frame
@@ -82,9 +82,9 @@
         // scroll away from search
         [songTableView setContentOffset:CGPointMake(0, 65)];
         
-        // initialize the musicplayer
+        /* initialize the musicplayer
         musicPlayer = [[MusicPlayer alloc] init];
-        [musicPlayer addTargetForSampling:self selector:@selector(songPlayingTick:)];
+        [musicPlayer addTargetForSampling:self selector:@selector(songPlayingTick:)];*/
         
     }
     return self;
@@ -245,6 +245,7 @@
             case 2:
                 songTitle = [[presetSongs objectAtIndex:indexPath.row] objectForKey:@"title"];
                 songArtist = [[presetSongs objectAtIndex:indexPath.row] objectForKey:@"artist"];
+                persistentID = [NSNumber numberWithInt:indexPath.row];
                 break;
             case 3:
                 cellSong = [librarySongs objectAtIndex:indexPath.row];
@@ -439,10 +440,11 @@
 
 #pragma mark - songCellDelegate
 -(void)sampleSongWithID:(NSNumber *)songID {
+    MusicPlayer *musicPlayer = [delegate getDelegateMusicPlayer];
     [musicPlayer playSongWithID:songID vibrate:NO];
 }
 -(void)stopSamplingSong {
-    [musicPlayer stop];
+    [[delegate getDelegateMusicPlayer] stop];
 }
 
 -(void)songPlayingTick:(MusicPlayer *)aMusicPlayer {
@@ -460,43 +462,3 @@ CGRect CGRectExpand(CGRect rect, float top, float right, float bottom, float lef
 }
 
 @end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

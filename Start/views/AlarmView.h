@@ -23,6 +23,7 @@
 @class AlarmView;
 
 @protocol AlarmViewDelegate <NSObject>
+- (MusicPlayer *)getMusicPlayer;
 
 -(PListModel *)getPListModel;
 -(void) alarmView:(AlarmView *)alarmView draggedWithXVel:(float)xVel;
@@ -34,6 +35,7 @@
 
 -(bool)alarmViewPinched:(AlarmView *)alarmView;
 -(void)alarmViewUpdated;
+-(void)alarmCountdownEnded:(AlarmView *)alarmView;
 @end
 
 enum AlarmViewShouldSet {
@@ -61,10 +63,13 @@ enum AlarmViewShouldSet {
     bool pickingSong;
     bool pickingAction;
     bool cancelTouch;
-    bool countdownEnded;
+    bool isSnoozing;
         
     UIImageView *durImageView;
 }
+extern const float Spacing;
+
+@property bool countdownEnded;
 @property (nonatomic, strong) id<AlarmViewDelegate> delegate;
 @property CGRect newRect;
 @property bool isSet;

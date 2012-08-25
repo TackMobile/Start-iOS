@@ -102,7 +102,6 @@
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    NSLog(@"moved");
     UITouch *touch = [touches anyObject];
     
     CGPoint touchLoc = [touch locationInView:self];
@@ -176,7 +175,6 @@
 
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     [self touchesEnded:touches withEvent:event];
-    NSLog(@"cencelled");
 }
 
 #pragma mark - Properties
@@ -190,16 +188,16 @@
     float innerValue = (innerAngle / (M_PI*2));
     
     // convert ratios to hours. max hours: 23. max minutes: 59
-    int hours = (int)(innerValue * 24);
+    int hours = (innerValue * 24);
     int minutes = (int)(outerValue * 60);
     
-    return hours * 3600 + minutes * 60 +30;
+    return hours * 3600 + minutes * 60;
 }
 -(void) setTimeInterval:(NSTimeInterval)timeInterval {
     // snapped angles
     NSDate *dateSelected = [NSDate dateWithTimeIntervalSinceNow:timeInterval];
     // zero the minute
-    NSTimeInterval time = round([dateSelected timeIntervalSinceNow] / 60.0) * 60.0;
+    NSTimeInterval time = round(([dateSelected timeIntervalSinceNow] / 60.0)) * 60.0;
     timeInterval = time;
     
     float innerVal = timeInterval / 86400.0f ;
@@ -209,8 +207,8 @@
     float prevOuter = outerAngle;
     float prevInner = innerAngle;
     
-    innerAngle = DEGREES_TO_RADIANS( innerVal * 360);
-    outerAngle = DEGREES_TO_RADIANS( outerVal * 360);
+    innerAngle = innerVal * (M_PI*2);
+    outerAngle = outerVal * (M_PI*2);
     
     innerAngle = innerAngle<M_PI*2?innerAngle:innerAngle-(M_PI*2);
     outerAngle = outerAngle<M_PI*2?outerAngle:outerAngle-(M_PI*2);
