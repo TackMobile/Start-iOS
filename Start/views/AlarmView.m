@@ -15,7 +15,7 @@
 @synthesize selectSongView, selectActionView, selectDurationView, selectedTimeView, deleteLabel;
 @synthesize countdownView, timerView, selectAlarmBg;
 
-const float Spacing = 20;
+const float Spacing = 0.0f;
 
 - (id)initWithFrame:(CGRect)frame
 {

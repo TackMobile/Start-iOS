@@ -210,8 +210,8 @@
     innerAngle = innerVal * (M_PI*2);
     outerAngle = outerVal * (M_PI*2);
     
-    innerAngle = innerAngle<M_PI*2?innerAngle:innerAngle-(M_PI*2);
-    outerAngle = outerAngle<M_PI*2?outerAngle:outerAngle-(M_PI*2);
+    innerAngle = innerAngle<=M_PI*2?innerAngle:innerAngle-(M_PI*2);
+    outerAngle = outerAngle<=M_PI*2?outerAngle:outerAngle-(M_PI*2);
 
     if (innerAngle != prevInner || outerAngle != prevOuter) {
         [self setNeedsDisplay];

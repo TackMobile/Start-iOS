@@ -15,8 +15,6 @@
 @synthesize alarms, musicPlayer, settingsView;
 @synthesize pListModel, selectAlarmView, tickTimer;
 
-//const float Spacing = 20.0f;
-
 - (void)viewDidLoad
 {    
     [super viewDidLoad];
@@ -125,6 +123,8 @@
 }
 
 - (void) updateGradients {
+    return;
+    /*
     for (AlarmView *alarmView in alarms) {
         float percent = Spacing/alarmView.frame.size.width;
         
@@ -162,7 +162,7 @@
         [gradient setEndPoint:CGPointMake(1, .5)];
         [alarmView.layer setMask:gradient];
         [alarmView.layer setMasksToBounds:YES];
-    }
+    }*/
 }
 
 #pragma mark - Touches
@@ -223,7 +223,21 @@
 
 - (void) animateAlarmsToNewRect {
     float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
-    [UIView animateWithDuration:.2 animations:^{
+    
+    CGRect footerRect;
+    if (currAlarmIndex == [alarms count]) {
+        footerRect = CGRectMake([(AlarmView *)[alarms objectAtIndex:[alarms count]-1] newRect].origin.x, 
+                               selectAlarmView.frame.origin.y,
+                               selectAlarmView.frame.size.width,
+                               selectAlarmView.frame.size.height);
+    } else {
+        footerRect = CGRectMake(0, 
+                               selectAlarmView.frame.origin.y,
+                               selectAlarmView.frame.size.width,
+                               selectAlarmView.frame.size.height);
+    }
+    [UIView animateWithDuration:.15 animations:^{
+        [selectAlarmView setFrame:footerRect];
         for (AlarmView *alarmView in alarms) {
             [alarmView setFrame:alarmView.newRect];
             [alarmView shiftedFromActiveByPercent:(alarmView.newRect.origin.x+Spacing)/screenWidth];
@@ -274,6 +288,19 @@
         [[alarms objectAtIndex:alarmIndex+1] shiftedFromActiveByPercent:(leftAlarmRect.origin.x+Spacing)/screenWidth];
     }
     
+    // make selectalarmview float off with alarm
+    float xOrigin = 0;
+    if (alarmView.index == [alarms count]-1 && alarmRect.origin.x > 0) {
+        xOrigin = alarmRect.origin.x;
+    }
+    
+    CGRect footerRect = CGRectMake(xOrigin, 
+                                   selectAlarmView.frame.origin.y,
+                                   selectAlarmView.frame.size.width,
+                                   selectAlarmView.frame.size.height);
+    [selectAlarmView setFrame:footerRect];
+    
+    
     [alarmView setFrame:alarmRect];
     [alarmView shiftedFromActiveByPercent:(alarmRect.origin.x+Spacing)/screenWidth];
 }
@@ -312,7 +339,7 @@
     [selectAlarmView deleteAlarm:alarmView.index];
     [self updateAlarmIndexes];
     
-    [UIView animateWithDuration:.2 animations:^{
+    [UIView animateWithDuration:.15 animations:^{
         [alarmView setAlpha:0];
     } completion:^(BOOL finished) {
         [alarmView removeFromSuperview];

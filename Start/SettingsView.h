@@ -8,12 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SettingsView : UIView <UITextFieldDelegate> {
+@interface SettingsView : UIView <UIScrollViewDelegate> {
     UIImageView *bgImage;
+    
+    UILabel *tackCopy;
+    UIImageView *tackLogo;
+    UIImageView *underline;
+    
+    UILabel *copyText;
+    UIScrollView *timePicker;
+    
+    NSArray *snoozeOptions;
+    
+    int selectedIndex;
+    bool pickingSnooze;
 }
 
-@property (nonatomic, strong) UITextField *snoozeTimeField;
-
 -(void) navigatingAway;
--(void) snoozeTimeDidChange:(id)textfield;
 @end
