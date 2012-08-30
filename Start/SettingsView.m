@@ -10,7 +10,7 @@
 
 @implementation SettingsView
 
-const float optionHeight = 50;
+const float optionHeight = 40;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -21,6 +21,7 @@ const float optionHeight = 50;
         
         bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default"]];
         tackLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tack-logo"]];
+        tackButton = [[UIButton alloc] init];
         underline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search-divider"]];
         copyText = [[UILabel alloc] init];
         tackCopy = [[UILabel alloc] init];
@@ -31,10 +32,14 @@ const float optionHeight = 50;
         [self addSubview:underline];
         [self addSubview:copyText];
         [self addSubview:tackCopy];
+        [self addSubview:tackButton];
         [self addSubview:timePicker];
                 
         [copyText setText:@"Sleep Duration:           min"]; // leave the spaces. i know, a hack
-        [tackCopy setText:@"Assebled by"];
+        [tackCopy setText:@"Assembled by"];
+        
+        [tackButton addTarget:self action:@selector(tackTapped:) forControlEvents:UIControlEventTouchUpInside];
+        
         [timePicker setDelegate:self];
         
         [self setBackgroundColor:[UIColor blackColor]];
@@ -105,12 +110,14 @@ const float optionHeight = 50;
                                      frameSize.height - 70, 
                                      tackTextSize.width, tackTextSize.height);
 
-    CGRect tackRect = CGRectMake(tackCopyRect.origin.x + tackCopyRect.size.width + 10, 
+    CGRect tackRect = CGRectMake(tackCopyRect.origin.x + tackCopyRect.size.width + 5, 
                                  tackCopyRect.origin.y - 15, 41, 40);
+    CGRect tackButtonRect = CGRectMake(0, tackRect.origin.y - 5, 
+                                       frameSize.width, frameSize.height-(tackRect.origin.y-5));
     CGRect copyTextRect = CGRectMake(15, 20, 
                                      copyTextSize.width, copyTextSize.height);
     CGRect underlineRect = CGRectMake(copyTextRect.origin.x, 
-                                      copyTextRect.origin.y + copyTextRect.size.height + 5,
+                                      copyTextRect.origin.y + copyTextRect.size.height + 4,
                                       frameSize.width-(copyTextRect.origin.y*2),
                                       1);
     CGRect scrollRect = CGRectMake(frameSize.width-180, 0, 180,
@@ -119,6 +126,7 @@ const float optionHeight = 50;
     bgImage.frame = bgRect;
     tackLogo.frame = tackRect;
     tackCopy.frame = tackCopyRect;
+    tackButton.frame = tackButtonRect;
     copyText.frame = copyTextRect;
     underline.frame = underlineRect;
     timePicker.frame = scrollRect;
@@ -152,6 +160,12 @@ const float optionHeight = 50;
     }
     pickingSnooze = NO;
     [self animateTimePicker];
+}
+
+-(void)tackTapped:(id)button {
+    NSURL* tackURL = [NSURL URLWithString:@"http://tackmobile.com"];
+    if ([[UIApplication sharedApplication] canOpenURL:tackURL])
+        [[UIApplication sharedApplication] openURL:tackURL];
 }
 
 -(void) navigatingAway {

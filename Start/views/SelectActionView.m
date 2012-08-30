@@ -125,8 +125,6 @@
     
     [cell setAlpha:1];
     [cell.actionTitle setAlpha:1];
-    if ([selectedIndexPath compare:indexPath] == NSOrderedSame)
-        [cell.actionTitle setAlpha:0];
     if (indexPath.row == selectedIndexPath.row-1 || indexPath.row == selectedIndexPath.row+1)
         [cell setAlpha:0];
     return cell;

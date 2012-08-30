@@ -13,6 +13,8 @@
     
     UILabel *tackCopy;
     UIImageView *tackLogo;
+    UIButton *tackButton;
+    
     UIImageView *underline;
     
     UILabel *copyText;
