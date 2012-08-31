@@ -47,6 +47,7 @@
 }
 
 - (void) layoutSubviews {
+    [super layoutSubviews];
     CGRect buttonRect = CGRectMake(0, 0, button.frame.size.width, button.frame.size.height);
     [button setFrame:buttonRect];
 }

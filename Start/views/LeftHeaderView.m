@@ -68,6 +68,7 @@
 }
 
 - (void) layoutSubviews {
+    [super layoutSubviews];
     CGRect iconRect = CGRectMake((self.frame.size.width-icon.frame.size.width)/2, 
                                  _topPadding,
                                  icon.frame.size.width, icon.frame.size.height);

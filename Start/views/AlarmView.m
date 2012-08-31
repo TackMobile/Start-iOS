@@ -129,6 +129,7 @@ const float Spacing = 0.0f;
         [gradient setFrame:durationMaskRect];
         [durationMaskView.layer setMask:gradient];
         [durationMaskView.layer setMasksToBounds:YES];
+        
     }
     return self;
 }
@@ -167,6 +168,8 @@ const float Spacing = 0.0f;
         }*/ // does not hide selectsong properly
         [self animateSelectDurToRest];
     }
+    
+    [selectedTimeView updateTimeInterval:selectDurationView.getTimeInterval part:0];
 }
 
 - (bool) canMove {
@@ -401,7 +404,7 @@ const float Spacing = 0.0f;
     return [delegate getMusicPlayer];
 }
 -(BOOL) expandSelectSongView {
-    if (pickingAction)
+    if (pickingAction || isSnoozing)
         return NO;
     
     pickingSong = YES;
@@ -473,8 +476,9 @@ const float Spacing = 0.0f;
 
 #pragma mark - SelectActionViewDelegate
 -(BOOL) expandSelectActionView {
-    if (pickingSong)
+    if (pickingSong || isSnoozing)
         return NO;
+    
     pickingAction = YES;
     
     CGRect newSelectActionRect = CGRectMake(75+Spacing, 0, [[UIScreen mainScreen] applicationFrame].size.width-75, self.frame.size.height);

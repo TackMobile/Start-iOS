@@ -62,6 +62,7 @@
 }
 
 - (void) layoutSubviews {
+    [super layoutSubviews];
     CGSize timeLabelSize = [[timeLabel text] sizeWithFont:[timeLabel font]];
     CGSize mdLabelSize = [[meridiemLabel text] sizeWithFont:[meridiemLabel font]];
     CGSize snoozeLabelSize = [[snoozeLabel text] sizeWithFont:[snoozeLabel font] constrainedToSize:CGSizeMake(self.frame.size.width, self.frame.size.height)];

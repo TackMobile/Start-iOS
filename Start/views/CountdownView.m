@@ -28,7 +28,7 @@
         [countdownLabel setFont:countdownFont];
         
         // testing
-        [countdownLabel setText:@"7:50"];
+        [countdownLabel setText:@"00:00:00"];
      }
     return self;
 }

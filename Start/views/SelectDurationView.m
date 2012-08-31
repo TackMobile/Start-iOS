@@ -50,7 +50,6 @@
         
         center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
         
-        //TESTING
         [self setBackgroundColor:[UIColor clearColor]];
     }
     return self;
@@ -194,6 +193,9 @@
     return hours * 3600 + minutes * 60;
 }
 -(void) setTimeInterval:(NSTimeInterval)timeInterval {
+    if (timeInterval < 86400.0f)
+        timeInterval += 86400.0f;
+    
     // snapped angles
     NSDate *dateSelected = [NSDate dateWithTimeIntervalSinceNow:timeInterval];
     // zero the minute
@@ -242,10 +244,16 @@
 }
 
 -(void) setSnappedOuterAngle:(float)angle {
-    if (prevOuterAngle > (M_PI*2)*.6 && angle < (M_PI*2)*.4) {
+    NSLog(@"%f, %f", prevOuterAngle, angle);
+    if (prevOuterAngle > (M_PI*2)*.75 && angle < (M_PI*2)*.25) {
         outerAngle = angle;
         prevOuterAngle = angle;
         [self setTimeInterval:self.getTimeInterval + 3600];
+        return;
+    } else if (angle > (M_PI*2)*.75 && prevOuterAngle < (M_PI*2)*.25) {
+        outerAngle = angle;
+        prevOuterAngle = angle;
+        [self setTimeInterval:self.getTimeInterval - 3600];
         return;
     }
     prevOuterAngle = outerAngle;
