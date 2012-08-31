@@ -72,7 +72,6 @@
 		F37203B415EFDFB600D75E9E /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F37203AE15EFDFB600D75E9E /* Icon.png */; };
 		F37203B515EFDFB600D75E9E /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F37203AF15EFDFB600D75E9E /* Icon@2x.png */; };
 		F37203B615EFDFB600D75E9E /* tack-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = F37203B015EFDFB600D75E9E /* tack-logo.png */; };
-		F37203B715EFDFB600D75E9E /* tack-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F37203B115EFDFB600D75E9E /* tack-logo@2x.png */; };
 		F3721DA915BF5CF500A365D1 /* MusicPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3721DA815BF5CF500A365D1 /* MusicPlayer.m */; };
 		F37C93CB15E97FEA000EBE07 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F37C93CA15E97FEA000EBE07 /* Icon.png */; };
 		F37C93CD15E97FF0000EBE07 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F37C93CC15E97FEF000EBE07 /* Icon@2x.png */; };
@@ -91,6 +90,10 @@
 		F383C19F158B879F00B91F31 /* SelectAlarmView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C19E158B879F00B91F31 /* SelectAlarmView.m */; };
 		F383C1A5158B87F000B91F31 /* SelectSongView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C1A4158B87F000B91F31 /* SelectSongView.m */; };
 		F383C1A8158B880500B91F31 /* SelectActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C1A7158B880500B91F31 /* SelectActionView.m */; };
+		F3C415F915F0437F00FA7165 /* tack-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C415F815F0437F00FA7165 /* tack-logo@2x.png */; };
+		F3C415FD15F043A400FA7165 /* bottom-fade.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C415FA15F043A300FA7165 /* bottom-fade.png */; };
+		F3C415FE15F043A400FA7165 /* bottom-fade@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C415FB15F043A300FA7165 /* bottom-fade@2x.png */; };
+		F3C415FF15F043A400FA7165 /* reeder-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3C415FC15F043A400FA7165 /* reeder-icon@2x.png */; };
 		F3CD846E158FB0A400703717 /* SelectedTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CD846D158FB0A400703717 /* SelectedTimeView.m */; };
 		F3D82F7515D45BA500E120B3 /* 1.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3D82F6F15D45BA500E120B3 /* 1.wav */; };
 		F3D82F7615D45BA500E120B3 /* 2.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3D82F7015D45BA500E120B3 /* 2.wav */; };
@@ -191,7 +194,6 @@
 		F37203AE15EFDFB600D75E9E /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		F37203AF15EFDFB600D75E9E /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		F37203B015EFDFB600D75E9E /* tack-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tack-logo.png"; sourceTree = "<group>"; };
-		F37203B115EFDFB600D75E9E /* tack-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tack-logo@2x.png"; sourceTree = "<group>"; };
 		F3721DA715BF5CF500A365D1 /* MusicPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicPlayer.h; path = models/MusicPlayer.h; sourceTree = "<group>"; };
 		F3721DA815BF5CF500A365D1 /* MusicPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MusicPlayer.m; path = models/MusicPlayer.m; sourceTree = "<group>"; };
 		F37C93CA15E97FEA000EBE07 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
@@ -220,6 +222,10 @@
 		F383C1A4158B87F000B91F31 /* SelectSongView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectSongView.m; path = views/SelectSongView.m; sourceTree = "<group>"; };
 		F383C1A6158B880500B91F31 /* SelectActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectActionView.h; path = views/SelectActionView.h; sourceTree = "<group>"; };
 		F383C1A7158B880500B91F31 /* SelectActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectActionView.m; path = views/SelectActionView.m; sourceTree = "<group>"; };
+		F3C415F815F0437F00FA7165 /* tack-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tack-logo@2x.png"; sourceTree = "<group>"; };
+		F3C415FA15F043A300FA7165 /* bottom-fade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom-fade.png"; sourceTree = "<group>"; };
+		F3C415FB15F043A300FA7165 /* bottom-fade@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom-fade@2x.png"; sourceTree = "<group>"; };
+		F3C415FC15F043A400FA7165 /* reeder-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reeder-icon@2x.png"; sourceTree = "<group>"; };
 		F3CD846C158FB0A400703717 /* SelectedTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectedTimeView.h; path = views/SelectedTimeView.h; sourceTree = "<group>"; };
 		F3CD846D158FB0A400703717 /* SelectedTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectedTimeView.m; path = views/SelectedTimeView.m; sourceTree = "<group>"; };
 		F3D82F6F15D45BA500E120B3 /* 1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 1.wav; sourceTree = "<group>"; };
@@ -602,17 +608,20 @@
 		F3FEC0AE15AC8FC60032B893 /* misc */ = {
 			isa = PBXGroup;
 			children = (
+				F3C415FA15F043A300FA7165 /* bottom-fade.png */,
+				F3C415FB15F043A300FA7165 /* bottom-fade@2x.png */,
+				F3C415FC15F043A400FA7165 /* reeder-icon@2x.png */,
 				F37203AC15EFDFB600D75E9E /* Default.png */,
 				F37203AD15EFDFB600D75E9E /* Default@2x.png */,
-				F37203AE15EFDFB600D75E9E /* Icon.png */,
-				F37203AF15EFDFB600D75E9E /* Icon@2x.png */,
-				F37203B015EFDFB600D75E9E /* tack-logo.png */,
-				F37203B115EFDFB600D75E9E /* tack-logo@2x.png */,
 				F37C93D215E981C1000EBE07 /* grid.png */,
 				F37C93D315E981C2000EBE07 /* grid@2x.png */,
-				F36DA9A415993C67003A4F3C /* plusButton.png */,
-				F3F825C41598CCD00017B752 /* toolbarBG.png */,
+				F37203AE15EFDFB600D75E9E /* Icon.png */,
+				F37203AF15EFDFB600D75E9E /* Icon@2x.png */,
 				F33F642415967163000372AE /* noAlbumImage.png */,
+				F36DA9A415993C67003A4F3C /* plusButton.png */,
+				F37203B015EFDFB600D75E9E /* tack-logo.png */,
+				F3C415F815F0437F00FA7165 /* tack-logo@2x.png */,
+				F3F825C41598CCD00017B752 /* toolbarBG.png */,
 			);
 			name = misc;
 			sourceTree = "<group>";
@@ -754,7 +763,10 @@
 				F37203B415EFDFB600D75E9E /* Icon.png in Resources */,
 				F37203B515EFDFB600D75E9E /* Icon@2x.png in Resources */,
 				F37203B615EFDFB600D75E9E /* tack-logo.png in Resources */,
-				F37203B715EFDFB600D75E9E /* tack-logo@2x.png in Resources */,
+				F3C415F915F0437F00FA7165 /* tack-logo@2x.png in Resources */,
+				F3C415FD15F043A400FA7165 /* bottom-fade.png in Resources */,
+				F3C415FE15F043A400FA7165 /* bottom-fade@2x.png in Resources */,
+				F3C415FF15F043A400FA7165 /* reeder-icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

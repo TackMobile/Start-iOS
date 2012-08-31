@@ -62,7 +62,9 @@ const float Spacing = 0.0f;
         UIView *durationMaskView = [[UIView alloc] initWithFrame:durationMaskRect];
         timerView = [[TimerView alloc] initWithFrame:timerRect];
         deleteLabel = [[UILabel alloc] initWithFrame:deleteLabelRect];
-        selectAlarmBg = [[UIView alloc] initWithFrame:selectAlarmRect];
+        selectAlarmBg = [[UIImageView alloc] initWithFrame:selectAlarmRect];
+        
+        [selectAlarmBg setImage:[UIImage imageNamed:@"bottom-fade"]];
         
         [self addSubview:backgroundImage];
         [self addSubview:patternOverlay];
@@ -84,9 +86,7 @@ const float Spacing = 0.0f;
         [deleteLabel setTextAlignment:UITextAlignmentCenter];
         [deleteLabel setNumberOfLines:0];
         [deleteLabel setText:@"Pinch to Delete"];
-        
-        [selectAlarmBg setBackgroundColor:[UIColor colorWithWhite:0 alpha:.5]];
-        
+                
         [patternOverlay setImage:[UIImage imageNamed:@"grid"]];
         
         [durImageView setAlpha:0];
@@ -700,7 +700,7 @@ const float Spacing = 0.0f;
     if (shouldSet == AlarmViewShouldSet
         || selectDurationView.frame.origin.y < (selectDurRect.origin.y + alarmSetDurRect.origin.y )/2)
         set = YES;
-    else if (shouldSet == AlarmViewShouldUnSet)
+    else if (shouldSet == AlarmViewShouldUnSet) {
         set = NO;
         if (countdownEnded || isSnoozing) { // stop and launch countdown aciton
             countdownEnded = NO;
@@ -711,9 +711,8 @@ const float Spacing = 0.0f;
             [[delegate getMusicPlayer] stop];
             [[UIApplication sharedApplication] openURL:openURL];
             [selectedTimeView updateTimeInterval:[[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] part:SelectDurationNoHandle];
-            // LAUNCH ACTION;
         }
-    else if (shouldSet == AlarmViewShouldTimer
+    } else if (shouldSet == AlarmViewShouldTimer
              || selectDurationView.frame.origin.y > (selectDurRect.origin.y + timerModeDurRect.origin.y )/2) {
         set = NO;
         timer = YES;

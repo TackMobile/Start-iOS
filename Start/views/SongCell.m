@@ -24,6 +24,9 @@ const float spacer = -2;
         songLabel = [[UILabel alloc] init];
         artistLabel = [[UILabel alloc] init];
         
+        artistLabel.lineBreakMode = UILineBreakModeWordWrap;
+        artistLabel.numberOfLines = 0;
+        
         UIFont *songLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:30];
         UIFont *artistLabelFont = [UIFont fontWithName:@"Roboto-Light" size:16];
         
@@ -34,6 +37,8 @@ const float spacer = -2;
         
         [self addSubview:songLabel];
         [self addSubview:artistLabel];
+        
+        [self layoutSubviews];
         
         // gestureRecognizer
         UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
@@ -49,7 +54,9 @@ const float spacer = -2;
     float cellHeight = self.frame.size.height;
     float cellWidth = 245;
     CGSize songSize = [[songLabel text] sizeWithFont:[songLabel font]];
-    CGSize artistSize = [[artistLabel text] sizeWithFont:[artistLabel font]];
+    CGSize artistSize = [[artistLabel text] sizeWithFont:[artistLabel font]  
+                                       constrainedToSize:CGSizeMake(245, cellHeight/2) lineBreakMode:UILineBreakModeWordWrap];
+    
     float topSpacer = (cellHeight - (songSize.height + spacer + artistSize.height))/2;
     
     CGRect songRect = CGRectMake(indent, topSpacer, cellWidth-indent, songSize.height);

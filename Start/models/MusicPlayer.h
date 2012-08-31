@@ -20,10 +20,14 @@
     SEL samplingSelector;
     
     bool shouldVibrate;
+    bool stopped;
     
     PListModel *pListModel;
     NSArray *audioLibrary;
     AVAudioSession *audioSession;
+    
+    NSTimer *playingTimer;
+    NSTimer *vibratingTimer;
 }
 
 @property (nonatomic, strong) MPMusicPlayerController *musicPlayer;

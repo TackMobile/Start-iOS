@@ -16,6 +16,7 @@
     self = [super init];
     if (self) {
         playPercent = 0.0f;
+        stopped = YES;
         musicPlayer = [[MPMusicPlayerController alloc] init];
         
         // Begin Audio Session (SILENT)
@@ -34,7 +35,8 @@
     return self;
 }
 
-- (void) playSongWithID:(NSNumber *)songID vibrate:(bool)vibrate {
+- (void) playSongWithID:(NSNumber *)songID vibrate:(bool)vibrate {    
+    stopped = NO;
     if ([songID intValue] >= 0 && [songID intValue] < 6) {
         if (!audioLibrary) {
             pListModel  = [[PListModel alloc] init];
@@ -67,6 +69,7 @@
     }
     shouldVibrate = vibrate;
     [self beginTick];
+
 }
 
 - (void) playAudioWithPath:(NSString *)path volume:(float)volume {    
@@ -85,6 +88,7 @@
 
 - (void) stop {
     [musicPlayer stop];
+    stopped = YES;
     shouldVibrate = NO;
     if (audioPlayer && audioPlayer.isPlaying) {
         [audioPlayer stop];
@@ -110,29 +114,30 @@
 
 - (void) beginTick {
     // start the tick
-    [NSTimer scheduledTimerWithTimeInterval:.05 target:self selector:@selector(songPlayingTick:) userInfo:nil repeats:YES];
-    [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(vibratingTick:) userInfo:nil repeats:YES];
+    playingTimer = [NSTimer scheduledTimerWithTimeInterval:.05 target:self selector:@selector(songPlayingTick:) userInfo:nil repeats:YES];
+    vibratingTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(vibratingTick:) userInfo:nil repeats:YES];
 }
 
 - (void) songPlayingTick:(NSTimer *)timer {
-    if (musicPlayer.playbackState != MPMusicPlaybackStatePlaying && ![audioPlayer isPlaying]) {
+    
+    if ([audioPlayer isPlaying])
+        playPercent = audioPlayer.currentTime / audioPlayer.duration;
+    else if (musicPlayer.playbackState == MPMusicPlaybackStatePlaying)
+        playPercent = musicPlayer.currentPlaybackTime / [(NSNumber *)[musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration] doubleValue];
+    
+    if (stopped) {
         [timer invalidate];
-        playPercent = 0;
-        if ([samplingTarget respondsToSelector:samplingSelector])
-            [samplingTarget performSelector:samplingSelector withObject:self];
-        return;
-    } else {
-        if ([audioPlayer isPlaying])
-            playPercent = audioPlayer.currentTime / audioPlayer.duration;
-        else
-            playPercent = musicPlayer.currentPlaybackTime / [(NSNumber *)[musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration] doubleValue];
-        
-        if ([samplingTarget respondsToSelector:samplingSelector])
-            [samplingTarget performSelector:samplingSelector withObject:self];
+        playPercent = 0.0f;
     }
+    
+    if (playPercent >= 0.0f)
+        if ([samplingTarget respondsToSelector:samplingSelector])
+            [samplingTarget performSelector:samplingSelector withObject:self];
 }
 
 - (void) vibratingTick:(NSTimer *)timer {
+    if (stopped)
+        [timer invalidate];
     if (shouldVibrate)
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
     else {

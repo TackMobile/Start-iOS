@@ -20,6 +20,8 @@
         icon = [[UIImageView alloc] initWithFrame:iconRect];
         [self addSubview:icon];
         
+        _topPadding = 0;
+        
         self.frame = CGRectMake(0, cellRect.origin.y, 34, 34);
         [self layoutSubviews];
     }
@@ -27,33 +29,48 @@
 }
 
 - (id)initWithCellRect:(CGRect)aCellRect sectionHeight:(float)sHeight {
-    aCellRect = CGRectMake(0, aCellRect.origin.y+10, 0, aCellRect.size.height);
-    sHeight -=36;
+    aCellRect = CGRectMake(0, aCellRect.origin.y, 0, aCellRect.size.height);
     
     cellRect = aCellRect;
     sectionHeight = sHeight;
+    _sectionHeight = sHeight;
     return [self init];
 }
 
 - (void)updateCellRect:(CGRect)aCellRect {
-    aCellRect = CGRectMake(0, aCellRect.origin.y+10, 0, aCellRect.size.height);
+    aCellRect = CGRectMake(0, aCellRect.origin.y, 0, aCellRect.size.height);
     cellRect = aCellRect;
+}
+
+- (void) setTopPadding:(float)topPadding {
+    NSLog(@"%f", topPadding);
+    _topPadding = topPadding;
+    _sectionHeight = sectionHeight - (cellRect.size.height-topPadding);
+}
+- (float) topPadding {
+    return _topPadding;
 }
 
 #pragma mark - positioning
 - (void) updateWithContentOffset:(float)cOffset {
-    if (cOffset >= cellRect.origin.y && 
-        cellRect.origin.y+sectionHeight-self.frame.size.height > cOffset) { // make it sticky
-        self.frame = CGRectMake(0, cOffset, self.frame.size.width, self.frame.size.height);
-    } else if (cellRect.origin.y+sectionHeight-self.frame.size.height <= cOffset) { // scrolled past it
-        self.frame = CGRectMake(0, cellRect.origin.y+sectionHeight-self.frame.size.height, self.frame.size.width, self.frame.size.height);
+    if (cellRect.origin.y+_sectionHeight  <= cOffset) { // scrolled past it
+        self.frame = CGRectMake(0, cellRect.origin.y+_sectionHeight, 
+                                self.frame.size.width, 
+                                self.frame.size.height);
+    } else if (cOffset >= cellRect.origin.y + _topPadding && 
+        cellRect.origin.y+_sectionHeight > cOffset) { // make it sticky
+        self.frame = CGRectMake(0, cOffset, 
+                                self.frame.size.width, 
+                                self.frame.size.height);
     } else { // has not scrolled past yet
-        self.frame = CGRectMake(0, cellRect.origin.y, self.frame.size.width, self.frame.size.height);
+        self.frame = CGRectMake(0, cellRect.origin.y + _topPadding, self.frame.size.width, self.frame.size.height);
     }
 }
 
 - (void) layoutSubviews {
-    CGRect iconRect = CGRectMake((self.frame.size.width-icon.frame.size.width)/2, (self.frame.size.height-icon.frame.size.height)/2, icon.frame.size.width, icon.frame.size.height);
+    CGRect iconRect = CGRectMake((self.frame.size.width-icon.frame.size.width)/2, 
+                                 _topPadding,
+                                 icon.frame.size.width, icon.frame.size.height);
     [icon setFrame:iconRect];
 }
 

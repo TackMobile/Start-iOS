@@ -242,7 +242,15 @@
 }
 
 -(void) setSnappedOuterAngle:(float)angle {
+    if (prevOuterAngle > (M_PI*2)*.6 && angle < (M_PI*2)*.4) {
+        outerAngle = angle;
+        prevOuterAngle = angle;
+        [self setTimeInterval:self.getTimeInterval + 3600];
+        return;
+    }
+    prevOuterAngle = outerAngle;
     outerAngle = angle; //roundf(angle/(M_PI * 2 / 60)) * (M_PI * 2 / 60) + (M_PI * 2 / 120);
+    
 }
 -(void) setSnappedInnerAngle:(float)angle {
     innerAngle = angle; //roundf(angle/(M_PI * 2 / 24)) * (M_PI * 2 / 24) + (M_PI * 2 / 48);

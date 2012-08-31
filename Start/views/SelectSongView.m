@@ -61,10 +61,24 @@
             UIImage *icon = [headerIcons objectAtIndex:i-1];
             NSIndexPath *cellIndexPath = [NSIndexPath indexPathForRow:0 inSection:i];
             NSIndexPath *lastCellPath = [NSIndexPath indexPathForRow:[songTableView numberOfRowsInSection:i]-1 inSection:i];
+            
+            
             CGRect cellRect = [songTableView rectForRowAtIndexPath:cellIndexPath];
             CGRect lastRect = [songTableView rectForRowAtIndexPath:lastCellPath];
             
             LeftHeaderView *headerView = [[LeftHeaderView alloc] initWithCellRect:cellRect sectionHeight:lastRect.origin.y+lastRect.size.height-cellRect.origin.y];
+            
+            // hard coded in because :(
+            float topPadding = 0;
+            if (cellIndexPath.section == 1) {
+                topPadding = 7;
+            } else if (cellIndexPath.section == 2) {
+                topPadding = 10;
+            } else if (cellIndexPath.section == 3) {
+                topPadding = 8;
+            }
+            
+            [headerView setTopPadding:topPadding];
             
             [headerView setAlpha:0];
             
@@ -80,7 +94,7 @@
         [headerViews addObject:returnButton];
         
         // scroll away from search
-        [songTableView setContentOffset:CGPointMake(0, 65)];
+        [songTableView setContentOffset:CGPointMake(0, 67)];
         
         /* initialize the musicplayer
         musicPlayer = [[MusicPlayer alloc] init];
@@ -240,7 +254,7 @@
         switch (indexPath.section) {
             case 1:
                 songTitle = @"No Sound";
-                songArtist = @"Tap to select a sound.";
+                songArtist = @"Tap to select a sound. Hold to preview.";
                 break;
             case 2:
                 songTitle = [[presetSongs objectAtIndex:indexPath.row] objectForKey:@"title"];
@@ -290,6 +304,15 @@
 
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (isSearching)
+        return tableView.rowHeight;
+    
+    if (indexPath.section == 1) // no sound. more room to accomodate instructions
+        return 85;
+    if (indexPath.section == 2) // presetsong
+        return ([[[presetSongs objectAtIndex:indexPath.row] objectForKey:@"artist"] isEqualToString:@""])
+        ?60:tableView.rowHeight;
+    
     return tableView.rowHeight;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -449,11 +472,18 @@
 
 -(void)songPlayingTick:(MusicPlayer *)aMusicPlayer {
     float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
-    
+
     float durationWidth = aMusicPlayer.playPercent * screenWidth;
-    CGRect durRect = CGRectMake(0, 0, durationWidth, 2);
+    if (durationWidth == NAN)
+        durationWidth = 1.0f;
+    CGRect durRect = CGRectMake(0.0f, 0.0f, durationWidth, 2.0f);
     
     [songDurationIndicator setFrame:durRect];
+    
+    NSLog(@"%f, %f, %f, %f", songDurationIndicator.frame.origin.x, 
+          songDurationIndicator.frame.origin.y, 
+          songDurationIndicator.frame.size.width, 
+          songDurationIndicator.frame.size.height);
 }
 
 #pragma mark - functions

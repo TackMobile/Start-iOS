@@ -19,6 +19,8 @@
 
 @interface SearchSongCell : UITableViewCell <UITextFieldDelegate> {
     NSTimer *alertDelTimer;
+    
+    bool isEditing;
 }
 
 @property (nonatomic, strong) UITextField *textField;

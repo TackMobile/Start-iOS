@@ -15,6 +15,8 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        isEditing = NO;
+        
         UIFont *textFieldFont = [UIFont fontWithName:@"Roboto-Thin" size:30];
         CGRect clearTextRect = CGRectMake(0, 0, 20, 20);
         
@@ -26,7 +28,7 @@
         [clearTextButton setImage:[UIImage imageNamed:@"clear-icon"] forState:UIControlStateNormal];
         [textField setDelegate:self];
         [textField setFont:textFieldFont];
-        [textField setPlaceholder:@"Search"];
+        [textField setText:@"Search"];
         [textField setTextColor:[UIColor whiteColor]];
         [textField setAutocorrectionType:UITextAutocorrectionTypeNo];
         [textField setReturnKeyType:UIReturnKeyDone];
@@ -91,19 +93,30 @@
             return YES;
     return NO;
 }
--(void) textFieldDidChange:(NSDictionary *)userInfo {    
+-(void) textFieldDidChange:(NSDictionary *)userInfo {
+    if (!isEditing) {
+        return;
+    }
+    
     if (!alertDelTimer)
         alertDelTimer = [NSTimer scheduledTimerWithTimeInterval:.7 target:self selector:@selector(alertDelegateChangedText:) userInfo:nil repeats:NO];
     else
         [alertDelTimer setFireDate:[NSDate dateWithTimeInterval:.7 sinceDate:[NSDate date]]];
 }
--(void) textFieldDidBeginEditing:(UITextField *)textField {
+-(void) textFieldDidBeginEditing:(UITextField *)aTextField {
+    if ([textField.text isEqualToString:@"Search"])
+        [textField setText:@""];
+    
+    isEditing = YES;
+    
     [clearTextButton setAlpha:1];
     if ([delegate respondsToSelector:@selector(didBeginSearching)])
         [delegate didBeginSearching];
 }
 -(void) textFieldDidEndEditing:(UITextField *)aTextField {
+    isEditing = NO;
     if ([textField.text isEqualToString:@""]) {
+        [textField setText:@"Search"];
         [clearTextButton setAlpha:0];
         if ([delegate respondsToSelector:@selector(didEndSearchingWithText:)])
             [delegate didEndSearchingWithText:[aTextField text]];

@@ -353,6 +353,7 @@
 }
 
 -(void)alarmCountdownEnded:(AlarmView *)alarmView {
+    [self switchAlarmWithIndex:alarmView.index];
     [musicPlayer playSongWithID:[alarmView.alarmInfo objectForKey:@"songID"] vibrate:YES];
 }
 

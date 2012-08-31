@@ -81,6 +81,8 @@ extern const float Spacing;
 @property (nonatomic, strong) UIImageView *backgroundImage;
 @property (nonatomic, strong) UIImageView *patternOverlay;
 @property (nonatomic, strong) UIImageView *toolbarImage;
+@property (nonatomic, strong) UIImageView *selectAlarmBg;
+
 
 @property (nonatomic, strong) SelectSongView *selectSongView;
 @property (nonatomic, strong) SelectActionView *selectActionView;
@@ -88,7 +90,6 @@ extern const float Spacing;
 @property (nonatomic, strong) SelectedTimeView *selectedTimeView;
 @property (nonatomic, strong) CountdownView *countdownView;
 @property (nonatomic, strong) TimerView *timerView;
-@property (nonatomic, strong) UIView *selectAlarmBg;
 @property (nonatomic, strong) UILabel *deleteLabel;
 
 - (void) shiftedFromActiveByPercent:(float)percent;

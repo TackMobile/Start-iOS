@@ -149,7 +149,6 @@ const float optionHeight = 40;
     float roundedOffset = (selectedIndex * optionHeight) - timePicker.contentInset.top;
     timePicker.contentOffset = CGPointMake(0, roundedOffset);
     timePicker.showsVerticalScrollIndicator = YES;
-    timePicker.indicatorStyle = UIScrollViewIndicatorStyleWhite;
 
     [timePicker sizeToFit];
 }
