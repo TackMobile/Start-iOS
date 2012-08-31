@@ -42,6 +42,7 @@ const float optionHeight = 40;
         [tackButton addTarget:self action:@selector(tackTapped:) forControlEvents:UIControlEventTouchUpInside];
         
         [timePicker setDelegate:self];
+        [timePicker setShowsVerticalScrollIndicator:NO]; 
         
         [self setBackgroundColor:[UIColor blackColor]];
         

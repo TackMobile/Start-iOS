@@ -254,7 +254,7 @@
         switch (indexPath.section) {
             case 1:
                 songTitle = @"No Sound";
-                songArtist = @"Tap to select a sound. Hold to preview.";
+                songArtist = @"Select a sound or hold to preview.";
                 break;
             case 2:
                 songTitle = [[presetSongs objectAtIndex:indexPath.row] objectForKey:@"title"];
