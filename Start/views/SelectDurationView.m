@@ -183,17 +183,60 @@
 }
 
 -(NSTimeInterval) getTimeInterval {
-    float outerValue = (outerAngle / (M_PI*2));
-    float innerValue = (innerAngle / (M_PI*2));
+    int min = (int)roundf(outerAngle/(M_PI*2/60));
+    int hour = (int)roundf(innerAngle/(M_PI*2/12));
     
-    // convert ratios to hours. max hours: 23. max minutes: 59
-    int hours = (innerValue * 24);
-    int minutes = (int)(outerValue * 60);
     
-    return hours * 3600 + minutes * 60;
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
+    //dateComponents.day += (hour-dateComponents.hour)<0?1:0;
+    dateComponents.hour = hour;
+    dateComponents.minute = min;
+    dateComponents.second = 0;
+    NSLog(@"%f",[[gregorian dateFromComponents:dateComponents] timeIntervalSinceNow]);
+    return [[gregorian dateFromComponents:dateComponents] timeIntervalSinceNow];
 }
+
 -(void) setTimeInterval:(NSTimeInterval)timeInterval {
-    if (timeInterval < 86400.0f)
+    // time handles
+    float saveOuterAngle = outerAngle;
+    float saveInnerAngle = innerAngle;
+    
+    while (timeInterval > 43200.0f)
+        timeInterval = timeInterval - 43200.0f;
+    
+    float newInnerAngle = roundf(timeInterval/3600.0f) * (M_PI*2)/12;
+    float newOuterAngle = ((int)timeInterval%3600)/(3600.0f) * (M_PI*2)/60;
+    
+    [self setSnappedOuterAngle:newOuterAngle];
+    [self setSnappedInnerAngle:newInnerAngle];
+    
+/*    // start handles
+    float saveOuterStartAngle = outerStartAngle;
+    float saveInnerStartAngle = innerStartAngle;
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
+    NSInteger hour = [dateComponents hour];
+    NSInteger minute = [dateComponents minute];
+    NSInteger second = [dateComponents second];
+    
+    NSTimeInterval intervalInDay = (hour*3600) + (minute*60) + second;
+    
+    while (intervalInDay > 43200.0f)
+        intervalInDay = intervalInDay - 43200.0f;
+    
+    float newInnerStartAngle = roundf(intervalInDay/3600.0f) * (M_PI*60);
+    float newOuterStartAngle = ((int)intervalInDay%3600)/(3600) * (M_PI*2)/60;
+    
+    [self setSnappedOuterStartAngle:newOuterStartAngle];
+    [self setSnappedInnerStartAngle:newInnerStartAngle];*/
+
+    if ((innerAngle != saveInnerAngle) || (outerAngle != saveOuterAngle))
+        //|| (innerStartAngle != saveInnerStartAngle) || (outerStartAngle != saveOuterStartAngle))
+        [self setNeedsDisplay];
+
+    /*if (timeInterval < 86400.0f)
         timeInterval += 86400.0f;
     
     // snapped angles
@@ -217,7 +260,7 @@
 
     if (innerAngle != prevInner || outerAngle != prevOuter) {
         [self setNeedsDisplay];
-    }
+    }*/
 }
 -(void) setDate:(NSDate *)date {
     // select duration
@@ -244,24 +287,21 @@
 }
 
 -(void) setSnappedOuterAngle:(float)angle {
-    NSLog(@"%f, %f", prevOuterAngle, angle);
-    if (prevOuterAngle > (M_PI*2)*.75 && angle < (M_PI*2)*.25) {
-        outerAngle = angle;
-        prevOuterAngle = angle;
-        [self setTimeInterval:self.getTimeInterval + 3600];
-        return;
-    } else if (angle > (M_PI*2)*.75 && prevOuterAngle < (M_PI*2)*.25) {
-        outerAngle = angle;
-        prevOuterAngle = angle;
-        [self setTimeInterval:self.getTimeInterval - 3600];
-        return;
-    }
-    prevOuterAngle = outerAngle;
-    outerAngle = angle; //roundf(angle/(M_PI * 2 / 60)) * (M_PI * 2 / 60) + (M_PI * 2 / 120);
-    
+    float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
+    outerAngle = roundedAngle;
 }
 -(void) setSnappedInnerAngle:(float)angle {
-    innerAngle = angle; //roundf(angle/(M_PI * 2 / 24)) * (M_PI * 2 / 24) + (M_PI * 2 / 48);
+    float roundedAngle = roundf(angle/(M_PI*2/12)) * (M_PI*2/12);
+    innerAngle = roundedAngle;
+}
+
+-(void) setSnappedOuterStartAngle:(float)angle {
+    float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
+    outerStartAngle = roundedAngle;
+}
+-(void) setSnappedInnerStartAngle:(float)angle {
+    float roundedAngle = roundf(angle/(M_PI*2/12)) * (M_PI*2/12);
+    innerStartAngle = roundedAngle;
 }
 
 

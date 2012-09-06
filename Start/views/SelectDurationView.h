@@ -41,6 +41,9 @@ enum SelectDurationDraggingOrientation {
     float innerRadius;
     float centerRadius;
     
+    float outerStartAngle;
+    float innerStartAngle;
+    
     float prevOuterAngle;
         
     CGRect originalFrame;

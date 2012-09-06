@@ -555,7 +555,7 @@ const float Spacing = 0.0f;
     NSDate *dateSelected = [NSDate dateWithTimeIntervalSinceNow:[selectDuration getTimeInterval]];
     // zero the minute
     NSTimeInterval time = round([dateSelected timeIntervalSinceNow] / 60.0) * 60.0;
-    [selectDuration setTimeInterval:time];
+    //[selectDuration setTimeInterval:time];
     
     // update selected time
     [selectedTimeView updateTimeInterval:[selectDuration getTimeInterval] part:selectDuration.handleSelected];
