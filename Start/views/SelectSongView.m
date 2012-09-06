@@ -254,7 +254,7 @@
         switch (indexPath.section) {
             case 1:
                 songTitle = @"No Sound";
-                songArtist = @"Select a sound or hold to preview.";
+                songArtist = @"Select a sound or hold to \npreview.";
                 break;
             case 2:
                 songTitle = [[presetSongs objectAtIndex:indexPath.row] objectForKey:@"title"];
@@ -428,13 +428,15 @@
     
     // update the headers
     LeftHeaderView *songHeader = [headerViews objectAtIndex:2];
-    [songHeader updateCellRect:[songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]]];
+    CGRect sRect = [songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    CGRect firstRect= CGRectOffset(sRect, 0, sRect.size.height);
+    [songHeader updateCellRect:firstRect];
     [songHeader updateWithContentOffset:0];
     for (int i=0; i<2; i++)
         [[headerViews objectAtIndex:i] setAlpha:0];
 }
 -(void) didEndSearchingWithText:(NSString *)text {
-    if ([text isEqualToString:@""]) {
+    if ([text isEqualToString:@""] || [text isEqualToString:@"Search"]) {
         [self endSearch];
     }
 }

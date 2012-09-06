@@ -42,7 +42,8 @@ const float optionHeight = 40;
         [tackButton addTarget:self action:@selector(tackTapped:) forControlEvents:UIControlEventTouchUpInside];
         
         [timePicker setDelegate:self];
-        [timePicker setShowsVerticalScrollIndicator:NO]; 
+        [timePicker setShowsVerticalScrollIndicator:NO];
+        [timePicker setShowsHorizontalScrollIndicator:NO];
         
         [self setBackgroundColor:[UIColor blackColor]];
         
@@ -94,7 +95,6 @@ const float optionHeight = 40;
                 }
             }
         }
-        [timePicker setClipsToBounds:YES];
         [self animateTimePicker];
  
     }
@@ -152,9 +152,8 @@ const float optionHeight = 40;
     // scroll to selected
     float roundedOffset = (selectedIndex * optionHeight) - timePicker.contentInset.top;
     timePicker.contentOffset = CGPointMake(0, roundedOffset);
-    timePicker.showsVerticalScrollIndicator = YES;
-
-    [timePicker sizeToFit];
+    timePicker.showsVerticalScrollIndicator = NO;
+    //[timePicker sizeToFit];
 }
 
 -(void) snoozeTimeSelected:(UIButton *)button {

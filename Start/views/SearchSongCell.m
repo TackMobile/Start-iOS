@@ -64,7 +64,9 @@
         [textField resignFirstResponder];
         [self textFieldDidEndEditing:textField];
     }
+    isEditing = YES;
     [textField setText:@""];
+    isEditing = NO;
 }
 
 #pragma mark - Positioning
