@@ -9,7 +9,7 @@
 #import "SelectedTimeView.h"
 
 @implementation SelectedTimeView
-@synthesize editingPart, timeInterval, editingPartIndicator;
+@synthesize editingPart, date, editingPartIndicator;
 @synthesize timeLabel, meridiemLabel,snoozeLabel;
 
 - (id)initWithFrame:(CGRect)frame
@@ -84,16 +84,14 @@
     [meridiemLabel setAlpha:0];
 }
 
-- (void) updateTimeInterval:(NSTimeInterval)newTimeInterval part:(int)partEditing {
+- (void) updateDate:(NSDate *)newDate part:(int)partEditing {
     [snoozeLabel setAlpha:0];
     [timeLabel setAlpha:1];
     [meridiemLabel setAlpha:1];
     
-    // save the interval
-    timeInterval = newTimeInterval;
     
-    // format the date
-   date = [NSDate dateWithTimeIntervalSinceNow:timeInterval];
+    // format & save the date
+    date = newDate;
     
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"US/Mountain"]];

@@ -15,11 +15,10 @@ enum SelectedTimeEditingPart {
 };
 
 @interface SelectedTimeView : UIView {
-    NSDate *date;
 }
 
 @property int editingPart;
-@property NSTimeInterval timeInterval;
+@property NSDate* date;
 
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *meridiemLabel;
@@ -27,6 +26,6 @@ enum SelectedTimeEditingPart {
 @property (nonatomic, strong) UIView *editingPartIndicator;
 
 - (void) showSnooze;
-- (void) updateTimeInterval:(NSTimeInterval)newTimeInterval part:(int)partEditing;
+- (void) updateDate:(NSDate *)newDate part:(int)partEditing;
 
 @end

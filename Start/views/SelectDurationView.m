@@ -24,6 +24,9 @@
         handleSelected = SelectDurationNoHandle;
         draggingOrientation = SelectDurationDraggingNone;
         changing = NO;
+        _date = [NSDate date];
+        prevOuterAngle = 0;
+        outerAngle = innerAngle = 0;
         
         originalFrame = frame;
         
@@ -45,12 +48,15 @@
         outerRadius = 143;
         innerRadius = 101;
         centerRadius = 65;
-        
-        handleSelected = SelectDurationNoHandle;
-        
+                
         center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
         
         [self setBackgroundColor:[UIColor clearColor]];
+        
+        // update date timer
+        [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTimerTick:) userInfo:nil repeats:YES];
+        //[self update]; //testing
+        
     }
     return self;
 }
@@ -75,7 +81,6 @@
     float distToTouch = sqrtf(powf(touchLoc.x, 2) + powf(touchLoc.y,2));
     float angleToTouch = [self angleFromVector:touchLoc];
         
-    NSLog(@"%f, %f, %f", outerAngle, innerAngle, angleToTouch);
     
     // test to see if touch is in range of any handles
     if (distToTouch < centerRadius) {
@@ -149,8 +154,9 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    _date = [self getDate];
     changing = NO;
-    
+
     if ([[touches anyObject] tapCount] > 0)
         if ([delegate respondsToSelector:@selector(durationViewTapped:)])
             [delegate durationViewTapped:self];
@@ -182,44 +188,71 @@
     [self setNeedsDisplay];
 }
 
--(NSTimeInterval) getTimeInterval {
-    int min = (int)roundf(outerAngle/(M_PI*2/60));
-    int hour = (int)roundf(innerAngle/(M_PI*2/12));
+- (void) updateAngles {
     
-    
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
-    //dateComponents.day += (hour-dateComponents.hour)<0?1:0;
-    dateComponents.hour = hour;
-    dateComponents.minute = min;
-    dateComponents.second = 0;
-    NSLog(@"%f",[[gregorian dateFromComponents:dateComponents] timeIntervalSinceNow]);
-    return [[gregorian dateFromComponents:dateComponents] timeIntervalSinceNow];
 }
 
--(void) setTimeInterval:(NSTimeInterval)timeInterval {
-    // time handles
-    float saveOuterAngle = outerAngle;
+-(NSDate *) getDate {
+    int min = (int)roundf(outerAngle/(M_PI*2/60));
+    int hour = (int)roundf(innerAngle/(M_PI*2/12));
+    int day = 0;
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComponents = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
+    
+    if (dateComponents.hour >= 12) {
+        hour+=12;
+        if (hour < dateComponents.hour)
+            hour+=12;
+    }
+    if (hour > 24) {
+        day++;
+        hour -= 24;
+    }
+    
+    /*if (min == 60) {
+        min=0;
+        hour++;
+    }*/
+    
+    dateComponents.day += day;
+    dateComponents.hour = hour;
+    dateComponents.minute = min;
+    dateComponents.second = .5;
+    
+    //NSLog(@"%i, %i, %i, %i", day, hour, min, 0);
+    return [gregorian dateFromComponents:dateComponents];
+}
+
+
+/*-(void) setTimeInterval:(NSTimeInterval)timeInterval {
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate dateWithTimeIntervalSinceNow:timeInterval]];
+    
+    
+    int minute = dateComponents.minute;
+    int hour = dateComponents.hour>12?dateComponents.hour-12:dateComponents.hour;
+    int second = dateComponents.second;
+    
+    dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
+    
+    float newInnerAngle = hour * (M_PI*2)/12;
+    float newOuterAngle = hour * (M_PI*2)/60;
+    
     float saveInnerAngle = innerAngle;
-    
-    while (timeInterval > 43200.0f)
-        timeInterval = timeInterval - 43200.0f;
-    
-    float newInnerAngle = roundf(timeInterval/3600.0f) * (M_PI*2)/12;
-    float newOuterAngle = ((int)timeInterval%3600)/(3600.0f) * (M_PI*2)/60;
+    float saveOuterAngle = outerAngle;
     
     [self setSnappedOuterAngle:newOuterAngle];
     [self setSnappedInnerAngle:newInnerAngle];
     
-/*    // start handles
+    // start handles
     float saveOuterStartAngle = outerStartAngle;
     float saveInnerStartAngle = innerStartAngle;
     
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
-    NSInteger hour = [dateComponents hour];
-    NSInteger minute = [dateComponents minute];
-    NSInteger second = [dateComponents second];
+    
+    hour = [dateComponents hour];
+    minute = dateComponents.minute;
+    second = dateComponents.second;
     
     NSTimeInterval intervalInDay = (hour*3600) + (minute*60) + second;
     
@@ -230,45 +263,61 @@
     float newOuterStartAngle = ((int)intervalInDay%3600)/(3600) * (M_PI*2)/60;
     
     [self setSnappedOuterStartAngle:newOuterStartAngle];
-    [self setSnappedInnerStartAngle:newInnerStartAngle];*/
+    [self setSnappedInnerStartAngle:newInnerStartAngle];
 
-    if ((innerAngle != saveInnerAngle) || (outerAngle != saveOuterAngle))
-        //|| (innerStartAngle != saveInnerStartAngle) || (outerStartAngle != saveOuterStartAngle))
+    if ((innerAngle != saveInnerAngle) || (outerAngle != saveOuterAngle)
+        || (innerStartAngle != saveInnerStartAngle) || (outerStartAngle != saveOuterStartAngle))
         [self setNeedsDisplay];
-
-    /*if (timeInterval < 86400.0f)
-        timeInterval += 86400.0f;
-    
-    // snapped angles
-    NSDate *dateSelected = [NSDate dateWithTimeIntervalSinceNow:timeInterval];
-    // zero the minute
-    NSTimeInterval time = round(([dateSelected timeIntervalSinceNow] / 60.0)) * 60.0;
-    timeInterval = time;
-    
-    float innerVal = timeInterval / 86400.0f ;
-    float outerVal = (float)((int)timeInterval % 3600) / 3600;
-    
-    // remember the previous angles
-    float prevOuter = outerAngle;
-    float prevInner = innerAngle;
-    
-    innerAngle = innerVal * (M_PI*2);
-    outerAngle = outerVal * (M_PI*2);
-    
-    innerAngle = innerAngle<=M_PI*2?innerAngle:innerAngle-(M_PI*2);
-    outerAngle = outerAngle<=M_PI*2?outerAngle:outerAngle-(M_PI*2);
-
-    if (innerAngle != prevInner || outerAngle != prevOuter) {
-        [self setNeedsDisplay];
-    }*/
+}*/
+- (void) updateTimerTick:(NSTimer *)timer {
+    if (handleSelected != SelectDurationNoHandle)
+        return;
+    [self update];
 }
--(void) setDate:(NSDate *)date {
+
+- (void) update {    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:_date];
+    
+    int minute = dateComponents.minute;
+    int hour = dateComponents.hour>12?dateComponents.hour-12:dateComponents.hour;
+    int second = dateComponents.second;
+        
+    float newInnerAngle = hour * (M_PI*2)/12;
+    float newOuterAngle = minute * (M_PI*2)/60;
+    
+    float saveInnerAngle = innerAngle;
+    float saveOuterAngle = outerAngle;
+    
+    [self setSnappedOuterAngle:newOuterAngle];
+    [self setSnappedInnerAngle:newInnerAngle];
+    
+    // start handles
+    dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
+
+    minute = dateComponents.minute;
+    hour = dateComponents.hour>12?dateComponents.hour-12:dateComponents.hour;
+    second = dateComponents.second;
+    
+    float newInnerStartAngle = hour * (M_PI*2)/12;
+    float newOuterStartAngle = minute * (M_PI*2)/60;
+    
+    float saveInnerStartAngle = innerStartAngle;
+    float saveOuterStartAngle = outerStartAngle;
+    
+    [self setSnappedOuterStartAngle:newOuterStartAngle];
+    [self setSnappedInnerStartAngle:newInnerStartAngle];
+    
+    
+    if ((innerAngle != saveInnerAngle) || (outerAngle != saveOuterAngle)
+        || (innerStartAngle != saveInnerStartAngle) || (outerStartAngle != saveOuterStartAngle))
+        [self setNeedsDisplay];
+}
+
+- (void) setDate:(NSDate *)date {
     // select duration
-    NSTimeInterval nowInterval = [[NSDate date] timeIntervalSince1970];
-    NSTimeInterval alarmInterval = [date timeIntervalSince1970];
-    NSTimeInterval duration = alarmInterval-nowInterval;
-    duration = (duration<0)?duration+86400:duration;
-    [self setTimeInterval:duration];
+    _date = date;
+    [self update];
 }
 
 - (bool) touchAngle:(float)touchAngle isWithinAngle:(float)angle {
@@ -288,10 +337,30 @@
 
 -(void) setSnappedOuterAngle:(float)angle {
     float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
-    outerAngle = roundedAngle;
+    roundedAngle = (roundedAngle == M_PI*2 )? 0 :roundedAngle;
+
+    float beforeLim = (M_PI * 2.0f) * (3.0f/4.0f);
+    float afterLim = (M_PI * 2.0f) * (1.0f/4.0f);
+    
+    if (prevOuterAngle > beforeLim && roundedAngle < afterLim) { // next hour
+        NSLog(@"next");
+        outerAngle = prevOuterAngle = roundedAngle;
+        [self setDate:[[self getDate] dateByAddingTimeInterval:3600]];
+        return;
+
+    } else if (roundedAngle > beforeLim && prevOuterAngle < afterLim) { // prev hour
+        NSLog(@"prev");
+        outerAngle = prevOuterAngle = roundedAngle;
+        [self setDate:[[self getDate] dateByAddingTimeInterval:-3600]];
+        return;
+    }
+    outerAngle = prevOuterAngle = roundedAngle;
+    
+    [UIWebView 
 }
 -(void) setSnappedInnerAngle:(float)angle {
     float roundedAngle = roundf(angle/(M_PI*2/12)) * (M_PI*2/12);
+    roundedAngle = roundedAngle==(M_PI*2)?0:roundedAngle;
     innerAngle = roundedAngle;
 }
 
@@ -353,13 +422,15 @@
     
     // outer
     UIBezierPath *outerCircle = [UIBezierPath bezierPath];
-    [outerCircle addArcWithCenter:center radius:innerRadius startAngle:startAngle endAngle:outerAngle+startAngle clockwise:YES];
-    [outerCircle addArcWithCenter:center radius:outerRadius startAngle:outerAngle+startAngle endAngle:startAngle clockwise:NO];
+    [outerCircle addArcWithCenter:center radius:innerRadius startAngle:outerStartAngle+startAngle endAngle:outerAngle+startAngle clockwise:YES];
+    [outerCircle addArcWithCenter:center radius:outerRadius startAngle:outerAngle+startAngle endAngle:outerStartAngle+startAngle clockwise:NO];
     [outerCircle closePath];
     
     UIBezierPath *outerFill = [UIBezierPath bezierPath];
-    [outerFill addArcWithCenter:center radius:innerRadius startAngle:outerAngle+startAngle endAngle:M_PI*2 clockwise:YES];
-    [outerFill addArcWithCenter:center radius:outerRadius startAngle:M_PI*2 endAngle:outerAngle+startAngle clockwise:NO];
+    [outerFill addArcWithCenter:center radius:innerRadius startAngle:outerAngle+startAngle 
+                       endAngle:outerStartAngle+startAngle clockwise:YES];
+    [outerFill addArcWithCenter:center radius:outerRadius startAngle:outerStartAngle+startAngle 
+                       endAngle:outerAngle+startAngle clockwise:NO];
     [outerFill closePath];
     
     UIBezierPath *outerLine = [UIBezierPath bezierPath];
@@ -368,13 +439,13 @@
 
     // inner
     UIBezierPath *innerCircle = [UIBezierPath bezierPath];
-    [innerCircle addArcWithCenter:center radius:centerRadius startAngle:startAngle endAngle:innerAngle+startAngle clockwise:YES];
-    [innerCircle addArcWithCenter:center radius:innerRadius startAngle:innerAngle+startAngle endAngle:startAngle clockwise:NO];
+    [innerCircle addArcWithCenter:center radius:centerRadius startAngle:innerStartAngle+startAngle endAngle:innerAngle+startAngle clockwise:YES];
+    [innerCircle addArcWithCenter:center radius:innerRadius startAngle:innerAngle+startAngle endAngle:innerStartAngle+startAngle clockwise:NO];
     [innerCircle closePath];
     
     UIBezierPath *innerFill = [UIBezierPath bezierPath];
-    [innerFill addArcWithCenter:center radius:centerRadius startAngle:innerAngle+startAngle endAngle:M_PI*2 clockwise:YES];
-    [innerFill addArcWithCenter:center radius:innerRadius startAngle:M_PI*2 endAngle:innerAngle+startAngle clockwise:NO];
+    [innerFill addArcWithCenter:center radius:centerRadius startAngle:innerStartAngle+startAngle endAngle:M_PI*2 clockwise:YES];
+    [innerFill addArcWithCenter:center radius:innerRadius startAngle:innerStartAngle+startAngle endAngle:innerAngle+startAngle clockwise:NO];
     [innerFill closePath];
     
     UIBezierPath *centerCircle = [UIBezierPath bezierPathWithOvalInRect:centerRect];

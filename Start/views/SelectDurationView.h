@@ -51,6 +51,8 @@ enum SelectDurationDraggingOrientation {
     CGPoint center;
     
     bool changing;
+    
+    NSDate *_date;
 }
 @property int handleSelected;
 @property int draggingOrientation;
@@ -62,9 +64,11 @@ enum SelectDurationDraggingOrientation {
 @property (strong, nonatomic) id<SelectDurationViewDelegate> delegate;
 
 -(void) updateTheme:(NSDictionary *)newTheme;
--(void) setTimeInterval:(NSTimeInterval)timeInterval;
+//-(void) setTimeInterval:(NSTimeInterval)timeInterval;
 -(void) setDate:(NSDate *)date;
--(NSTimeInterval) getTimeInterval;
+-(NSDate *) getDate;
+-(void)updateTimerTick:(NSTimer *)timer;
+-(void)update;
 -(id) initWithFrame:(CGRect)frame delegate:(id<SelectDurationViewDelegate>)aDelegate;
 
 @end

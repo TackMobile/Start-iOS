@@ -37,7 +37,7 @@ const float optionHeight = 40;
                 
         [copyText setText:@"Sleep Duration:           min"]; // leave the spaces. i know, a hack
         [tackCopy setText:@"Assembled by"];
-        [tackLogo setAlpha:.9];
+        [tackLogo setAlpha:.8];
         
         [tackButton addTarget:self action:@selector(tackTapped:) forControlEvents:UIControlEventTouchUpInside];
         

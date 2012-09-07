@@ -181,7 +181,6 @@
 
 #pragma mark - Positioning & SelectAlarmViewDelegate
 - (void) switchAlarmWithIndex:(int)index {
-    NSLog(@"newIndex:%i, current:%i", index, currAlarmIndex);
     
     shouldSwitch = SwitchAlarmNone;
         

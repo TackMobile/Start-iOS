@@ -97,7 +97,7 @@ const float Spacing = 0.0f;
         [self addGestureRecognizer:pinch];
         
         // initial properties
-        [selectedTimeView updateTimeInterval:[selectDurationView getTimeInterval] part:SelectDurationNoHandle];
+        [selectedTimeView updateDate:[selectDurationView getDate] part:SelectDurationNoHandle];
         [toolbarImage setImage:[UIImage imageNamed:@"toolbarBG"]];
         [backgroundImage setImage:[UIImage imageNamed:@"noAlbumImage"]];
         [self setBackgroundColor:[UIColor blackColor]];
@@ -169,7 +169,7 @@ const float Spacing = 0.0f;
         [self animateSelectDurToRest];
     }
     
-    [selectedTimeView updateTimeInterval:selectDurationView.getTimeInterval part:0];
+    [selectedTimeView updateDate:selectDurationView.getDate part:0];
 }
 
 - (bool) canMove {
@@ -378,8 +378,8 @@ const float Spacing = 0.0f;
         if (isSet && floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5)
             [self alarmCountdownEnded];
         
-        if (selectDurationView.handleSelected == SelectDurationNoHandle)
-            [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+        //if (selectDurationView.handleSelected == SelectDurationNoHandle)
+        //   [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
         
         [countdownView updateWithDate:[alarmInfo objectForKey:@"date"]];
     } else {
@@ -552,13 +552,13 @@ const float Spacing = 0.0f;
 
 #pragma mark - SelectDurationViewDelegate
 -(void) durationDidChange:(SelectDurationView *)selectDuration {
-    NSDate *dateSelected = [NSDate dateWithTimeIntervalSinceNow:[selectDuration getTimeInterval]];
+    NSDate *dateSelected = [selectDuration getDate];
     // zero the minute
     NSTimeInterval time = round([dateSelected timeIntervalSinceNow] / 60.0) * 60.0;
     //[selectDuration setTimeInterval:time];
     
     // update selected time
-    [selectedTimeView updateTimeInterval:[selectDuration getTimeInterval] part:selectDuration.handleSelected];
+    [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
 }
 
 -(void) durationDidBeginChanging:(SelectDurationView *)selectDuration {
@@ -580,13 +580,12 @@ const float Spacing = 0.0f;
             }
         }];
     }];
-    [selectedTimeView updateTimeInterval:[selectDuration getTimeInterval] part:selectDuration.handleSelected];
+    [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
 }
 
 -(void) durationDidEndChanging:(SelectDurationView *)selectDuration {
      // save the time selected
-     NSDate *dateSelected = [NSDate dateWithTimeIntervalSinceNow:[selectDuration getTimeInterval]];
-     // zero the minute
+     NSDate *dateSelected = [selectDuration getDate];
     
     NSTimeInterval time = round([dateSelected timeIntervalSinceReferenceDate] / 60.0) * 60.0;
     dateSelected = [NSDate dateWithTimeIntervalSinceReferenceDate:time];
@@ -594,7 +593,7 @@ const float Spacing = 0.0f;
     [alarmInfo setObject:dateSelected forKey:@"date"];
     
     // update selectedTime View
-    [selectedTimeView updateTimeInterval:[selectDuration getTimeInterval] part:selectDuration.handleSelected];
+    [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
     
     // animate selectedTimeView back to durationView
     [UIView animateWithDuration:.07 animations:^{
@@ -629,7 +628,7 @@ const float Spacing = 0.0f;
         NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
         NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
         [alarmInfo setObject:snoozeDate forKey:@"date"];
-        [selectedTimeView updateTimeInterval:snoozeTime part:SelectDurationNoHandle];
+        [selectedTimeView updateDate:snoozeDate part:SelectDurationNoHandle];
         [[delegate getMusicPlayer] stop];
     }
 }
@@ -714,7 +713,7 @@ const float Spacing = 0.0f;
             
             [[delegate getMusicPlayer] stop];
             [[UIApplication sharedApplication] openURL:openURL];
-            [selectedTimeView updateTimeInterval:[[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] part:SelectDurationNoHandle];
+            [selectedTimeView updateDate:[alarmInfo objectForKey:@"date"] part:SelectDurationNoHandle];
         }
     } else if (shouldSet == AlarmViewShouldTimer
              || selectDurationView.frame.origin.y > (selectDurRect.origin.y + timerModeDurRect.origin.y )/2) {

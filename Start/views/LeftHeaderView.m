@@ -43,7 +43,6 @@
 }
 
 - (void) setTopPadding:(float)topPadding {
-    NSLog(@"%f", topPadding);
     _topPadding = topPadding;
     _sectionHeight = sectionHeight - (cellRect.size.height-topPadding);
 }
