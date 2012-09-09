@@ -433,11 +433,6 @@
 			children = (
 				F37C93CC15E97FEF000EBE07 /* Icon@2x.png */,
 				F37C93CA15E97FEA000EBE07 /* Icon.png */,
-				F335A2CF15D41BF600F0A552 /* AVFoundation.framework */,
-				F335A2C515D035FA00F0A552 /* AudioToolbox.framework */,
-				F326511515C9F1E500ABAF60 /* QuartzCore.framework */,
-				F327EC9915938BBF008B962F /* MediaPlayer.framework */,
-				F3FD677115A741730002AFC9 /* libz.dylib */,
 				F3FD676815A740E90002AFC9 /* TestFlightSDK1.0 */,
 				F383C17D158B851200B91F31 /* Start */,
 				F383C176158B851200B91F31 /* Frameworks */,
@@ -456,6 +451,11 @@
 		F383C176158B851200B91F31 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F3FD677115A741730002AFC9 /* libz.dylib */,
+				F335A2CF15D41BF600F0A552 /* AVFoundation.framework */,
+				F335A2C515D035FA00F0A552 /* AudioToolbox.framework */,
+				F326511515C9F1E500ABAF60 /* QuartzCore.framework */,
+				F327EC9915938BBF008B962F /* MediaPlayer.framework */,
 				F383C177158B851200B91F31 /* UIKit.framework */,
 				F383C179158B851200B91F31 /* Foundation.framework */,
 				F383C17B158B851200B91F31 /* CoreGraphics.framework */,
