@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA13EE1D15FD124E004E16C7 /* chamaeleon.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1915FD124E004E16C7 /* chamaeleon.wav */; };
+		EA13EE1E15FD124E004E16C7 /* epsilon.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1A15FD124E004E16C7 /* epsilon.wav */; };
+		EA13EE1F15FD124E004E16C7 /* galaxy.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1B15FD124E004E16C7 /* galaxy.wav */; };
+		EA13EE2015FD124E004E16C7 /* hydrus.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1C15FD124E004E16C7 /* hydrus.wav */; };
+		EA13EE2215FD1A5E004E16C7 /* lynx.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE2115FD1A5E004E16C7 /* lynx.wav */; };
+		EA13EE2415FD260A004E16C7 /* phoenix.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE2315FD260A004E16C7 /* phoenix.wav */; };
 		F3143CDD15C448CC0098A276 /* NightSky.png in Resources */ = {isa = PBXBuildFile; fileRef = F3143CDB15C448CC0098A276 /* NightSky.png */; };
 		F3143CDE15C448CC0098A276 /* NightSky@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3143CDC15C448CC0098A276 /* NightSky@2x.png */; };
 		F3143CE215C454BE0098A276 /* Oceanside.png in Resources */ = {isa = PBXBuildFile; fileRef = F3143CE015C454BE0098A276 /* Oceanside.png */; };
@@ -106,12 +112,6 @@
 		F3CE913715F9518000A14210 /* lynx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CE912B15F9518000A14210 /* lynx@2x.png */; };
 		F3CE913815F9518000A14210 /* pheonix.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CE912C15F9518000A14210 /* pheonix.png */; };
 		F3CE913915F9518000A14210 /* phoenix@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CE912D15F9518000A14210 /* phoenix@2x.png */; };
-		F3D82F7515D45BA500E120B3 /* 1.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3D82F6F15D45BA500E120B3 /* 1.wav */; };
-		F3D82F7615D45BA500E120B3 /* 2.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3D82F7015D45BA500E120B3 /* 2.wav */; };
-		F3D82F7715D45BA500E120B3 /* 3.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3D82F7115D45BA500E120B3 /* 3.wav */; };
-		F3D82F7815D45BA500E120B3 /* 4.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3D82F7215D45BA500E120B3 /* 4.wav */; };
-		F3D82F7915D45BA500E120B3 /* 5.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3D82F7315D45BA500E120B3 /* 5.wav */; };
-		F3D82F7A15D45BA500E120B3 /* 6.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3D82F7415D45BA500E120B3 /* 6.wav */; };
 		F3D82F8015D96D4B00E120B3 /* SettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D82F7F15D96D4A00E120B3 /* SettingsView.m */; };
 		F3E5C39515BDBE10006959F4 /* NPTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E5C39415BDBE10006959F4 /* NPTableView.m */; };
 		F3E78B6B15C8BA2C0028ED08 /* Treescape.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E78B6915C8BA2C0028ED08 /* Treescape.png */; };
@@ -132,6 +132,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		EA13EE1915FD124E004E16C7 /* chamaeleon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chamaeleon.wav; sourceTree = "<group>"; };
+		EA13EE1A15FD124E004E16C7 /* epsilon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = epsilon.wav; sourceTree = "<group>"; };
+		EA13EE1B15FD124E004E16C7 /* galaxy.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = galaxy.wav; sourceTree = "<group>"; };
+		EA13EE1C15FD124E004E16C7 /* hydrus.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hydrus.wav; sourceTree = "<group>"; };
+		EA13EE2115FD1A5E004E16C7 /* lynx.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lynx.wav; sourceTree = "<group>"; };
+		EA13EE2315FD260A004E16C7 /* phoenix.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = phoenix.wav; sourceTree = "<group>"; };
 		F3143CDB15C448CC0098A276 /* NightSky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NightSky.png; sourceTree = "<group>"; };
 		F3143CDC15C448CC0098A276 /* NightSky@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NightSky@2x.png"; sourceTree = "<group>"; };
 		F3143CE015C454BE0098A276 /* Oceanside.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Oceanside.png; sourceTree = "<group>"; };
@@ -250,12 +256,6 @@
 		F3CE912B15F9518000A14210 /* lynx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lynx@2x.png"; sourceTree = "<group>"; };
 		F3CE912C15F9518000A14210 /* pheonix.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pheonix.png; sourceTree = "<group>"; };
 		F3CE912D15F9518000A14210 /* phoenix@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phoenix@2x.png"; sourceTree = "<group>"; };
-		F3D82F6F15D45BA500E120B3 /* 1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 1.wav; sourceTree = "<group>"; };
-		F3D82F7015D45BA500E120B3 /* 2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 2.wav; sourceTree = "<group>"; };
-		F3D82F7115D45BA500E120B3 /* 3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 3.wav; sourceTree = "<group>"; };
-		F3D82F7215D45BA500E120B3 /* 4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 4.wav; sourceTree = "<group>"; };
-		F3D82F7315D45BA500E120B3 /* 5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 5.wav; sourceTree = "<group>"; };
-		F3D82F7415D45BA500E120B3 /* 6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 6.wav; sourceTree = "<group>"; };
 		F3D82F7E15D96D4A00E120B3 /* SettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsView.h; sourceTree = "<group>"; };
 		F3D82F7F15D96D4A00E120B3 /* SettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsView.m; sourceTree = "<group>"; };
 		F3E5C39315BDBE10006959F4 /* NPTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPTableView.h; path = views/NPTableView.h; sourceTree = "<group>"; };
@@ -360,12 +360,12 @@
 		F335A2CC15D418DF00F0A552 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				F3D82F6F15D45BA500E120B3 /* 1.wav */,
-				F3D82F7015D45BA500E120B3 /* 2.wav */,
-				F3D82F7115D45BA500E120B3 /* 3.wav */,
-				F3D82F7215D45BA500E120B3 /* 4.wav */,
-				F3D82F7315D45BA500E120B3 /* 5.wav */,
-				F3D82F7415D45BA500E120B3 /* 6.wav */,
+				EA13EE1915FD124E004E16C7 /* chamaeleon.wav */,
+				EA13EE1A15FD124E004E16C7 /* epsilon.wav */,
+				EA13EE1B15FD124E004E16C7 /* galaxy.wav */,
+				EA13EE1C15FD124E004E16C7 /* hydrus.wav */,
+				EA13EE2115FD1A5E004E16C7 /* lynx.wav */,
+				EA13EE2315FD260A004E16C7 /* phoenix.wav */,
 			);
 			name = Audio;
 			sourceTree = "<group>";
@@ -780,12 +780,6 @@
 				F3E78B6C15C8BA2C0028ED08 /* Treescape@2x.png in Resources */,
 				F326511A15CAD61400ABAF60 /* Brandon.png in Resources */,
 				F326511B15CAD61400ABAF60 /* Brandon@2x.png in Resources */,
-				F3D82F7515D45BA500E120B3 /* 1.wav in Resources */,
-				F3D82F7615D45BA500E120B3 /* 2.wav in Resources */,
-				F3D82F7715D45BA500E120B3 /* 3.wav in Resources */,
-				F3D82F7815D45BA500E120B3 /* 4.wav in Resources */,
-				F3D82F7915D45BA500E120B3 /* 5.wav in Resources */,
-				F3D82F7A15D45BA500E120B3 /* 6.wav in Resources */,
 				F37C93CB15E97FEA000EBE07 /* Icon.png in Resources */,
 				F37C93CD15E97FF0000EBE07 /* Icon@2x.png in Resources */,
 				F37C93D415E981C2000EBE07 /* grid.png in Resources */,
@@ -811,6 +805,12 @@
 				F3CE913715F9518000A14210 /* lynx@2x.png in Resources */,
 				F3CE913815F9518000A14210 /* pheonix.png in Resources */,
 				F3CE913915F9518000A14210 /* phoenix@2x.png in Resources */,
+				EA13EE1D15FD124E004E16C7 /* chamaeleon.wav in Resources */,
+				EA13EE1E15FD124E004E16C7 /* epsilon.wav in Resources */,
+				EA13EE1F15FD124E004E16C7 /* galaxy.wav in Resources */,
+				EA13EE2015FD124E004E16C7 /* hydrus.wav in Resources */,
+				EA13EE2215FD1A5E004E16C7 /* lynx.wav in Resources */,
+				EA13EE2415FD260A004E16C7 /* phoenix.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
