@@ -38,7 +38,7 @@ const float Spacing = 0.0f;
         
         bgImageRect = CGRectMake((self.frame.size.width-bgImageSize.width)/2, (self.frame.size.height-bgImageSize.height)/2, bgImageSize.width, bgImageSize.height);
         CGRect toolBarRect = CGRectMake(0, 0, self.frame.size.width, 135);
-        selectSongRect = CGRectMake(Spacing-22, 0, frameRect.size.width-75, 80);
+        selectSongRect = CGRectMake(Spacing-16, 0, frameRect.size.width-75, 80);
         selectActionRect = CGRectMake(Spacing+frameRect.size.width-50, 0, 50, 80);
         selectDurRect = CGRectMake(Spacing, self.frame.size.height-frameRect.size.width-45, frameRect.size.width, frameRect.size.width);
         alarmSetDurRect = CGRectOffset(selectDurRect, 0, -150);
@@ -625,9 +625,10 @@ const float Spacing = 0.0f;
     if (countdownEnded) {
         countdownEnded = NO;
         isSnoozing = YES;
-        NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
+        NSTimeInterval snoozeTime = .5 + [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
         NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
-        [alarmInfo setObject:snoozeDate forKey:@"date"];
+        [alarmInfo setObject:snoozeDate forKey:@"da9te"];
+        [selectDuration setDate:snoozeDate];
         [selectedTimeView updateDate:snoozeDate part:SelectDurationNoHandle];
         [[delegate getMusicPlayer] stop];
     }
@@ -724,10 +725,12 @@ const float Spacing = 0.0f;
     // reset the timer if it is new
     if (!isTimerMode && timer) {
         [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
+        [selectDurationView setTimerMode:YES];
     } else if (!timer && isTimerMode) {
         // zero out the timer
         [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
         [self updateProperties];
+        [selectDurationView setTimerMode:NO];
     }
 
     isSet = set;

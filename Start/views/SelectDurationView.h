@@ -51,6 +51,7 @@ enum SelectDurationDraggingOrientation {
     CGPoint center;
     
     bool changing;
+    bool isTimerMode;
     
     NSDate *_date;
 }
@@ -69,6 +70,7 @@ enum SelectDurationDraggingOrientation {
 -(NSDate *) getDate;
 -(void)updateTimerTick:(NSTimer *)timer;
 -(void)update;
+- (void) setTimerMode:(BOOL)on;
 -(id) initWithFrame:(CGRect)frame delegate:(id<SelectDurationViewDelegate>)aDelegate;
 
 @end

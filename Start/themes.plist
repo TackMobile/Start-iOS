@@ -222,7 +222,7 @@
 		<key>innerColor</key>
 		<string>ffffff</string>
 		<key>innerOpacity</key>
-		<real>0.3</real>
+		<real>0.5</real>
 		<key>innerRingColor</key>
 		<string>ffffff</string>
 		<key>innerRingOpacity</key>
@@ -234,9 +234,9 @@
 		<key>innerHandleColor</key>
 		<string>ffffff</string>
 		<key>outerColor</key>
-		<string>000000</string>
+		<string>ffffff</string>
 		<key>outerOpacity</key>
-		<real>0.7</real>
+		<real>0.4</real>
 		<key>outerRingColor</key>
 		<string>ffffff</string>
 		<key>outerRingOpacity</key>
@@ -248,11 +248,11 @@
 		<key>outerHandleColor</key>
 		<string>ffffff</string>
 		<key>centerColor</key>
-		<string>5555ee</string>
+		<string>000000</string>
 		<key>centerOpacity</key>
-		<real>0.8</real>
+		<real>0.6</real>
 		<key>bgFilename</key>
-		<string>Oceanside</string>
+		<string>phoenix</string>
 	</dict>
 </array>
 </plist>

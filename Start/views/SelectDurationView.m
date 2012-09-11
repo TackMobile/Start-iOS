@@ -24,6 +24,7 @@
         handleSelected = SelectDurationNoHandle;
         draggingOrientation = SelectDurationDraggingNone;
         changing = NO;
+        isTimerMode = NO;
         _date = [NSDate date];
         prevOuterAngle = 0;
         outerAngle = innerAngle = 0;
@@ -183,6 +184,10 @@
 }
 
 #pragma mark - Properties
+- (void) setTimerMode:(BOOL)on {
+    isTimerMode = on;
+    [self setNeedsDisplay];
+}
 - (void) updateTheme:(NSDictionary *)newTheme {
     theme = newTheme;
     [self setNeedsDisplay];
@@ -194,13 +199,13 @@
 
 -(NSDate *) getDate {
     int min = (int)roundf(outerAngle/(M_PI*2/60));
-    int hour = (int)roundf(innerAngle/(M_PI*2/12));
+    int hour = (int)roundf(innerAngle/(M_PI*2/24));
     int day = 0;
     
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *dateComponents = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
     
-    if (dateComponents.hour >= 12) {
+    /*if (dateComponents.hour >= 12) {
         hour+=12;
         if (hour < dateComponents.hour)
             hour+=12;
@@ -208,7 +213,7 @@
     if (hour > 24) {
         day++;
         hour -= 24;
-    }
+    }*/
     
     /*if (min == 60) {
         min=0;
@@ -280,10 +285,10 @@
     NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:_date];
     
     int minute = dateComponents.minute;
-    int hour = dateComponents.hour>12?dateComponents.hour-12:dateComponents.hour;
+    int hour = dateComponents.hour;
     int second = dateComponents.second;
         
-    float newInnerAngle = hour * (M_PI*2)/12;
+    float newInnerAngle = hour * (M_PI*2)/24;
     float newOuterAngle = minute * (M_PI*2)/60;
     
     float saveInnerAngle = innerAngle;
@@ -296,10 +301,10 @@
     dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
 
     minute = dateComponents.minute;
-    hour = dateComponents.hour>12?dateComponents.hour-12:dateComponents.hour;
+    hour = dateComponents.hour;
     second = dateComponents.second;
     
-    float newInnerStartAngle = hour * (M_PI*2)/12;
+    float newInnerStartAngle = hour * (M_PI*2)/24;
     float newOuterStartAngle = minute * (M_PI*2)/60;
     
     float saveInnerStartAngle = innerStartAngle;
@@ -355,11 +360,9 @@
         return;
     }
     outerAngle = prevOuterAngle = roundedAngle;
-    
-    [UIWebView 
 }
 -(void) setSnappedInnerAngle:(float)angle {
-    float roundedAngle = roundf(angle/(M_PI*2/12)) * (M_PI*2/12);
+    float roundedAngle = roundf(angle/(M_PI*2/24)) * (M_PI*2/24);
     roundedAngle = roundedAngle==(M_PI*2)?0:roundedAngle;
     innerAngle = roundedAngle;
 }
@@ -369,7 +372,7 @@
     outerStartAngle = roundedAngle;
 }
 -(void) setSnappedInnerStartAngle:(float)angle {
-    float roundedAngle = roundf(angle/(M_PI*2/12)) * (M_PI*2/12);
+    float roundedAngle = roundf(angle/(M_PI*2/24)) * (M_PI*2/24);
     innerStartAngle = roundedAngle;
 }
 
@@ -422,15 +425,22 @@
     
     // outer
     UIBezierPath *outerCircle = [UIBezierPath bezierPath];
-    [outerCircle addArcWithCenter:center radius:innerRadius startAngle:outerStartAngle+startAngle endAngle:outerAngle+startAngle clockwise:YES];
-    [outerCircle addArcWithCenter:center radius:outerRadius startAngle:outerAngle+startAngle endAngle:outerStartAngle+startAngle clockwise:NO];
+    if (isTimerMode) {
+        [outerCircle addArcWithCenter:center radius:innerRadius startAngle:0 endAngle:M_PI*2 clockwise:YES];
+        [outerCircle addArcWithCenter:center radius:outerRadius startAngle:M_PI*2 endAngle:0 clockwise:NO];
+    } else {
+        [outerCircle addArcWithCenter:center radius:innerRadius startAngle:outerStartAngle+startAngle endAngle:outerAngle+startAngle clockwise:YES];
+        [outerCircle addArcWithCenter:center radius:outerRadius startAngle:outerAngle+startAngle endAngle:outerStartAngle+startAngle clockwise:NO];
+    }
     [outerCircle closePath];
     
     UIBezierPath *outerFill = [UIBezierPath bezierPath];
-    [outerFill addArcWithCenter:center radius:innerRadius startAngle:outerAngle+startAngle 
-                       endAngle:outerStartAngle+startAngle clockwise:YES];
-    [outerFill addArcWithCenter:center radius:outerRadius startAngle:outerStartAngle+startAngle 
+    if (!isTimerMode) {
+        [outerFill addArcWithCenter:center radius:innerRadius startAngle:outerAngle+startAngle 
+                           endAngle:outerStartAngle+startAngle clockwise:YES];
+        [outerFill addArcWithCenter:center radius:outerRadius startAngle:outerStartAngle+startAngle 
                        endAngle:outerAngle+startAngle clockwise:NO];
+    }
     [outerFill closePath];
     
     UIBezierPath *outerLine = [UIBezierPath bezierPath];
@@ -439,13 +449,20 @@
 
     // inner
     UIBezierPath *innerCircle = [UIBezierPath bezierPath];
-    [innerCircle addArcWithCenter:center radius:centerRadius startAngle:innerStartAngle+startAngle endAngle:innerAngle+startAngle clockwise:YES];
-    [innerCircle addArcWithCenter:center radius:innerRadius startAngle:innerAngle+startAngle endAngle:innerStartAngle+startAngle clockwise:NO];
+    if (isTimerMode) {
+        [innerCircle addArcWithCenter:center radius:centerRadius startAngle:0 endAngle:M_PI*2 clockwise:YES];
+        [innerCircle addArcWithCenter:center radius:innerRadius startAngle:M_PI*2 endAngle:0 clockwise:NO];
+    } else {
+        [innerCircle addArcWithCenter:center radius:centerRadius startAngle:innerStartAngle+startAngle endAngle:innerAngle+startAngle clockwise:YES];
+        [innerCircle addArcWithCenter:center radius:innerRadius startAngle:innerAngle+startAngle endAngle:innerStartAngle+startAngle clockwise:NO];
+    }
     [innerCircle closePath];
     
     UIBezierPath *innerFill = [UIBezierPath bezierPath];
-    [innerFill addArcWithCenter:center radius:centerRadius startAngle:innerStartAngle+startAngle endAngle:M_PI*2 clockwise:YES];
-    [innerFill addArcWithCenter:center radius:innerRadius startAngle:innerStartAngle+startAngle endAngle:innerAngle+startAngle clockwise:NO];
+    if (!isTimerMode) {
+        [innerFill addArcWithCenter:center radius:centerRadius startAngle:innerStartAngle+startAngle endAngle:M_PI*2 clockwise:YES];
+        [innerFill addArcWithCenter:center radius:innerRadius startAngle:innerStartAngle+startAngle endAngle:innerAngle+startAngle clockwise:NO];
+    }
     [innerFill closePath];
     
     UIBezierPath *centerCircle = [UIBezierPath bezierPathWithOvalInRect:centerRect];
@@ -464,11 +481,13 @@
     [innerLine moveToPoint:[self vectorFromAngle:innerAngle distance:centerRadius origin:center]];
     [innerLine addLineToPoint:[self vectorFromAngle:innerAngle distance:innerRadius origin:center]];
     
-    [[theme objectForKey:@"innerHandleColor"] setStroke];
-    innerLine.lineWidth = 2;    [innerLine stroke];
-        
-    [[theme objectForKey:@"outerHandleColor"] setStroke];
-    outerLine.lineWidth = 2;    [outerLine stroke];
+    if (!isTimerMode) {
+        [[theme objectForKey:@"innerHandleColor"] setStroke];
+        innerLine.lineWidth = 2;    [innerLine stroke];
+            
+        [[theme objectForKey:@"outerHandleColor"] setStroke];
+        outerLine.lineWidth = 2;    [outerLine stroke];
+    }
     
     // draw the rings
     CGRect outerRect = CGRectMake(center.x-outerRadius, center.y-outerRadius, outerRadius*2, outerRadius*2);
