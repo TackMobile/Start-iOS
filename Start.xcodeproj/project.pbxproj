@@ -106,12 +106,6 @@
 		F3CE913715F9518000A14210 /* lynx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CE912B15F9518000A14210 /* lynx@2x.png */; };
 		F3CE913815F9518000A14210 /* pheonix.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CE912C15F9518000A14210 /* pheonix.png */; };
 		F3CE913915F9518000A14210 /* phoenix@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CE912D15F9518000A14210 /* phoenix@2x.png */; };
-		F3D82F7515D45BA500E120B3 /* 1.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3D82F6F15D45BA500E120B3 /* 1.wav */; };
-		F3D82F7615D45BA500E120B3 /* 2.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3D82F7015D45BA500E120B3 /* 2.wav */; };
-		F3D82F7715D45BA500E120B3 /* 3.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3D82F7115D45BA500E120B3 /* 3.wav */; };
-		F3D82F7815D45BA500E120B3 /* 4.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3D82F7215D45BA500E120B3 /* 4.wav */; };
-		F3D82F7915D45BA500E120B3 /* 5.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3D82F7315D45BA500E120B3 /* 5.wav */; };
-		F3D82F7A15D45BA500E120B3 /* 6.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3D82F7415D45BA500E120B3 /* 6.wav */; };
 		F3D82F8015D96D4B00E120B3 /* SettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3D82F7F15D96D4A00E120B3 /* SettingsView.m */; };
 		F3E5C39515BDBE10006959F4 /* NPTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E5C39415BDBE10006959F4 /* NPTableView.m */; };
 		F3E78B6B15C8BA2C0028ED08 /* Treescape.png in Resources */ = {isa = PBXBuildFile; fileRef = F3E78B6915C8BA2C0028ED08 /* Treescape.png */; };
@@ -126,6 +120,12 @@
 		F3F17DF915FFD4090067D510 /* pinch-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3F17DEF15FFD4090067D510 /* pinch-icon@2x.png */; };
 		F3F17DFA15FFD4090067D510 /* set-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F3F17DF015FFD4090067D510 /* set-icon.png */; };
 		F3F17DFB15FFD4090067D510 /* set-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3F17DF115FFD4090067D510 /* set-icon@2x.png */; };
+		F3F17E6115FFE2DA0067D510 /* chamaeleon.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3F17E5B15FFE2DA0067D510 /* chamaeleon.wav */; };
+		F3F17E6215FFE2DA0067D510 /* epsilon.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3F17E5C15FFE2DA0067D510 /* epsilon.wav */; };
+		F3F17E6315FFE2DA0067D510 /* galaxy.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3F17E5D15FFE2DA0067D510 /* galaxy.wav */; };
+		F3F17E6415FFE2DA0067D510 /* hydrus.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3F17E5E15FFE2DA0067D510 /* hydrus.wav */; };
+		F3F17E6515FFE2DA0067D510 /* lynx.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3F17E5F15FFE2DA0067D510 /* lynx.wav */; };
+		F3F17E6615FFE2DA0067D510 /* phoenix.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3F17E6015FFE2DA0067D510 /* phoenix.wav */; };
 		F3F825C51598CCD00017B752 /* toolbarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = F3F825C41598CCD00017B752 /* toolbarBG.png */; };
 		F3F825CB1598E63C0017B752 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3F825CA1598E63C0017B752 /* Roboto-Light.ttf */; };
 		F3FD676D15A740E90002AFC9 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FD676915A740E90002AFC9 /* libTestFlight.a */; };
@@ -260,12 +260,6 @@
 		F3CE912B15F9518000A14210 /* lynx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lynx@2x.png"; sourceTree = "<group>"; };
 		F3CE912C15F9518000A14210 /* pheonix.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pheonix.png; sourceTree = "<group>"; };
 		F3CE912D15F9518000A14210 /* phoenix@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phoenix@2x.png"; sourceTree = "<group>"; };
-		F3D82F6F15D45BA500E120B3 /* 1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 1.wav; sourceTree = "<group>"; };
-		F3D82F7015D45BA500E120B3 /* 2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 2.wav; sourceTree = "<group>"; };
-		F3D82F7115D45BA500E120B3 /* 3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 3.wav; sourceTree = "<group>"; };
-		F3D82F7215D45BA500E120B3 /* 4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 4.wav; sourceTree = "<group>"; };
-		F3D82F7315D45BA500E120B3 /* 5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 5.wav; sourceTree = "<group>"; };
-		F3D82F7415D45BA500E120B3 /* 6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 6.wav; sourceTree = "<group>"; };
 		F3D82F7E15D96D4A00E120B3 /* SettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsView.h; sourceTree = "<group>"; };
 		F3D82F7F15D96D4A00E120B3 /* SettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsView.m; sourceTree = "<group>"; };
 		F3E5C39315BDBE10006959F4 /* NPTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPTableView.h; path = views/NPTableView.h; sourceTree = "<group>"; };
@@ -282,6 +276,12 @@
 		F3F17DEF15FFD4090067D510 /* pinch-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pinch-icon@2x.png"; sourceTree = "<group>"; };
 		F3F17DF015FFD4090067D510 /* set-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "set-icon.png"; sourceTree = "<group>"; };
 		F3F17DF115FFD4090067D510 /* set-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "set-icon@2x.png"; sourceTree = "<group>"; };
+		F3F17E5B15FFE2DA0067D510 /* chamaeleon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chamaeleon.wav; sourceTree = "<group>"; };
+		F3F17E5C15FFE2DA0067D510 /* epsilon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = epsilon.wav; sourceTree = "<group>"; };
+		F3F17E5D15FFE2DA0067D510 /* galaxy.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = galaxy.wav; sourceTree = "<group>"; };
+		F3F17E5E15FFE2DA0067D510 /* hydrus.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hydrus.wav; sourceTree = "<group>"; };
+		F3F17E5F15FFE2DA0067D510 /* lynx.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lynx.wav; sourceTree = "<group>"; };
+		F3F17E6015FFE2DA0067D510 /* phoenix.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = phoenix.wav; sourceTree = "<group>"; };
 		F3F825C41598CCD00017B752 /* toolbarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = toolbarBG.png; path = img/toolbarBG.png; sourceTree = "<group>"; };
 		F3F825CA1598E63C0017B752 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
 		F3FD676915A740E90002AFC9 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
@@ -380,12 +380,12 @@
 		F335A2CC15D418DF00F0A552 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				F3D82F6F15D45BA500E120B3 /* 1.wav */,
-				F3D82F7015D45BA500E120B3 /* 2.wav */,
-				F3D82F7115D45BA500E120B3 /* 3.wav */,
-				F3D82F7215D45BA500E120B3 /* 4.wav */,
-				F3D82F7315D45BA500E120B3 /* 5.wav */,
-				F3D82F7415D45BA500E120B3 /* 6.wav */,
+				F3F17E5B15FFE2DA0067D510 /* chamaeleon.wav */,
+				F3F17E5C15FFE2DA0067D510 /* epsilon.wav */,
+				F3F17E5D15FFE2DA0067D510 /* galaxy.wav */,
+				F3F17E5E15FFE2DA0067D510 /* hydrus.wav */,
+				F3F17E5F15FFE2DA0067D510 /* lynx.wav */,
+				F3F17E6015FFE2DA0067D510 /* phoenix.wav */,
 			);
 			name = Audio;
 			sourceTree = "<group>";
@@ -818,12 +818,6 @@
 				F3E78B6C15C8BA2C0028ED08 /* Treescape@2x.png in Resources */,
 				F326511A15CAD61400ABAF60 /* Brandon.png in Resources */,
 				F326511B15CAD61400ABAF60 /* Brandon@2x.png in Resources */,
-				F3D82F7515D45BA500E120B3 /* 1.wav in Resources */,
-				F3D82F7615D45BA500E120B3 /* 2.wav in Resources */,
-				F3D82F7715D45BA500E120B3 /* 3.wav in Resources */,
-				F3D82F7815D45BA500E120B3 /* 4.wav in Resources */,
-				F3D82F7915D45BA500E120B3 /* 5.wav in Resources */,
-				F3D82F7A15D45BA500E120B3 /* 6.wav in Resources */,
 				F37C93CB15E97FEA000EBE07 /* Icon.png in Resources */,
 				F37C93CD15E97FF0000EBE07 /* Icon@2x.png in Resources */,
 				F37C93D415E981C2000EBE07 /* grid.png in Resources */,
@@ -859,6 +853,12 @@
 				F3F17DF915FFD4090067D510 /* pinch-icon@2x.png in Resources */,
 				F3F17DFA15FFD4090067D510 /* set-icon.png in Resources */,
 				F3F17DFB15FFD4090067D510 /* set-icon@2x.png in Resources */,
+				F3F17E6115FFE2DA0067D510 /* chamaeleon.wav in Resources */,
+				F3F17E6215FFE2DA0067D510 /* epsilon.wav in Resources */,
+				F3F17E6315FFE2DA0067D510 /* galaxy.wav in Resources */,
+				F3F17E6415FFE2DA0067D510 /* hydrus.wav in Resources */,
+				F3F17E6515FFE2DA0067D510 /* lynx.wav in Resources */,
+				F3F17E6615FFE2DA0067D510 /* phoenix.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

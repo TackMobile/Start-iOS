@@ -10,7 +10,7 @@
 		<key>title</key>
 		<string>Chamaeleon</string>
 		<key>filename</key>
-		<string>1</string>
+		<string>chamaeleon</string>
 	</dict>
 	<dict>
 		<key>themeID</key>
@@ -20,7 +20,7 @@
 		<key>title</key>
 		<string>Epsilon</string>
 		<key>filename</key>
-		<string>2</string>
+		<string>epsilon</string>
 	</dict>
 	<dict>
 		<key>themeID</key>
@@ -30,7 +30,7 @@
 		<key>title</key>
 		<string>Galaxy</string>
 		<key>filename</key>
-		<string>3</string>
+		<string>galaxy</string>
 	</dict>
 	<dict>
 		<key>themeID</key>
@@ -40,7 +40,7 @@
 		<key>title</key>
 		<string>Hydrus</string>
 		<key>filename</key>
-		<string>4</string>
+		<string>hydrus</string>
 	</dict>
 	<dict>
 		<key>themeID</key>
@@ -50,7 +50,7 @@
 		<key>title</key>
 		<string>Lynx</string>
 		<key>filename</key>
-		<string>5</string>
+		<string>lynx</string>
 	</dict>
 	<dict>
 		<key>themeID</key>
@@ -60,7 +60,7 @@
 		<key>title</key>
 		<string>Phoenix</string>
 		<key>filename</key>
-		<string>6</string>
+		<string>phoenix</string>
 	</dict>
 </array>
 </plist>
