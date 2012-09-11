@@ -19,7 +19,7 @@ const float optionHeight = 40;
         pickingSnooze = NO;
         selectedIndex = 0;
         
-        bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default"]];
+        bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background"]];
         tackLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tack-logo"]];
         tackButton = [[UIButton alloc] init];
         underline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search-divider"]];
