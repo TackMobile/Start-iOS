@@ -70,7 +70,7 @@ enum SelectDurationDraggingOrientation {
 -(NSDate *) getDate;
 -(void)updateTimerTick:(NSTimer *)timer;
 -(void)update;
-- (void) setTimerMode:(BOOL)on;
+- (void) setTimerMode:(NSNumber *)on;
 -(id) initWithFrame:(CGRect)frame delegate:(id<SelectDurationViewDelegate>)aDelegate;
 
 @end

@@ -40,6 +40,8 @@
     
     [self.view addSubview:settingsView];
     [self.view addSubview:selectAlarmView];
+    
+    [settingsView.addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     // init the alams that were stored
     NSArray *userAlarms = [pListModel getAlarms];
     if ([userAlarms count]>0) {

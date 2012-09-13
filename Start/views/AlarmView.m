@@ -99,11 +99,13 @@ const float Spacing = 0.0f;
         // initial properties
         [selectedTimeView updateDate:[selectDurationView getDate] part:SelectDurationNoHandle];
         [toolbarImage setImage:[UIImage imageNamed:@"toolbarBG"]];
-        [backgroundImage setImage:[UIImage imageNamed:@"noAlbumImage"]];
+        [backgroundImage setImage:[UIImage imageNamed:@"epsilon"]];
         [self setBackgroundColor:[UIColor blackColor]];
         [countdownView setAlpha:0];
         [timerView setAlpha:0];
         [patternOverlay setAlpha:0];
+        [toolbarImage setAlpha:0];
+        [selectAlarmBg setAlpha:0];
         CGRect selectActionTableViewRect = CGRectMake(0, 0, frameRect.size.width-75, self.frame.size.height);
         [selectActionView.actionTableView setFrame:selectActionTableViewRect];
         
@@ -163,9 +165,10 @@ const float Spacing = 0.0f;
         if ([(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue]) {
             isSet = YES;
         }
-        /*if ([(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue]) {
-            isTimerMode = YES;
-        }*/ // does not hide selectsong properly
+        if ([(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue]) {
+            isTimerMode = NO;
+            [alarmInfo setObject:[NSNumber numberWithBool:NO] forKey:@"isTimerMode"];
+        } // does not hide selectsong properly
         [self animateSelectDurToRest];
     }
     
@@ -342,13 +345,7 @@ const float Spacing = 0.0f;
     } else {
         [toolbarImage setAlpha:1];
         [selectAlarmBg setAlpha:1];
-        
-        if (themeID == 0) {
-            [backgroundImage setImage:[UIImage imageNamed:@"noAlbumImage"]];
-            [patternOverlay setAlpha:0];
-        } else
-            [patternOverlay setAlpha:1];
-        
+                
         theme = [musicManager getThemeWithID:6];
         [selectDurationView updateTheme:theme];
     }
@@ -404,7 +401,7 @@ const float Spacing = 0.0f;
     return [delegate getMusicPlayer];
 }
 -(BOOL) expandSelectSongView {
-    if (pickingAction || isSnoozing)
+    if (pickingAction || isSnoozing || countdownEnded)
         return NO;
     
     pickingSong = YES;
@@ -476,7 +473,7 @@ const float Spacing = 0.0f;
 
 #pragma mark - SelectActionViewDelegate
 -(BOOL) expandSelectActionView {
-    if (pickingSong || isSnoozing)
+    if (pickingAction || isSnoozing || countdownEnded)
         return NO;
     
     pickingAction = YES;
@@ -541,22 +538,8 @@ const float Spacing = 0.0f;
     }];
 }
 
-
-#pragma mark - CountdownTimerDelegate
-- (void) countdown:(id)countdown tickWithDate:(NSDate *)date {
-    
-}
-- (void) countdownEnded:(id)countdown {
-    
-}
-
 #pragma mark - SelectDurationViewDelegate
--(void) durationDidChange:(SelectDurationView *)selectDuration {
-    NSDate *dateSelected = [selectDuration getDate];
-    // zero the minute
-    NSTimeInterval time = round([dateSelected timeIntervalSinceNow] / 60.0) * 60.0;
-    //[selectDuration setTimeInterval:time];
-    
+-(void) durationDidChange:(SelectDurationView *)selectDuration {    
     // update selected time
     [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
 }
@@ -625,9 +608,9 @@ const float Spacing = 0.0f;
     if (countdownEnded) {
         countdownEnded = NO;
         isSnoozing = YES;
-        NSTimeInterval snoozeTime = .5 + [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
+        NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
         NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
-        [alarmInfo setObject:snoozeDate forKey:@"da9te"];
+        [alarmInfo setObject:snoozeDate forKey:@"date"];
         [selectDuration setDate:snoozeDate];
         [selectedTimeView updateDate:snoozeDate part:SelectDurationNoHandle];
         [[delegate getMusicPlayer] stop];
@@ -725,12 +708,14 @@ const float Spacing = 0.0f;
     // reset the timer if it is new
     if (!isTimerMode && timer) {
         [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
-        [selectDurationView setTimerMode:YES];
+        [selectDurationView performSelectorInBackground:@selector(setTimerMode:) 
+                                             withObject:[NSNumber numberWithBool:YES]];
     } else if (!timer && isTimerMode) {
         // zero out the timer
         [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
         [self updateProperties];
-        [selectDurationView setTimerMode:NO];
+        [selectDurationView performSelectorInBackground:@selector(setTimerMode:) 
+                                             withObject:[NSNumber numberWithBool:NO]];
     }
 
     isSet = set;

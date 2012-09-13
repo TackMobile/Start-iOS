@@ -143,7 +143,9 @@
         
         if (indexPath.section == 1) { // none
             songID = [NSNumber numberWithInt:-1];
-            themeID = [NSNumber numberWithInt:(int)floorf((rand()/RAND_MAX)*5)]; // random theme
+            int rand = arc4random() % 5;
+            NSLog(@"trand: %i", rand);
+            themeID = [NSNumber numberWithInt:rand]; // random theme
         } else if (indexPath.section == 2) { // preset
             songID = [NSNumber numberWithInt:indexPath.row];
             themeID = [NSNumber numberWithInt:indexPath.row];
@@ -482,10 +484,10 @@
     
     [songDurationIndicator setFrame:durRect];
     
-    NSLog(@"%f, %f, %f, %f", songDurationIndicator.frame.origin.x, 
+    /*NSLog(@"%f, %f, %f, %f", songDurationIndicator.frame.origin.x, 
           songDurationIndicator.frame.origin.y, 
           songDurationIndicator.frame.size.width, 
-          songDurationIndicator.frame.size.height);
+          songDurationIndicator.frame.size.height);*/
 }
 
 #pragma mark - functions

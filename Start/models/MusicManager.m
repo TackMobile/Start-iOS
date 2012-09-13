@@ -125,7 +125,7 @@
 
 - (UIImage *) getRandomImage {
     // testing
-    return [UIImage imageNamed:@"noAlbumImage"];
+    return [UIImage imageNamed:@"epsilon"];
 }
 @end
 

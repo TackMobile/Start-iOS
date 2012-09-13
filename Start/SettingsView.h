@@ -16,6 +16,7 @@
     UIButton *tackButton;
     
     UIImageView *underline;
+    UIImageView *intro;
     
     UILabel *copyText;
     UIScrollView *timePicker;
@@ -25,6 +26,8 @@
     int selectedIndex;
     bool pickingSnooze;
 }
+
+@property (nonatomic, strong) UIButton *addButton;
 
 -(void) navigatingAway;
 @end

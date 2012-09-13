@@ -9,6 +9,7 @@
 #import "SettingsView.h"
 
 @implementation SettingsView
+@synthesize addButton;
 
 const float optionHeight = 40;
 
@@ -22,7 +23,9 @@ const float optionHeight = 40;
         bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background"]];
         tackLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tack-logo"]];
         tackButton = [[UIButton alloc] init];
+        addButton = [[UIButton alloc] init];
         underline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search-divider"]];
+        intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"intro"]];
         copyText = [[UILabel alloc] init];
         tackCopy = [[UILabel alloc] init];
         timePicker = [[UIScrollView alloc] init];
@@ -30,16 +33,22 @@ const float optionHeight = 40;
         [self addSubview:bgImage];
         [self addSubview:tackLogo];
         [self addSubview:underline];
+        [bgImage addSubview:intro];
         [self addSubview:copyText];
         [self addSubview:tackCopy];
         [self addSubview:tackButton];
         [self addSubview:timePicker];
+        [self addSubview:addButton];
                 
         [copyText setText:@"Sleep Duration:           min"]; // leave the spaces. i know, a hack
         [tackCopy setText:@"Assembled by"];
         [tackLogo setAlpha:.8];
         
         [tackButton addTarget:self action:@selector(tackTapped:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [addButton setBackgroundImage:[UIImage imageNamed:@"plusButton"] forState:UIControlStateNormal];
+        // created by del
+        //[addButton addTarget:self action:@selector(addTapped:) forControlEvents:UIControlEventTouchUpInside];
         
         [timePicker setDelegate:self];
         [timePicker setShowsVerticalScrollIndicator:NO];
@@ -105,27 +114,34 @@ const float optionHeight = 40;
     [super layoutSubviews];
     
     CGSize frameSize = [[UIScreen mainScreen] applicationFrame].size;
+    CGSize introSize = CGSizeMake(260, 221);
+    CGSize plusSize = CGSizeMake(38, 38);
+    
     
     CGSize tackTextSize = [[tackCopy text] sizeWithFont:[tackCopy font]];
     CGSize copyTextSize = [[copyText text] sizeWithFont:[copyText font]];
     
     CGRect bgRect = CGRectMake(0, frameSize.height - bgImage.frame.size.height, frameSize.width, bgImage.frame.size.height);
-    CGRect tackCopyRect = CGRectMake((frameSize.width - (tackTextSize.width+41))/2,
-                                     frameSize.height - 70, 
+    CGRect tackCopyRect = CGRectMake((frameSize.width - (tackTextSize.width+41)) - 25,
+                                     frameSize.height - 40, 
                                      tackTextSize.width, tackTextSize.height);
 
     CGRect tackRect = CGRectMake(tackCopyRect.origin.x + tackCopyRect.size.width + 5, 
                                  tackCopyRect.origin.y - 15, 41, 40);
-    CGRect tackButtonRect = CGRectMake(0, tackRect.origin.y - 5, 
-                                       frameSize.width, frameSize.height-(tackRect.origin.y-5));
+    CGRect tackButtonRect = CGRectMake(frameSize.width/2, tackRect.origin.y - 5, 
+                                       frameSize.width/2, frameSize.height-(tackRect.origin.y-5));
     CGRect copyTextRect = CGRectMake(15, 20, 
                                      copyTextSize.width, copyTextSize.height);
     CGRect underlineRect = CGRectMake(copyTextRect.origin.x, 
                                       copyTextRect.origin.y + copyTextRect.size.height + 4,
                                       frameSize.width-(copyTextRect.origin.y*2),
                                       1);
+    CGRect introRect= CGRectMake(underlineRect.origin.x, underlineRect.origin.y + 50, 
+                                 introSize.width, introSize.height);
     CGRect scrollRect = CGRectMake(frameSize.width-180, 0, 180,
                                    frameSize.height);
+    CGRect plusRect = CGRectMake(5, frameSize.height - plusSize.height - 5,
+                                 plusSize.width, plusSize.height);
     
     bgImage.frame = bgRect;
     tackLogo.frame = tackRect;
@@ -133,7 +149,9 @@ const float optionHeight = 40;
     tackButton.frame = tackButtonRect;
     copyText.frame = copyTextRect;
     underline.frame = underlineRect;
+    intro.frame = introRect;
     timePicker.frame = scrollRect;
+    addButton.frame = plusRect;
     
     // time picker
     NSArray *timeSubviews = [timePicker subviews];
@@ -165,7 +183,7 @@ const float optionHeight = 40;
 }
 
 -(void)tackTapped:(id)button {
-    NSURL* tackURL = [NSURL URLWithString:@"http://tackmobile.com/products/start"];
+    NSURL* tackURL = [NSURL URLWithString:@"http://tackmobile.com/products/start?ref=start"];
     if ([[UIApplication sharedApplication] canOpenURL:tackURL])
         [[UIApplication sharedApplication] openURL:tackURL];
 }
@@ -182,8 +200,7 @@ const float optionHeight = 40;
     UITouch *touch = [touches anyObject];
     CGPoint touchLoc = [touch locationInView:self];
     
-    if (!pickingSnooze && CGRectContainsPoint(CGRectMake(0, 0, [[UIScreen mainScreen] applicationFrame].size.width,
-                                                         copyText.frame.size.height + copyText.frame.origin.y), touchLoc)) {
+    if (!pickingSnooze && CGRectContainsPoint(CGRectMake(0, 0, [[UIScreen mainScreen] applicationFrame].size.width, copyText.frame.size.height + copyText.frame.origin.y), touchLoc)) {
         pickingSnooze = YES;
         [self animateTimePicker];
     }

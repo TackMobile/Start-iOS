@@ -36,6 +36,7 @@
 }
 
 - (void) playSongWithID:(NSNumber *)songID vibrate:(bool)vibrate {    
+    NSLog(@"song ID: %i", [ songID intValue]);
     stopped = NO;
     if ([songID intValue] >= 0 && [songID intValue] < 6) {
         if (!audioLibrary) {
@@ -72,7 +73,7 @@
 
 }
 
-- (void) playAudioWithPath:(NSString *)path volume:(float)volume {    
+- (void) playAudioWithPath:(NSString *)path volume:(float)volume { 
     NSError *setURLError = nil;
     
     audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&setURLError];
@@ -81,6 +82,13 @@
     
     [audioPlayer setVolume:volume];
     [audioPlayer setNumberOfLoops:-1];
+    
+    // enable bg playing
+    NSError *catError = nil;
+
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&catError];
+    if (catError)
+        NSLog(@"%@", catError);
     
     if (![audioPlayer play])
         NSLog(@"could not play");

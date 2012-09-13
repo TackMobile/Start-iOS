@@ -33,13 +33,13 @@
         
         // default theme
         theme = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
-                 [UIColor colorWithWhite:1 alpha:.7],@"outerRingColor",
-                 [UIColor colorWithWhite:1 alpha:.7],@"innerRingColor",
-                 [UIColor colorWithWhite:0 alpha:.7],@"outerColor",
-                 [UIColor colorWithWhite:1 alpha:.35],@"innerColor",
+                 [UIColor colorWithWhite:1 alpha:1],@"outerRingColor",
+                 [UIColor colorWithWhite:1 alpha:1],@"innerRingColor",
+                 [UIColor colorWithWhite:1 alpha:.4],@"outerColor",
+                 [UIColor colorWithWhite:1 alpha:.5],@"innerColor",
                  [UIColor clearColor],@"outerFillColor",
                  [UIColor clearColor],@"innerFillColor",
-                 [UIColor colorWithWhite:0 alpha:.8],@"centerColor",
+                 [UIColor colorWithWhite:0 alpha:.6],@"centerColor",
                  [UIColor whiteColor],@"outerHandleColor",
                  [UIColor whiteColor],@"innerHandleColor",
                  [UIImage imageNamed:@"squares"],@"bgImg",
@@ -184,8 +184,8 @@
 }
 
 #pragma mark - Properties
-- (void) setTimerMode:(BOOL)on {
-    isTimerMode = on;
+- (void) setTimerMode:(NSNumber *)on {
+    isTimerMode = [on boolValue];
     [self setNeedsDisplay];
 }
 - (void) updateTheme:(NSDictionary *)newTheme {
@@ -432,7 +432,7 @@
         [outerCircle addArcWithCenter:center radius:innerRadius startAngle:outerStartAngle+startAngle endAngle:outerAngle+startAngle clockwise:YES];
         [outerCircle addArcWithCenter:center radius:outerRadius startAngle:outerAngle+startAngle endAngle:outerStartAngle+startAngle clockwise:NO];
     }
-    [outerCircle closePath];
+    //[outerCircle closePath];
     
     UIBezierPath *outerFill = [UIBezierPath bezierPath];
     if (!isTimerMode) {
@@ -441,7 +441,7 @@
         [outerFill addArcWithCenter:center radius:outerRadius startAngle:outerStartAngle+startAngle 
                        endAngle:outerAngle+startAngle clockwise:NO];
     }
-    [outerFill closePath];
+    //[outerFill closePath];
     
     UIBezierPath *outerLine = [UIBezierPath bezierPath];
     [outerLine moveToPoint:[self vectorFromAngle:outerAngle distance:innerRadius origin:center]];
@@ -456,14 +456,14 @@
         [innerCircle addArcWithCenter:center radius:centerRadius startAngle:innerStartAngle+startAngle endAngle:innerAngle+startAngle clockwise:YES];
         [innerCircle addArcWithCenter:center radius:innerRadius startAngle:innerAngle+startAngle endAngle:innerStartAngle+startAngle clockwise:NO];
     }
-    [innerCircle closePath];
+    //[innerCircle closePath];
     
     UIBezierPath *innerFill = [UIBezierPath bezierPath];
     if (!isTimerMode) {
         [innerFill addArcWithCenter:center radius:centerRadius startAngle:innerStartAngle+startAngle endAngle:M_PI*2 clockwise:YES];
         [innerFill addArcWithCenter:center radius:innerRadius startAngle:innerStartAngle+startAngle endAngle:innerAngle+startAngle clockwise:NO];
     }
-    [innerFill closePath];
+    //[innerFill closePath];
     
     UIBezierPath *centerCircle = [UIBezierPath bezierPathWithOvalInRect:centerRect];
     

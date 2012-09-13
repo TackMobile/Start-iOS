@@ -49,6 +49,7 @@ enum SwitchAlarmDirection {
 - (void) alarmView:(AlarmView *)alarmView draggedWithXVel:(float)xVel;
 - (void) alarmView:(AlarmView *)alarmView stoppedDraggingWithX:(float)x;
 
+- (void) settingsAddTapped:(id)button;
 
 
 @end
