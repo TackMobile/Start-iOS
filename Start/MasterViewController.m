@@ -13,7 +13,7 @@
 
 @implementation MasterViewController
 @synthesize alarms, musicPlayer, settingsView;
-@synthesize pListModel, selectAlarmView, tickTimer;
+@synthesize pListModel, selectAlarmView, tickTimer, addButton;
 
 - (void)viewDidLoad
 {    
@@ -26,8 +26,13 @@
     pListModel = [[PListModel alloc] init];
     
     // views
+    CGSize plusSize = CGSizeMake(38, 38);
+
     CGRect frameRect = [[UIScreen mainScreen] applicationFrame];
     CGRect selectAlarmRect = CGRectMake(0, frameRect.size.height-50, frameRect.size.width, 50);
+    CGRect plusRect = CGRectMake(5, self.view.frame.size.height - plusSize.height - 5,
+                                 plusSize.width, plusSize.height);
+
 
     currAlarmRect = CGRectMake(-Spacing, 0, frameRect.size.width+(Spacing*2), frameRect.size.height);
     prevAlarmRect = CGRectOffset(currAlarmRect, -frameRect.size.width-Spacing, 0);
@@ -37,11 +42,15 @@
     musicPlayer = [[MusicPlayer alloc] init];
     [musicPlayer addTargetForSampling:self selector:@selector(songPlayingTick:)];
     settingsView = [[SettingsView alloc] initWithFrame:CGRectOffset(frameRect, 0, -frameRect.origin.y)];
+    addButton = [[UIButton alloc] initWithFrame:plusRect];
     
     [self.view addSubview:settingsView];
     [self.view addSubview:selectAlarmView];
+    [self.view addSubview:addButton];
     
-    [settingsView.addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [addButton setBackgroundImage:[UIImage imageNamed:@"plusButton"] forState:UIControlStateNormal];
+    [addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
     // init the alams that were stored
     NSArray *userAlarms = [pListModel getAlarms];
     if ([userAlarms count]>0) {

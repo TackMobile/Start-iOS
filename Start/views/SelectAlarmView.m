@@ -33,7 +33,7 @@ const float setAlarmY = 15;
         
         [plusButton addTarget:self action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
-        [self addSubview:plusButton];
+        //[self addSubview:plusButton];
         [self addSubview:alarmContainer];
         
         // init

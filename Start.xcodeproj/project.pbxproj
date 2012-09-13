@@ -118,6 +118,7 @@
 		F3CA96D71602333D00D237FC /* pinch-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA96CB1602333D00D237FC /* pinch-icon@2x.png */; };
 		F3CA96D81602333D00D237FC /* set-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA96CC1602333D00D237FC /* set-icon.png */; };
 		F3CA96D91602333D00D237FC /* set-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA96CD1602333D00D237FC /* set-icon@2x.png */; };
+		F3CA96DD1602364000D237FC /* radialGradientView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CA96DC1602364000D237FC /* radialGradientView.m */; };
 		F3CD846E158FB0A400703717 /* SelectedTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CD846D158FB0A400703717 /* SelectedTimeView.m */; };
 		F3E5C39515BDBE10006959F4 /* NPTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E5C39415BDBE10006959F4 /* NPTableView.m */; };
 		F3F825CB1598E63C0017B752 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3F825CA1598E63C0017B752 /* Roboto-Light.ttf */; };
@@ -265,6 +266,8 @@
 		F3CA96CB1602333D00D237FC /* pinch-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "pinch-icon@2x.png"; path = "Start/img/intro/pinch-icon@2x.png"; sourceTree = SOURCE_ROOT; };
 		F3CA96CC1602333D00D237FC /* set-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "set-icon.png"; path = "Start/img/intro/set-icon.png"; sourceTree = SOURCE_ROOT; };
 		F3CA96CD1602333D00D237FC /* set-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "set-icon@2x.png"; path = "Start/img/intro/set-icon@2x.png"; sourceTree = SOURCE_ROOT; };
+		F3CA96DB1602364000D237FC /* radialGradientView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = radialGradientView.h; path = views/radialGradientView.h; sourceTree = "<group>"; };
+		F3CA96DC1602364000D237FC /* radialGradientView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = radialGradientView.m; path = views/radialGradientView.m; sourceTree = "<group>"; };
 		F3CD846C158FB0A400703717 /* SelectedTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectedTimeView.h; path = views/SelectedTimeView.h; sourceTree = "<group>"; };
 		F3CD846D158FB0A400703717 /* SelectedTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectedTimeView.m; path = views/SelectedTimeView.m; sourceTree = "<group>"; };
 		F3E5C39315BDBE10006959F4 /* NPTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPTableView.h; path = views/NPTableView.h; sourceTree = "<group>"; };
@@ -367,6 +370,8 @@
 				F3FEC0A615AC86350032B893 /* CountdownView.m */,
 				F3143CE415C4D9AD0098A276 /* TimerView.h */,
 				F3143CE515C4D9AE0098A276 /* TimerView.m */,
+				F3CA96DB1602364000D237FC /* radialGradientView.h */,
+				F3CA96DC1602364000D237FC /* radialGradientView.m */,
 			);
 			name = AlarmView;
 			sourceTree = "<group>";
@@ -815,6 +820,7 @@
 				F3143CE615C4D9AE0098A276 /* TimerView.m in Sources */,
 				F3CA96381602328C00D237FC /* SettingsView.m in Sources */,
 				F3CA963B160232A000D237FC /* SelectSongView.m in Sources */,
+				F3CA96DD1602364000D237FC /* radialGradientView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -40,6 +40,8 @@ enum SwitchAlarmDirection {
 @property (nonatomic, strong) PListModel *pListModel;
 @property (nonatomic, strong) NSTimer *tickTimer;
 
+@property (nonatomic, strong) UIButton *addButton;
+
 - (void) saveAlarms;
 - (void) scheduleLocalNotifications;
 
@@ -48,8 +50,5 @@ enum SwitchAlarmDirection {
 - (void) songPlayingTick:(NSTimer *)timer;
 - (void) alarmView:(AlarmView *)alarmView draggedWithXVel:(float)xVel;
 - (void) alarmView:(AlarmView *)alarmView stoppedDraggingWithX:(float)x;
-
-- (void) settingsAddTapped:(id)button;
-
 
 @end

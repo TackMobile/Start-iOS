@@ -27,7 +27,5 @@
     bool pickingSnooze;
 }
 
-@property (nonatomic, strong) UIButton *addButton;
-
 -(void) navigatingAway;
 @end

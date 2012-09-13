@@ -9,7 +9,6 @@
 #import "SettingsView.h"
 
 @implementation SettingsView
-@synthesize addButton;
 
 const float optionHeight = 40;
 
@@ -23,7 +22,6 @@ const float optionHeight = 40;
         bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background"]];
         tackLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tack-logo"]];
         tackButton = [[UIButton alloc] init];
-        addButton = [[UIButton alloc] init];
         underline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search-divider"]];
         intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"intro"]];
         copyText = [[UILabel alloc] init];
@@ -38,18 +36,13 @@ const float optionHeight = 40;
         [self addSubview:tackCopy];
         [self addSubview:tackButton];
         [self addSubview:timePicker];
-        [self addSubview:addButton];
                 
         [copyText setText:@"Sleep Duration:           min"]; // leave the spaces. i know, a hack
         [tackCopy setText:@"Assembled by"];
         [tackLogo setAlpha:.8];
         
         [tackButton addTarget:self action:@selector(tackTapped:) forControlEvents:UIControlEventTouchUpInside];
-        
-        [addButton setBackgroundImage:[UIImage imageNamed:@"plusButton"] forState:UIControlStateNormal];
-        // created by del
-        //[addButton addTarget:self action:@selector(addTapped:) forControlEvents:UIControlEventTouchUpInside];
-        
+                
         [timePicker setDelegate:self];
         [timePicker setShowsVerticalScrollIndicator:NO];
         [timePicker setShowsHorizontalScrollIndicator:NO];
@@ -115,7 +108,6 @@ const float optionHeight = 40;
     
     CGSize frameSize = [[UIScreen mainScreen] applicationFrame].size;
     CGSize introSize = CGSizeMake(260, 221);
-    CGSize plusSize = CGSizeMake(38, 38);
     
     
     CGSize tackTextSize = [[tackCopy text] sizeWithFont:[tackCopy font]];
@@ -140,8 +132,6 @@ const float optionHeight = 40;
                                  introSize.width, introSize.height);
     CGRect scrollRect = CGRectMake(frameSize.width-180, 0, 180,
                                    frameSize.height);
-    CGRect plusRect = CGRectMake(5, frameSize.height - plusSize.height - 5,
-                                 plusSize.width, plusSize.height);
     
     bgImage.frame = bgRect;
     tackLogo.frame = tackRect;
@@ -151,7 +141,6 @@ const float optionHeight = 40;
     underline.frame = underlineRect;
     intro.frame = introRect;
     timePicker.frame = scrollRect;
-    addButton.frame = plusRect;
     
     // time picker
     NSArray *timeSubviews = [timePicker subviews];
