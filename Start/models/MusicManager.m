@@ -32,6 +32,8 @@
 
 - (NSDictionary *)formatTheme:(NSDictionary *)pListTheme {
     NSMutableDictionary *theme = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+                                [UIColor blackColor],@"bgInnerColor",
+                                [UIColor blackColor],@"bgOuterColor",
                                 [UIColor blackColor],@"outerRingColor",
                                 [UIColor blackColor],@"innerRingColor",
                                 [UIColor blackColor],@"outerColor",
@@ -44,6 +46,11 @@
                                 [UIImage imageNamed:@"squares"], @"bgImg",
                                 nil];    
     float opacity = 1.0;
+    
+    [theme setObject:[UIColor colorWithHexString:[pListTheme objectForKey:@"bgInnerColor"] andAlpha:opacity]
+              forKey:@"bgInnerColor"];
+    [theme setObject:[UIColor colorWithHexString:[pListTheme objectForKey:@"bgOuterColor"] andAlpha:opacity]
+              forKey:@"bgOuterColor"];
     
     opacity = [(NSNumber *)[pListTheme objectForKey:@"outerRingOpacity"] floatValue];
     [theme setObject:[UIColor colorWithHexString:[pListTheme objectForKey:@"outerRingColor"] andAlpha:opacity] 

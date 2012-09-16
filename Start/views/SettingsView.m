@@ -23,7 +23,7 @@ const float optionHeight = 40;
         tackLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tack-logo"]];
         tackButton = [[UIButton alloc] init];
         underline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search-divider"]];
-        intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"intro"]];
+        intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about"]];
         copyText = [[UILabel alloc] init];
         tackCopy = [[UILabel alloc] init];
         timePicker = [[UIScrollView alloc] init];
@@ -107,7 +107,7 @@ const float optionHeight = 40;
     [super layoutSubviews];
     
     CGSize frameSize = [[UIScreen mainScreen] applicationFrame].size;
-    CGSize introSize = CGSizeMake(260, 221);
+    CGSize introSize = CGSizeMake(262, 222);
     
     
     CGSize tackTextSize = [[tackCopy text] sizeWithFont:[tackCopy font]];

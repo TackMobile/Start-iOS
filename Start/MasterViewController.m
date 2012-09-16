@@ -337,9 +337,11 @@
 
 - (void) alarmViewOpeningMenuWithPercent:(float)percent {
     [selectAlarmView setAlpha:1-percent];
+    [addButton setAlpha:1-percent];
 }
 - (void) alarmViewClosingMenuWithPercent:(float)percent {
     [selectAlarmView setAlpha:percent];
+    [addButton setAlpha:percent];
 }
 -(bool)alarmViewPinched:(AlarmView *)alarmView {
     if ([alarms count] < 2)

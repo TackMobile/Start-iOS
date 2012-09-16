@@ -11,7 +11,7 @@
 @implementation AlarmView
 @synthesize delegate, index, isSet, isTimerMode, newRect;
 @synthesize alarmInfo, countdownEnded;
-@synthesize backgroundImage, patternOverlay, toolbarImage;
+@synthesize radialGradientView, /*backgroundImage,*/ patternOverlay, toolbarImage;
 @synthesize selectSongView, selectActionView, selectDurationView, selectedTimeView, deleteLabel;
 @synthesize countdownView, timerView, selectAlarmBg;
 
@@ -36,7 +36,9 @@ const float Spacing = 0.0f;
         CGSize bgImageSize = CGSizeMake(520, 480);
         CGRect frameRect = [[UIScreen mainScreen] applicationFrame];
         
-        bgImageRect = CGRectMake((self.frame.size.width-bgImageSize.width)/2, (self.frame.size.height-bgImageSize.height)/2, bgImageSize.width, bgImageSize.height);
+        // bgImageRect = 
+        radialRect = CGRectMake((self.frame.size.width-bgImageSize.width)/2, (self.frame.size.height-bgImageSize.height)/2, bgImageSize.width, bgImageSize.height);;
+        
         CGRect toolBarRect = CGRectMake(0, 0, self.frame.size.width, 135);
         selectSongRect = CGRectMake(Spacing-16, 0, frameRect.size.width-75, 80);
         selectActionRect = CGRectMake(Spacing+frameRect.size.width-50, 0, 50, 80);
@@ -50,8 +52,10 @@ const float Spacing = 0.0f;
         CGRect deleteLabelRect = CGRectMake(Spacing, 0, frameRect.size.width, 70);
         CGRect selectAlarmRect = CGRectMake(0, self.frame.size.height-50, self.frame.size.width, 50);
         
-        backgroundImage = [[UIImageView alloc] initWithFrame:bgImageRect];
-        patternOverlay = [[UIImageView alloc] initWithFrame:bgImageRect];
+        // backgroundImage = [[UIImageView alloc] initWithFrame:bgImageRect];
+        radialGradientView = [[RadialGradientView alloc] initWithFrame:radialRect];
+        
+        //patternOverlay = [[UIImageView alloc] initWithFrame:radialGradientRect];
         toolbarImage = [[UIImageView alloc] initWithFrame:toolBarRect];
         selectSongView = [[SelectSongView alloc] initWithFrame:selectSongRect delegate:self presetSongs:[pListModel getPresetSongs]];
         selectActionView = [[SelectActionView alloc] initWithFrame:selectActionRect delegate:self actions:[pListModel getActions]];
@@ -66,15 +70,16 @@ const float Spacing = 0.0f;
         
         [selectAlarmBg setImage:[UIImage imageNamed:@"bottom-fade"]];
         
-        [self addSubview:backgroundImage];
-        [self addSubview:patternOverlay];
-        [self addSubview:selectAlarmBg];
+        //[self addSubview:backgroundImage];
+        [self addSubview:radialGradientView];
+        //[self addSubview:patternOverlay];
+        //[self addSubview:selectAlarmBg];
         [self addSubview:countdownView];
         [self addSubview:timerView];
         [self addSubview:durationMaskView];
             [durationMaskView addSubview:selectDurationView];
         [self addSubview:durImageView];
-        [self addSubview:toolbarImage];
+        //[self addSubview:toolbarImage];
         [self addSubview:selectSongView];
         [self addSubview:selectActionView];
         [self addSubview:selectedTimeView];
@@ -99,7 +104,7 @@ const float Spacing = 0.0f;
         // initial properties
         [selectedTimeView updateDate:[selectDurationView getDate] part:SelectDurationNoHandle];
         [toolbarImage setImage:[UIImage imageNamed:@"toolbarBG"]];
-        [backgroundImage setImage:[UIImage imageNamed:@"epsilon"]];
+        //[backgroundImage setImage:[UIImage imageNamed:@"epsilon"]];
         [self setBackgroundColor:[UIColor blackColor]];
         [countdownView setAlpha:0];
         [timerView setAlpha:0];
@@ -299,14 +304,14 @@ const float Spacing = 0.0f;
     float countDownOffset =     120 * percent;
     float songPickOffset =      100 * percent;
     float actionPickOffset =    75 * percent;
-    float backgroundOffset =    (bgImageRect.size.width - screenWidth)/2 * percent;
+    float backgroundOffset =    (radialGradientView.frame.size.width - screenWidth)/2 * percent;
     
     CGRect shiftedDurRect = CGRectOffset([self currRestedSelecDurRect], durPickOffset, 0);
     CGRect shiftedCountdownRect = CGRectOffset(countdownRect, countDownOffset, 0);
     CGRect shiftedTimerRect = CGRectOffset(timerRect, countDownOffset, 0);
     CGRect shiftedSongRect = CGRectOffset(selectSongRect, songPickOffset, 0);
     CGRect shiftedActionRect = CGRectOffset(selectActionRect, actionPickOffset, 0);
-    CGRect shiftedBgImgRect = CGRectOffset(bgImageRect, backgroundOffset, 0);
+    CGRect shiftedRadialRect = CGRectOffset(radialRect, backgroundOffset, 0);
     
     [selectDurationView setFrame:shiftedDurRect];
     [selectedTimeView setCenter:selectDurationView.center];
@@ -314,19 +319,19 @@ const float Spacing = 0.0f;
     [timerView setFrame:shiftedTimerRect];
     [selectSongView setFrame:shiftedSongRect];
     [selectActionView setFrame:shiftedActionRect];
-    [backgroundImage setFrame:shiftedBgImgRect];
+    [radialGradientView setFrame:shiftedRadialRect];
 }
 - (void) menuOpenWithPercent:(float)percent {
-    [backgroundImage setAlpha:1.0f-(.8/(1.0f/percent))];
+    [radialGradientView setAlpha:1.0f-(.8/(1.0f/percent))];
     if ([delegate respondsToSelector:@selector(alarmViewOpeningMenuWithPercent:)])
         [delegate alarmViewOpeningMenuWithPercent:percent];
 }
 
 - (void) menuCloseWithPercent:(float)percent {
     if (percent==1)
-        [backgroundImage setAlpha:1];
+        [radialGradientView setAlpha:1];
     else 
-        [backgroundImage setAlpha:(.8/(1.0f/percent))];
+        [radialGradientView setAlpha:(.8/(1.0f/percent))];
     
     if ([delegate respondsToSelector:@selector(alarmViewClosingMenuWithPercent:)])
         [delegate alarmViewClosingMenuWithPercent:percent];
@@ -338,6 +343,7 @@ const float Spacing = 0.0f;
     if (themeID < 6 && themeID > -1) { // preset theme
         theme = [musicManager getThemeWithID:themeID];
         artwork = [theme objectForKey:@"bgImg"];
+        [radialGradientView setInnerColor:[theme objectForKey:@"bgInnerColor"] outerColor:[theme objectForKey:@"bgOuterColor"]];
         [toolbarImage setAlpha:0];
         [selectAlarmBg setAlpha:0];
         [patternOverlay setAlpha:0];
@@ -346,10 +352,12 @@ const float Spacing = 0.0f;
         [toolbarImage setAlpha:1];
         [selectAlarmBg setAlpha:1];
                 
-        theme = [musicManager getThemeWithID:6];
+        theme = [musicManager getThemeWithID:0];
         [selectDurationView updateTheme:theme];
+        [radialGradientView setInnerColor:[theme objectForKey:@"bgInnerColor"] outerColor:[theme objectForKey:@"bgOuterColor"]];
+        [toolbarImage setAlpha:0];
     }
-    if (artwork) {
+    /*if (artwork) {
         // fade in the background 
         UIImageView *oldBg = [[UIImageView alloc] initWithImage:backgroundImage.image];
         [oldBg setFrame:backgroundImage.frame];
@@ -361,7 +369,7 @@ const float Spacing = 0.0f;
         } completion:^(BOOL finished) {
             [oldBg removeFromSuperview];
         }];
-    }
+    }*/
    // else // no theme
         //theme = [musicManager getThemeForSongID:[alarmInfo objectForKey:@"songID"]];
 }
@@ -559,7 +567,7 @@ const float Spacing = 0.0f;
             if ([selectDuration handleSelected] != SelectDurationNoHandle) {
                 [selectSongView setAlpha:.3];
                 [selectActionView setAlpha:.3];
-                [backgroundImage setAlpha:.6];
+                [radialGradientView setAlpha:.6];
             }
         }];
     }];
@@ -587,7 +595,7 @@ const float Spacing = 0.0f;
         
         [selectSongView setAlpha:1];
         [selectActionView setAlpha:1];
-        [backgroundImage setAlpha:1];
+        [radialGradientView setAlpha:1];
     } completion:^(BOOL finished) {
         [selectedTimeView setCenter:selectDurationView.center];
         [UIView animateWithDuration:.1 animations:^{

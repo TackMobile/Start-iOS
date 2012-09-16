@@ -28,16 +28,6 @@
 		<key>artist</key>
 		<string></string>
 		<key>title</key>
-		<string>Galaxy</string>
-		<key>filename</key>
-		<string>galaxy</string>
-	</dict>
-	<dict>
-		<key>themeID</key>
-		<string>0</string>
-		<key>artist</key>
-		<string></string>
-		<key>title</key>
 		<string>Hydrus</string>
 		<key>filename</key>
 		<string>hydrus</string>
@@ -48,11 +38,11 @@
 		<key>artist</key>
 		<string></string>
 		<key>title</key>
-		<string>Lynx</string>
+		<string>Galaxy</string>
 		<key>filename</key>
-		<string>lynx</string>
+		<string>galaxy</string>
 	</dict>
-	<dict>
+    <dict>
 		<key>themeID</key>
 		<string>0</string>
 		<key>artist</key>
@@ -61,6 +51,16 @@
 		<string>Phoenix</string>
 		<key>filename</key>
 		<string>phoenix</string>
+	</dict>
+	<dict>
+		<key>themeID</key>
+		<string>0</string>
+		<key>artist</key>
+		<string></string>
+		<key>title</key>
+		<string>Lynx</string>
+		<key>filename</key>
+		<string>lynx</string>
 	</dict>
 </array>
 </plist>

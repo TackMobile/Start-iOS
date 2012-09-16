@@ -16,6 +16,7 @@
 #import "CountdownView.h"
 #import "TimerView.h"
 #import "MusicManager.h"
+#import "RadialGradientView.h"
 
 //testing
 #import "MusicPlayer.h"
@@ -54,7 +55,8 @@ enum AlarmViewShouldSet {
     CGRect timerModeDurRect;
     CGRect countdownRect;
     CGRect timerRect;
-    CGRect bgImageRect;
+    CGRect radialRect;
+//    CGRect bgImageRect;
     
     MusicManager *musicManager;
     
@@ -78,7 +80,9 @@ extern const float Spacing;
 
 @property (nonatomic, strong) NSMutableDictionary *alarmInfo;
 
-@property (nonatomic, strong) UIImageView *backgroundImage;
+@property (nonatomic, strong) RadialGradientView *radialGradientView;
+
+//@property (nonatomic, strong) UIImageView *backgroundImage;
 @property (nonatomic, strong) UIImageView *patternOverlay;
 @property (nonatomic, strong) UIImageView *toolbarImage;
 @property (nonatomic, strong) UIImageView *selectAlarmBg;

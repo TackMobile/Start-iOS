@@ -3,6 +3,10 @@
 <plist version="1.0">
 <array>
 	<dict>
+		<key>bgInnerColor</key>
+		<string>99ca43</string>
+		<key>bgOuterColor</key>
+		<string>119541</string>
 		<key>innerColor</key>
 		<string>ffffff</string>
 		<key>innerOpacity</key>
@@ -39,42 +43,10 @@
 		<string>chamaeleon</string>
 	</dict>
 	<dict>
-		<key>innerColor</key>
-		<string>ffffff</string>
-		<key>innerOpacity</key>
-		<real>0.5</real>
-		<key>innerRingColor</key>
-		<string>ffffff</string>
-		<key>innerRingOpacity</key>
-		<integer>1</integer>
-		<key>innerFillColor</key>
-		<string>ffffff</string>
-		<key>innerFillOpacity</key>
-		<integer>0</integer>
-		<key>innerHandleColor</key>
-		<string>ffffff</string>
-		<key>outerColor</key>
-		<string>ffffff</string>
-		<key>outerOpacity</key>
-		<real>0.4</real>
-		<key>outerRingColor</key>
-		<string>ffffff</string>
-		<key>outerRingOpacity</key>
-		<integer>1</integer>
-		<key>outerFillColor</key>
-		<string>ffffff</string>
-		<key>outerFillOpacity</key>
-		<integer>0</integer>
-		<key>outerHandleColor</key>
-		<string>ffffff</string>
-		<key>centerColor</key>
-		<string>000000</string>
-		<key>centerOpacity</key>
-		<real>0.6</real>
-		<key>bgFilename</key>
-		<string>epsilon</string>
-	</dict>
-	<dict>
+		<key>bgInnerColor</key>
+		<string>66b5e5</string>
+		<key>bgOuterColor</key>
+		<string>507fc1</string>
 		<key>innerColor</key>
 		<string>ffffff</string>
 		<key>innerOpacity</key>
@@ -111,6 +83,10 @@
 		<string>galaxy</string>
 	</dict>
 	<dict>
+		<key>bgOuterColor</key>
+		<string>67cbdd</string>
+		<key>bgInnerColor</key>
+		<string>8bca7d</string>
 		<key>innerColor</key>
 		<string>ffffff</string>
 		<key>innerOpacity</key>
@@ -147,6 +123,10 @@
 		<string>hydrus</string>
 	</dict>
 	<dict>
+		<key>bgOuterColor</key>
+		<string>135e87</string>
+		<key>bgInnerColor</key>
+		<string>1e8879</string>
 		<key>innerColor</key>
 		<string>ffffff</string>
 		<key>innerOpacity</key>
@@ -183,6 +163,10 @@
 		<string>lynx</string>
 	</dict>
 	<dict>
+		<key>bgOuterColor</key>
+		<string>ee3125</string>
+		<key>bgInnerColor</key>
+		<string>fbab2c</string>
 		<key>innerColor</key>
 		<string>ffffff</string>
 		<key>innerOpacity</key>
@@ -219,6 +203,10 @@
 		<string>phoenix</string>
 	</dict>
 	<dict>
+		<key>bgOuterColor</key>
+		<string>7068af</string>
+		<key>bgInnerColor</key>
+		<string>50a0d7</string>
 		<key>innerColor</key>
 		<string>ffffff</string>
 		<key>innerOpacity</key>
@@ -252,7 +240,7 @@
 		<key>centerOpacity</key>
 		<real>0.6</real>
 		<key>bgFilename</key>
-		<string>phoenix</string>
+		<string>epsilon</string>
 	</dict>
 </array>
 </plist>
