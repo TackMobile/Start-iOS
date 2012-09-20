@@ -348,6 +348,7 @@
         return false;
     
     [alarms removeObject:alarmView];
+    [alarmView setIsSet:NO];
     [selectAlarmView deleteAlarm:alarmView.index];
     [self updateAlarmIndexes];
     

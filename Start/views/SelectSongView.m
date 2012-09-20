@@ -172,13 +172,12 @@
 
 - (void) selectCellWithID:(NSNumber *)cellNumID {
     [songTableView reloadData];
-    NSIndexPath *indexToSelect;
     if ([cellNumID isEqualToNumber:[NSNumber numberWithInt:-1]])
-        indexToSelect = [NSIndexPath indexPathForRow:0 inSection:1];// No song
+        selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];// No song
     else {
         selectedIndexPath = [self songIndexPathFromID:cellNumID];
-        [self quickSelectCell]; // might have to un-animate
     }
+    [self quickSelectCell];
 }
 
 #pragma mark - Touches

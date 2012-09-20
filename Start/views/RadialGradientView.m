@@ -15,8 +15,8 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        innerColor = [UIColor greenColor];
-        outerColor = [UIColor redColor];
+        innerColor = [UIColor colorWithWhite:.4 alpha:1];
+        outerColor = [UIColor colorWithWhite:.6 alpha:1];
     }
     return self;
 }

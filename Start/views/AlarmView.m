@@ -158,6 +158,7 @@ const float Spacing = 0.0f;
         NSArray *infoObjects = [[NSArray alloc] initWithObjects:[NSDate dateWithTimeIntervalSinceNow:77777], [NSNumber numberWithInt:0],[NSNumber numberWithInt:0], [NSNumber numberWithBool:NO], [NSNumber numberWithInt:-1], [NSNumber numberWithBool:NO], [NSDate date], nil];
         alarmInfo = [[NSMutableDictionary alloc] initWithObjects:infoObjects forKeys:infoKeys];
         [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+        [selectSongView selectCellWithID:[NSNumber numberWithInt:-1]];
     } else {
         // init the duration picker & theme & action & song
         // select duration
