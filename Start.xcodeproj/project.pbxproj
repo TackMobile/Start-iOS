@@ -7,6 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EA13EE1D15FD124E004E16C7 /* chamaeleon.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1915FD124E004E16C7 /* chamaeleon.wav */; };
+		EA13EE1E15FD124E004E16C7 /* epsilon.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1A15FD124E004E16C7 /* epsilon.wav */; };
+		EA13EE1F15FD124E004E16C7 /* galaxy.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1B15FD124E004E16C7 /* galaxy.wav */; };
+		EA13EE2015FD124E004E16C7 /* hydrus.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1C15FD124E004E16C7 /* hydrus.wav */; };
+		EA13EE2215FD1A5E004E16C7 /* lynx.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE2115FD1A5E004E16C7 /* lynx.wav */; };
+		EA13EE2415FD260A004E16C7 /* phoenix.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE2315FD260A004E16C7 /* phoenix.wav */; };
+		F3143CDD15C448CC0098A276 /* NightSky.png in Resources */ = {isa = PBXBuildFile; fileRef = F3143CDB15C448CC0098A276 /* NightSky.png */; };
+		F3143CDE15C448CC0098A276 /* NightSky@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3143CDC15C448CC0098A276 /* NightSky@2x.png */; };
+		F3143CE215C454BE0098A276 /* Oceanside.png in Resources */ = {isa = PBXBuildFile; fileRef = F3143CE015C454BE0098A276 /* Oceanside.png */; };
+		F3143CE315C454BE0098A276 /* Oceanside@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3143CE115C454BE0098A276 /* Oceanside@2x.png */; };
+
 		F3143CE615C4D9AE0098A276 /* TimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3143CE515C4D9AE0098A276 /* TimerView.m */; };
 		F31670E515A1109200725274 /* SearchSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F31670E415A1109200725274 /* SearchSongCell.m */; };
 		F317239615A63C5200007124 /* PListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F317239515A63C5200007124 /* PListModel.m */; };
@@ -37,6 +48,7 @@
 		F383C19C158B874C00B91F31 /* AlarmView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C19B158B874C00B91F31 /* AlarmView.m */; };
 		F383C19F158B879F00B91F31 /* SelectAlarmView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C19E158B879F00B91F31 /* SelectAlarmView.m */; };
 		F383C1A8158B880500B91F31 /* SelectActionView.m in Sources */ = {isa = PBXBuildFile; fileRef = F383C1A7158B880500B91F31 /* SelectActionView.m */; };
+
 		F3CA96381602328C00D237FC /* SettingsView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CA96371602328C00D237FC /* SettingsView.m */; };
 		F3CA963B160232A000D237FC /* SelectSongView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CA963A160232A000D237FC /* SelectSongView.m */; };
 		F3CA9642160232AF00D237FC /* chamaeleon.wav in Resources */ = {isa = PBXBuildFile; fileRef = F3CA963C160232AF00D237FC /* chamaeleon.wav */; };
@@ -120,6 +132,7 @@
 		F3CA96E01605591900D237FC /* about.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA96DE1605591900D237FC /* about.png */; };
 		F3CA96E11605591900D237FC /* about@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA96DF1605591900D237FC /* about@2x.png */; };
 		F3CD846E158FB0A400703717 /* SelectedTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CD846D158FB0A400703717 /* SelectedTimeView.m */; };
+
 		F3E5C39515BDBE10006959F4 /* NPTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E5C39415BDBE10006959F4 /* NPTableView.m */; };
 		F3F825CB1598E63C0017B752 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3F825CA1598E63C0017B752 /* Roboto-Light.ttf */; };
 		F3FD676D15A740E90002AFC9 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FD676915A740E90002AFC9 /* libTestFlight.a */; };
@@ -136,6 +149,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+
+		EA13EE1915FD124E004E16C7 /* chamaeleon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chamaeleon.wav; sourceTree = "<group>"; };
+		EA13EE1A15FD124E004E16C7 /* epsilon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = epsilon.wav; sourceTree = "<group>"; };
+		EA13EE1B15FD124E004E16C7 /* galaxy.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = galaxy.wav; sourceTree = "<group>"; };
+		EA13EE1C15FD124E004E16C7 /* hydrus.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hydrus.wav; sourceTree = "<group>"; };
+		EA13EE2115FD1A5E004E16C7 /* lynx.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lynx.wav; sourceTree = "<group>"; };
+		EA13EE2315FD260A004E16C7 /* phoenix.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = phoenix.wav; sourceTree = "<group>"; };
+		F3143CDB15C448CC0098A276 /* NightSky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NightSky.png; sourceTree = "<group>"; };
+		F3143CDC15C448CC0098A276 /* NightSky@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NightSky@2x.png"; sourceTree = "<group>"; };
+		F3143CE015C454BE0098A276 /* Oceanside.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Oceanside.png; sourceTree = "<group>"; };
+		F3143CE115C454BE0098A276 /* Oceanside@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Oceanside@2x.png"; sourceTree = "<group>"; };
 		F3143CE415C4D9AD0098A276 /* TimerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimerView.h; path = views/TimerView.h; sourceTree = "<group>"; };
 		F3143CE515C4D9AE0098A276 /* TimerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimerView.m; path = views/TimerView.m; sourceTree = "<group>"; };
 		F31670E315A1109100725274 /* SearchSongCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchSongCell.h; path = views/SearchSongCell.h; sourceTree = "<group>"; };
@@ -184,6 +208,7 @@
 		F383C1A3158B87F000B91F31 /* SelectSongView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectSongView.h; path = views/SelectSongView.h; sourceTree = "<group>"; };
 		F383C1A6158B880500B91F31 /* SelectActionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectActionView.h; path = views/SelectActionView.h; sourceTree = "<group>"; };
 		F383C1A7158B880500B91F31 /* SelectActionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectActionView.m; path = views/SelectActionView.m; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		F3CA96361602328C00D237FC /* SettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsView.h; path = views/SettingsView.h; sourceTree = "<group>"; };
 		F3CA96371602328C00D237FC /* SettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsView.m; path = views/SettingsView.m; sourceTree = "<group>"; };
 		F3CA963A160232A000D237FC /* SelectSongView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectSongView.m; path = views/SelectSongView.m; sourceTree = "<group>"; };
@@ -270,6 +295,29 @@
 		F3CA96DF1605591900D237FC /* about@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "about@2x.png"; path = "Start/img/intro/about@2x.png"; sourceTree = SOURCE_ROOT; };
 		F3CD846C158FB0A400703717 /* SelectedTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectedTimeView.h; path = views/SelectedTimeView.h; sourceTree = "<group>"; };
 		F3CD846D158FB0A400703717 /* SelectedTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectedTimeView.m; path = views/SelectedTimeView.m; sourceTree = "<group>"; };
+=======
+		F3A392EC15F9586B00CCD436 /* SelectSongView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectSongView.m; path = views/SelectSongView.m; sourceTree = "<group>"; };
+		F3C415F815F0437F00FA7165 /* tack-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tack-logo@2x.png"; sourceTree = "<group>"; };
+		F3C415FA15F043A300FA7165 /* bottom-fade.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom-fade.png"; sourceTree = "<group>"; };
+		F3C415FB15F043A300FA7165 /* bottom-fade@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bottom-fade@2x.png"; sourceTree = "<group>"; };
+		F3C415FC15F043A400FA7165 /* reeder-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "reeder-icon@2x.png"; sourceTree = "<group>"; };
+		F3CD846C158FB0A400703717 /* SelectedTimeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SelectedTimeView.h; path = views/SelectedTimeView.h; sourceTree = "<group>"; };
+		F3CD846D158FB0A400703717 /* SelectedTimeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SelectedTimeView.m; path = views/SelectedTimeView.m; sourceTree = "<group>"; };
+		F3CE912215F9518000A14210 /* chamaeleon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chamaeleon.png; sourceTree = "<group>"; };
+		F3CE912315F9518000A14210 /* chamaeleon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chamaeleon@2x.png"; sourceTree = "<group>"; };
+		F3CE912415F9518000A14210 /* epsilon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = epsilon.png; sourceTree = "<group>"; };
+		F3CE912515F9518000A14210 /* epsilon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "epsilon@2x.png"; sourceTree = "<group>"; };
+		F3CE912615F9518000A14210 /* galaxy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = galaxy.png; sourceTree = "<group>"; };
+		F3CE912715F9518000A14210 /* galaxy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "galaxy@2x.png"; sourceTree = "<group>"; };
+		F3CE912815F9518000A14210 /* hydrus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hydrus.png; sourceTree = "<group>"; };
+		F3CE912915F9518000A14210 /* hydrus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "hydrus@2x.png"; sourceTree = "<group>"; };
+		F3CE912A15F9518000A14210 /* lynx.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lynx.png; sourceTree = "<group>"; };
+		F3CE912B15F9518000A14210 /* lynx@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lynx@2x.png"; sourceTree = "<group>"; };
+		F3CE912C15F9518000A14210 /* pheonix.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pheonix.png; sourceTree = "<group>"; };
+		F3CE912D15F9518000A14210 /* phoenix@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "phoenix@2x.png"; sourceTree = "<group>"; };
+		F3D82F7E15D96D4A00E120B3 /* SettingsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsView.h; sourceTree = "<group>"; };
+		F3D82F7F15D96D4A00E120B3 /* SettingsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsView.m; sourceTree = "<group>"; };
+>>>>>>> master
 		F3E5C39315BDBE10006959F4 /* NPTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPTableView.h; path = views/NPTableView.h; sourceTree = "<group>"; };
 		F3E5C39415BDBE10006959F4 /* NPTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NPTableView.m; path = views/NPTableView.m; sourceTree = "<group>"; };
 		F3F825CA1598E63C0017B752 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
@@ -379,12 +427,12 @@
 		F335A2CC15D418DF00F0A552 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				F3CA963C160232AF00D237FC /* chamaeleon.wav */,
-				F3CA963D160232AF00D237FC /* epsilon.wav */,
-				F3CA963E160232AF00D237FC /* galaxy.wav */,
-				F3CA963F160232AF00D237FC /* hydrus.wav */,
-				F3CA9640160232AF00D237FC /* lynx.wav */,
-				F3CA9641160232AF00D237FC /* phoenix.wav */,
+				EA13EE1915FD124E004E16C7 /* chamaeleon.wav */,
+				EA13EE1A15FD124E004E16C7 /* epsilon.wav */,
+				EA13EE1B15FD124E004E16C7 /* galaxy.wav */,
+				EA13EE1C15FD124E004E16C7 /* hydrus.wav */,
+				EA13EE2115FD1A5E004E16C7 /* lynx.wav */,
+				EA13EE2315FD260A004E16C7 /* phoenix.wav */,
 			);
 			name = Audio;
 			sourceTree = "<group>";
@@ -424,7 +472,11 @@
 			isa = PBXGroup;
 			children = (
 				F383C1A3158B87F000B91F31 /* SelectSongView.h */,
+<<<<<<< HEAD
 				F3CA963A160232A000D237FC /* SelectSongView.m */,
+=======
+				F3A392EC15F9586B00CCD436 /* SelectSongView.m */,
+>>>>>>> master
 				F36DA9981598EF0C003A4F3C /* SongCell.h */,
 				F36DA9991598EF0C003A4F3C /* SongCell.m */,
 				F31670E315A1109100725274 /* SearchSongCell.h */,
@@ -472,11 +524,6 @@
 			children = (
 				F37C93CC15E97FEF000EBE07 /* Icon@2x.png */,
 				F37C93CA15E97FEA000EBE07 /* Icon.png */,
-				F335A2CF15D41BF600F0A552 /* AVFoundation.framework */,
-				F335A2C515D035FA00F0A552 /* AudioToolbox.framework */,
-				F326511515C9F1E500ABAF60 /* QuartzCore.framework */,
-				F327EC9915938BBF008B962F /* MediaPlayer.framework */,
-				F3FD677115A741730002AFC9 /* libz.dylib */,
 				F3FD676815A740E90002AFC9 /* TestFlightSDK1.0 */,
 				F383C17D158B851200B91F31 /* Start */,
 				F383C176158B851200B91F31 /* Frameworks */,
@@ -495,6 +542,11 @@
 		F383C176158B851200B91F31 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F3FD677115A741730002AFC9 /* libz.dylib */,
+				F335A2CF15D41BF600F0A552 /* AVFoundation.framework */,
+				F335A2C515D035FA00F0A552 /* AudioToolbox.framework */,
+				F326511515C9F1E500ABAF60 /* QuartzCore.framework */,
+				F327EC9915938BBF008B962F /* MediaPlayer.framework */,
 				F383C177158B851200B91F31 /* UIKit.framework */,
 				F383C179158B851200B91F31 /* Foundation.framework */,
 				F383C17B158B851200B91F31 /* CoreGraphics.framework */,
@@ -705,6 +757,15 @@
 				F3FD677815A7592B0002AFC9 /* alarms.plist in Resources */,
 				F3FD677915A7592B0002AFC9 /* presetSongs.plist in Resources */,
 				F3FD677A15A7592B0002AFC9 /* themes.plist in Resources */,
+
+				F3143CDD15C448CC0098A276 /* NightSky.png in Resources */,
+				F3143CDE15C448CC0098A276 /* NightSky@2x.png in Resources */,
+				F3143CE215C454BE0098A276 /* Oceanside.png in Resources */,
+				F3143CE315C454BE0098A276 /* Oceanside@2x.png in Resources */,
+				F3E78B6B15C8BA2C0028ED08 /* Treescape.png in Resources */,
+				F3E78B6C15C8BA2C0028ED08 /* Treescape@2x.png in Resources */,
+				F326511A15CAD61400ABAF60 /* Brandon.png in Resources */,
+				F326511B15CAD61400ABAF60 /* Brandon@2x.png in Resources */,
 				F37C93CB15E97FEA000EBE07 /* Icon.png in Resources */,
 				F37C93CD15E97FF0000EBE07 /* Icon@2x.png in Resources */,
 				F37203B215EFDFB600D75E9E /* Default.png in Resources */,

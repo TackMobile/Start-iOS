@@ -18,7 +18,11 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setClipsToBounds:YES];
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> master
         compressedFrame = frame;
         musicManager = [[MusicManager alloc] init];
         librarySongs = [musicManager getLibrarySongs];
@@ -44,7 +48,7 @@
         [songTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
         [songTableView setRowHeight:70];
         [songTableView setBackgroundColor:[UIColor clearColor]];
-                
+
         [songTableView reloadData];
         
         [songDurationIndicator setBackgroundColor:[UIColor whiteColor]];
@@ -144,7 +148,6 @@
         if (indexPath.section == 1) { // none
             songID = [NSNumber numberWithInt:-1];
             int rand = arc4random() % 5;
-            NSLog(@"trand: %i", rand);
             themeID = [NSNumber numberWithInt:rand]; // random theme
         } else if (indexPath.section == 2) { // preset
             songID = [NSNumber numberWithInt:indexPath.row];
@@ -178,6 +181,7 @@
         selectedIndexPath = [self songIndexPathFromID:cellNumID];
     }
     [self quickSelectCell];
+
 }
 
 #pragma mark - Touches
@@ -286,22 +290,6 @@
     return 4;
 }
 
-/*- (UIView *) tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
-    //NSIndexPath *lastCell = [NSIndexPath indexPathForRow:[tableView numberOfRowsInSection:section] inSection:section];
-    //CGRect lastCellRect = [tableView rectForRowAtIndexPath:lastCell];
-    CGRect iconRect = CGRectMake(10, -100, 30, 30);
-    
-    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 44)];
-    UIView *sectionIcon = [[UIView alloc] initWithFrame:iconRect];
-    [sectionIcon setBackgroundColor:[UIColor colorWithWhite:1 alpha:.5]];
-    [contentView addSubview:sectionIcon];
-    
-    return contentView;
-    
-}
-- (float) tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
-    return 1;
-}*/
 
 #pragma mark - UITableViewDelegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -322,7 +310,6 @@
     
     if (isSearching) {        
         SongCell *selectedCell = (SongCell *)[songTableView cellForRowAtIndexPath:indexPath];
-
         indexPath = [self songIndexPathFromID:selectedCell.persistentID];
         
         [self endSearch];
@@ -475,7 +462,6 @@
 
 -(void)songPlayingTick:(MusicPlayer *)aMusicPlayer {
     float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
-
     float durationWidth = aMusicPlayer.playPercent * screenWidth;
     if (durationWidth == NAN)
         durationWidth = 1.0f;
@@ -483,10 +469,6 @@
     
     [songDurationIndicator setFrame:durRect];
     
-    /*NSLog(@"%f, %f, %f, %f", songDurationIndicator.frame.origin.x, 
-          songDurationIndicator.frame.origin.y, 
-          songDurationIndicator.frame.size.width, 
-          songDurationIndicator.frame.size.height);*/
 }
 
 #pragma mark - functions
