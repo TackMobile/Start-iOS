@@ -21,8 +21,20 @@
 #pragma mark - themes
 
 - (NSDictionary *)getThemeForSongID:(NSNumber *)songID {
+    /*NSArray *themes = [pListModel getThemes];
+    NSMutableDictionary *theme = [[NSMutableDictionary alloc] initWithDictionary:[self formatTheme:[themes objectAtIndex:0]]];*/
+    UIImage *bgImage = [self getBackgroundImageForSongID:songID];
+    NSArray *randColors = [bgImage randColors];
+    
     NSArray *themes = [pListModel getThemes];
-    return [self formatTheme:[themes objectAtIndex:1]];
+    NSMutableDictionary *theme = [[NSMutableDictionary alloc]
+                                  initWithDictionary:[self formatTheme:[themes objectAtIndex:0]]];
+    
+    [theme setObject:[randColors objectAtIndex:0] forKey:@"bgInnerColor"];
+    [theme setObject:[randColors objectAtIndex:1] forKey:@"bgOuterColor"];
+    
+    return theme;
+    
 }
 
 - (NSDictionary *)getThemeWithID:(int)themeID {

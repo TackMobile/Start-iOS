@@ -284,6 +284,57 @@
     return result;    
 }
 
+- (NSArray *) randColors {
+    CGImageRef inImage;
+    inImage = self.CGImage;
+    CFDataRef m_DataRef = CGDataProviderCopyData(CGImageGetDataProvider(inImage));  
+	UInt8 * m_PixelBuf = (UInt8 *) CFDataGetBytePtr(m_DataRef);
+    
+	CGContextRef cgctx = CGBitmapContextCreate(m_PixelBuf,  
+											 CGImageGetWidth(inImage),  
+											 CGImageGetHeight(inImage),  
+											 CGImageGetBitsPerComponent(inImage),
+											 CGImageGetBytesPerRow(inImage),  
+											 CGImageGetColorSpace(inImage),  
+											 CGImageGetBitmapInfo(inImage) 
+											 );
+    if (cgctx == NULL) { return nil; /* error */ }
+
+    size_t w = CGImageGetWidth(inImage);
+    size_t h = CGImageGetHeight(inImage);
+    int size = w*h;
+    CGRect rect = {{0,0},{w,h}};
+    CGContextDrawImage(cgctx, rect, inImage);
+    
+    unsigned char* colorsRGB = CGBitmapContextGetData(cgctx);
+    
+    NSMutableArray *randColors = [[NSMutableArray alloc] init];
+    
+    int offset;
+    for (int i=0; i<2; i++) { // 2 random colors
+        offset = (arc4random() % size) * 4;
+        
+        float red = (float)colorsRGB[offset]/255.0f;
+        float green = (float)colorsRGB[offset+1]/255.0f;
+        float blue = (float)colorsRGB[offset+2]/255.0f;
+        
+        float l = (0.3*(red) + 0.59*(green) + 0.11*(blue));
+        
+        if (l > 0.85f) {
+            i--;
+        } else {
+            UIColor *randColor = [UIColor colorWithRed:red 
+                                                 green:green
+                                                  blue: blue alpha:1];
+            
+            [randColors addObject:randColor];
+        }
+    }
+
+    return randColors;
+}
+
+
 
 @end
 

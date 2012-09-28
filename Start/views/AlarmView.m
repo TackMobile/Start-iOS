@@ -352,8 +352,7 @@ const float Spacing = 0.0f;
     } else {
         [toolbarImage setAlpha:1];
         [selectAlarmBg setAlpha:1];
-                
-        theme = [musicManager getThemeWithID:0];
+        theme = [musicManager getThemeForSongID:[alarmInfo objectForKey:@"songID"]];
         [selectDurationView updateTheme:theme];
         [radialGradientView setInnerColor:[theme objectForKey:@"bgInnerColor"] outerColor:[theme objectForKey:@"bgOuterColor"]];
         [toolbarImage setAlpha:0];

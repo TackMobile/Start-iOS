@@ -18,11 +18,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self setClipsToBounds:YES];
-<<<<<<< HEAD
 
-=======
-        
->>>>>>> master
         compressedFrame = frame;
         musicManager = [[MusicManager alloc] init];
         librarySongs = [musicManager getLibrarySongs];
