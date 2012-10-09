@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		966D3A5D1624A080006CE871 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 966D3A591624A080006CE871 /* libTestFlight.a */; };
+		966D3A5E1624A080006CE871 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 966D3A5A1624A080006CE871 /* README.md */; };
+		966D3A5F1624A080006CE871 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 966D3A5B1624A080006CE871 /* release_notes.md */; };
 		F3143CE615C4D9AE0098A276 /* TimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3143CE515C4D9AE0098A276 /* TimerView.m */; };
 		F31670E515A1109200725274 /* SearchSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F31670E415A1109200725274 /* SearchSongCell.m */; };
 		F317239615A63C5200007124 /* PListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F317239515A63C5200007124 /* PListModel.m */; };
@@ -116,9 +119,6 @@
 		F3CD846E158FB0A400703717 /* SelectedTimeView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3CD846D158FB0A400703717 /* SelectedTimeView.m */; };
 		F3E5C39515BDBE10006959F4 /* NPTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3E5C39415BDBE10006959F4 /* NPTableView.m */; };
 		F3F825CB1598E63C0017B752 /* Roboto-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3F825CA1598E63C0017B752 /* Roboto-Light.ttf */; };
-		F3FD676D15A740E90002AFC9 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FD676915A740E90002AFC9 /* libTestFlight.a */; };
-		F3FD676E15A740E90002AFC9 /* README.txt in Resources */ = {isa = PBXBuildFile; fileRef = F3FD676A15A740E90002AFC9 /* README.txt */; };
-		F3FD676F15A740E90002AFC9 /* release_notes.txt in Resources */ = {isa = PBXBuildFile; fileRef = F3FD676B15A740E90002AFC9 /* release_notes.txt */; };
 		F3FD677215A741730002AFC9 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F3FD677115A741730002AFC9 /* libz.dylib */; };
 		F3FD677715A7592B0002AFC9 /* actions.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3FD677315A7592B0002AFC9 /* actions.plist */; };
 		F3FD677815A7592B0002AFC9 /* alarms.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3FD677415A7592B0002AFC9 /* alarms.plist */; };
@@ -130,6 +130,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		966D3A591624A080006CE871 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		966D3A5A1624A080006CE871 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		966D3A5B1624A080006CE871 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		966D3A5C1624A080006CE871 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		EA13EE1915FD124E004E16C7 /* chamaeleon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chamaeleon.wav; sourceTree = "<group>"; };
 		EA13EE1A15FD124E004E16C7 /* epsilon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = epsilon.wav; sourceTree = "<group>"; };
 		EA13EE1B15FD124E004E16C7 /* galaxy.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = galaxy.wav; sourceTree = "<group>"; };
@@ -267,10 +271,6 @@
 		F3E5C39315BDBE10006959F4 /* NPTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NPTableView.h; path = views/NPTableView.h; sourceTree = "<group>"; };
 		F3E5C39415BDBE10006959F4 /* NPTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NPTableView.m; path = views/NPTableView.m; sourceTree = "<group>"; };
 		F3F825CA1598E63C0017B752 /* Roboto-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Light.ttf"; sourceTree = "<group>"; };
-		F3FD676915A740E90002AFC9 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		F3FD676A15A740E90002AFC9 /* README.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.txt; sourceTree = "<group>"; };
-		F3FD676B15A740E90002AFC9 /* release_notes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.txt; sourceTree = "<group>"; };
-		F3FD676C15A740E90002AFC9 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		F3FD677115A741730002AFC9 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		F3FD677315A7592B0002AFC9 /* actions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = actions.plist; sourceTree = "<group>"; };
 		F3FD677415A7592B0002AFC9 /* alarms.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = alarms.plist; sourceTree = "<group>"; };
@@ -297,13 +297,24 @@
 				F383C17A158B851200B91F31 /* Foundation.framework in Frameworks */,
 				F383C17C158B851200B91F31 /* CoreGraphics.framework in Frameworks */,
 				F3FD677215A741730002AFC9 /* libz.dylib in Frameworks */,
-				F3FD676D15A740E90002AFC9 /* libTestFlight.a in Frameworks */,
+				966D3A5D1624A080006CE871 /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		966D3A581624A080006CE871 /* TestFlightSDK1 */ = {
+			isa = PBXGroup;
+			children = (
+				966D3A591624A080006CE871 /* libTestFlight.a */,
+				966D3A5A1624A080006CE871 /* README.md */,
+				966D3A5B1624A080006CE871 /* release_notes.md */,
+				966D3A5C1624A080006CE871 /* TestFlight.h */,
+			);
+			path = TestFlightSDK1;
+			sourceTree = "<group>";
+		};
 		F31670F715A24F8C00725274 /* icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -464,9 +475,9 @@
 		F383C168158B851100B91F31 = {
 			isa = PBXGroup;
 			children = (
+				966D3A581624A080006CE871 /* TestFlightSDK1 */,
 				F37C93CC15E97FEF000EBE07 /* Icon@2x.png */,
 				F37C93CA15E97FEA000EBE07 /* Icon.png */,
-				F3FD676815A740E90002AFC9 /* TestFlightSDK1.0 */,
 				F383C17D158B851200B91F31 /* Start */,
 				F383C176158B851200B91F31 /* Frameworks */,
 				F383C174158B851200B91F31 /* Products */,
@@ -607,17 +618,6 @@
 			name = fonts;
 			sourceTree = "<group>";
 		};
-		F3FD676815A740E90002AFC9 /* TestFlightSDK1.0 */ = {
-			isa = PBXGroup;
-			children = (
-				F3FD676915A740E90002AFC9 /* libTestFlight.a */,
-				F3FD676A15A740E90002AFC9 /* README.txt */,
-				F3FD676B15A740E90002AFC9 /* release_notes.txt */,
-				F3FD676C15A740E90002AFC9 /* TestFlight.h */,
-			);
-			path = TestFlightSDK1.0;
-			sourceTree = "<group>";
-		};
 		F3FEC0AE15AC8FC60032B893 /* misc */ = {
 			isa = PBXGroup;
 			children = (
@@ -693,8 +693,6 @@
 				F383C191158B851300B91F31 /* ViewController_iPad.xib in Resources */,
 				F3F825CB1598E63C0017B752 /* Roboto-Light.ttf in Resources */,
 				F36DA9921598EA1E003A4F3C /* Roboto-Thin.ttf in Resources */,
-				F3FD676E15A740E90002AFC9 /* README.txt in Resources */,
-				F3FD676F15A740E90002AFC9 /* release_notes.txt in Resources */,
 				F3FD677715A7592B0002AFC9 /* actions.plist in Resources */,
 				F3FD677815A7592B0002AFC9 /* alarms.plist in Resources */,
 				F3FD677915A7592B0002AFC9 /* presetSongs.plist in Resources */,
@@ -776,6 +774,8 @@
 				F3CA96D91602333D00D237FC /* set-icon@2x.png in Resources */,
 				F3CA96E01605591900D237FC /* about.png in Resources */,
 				F3CA96E11605591900D237FC /* about@2x.png in Resources */,
+				966D3A5E1624A080006CE871 /* README.md in Resources */,
+				966D3A5F1624A080006CE871 /* release_notes.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -902,6 +902,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/TestFlightSDK1.0\"",
+					"\"$(SRCROOT)/TestFlightSDK1\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -920,6 +921,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/TestFlightSDK1.0\"",
+					"\"$(SRCROOT)/TestFlightSDK1\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
