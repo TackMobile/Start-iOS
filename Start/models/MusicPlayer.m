@@ -45,8 +45,8 @@
         }
         NSString *wavName = [[audioLibrary objectAtIndex:[songID intValue]] objectForKey:@"filename"];
         // play audioloop
+        NSLog(@"%@ wavName", wavName);
         NSString *playerPath = [[NSBundle mainBundle] pathForResource:wavName ofType:@"wav"];
-        
         [self playAudioWithPath:playerPath volume:.6];
         
     } else {
@@ -76,13 +76,13 @@
 - (void) playAudioWithPath:(NSString *)path volume:(float)volume { 
     NSError *setURLError = nil;
     
-    audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&setURLError];
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&setURLError];
     if (setURLError)
         NSLog(@"%@", setURLError);
     
-    [audioPlayer setVolume:volume];
-    [audioPlayer setNumberOfLoops:-1];
-    
+    [self.audioPlayer setVolume:volume];
+    [self.audioPlayer setNumberOfLoops:-1];
+    [self.audioPlayer play];
     // enable bg playing
     NSError *catError = nil;
 
@@ -90,7 +90,7 @@
     if (catError)
         NSLog(@"%@", catError);
     
-    if (![audioPlayer play])
+    if (![self.audioPlayer play])
         NSLog(@"could not play");
 }
 

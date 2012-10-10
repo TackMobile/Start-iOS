@@ -10,6 +10,12 @@
 		966D3A651624B0CC006CE871 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 966D3A611624B0CC006CE871 /* libTestFlight.a */; };
 		966D3A661624B0CC006CE871 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 966D3A621624B0CC006CE871 /* README.md */; };
 		966D3A671624B0CC006CE871 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 966D3A631624B0CC006CE871 /* release_notes.md */; };
+		96E2A95F1625E0E800C45C27 /* chamaeleon.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1915FD124E004E16C7 /* chamaeleon.wav */; };
+		96E2A9601625E0E800C45C27 /* epsilon.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1A15FD124E004E16C7 /* epsilon.wav */; };
+		96E2A9611625E0E800C45C27 /* galaxy.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1B15FD124E004E16C7 /* galaxy.wav */; };
+		96E2A9621625E0E800C45C27 /* hydrus.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1C15FD124E004E16C7 /* hydrus.wav */; };
+		96E2A9631625E0E800C45C27 /* lynx.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE2115FD1A5E004E16C7 /* lynx.wav */; };
+		96E2A9641625E0E800C45C27 /* phoenix.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE2315FD260A004E16C7 /* phoenix.wav */; };
 		F3143CE615C4D9AE0098A276 /* TimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3143CE515C4D9AE0098A276 /* TimerView.m */; };
 		F31670E515A1109200725274 /* SearchSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F31670E415A1109200725274 /* SearchSongCell.m */; };
 		F317239615A63C5200007124 /* PListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F317239515A63C5200007124 /* PListModel.m */; };
@@ -688,6 +694,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				96E2A95F1625E0E800C45C27 /* chamaeleon.wav in Resources */,
+				96E2A9601625E0E800C45C27 /* epsilon.wav in Resources */,
+				96E2A9611625E0E800C45C27 /* galaxy.wav in Resources */,
+				96E2A9621625E0E800C45C27 /* hydrus.wav in Resources */,
+				96E2A9631625E0E800C45C27 /* lynx.wav in Resources */,
+				96E2A9641625E0E800C45C27 /* phoenix.wav in Resources */,
 				F383C182158B851200B91F31 /* InfoPlist.strings in Resources */,
 				F383C18E158B851300B91F31 /* ViewController_iPhone.xib in Resources */,
 				F383C191158B851300B91F31 /* ViewController_iPad.xib in Resources */,

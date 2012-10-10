@@ -20,7 +20,7 @@ enum SwitchAlarmDirection {
     SwitchAlarmPrev
 };
 
-@interface MasterViewController : UIViewController <SelectAlarmViewDelegate, AlarmViewDelegate> {    
+@interface MasterViewController : UIViewController <SelectAlarmViewDelegate, AlarmViewDelegate, AVAudioPlayerDelegate> {
     
     CGRect prevAlarmRect;
     CGRect currAlarmRect;

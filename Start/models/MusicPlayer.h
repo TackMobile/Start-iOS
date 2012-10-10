@@ -13,7 +13,7 @@
 #import <AVFoundation/AVAudioSession.h>
 #import "PListModel.h"
 
-@interface MusicPlayer : NSObject {
+@interface MusicPlayer : NSObject <AVAudioPlayerDelegate> {
     NSArray *library;
     
     id samplingTarget;
