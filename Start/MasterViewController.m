@@ -120,6 +120,7 @@
 - (void)scheduleLocalNotificationsForDump{
     notif.soundName = @"lynx.wav";
     [[UIApplication sharedApplication] scheduleLocalNotification:notif];
+    [[UIApplication sharedApplication] scheduleLocalNotification:notif];
    
      
     

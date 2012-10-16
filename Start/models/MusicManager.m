@@ -21,6 +21,7 @@
 #pragma mark - themes
 
 - (NSDictionary *)getThemeForSongID:(NSNumber *)songID {
+    NSLog(@"getthemeforsongid songid%@", songID);
     /*NSArray *themes = [pListModel getThemes];
     NSMutableDictionary *theme = [[NSMutableDictionary alloc] initWithDictionary:[self formatTheme:[themes objectAtIndex:0]]];*/
     UIImage *bgImage = [self getBackgroundImageForSongID:songID];
@@ -120,15 +121,15 @@
     else
         return [self getRandomImage];
     
-    float bgImageWidth = 520;
+    //float bgImageWidth = 520;
     
     // get the madia artwork
-    MPMediaItemArtwork *mediaArtwork = [song valueForProperty:MPMediaItemPropertyArtwork];
+    //MPMediaItemArtwork *mediaArtwork = [song valueForProperty:MPMediaItemPropertyArtwork];
     UIImage *mediaArtworkImage;
     // get random image if media has no artwork
-    if (CGSizeEqualToSize(CGSizeMake(0, 0), mediaArtwork.bounds.size)) {
+   // if (CGSizeEqualToSize(CGSizeMake(0, 0), mediaArtwork.bounds.size)) {
         mediaArtworkImage = [self getRandomImage];
-    } else {
+    /*} else {
         mediaArtworkImage = [mediaArtwork imageWithSize:CGSizeMake(bgImageWidth, 
                                                                    (mediaArtwork.bounds.size.width/bgImageWidth)*mediaArtwork.bounds.size.height)];
         // convert to correct colorspace
@@ -137,14 +138,15 @@
         
         // blur image
         mediaArtworkImage = [mediaArtworkImage stackBlur:5];
-    }
+    }*/
     
     return mediaArtworkImage;
 }
 
 - (UIImage *) getRandomImage {
     // testing
-    return [UIImage imageNamed:@"epsilon"];
+    NSLog(@"get random image");
+    return [UIImage imageNamed:@"chamaeleon.png"];
 }
 @end
 
