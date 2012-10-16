@@ -25,6 +25,7 @@ const float optionHeight = 40;
         underline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search-divider"]];
         intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about"]];
         copyText = [[UILabel alloc] init];
+        featuresWarning = [[UILabel alloc] init];
         tackCopy = [[UILabel alloc] init];
         timePicker = [[UIScrollView alloc] init];
         
@@ -33,11 +34,17 @@ const float optionHeight = 40;
         [self addSubview:underline];
         [bgImage addSubview:intro];
         [self addSubview:copyText];
+        [self addSubview:featuresWarning];
         [self addSubview:tackCopy];
         [self addSubview:tackButton];
         [self addSubview:timePicker];
                 
         [copyText setText:@"Sleep Duration:           min"]; // leave the spaces. i know, a hack
+        NSString *lineOne = @"Leave 'Start' running in the background";
+        NSString *lineTwo = @"To enjoy the Music and Actions features.";
+        [featuresWarning setNumberOfLines:2];
+        NSString *combined = [NSString stringWithFormat:@"%@\n%@", lineOne, lineTwo];
+        [featuresWarning setText:combined];
         [tackCopy setText:@"Assembled by"];
         [tackLogo setAlpha:.8];
         
@@ -65,6 +72,9 @@ const float optionHeight = 40;
         
         [copyText setFont:lgRobotoFont];    [copyText setTextColor:textColor];
         [copyText setBackgroundColor:[UIColor clearColor]];
+        [featuresWarning setFont:smlRobotoFont];
+        [featuresWarning setTextColor:textColor];
+        [featuresWarning setBackgroundColor:[UIColor clearColor]];
         
         [tackCopy setFont:smlRobotoFont];    [tackCopy setTextColor:textColor];
         [tackCopy setBackgroundColor:[UIColor clearColor]];
@@ -112,6 +122,7 @@ const float optionHeight = 40;
     
     CGSize tackTextSize = [[tackCopy text] sizeWithFont:[tackCopy font]];
     CGSize copyTextSize = [[copyText text] sizeWithFont:[copyText font]];
+    CGSize featuresTextSize = [[featuresWarning text] sizeWithFont:[featuresWarning font]];
     
     CGRect bgRect = CGRectMake(0, frameSize.height - bgImage.frame.size.height, frameSize.width, bgImage.frame.size.height);
     CGRect tackCopyRect = CGRectMake((frameSize.width - (tackTextSize.width+41)) - 25,
@@ -124,6 +135,7 @@ const float optionHeight = 40;
                                        frameSize.width/2, frameSize.height-(tackRect.origin.y-5));
     CGRect copyTextRect = CGRectMake(15, 20, 
                                      copyTextSize.width, copyTextSize.height);
+    CGRect featuresTextRect = CGRectMake(20, 300, featuresTextSize.width, 100);
     CGRect underlineRect = CGRectMake(copyTextRect.origin.x, 
                                       copyTextRect.origin.y + copyTextRect.size.height + 4,
                                       frameSize.width-(copyTextRect.origin.y*2),
@@ -138,6 +150,7 @@ const float optionHeight = 40;
     tackCopy.frame = tackCopyRect;
     tackButton.frame = tackButtonRect;
     copyText.frame = copyTextRect;
+    featuresWarning.frame = featuresTextRect;
     underline.frame = underlineRect;
     intro.frame = introRect;
     timePicker.frame = scrollRect;
@@ -151,7 +164,7 @@ const float optionHeight = 40;
     timePicker.contentSize = CGSizeMake(scrollRect.size.width, optionHeight * [snoozeOptions count]);
     [timePicker setContentInset:
      UIEdgeInsetsMake(copyTextRect.origin.y - (optionHeight - copyTextSize.height)/2, 
-                      0, 
+                      0,
                       scrollRect.size.height-(copyTextRect.origin.y + copyTextRect.size.height)
                       - (optionHeight - copyTextSize.height)/2
                       , 0)];

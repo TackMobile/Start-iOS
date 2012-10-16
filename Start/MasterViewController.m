@@ -9,10 +9,11 @@
 #import "MasterViewController.h"
 
 @interface MasterViewController ()
+@property (nonatomic, strong) UILocalNotification *notif;
 @end
 
 @implementation MasterViewController
-@synthesize alarms, musicPlayer, settingsView;
+@synthesize alarms, musicPlayer, settingsView, notif;
 @synthesize pListModel, selectAlarmView, tickTimer, addButton;
 
 - (void)viewDidLoad
@@ -66,6 +67,9 @@
         [self switchAlarmWithIndex:currAlarmIndex];
     }
     
+   
+
+    
     [self beginTick];
 }
 
@@ -98,16 +102,27 @@
     for (AlarmView *alarmView in alarms) {
         NSDictionary *alarmInfo = [alarmView alarmInfo];
         if ([(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue]) {
-            UILocalNotification *notif = [[UILocalNotification alloc] init];
+            notif = [[UILocalNotification alloc] init];
             NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
                                       [NSNumber numberWithInt:alarmView.index], @"alarmIndex", nil];
             notif.fireDate = [alarmInfo objectForKey:@"date"];
-            // notif.soundName = ;
             notif.alertBody = @"Alarm Triggered";
             notif.userInfo = userInfo;
             [[UIApplication sharedApplication] scheduleLocalNotification:notif];
+            
         }
     }
+   
+        
+    
+}
+
+- (void)scheduleLocalNotificationsForDump{
+    notif.soundName = @"lynx.wav";
+    [[UIApplication sharedApplication] scheduleLocalNotification:notif];
+   
+     
+    
 }
 
 - (void) addAlarmWithInfo:(NSDictionary *)alarmInfo switchTo:(BOOL)switchToAlarm {    
