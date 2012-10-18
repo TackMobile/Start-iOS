@@ -349,6 +349,7 @@ const float Spacing = 0.0f;
         [selectAlarmBg setAlpha:0];
         [patternOverlay setAlpha:0];
         [selectDurationView updateTheme:theme];
+        NSLog(@"update theme");
     } else {
         [toolbarImage setAlpha:1];
         [selectAlarmBg setAlpha:1];
@@ -697,6 +698,7 @@ const float Spacing = 0.0f;
         set = YES;
     else if (shouldSet == AlarmViewShouldUnSet) {
         set = NO;
+//when the user turns off the alarm*************************************************
         if (countdownEnded || isSnoozing) { // stop and launch countdown aciton
             countdownEnded = NO;
             isSnoozing = NO;

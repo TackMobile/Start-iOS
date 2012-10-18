@@ -120,9 +120,18 @@
 - (void)scheduleLocalNotificationsForDump{
     notif.soundName = @"lynx.wav";
     [[UIApplication sharedApplication] scheduleLocalNotification:notif];
-    [[UIApplication sharedApplication] scheduleLocalNotification:notif];
    
      
+    
+}
+
+-(void)respondedToLocalNot{
+    for (AlarmView *alarmView in alarms){
+        //[alarmView alarmCountdownEnded];
+        [self alarmCountdownEnded:alarmView];
+        NSLog(@"respondtolocalnot");
+        
+    }
     
 }
 
@@ -382,7 +391,10 @@
 }
 
 -(void)alarmCountdownEnded:(AlarmView *)alarmView {
+    NSLog(@"masterviewcontroller");
     [self switchAlarmWithIndex:alarmView.index];
+    alarmView.countdownEnded = YES;
+    //[alarmView.selectedTimeView showSnooze];
     [musicPlayer playSongWithID:[alarmView.alarmInfo objectForKey:@"songID"] vibrate:YES];
 }
 

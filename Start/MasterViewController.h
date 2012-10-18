@@ -45,6 +45,7 @@ enum SwitchAlarmDirection {
 - (void) saveAlarms;
 - (void) scheduleLocalNotifications;
 - (void) scheduleLocalNotificationsForDump;
+- (void) respondedToLocalNot;
 
 - (void) alarmAdded;
 - (void) updateAlarmViews:(NSTimer *)timer;

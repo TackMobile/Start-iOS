@@ -24,12 +24,21 @@
     self.viewController = [[MasterViewController alloc] initWithNibName:@"ViewController_iPhone" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
+    NSLog(@"launched %@", [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]);
     
     UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (localNotification) {
         [self.viewController switchAlarmWithIndex:[[localNotification.userInfo objectForKey:@"alarmIndex"] intValue]];
+        [self.viewController respondedToLocalNot];
+        
     }
     
+    
+    return YES;
+}
+- (BOOL) application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
+    
+    NSLog(@"launched %@", [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]);
     return YES;
 }
 
@@ -116,6 +125,12 @@
 
 -(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"error: %@", error);
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
+    NSLog(@"didRecieveLocalNotification");
+    [self.viewController respondedToLocalNot];
+    
 }
 
 @end

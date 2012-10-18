@@ -79,6 +79,7 @@
 #pragma mark - Drawing
 
 - (void) showSnooze {
+    NSLog(@"showSnooze");
     [snoozeLabel setAlpha:1];
     [timeLabel setAlpha:0];
     [meridiemLabel setAlpha:0];
