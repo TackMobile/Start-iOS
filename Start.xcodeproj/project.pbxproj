@@ -10,6 +10,7 @@
 		966D3A651624B0CC006CE871 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 966D3A611624B0CC006CE871 /* libTestFlight.a */; };
 		966D3A661624B0CC006CE871 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 966D3A621624B0CC006CE871 /* README.md */; };
 		966D3A671624B0CC006CE871 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 966D3A631624B0CC006CE871 /* release_notes.md */; };
+		967095FF163095BE004611ED /* lynx2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 967095FE163095BE004611ED /* lynx2.wav */; };
 		96E2A95F1625E0E800C45C27 /* chamaeleon.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1915FD124E004E16C7 /* chamaeleon.wav */; };
 		96E2A9601625E0E800C45C27 /* epsilon.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1A15FD124E004E16C7 /* epsilon.wav */; };
 		96E2A9611625E0E800C45C27 /* galaxy.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1B15FD124E004E16C7 /* galaxy.wav */; };
@@ -140,6 +141,7 @@
 		966D3A621624B0CC006CE871 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		966D3A631624B0CC006CE871 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
 		966D3A641624B0CC006CE871 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		967095FE163095BE004611ED /* lynx2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lynx2.wav; sourceTree = "<group>"; };
 		EA13EE1915FD124E004E16C7 /* chamaeleon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chamaeleon.wav; sourceTree = "<group>"; };
 		EA13EE1A15FD124E004E16C7 /* epsilon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = epsilon.wav; sourceTree = "<group>"; };
 		EA13EE1B15FD124E004E16C7 /* galaxy.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = galaxy.wav; sourceTree = "<group>"; };
@@ -390,6 +392,7 @@
 		F335A2CC15D418DF00F0A552 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				967095FE163095BE004611ED /* lynx2.wav */,
 				EA13EE1915FD124E004E16C7 /* chamaeleon.wav */,
 				EA13EE1A15FD124E004E16C7 /* epsilon.wav */,
 				EA13EE1B15FD124E004E16C7 /* galaxy.wav */,
@@ -788,6 +791,7 @@
 				F3CA96E11605591900D237FC /* about@2x.png in Resources */,
 				966D3A661624B0CC006CE871 /* README.md in Resources */,
 				966D3A671624B0CC006CE871 /* release_notes.md in Resources */,
+				967095FF163095BE004611ED /* lynx2.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
