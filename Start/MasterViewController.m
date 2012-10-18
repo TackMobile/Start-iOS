@@ -106,6 +106,7 @@
             NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
                                       [NSNumber numberWithInt:alarmView.index], @"alarmIndex", nil];
             notif.fireDate = [alarmInfo objectForKey:@"date"];
+            notif.soundName = @"lynx2.wav";
             notif.alertBody = @"Alarm Triggered";
             notif.userInfo = userInfo;
             [[UIApplication sharedApplication] scheduleLocalNotification:notif];
@@ -117,13 +118,7 @@
     
 }
 
-- (void)scheduleLocalNotificationsForDump{
-    notif.soundName = @"lynx2.wav";
-    [[UIApplication sharedApplication] scheduleLocalNotification:notif];
-   
-     
-    
-}
+
 
 -(void)respondedToLocalNot{
     for (AlarmView *alarmView in alarms){
