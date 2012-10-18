@@ -394,7 +394,7 @@
     NSLog(@"masterviewcontroller");
     [self switchAlarmWithIndex:alarmView.index];
     alarmView.countdownEnded = YES;
-    //[alarmView.selectedTimeView showSnooze];
+    [alarmView.selectedTimeView showSnooze];
     [musicPlayer playSongWithID:[alarmView.alarmInfo objectForKey:@"songID"] vibrate:YES];
 }
 
