@@ -150,8 +150,9 @@
             themeID = [NSNumber numberWithInt:indexPath.row];
         } else if (indexPath.section == 3) {
             songID = [(MPMediaItem *)[librarySongs objectAtIndex:indexPath.row] valueForProperty:MPMediaItemPropertyPersistentID];
-            int rand = arc4random() % 5;
-            themeID = [NSNumber numberWithInt:rand]; // random theme
+            themeID = [NSNumber numberWithInt:6];
+            //int rand = arc4random() % 5;
+            //themeID = [NSNumber numberWithInt:rand]; // random theme
             //themeID = [NSNumber numberWithInt:-1];
             //artwork = [musicManager getBackgroundImageForSongID:songID];
         }

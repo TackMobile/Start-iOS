@@ -121,6 +121,7 @@
 
 
 -(void)respondedToLocalNot{
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
     for (AlarmView *alarmView in alarms){
         //[alarmView alarmCountdownEnded];
         [self alarmCountdownEnded:alarmView];

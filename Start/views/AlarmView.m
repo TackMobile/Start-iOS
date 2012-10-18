@@ -341,7 +341,7 @@ const float Spacing = 0.0f;
 - (void) updateThemeWithArtwork:(UIImage *)artwork {
     int themeID = [(NSNumber *)[alarmInfo objectForKey:@"themeID"] intValue];
     NSDictionary *theme;
-    if (themeID < 6 && themeID > -1) { // preset theme
+    if (themeID < 7 && themeID > -1) { // preset theme
         theme = [musicManager getThemeWithID:themeID];
         artwork = [theme objectForKey:@"bgImg"];
         [radialGradientView setInnerColor:[theme objectForKey:@"bgInnerColor"] outerColor:[theme objectForKey:@"bgOuterColor"]];
