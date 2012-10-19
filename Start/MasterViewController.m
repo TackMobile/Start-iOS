@@ -45,30 +45,50 @@
     settingsView = [[SettingsView alloc] initWithFrame:CGRectOffset(frameRect, 0, -frameRect.origin.y)];
     addButton = [[UIButton alloc] initWithFrame:plusRect];
     
-    [self.view addSubview:settingsView];
-    [self.view addSubview:selectAlarmView];
-    [self.view addSubview:addButton];
+    
+        [self.view addSubview:settingsView];
+        [self.view addSubview:selectAlarmView];
+        [self.view addSubview:addButton];
+       // [addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    
+
+   
     
     [addButton setBackgroundImage:[UIImage imageNamed:@"plusButton"] forState:UIControlStateNormal];
-    [addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     // init the alams that were stored
     NSArray *userAlarms = [pListModel getAlarms];
     if ([userAlarms count]>0) {
         for (NSDictionary *alarmInfo in userAlarms) {
             [selectAlarmView addAlarmAnimated:NO];
             [self addAlarmWithInfo:alarmInfo switchTo:NO];
+            NSLog(@"alarm already exists %d", currAlarmIndex);
         }
         [self switchAlarmWithIndex:currAlarmIndex];
     } else {
         // add first alarm
+        NSLog(@"add first alarm %d", currAlarmIndex);
         [selectAlarmView addAlarmAnimated:NO];
         [self addAlarmWithInfo:nil switchTo:NO];
         [self switchAlarmWithIndex:currAlarmIndex];
     }
     
    
-
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"usedBefore"] == NO) {
+        [self switchAlarmWithIndex:currAlarmIndex + 1];
+        [addButton addTarget:self action:@selector(test) forControlEvents:UIControlEventTouchUpInside];
+    }else{
+        [addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    }
     [self beginTick];
+}
+
+-(void)test{
+    NSLog(@"test %d", currAlarmIndex);
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"usedBefore"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    [self switchAlarmWithIndex:currAlarmIndex - 1];
+    [addButton removeTarget:self action:@selector(test) forControlEvents:UIControlEventTouchUpInside];
+    [addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void) beginTick {
@@ -218,7 +238,6 @@
 
 #pragma mark - Positioning & SelectAlarmViewDelegate
 - (void) switchAlarmWithIndex:(int)index {
-    
     shouldSwitch = SwitchAlarmNone;
         
     if (index < 0 || index > [alarms count])

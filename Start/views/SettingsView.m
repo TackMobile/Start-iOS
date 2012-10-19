@@ -183,6 +183,7 @@ const float optionHeight = 40;
 -(void) navigatingAway {
     pickingSnooze= NO;
     [self animateTimePicker];
+    NSLog(@"navigatingaway");
 }
 
 #pragma mark - touches
