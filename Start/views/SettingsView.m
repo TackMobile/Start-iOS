@@ -20,26 +20,27 @@ const float optionHeight = 40;
         selectedIndex = 0;
         
         bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background"]];
-        tackLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tack-logo"]];
+        //tackLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tack-logo"]];
         tackButton = [[UIButton alloc] init];
         underline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search-divider"]];
         intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about"]];
         copyText = [[UILabel alloc] init];
-        tackCopy = [[UILabel alloc] init];
+        //tackCopy = [[UILabel alloc] init];
         timePicker = [[UIScrollView alloc] init];
         
+        
         [self addSubview:bgImage];
-        [self addSubview:tackLogo];
+        //[self addSubview:tackLogo];
         [self addSubview:underline];
         [bgImage addSubview:intro];
         [self addSubview:copyText];
-        [self addSubview:tackCopy];
-        [self addSubview:tackButton];
+        //[self addSubview:tackCopy];
         [self addSubview:timePicker];
+        [self addSubview:tackButton];
                 
-        [copyText setText:@"Sleep Duration:           min"]; // leave the spaces. i know, a hack
-        [tackCopy setText:@"Assembled by"];
-        [tackLogo setAlpha:.8];
+        [copyText setText:@"Snooze Duration        min"]; // leave the spaces. i know, a hack
+        //[tackCopy setText:@"Assembled by"];
+        //[tackLogo setAlpha:.8];
         
         [tackButton addTarget:self action:@selector(tackTapped:) forControlEvents:UIControlEventTouchUpInside];
                 
@@ -59,7 +60,7 @@ const float optionHeight = 40;
         
         // fonts
         UIFont *lgRobotoFont = [UIFont fontWithName:@"Roboto-Thin" size:26];
-        UIFont *smlRobotoFont = [UIFont fontWithName:@"Roboto-Thin" size:17];
+        //UIFont *smlRobotoFont = [UIFont fontWithName:@"Roboto-Thin" size:17];
                 
         UIColor *textColor = [UIColor whiteColor];
         
@@ -67,8 +68,8 @@ const float optionHeight = 40;
         [copyText setBackgroundColor:[UIColor clearColor]];
     
         
-        [tackCopy setFont:smlRobotoFont];    [tackCopy setTextColor:textColor];
-        [tackCopy setBackgroundColor:[UIColor clearColor]];
+        //[tackCopy setFont:smlRobotoFont];    [tackCopy setTextColor:textColor];
+        //[tackCopy setBackgroundColor:[UIColor clearColor]];
         
         // time picker
         [timePicker setDecelerationRate:UIScrollViewDecelerationRateFast];
@@ -108,25 +109,24 @@ const float optionHeight = 40;
     [super layoutSubviews];
     
     CGSize frameSize = [[UIScreen mainScreen] applicationFrame].size;
-    CGSize introSize = CGSizeMake(262, 222);
+    CGSize introSize = CGSizeMake(262, 273);
     
     
-    CGSize tackTextSize = [[tackCopy text] sizeWithFont:[tackCopy font]];
+    //CGSize tackTextSize = [[tackCopy text] sizeWithFont:[tackCopy font]];
     CGSize copyTextSize = [[copyText text] sizeWithFont:[copyText font]];
     
     CGRect bgRect = CGRectMake(0, frameSize.height - bgImage.frame.size.height, frameSize.width, bgImage.frame.size.height);
-    CGRect tackCopyRect = CGRectMake((frameSize.width - (tackTextSize.width+41)) - 25,
-                                     frameSize.height - 40, 
-                                     tackTextSize.width, tackTextSize.height);
+    //CGRect tackCopyRect = CGRectMake((frameSize.width - (tackTextSize.width+41)) - 25,
+      //                               frameSize.height - 40,
+        //                             tackTextSize.width, tackTextSize.height);
 
-    CGRect tackRect = CGRectMake(tackCopyRect.origin.x + tackCopyRect.size.width + 5, 
-                                 tackCopyRect.origin.y - 15, 41, 40);
-    CGRect tackButtonRect = CGRectMake(frameSize.width/2, tackRect.origin.y - 5, 
-                                       frameSize.width/2, frameSize.height-(tackRect.origin.y-5));
+    //CGRect tackRect = CGRectMake(tackCopyRect.origin.x + tackCopyRect.size.width + 5,
+                             //    tackCopyRect.origin.y - 15, 41, 40);
+    CGRect tackButtonRect = CGRectMake(40, 330, 180, 44);
     CGRect copyTextRect = CGRectMake(15, 20, 
                                      copyTextSize.width, copyTextSize.height);
     
-    CGRect underlineRect = CGRectMake(copyTextRect.origin.x, 
+    CGRect underlineRect = CGRectMake(copyTextRect.origin.x,
                                       copyTextRect.origin.y + copyTextRect.size.height + 4,
                                       frameSize.width-(copyTextRect.origin.y*2),
                                       1);
@@ -136,8 +136,8 @@ const float optionHeight = 40;
                                    frameSize.height);
     
     bgImage.frame = bgRect;
-    tackLogo.frame = tackRect;
-    tackCopy.frame = tackCopyRect;
+    //tackLogo.frame = tackRect;
+   // tackCopy.frame = tackCopyRect;
     tackButton.frame = tackButtonRect;
     copyText.frame = copyTextRect;
     
