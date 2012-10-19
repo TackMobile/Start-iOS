@@ -20,12 +20,12 @@
 {    
     [super viewDidLoad];
 	alarms = [[NSMutableArray alloc] init];
+    
     // get the saved alarm index
     NSNumber *savedAlarmIndex = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"currAlarmIndex"];
     currAlarmIndex = (savedAlarmIndex)?[savedAlarmIndex intValue]:1;
     shouldSwitch = SwitchAlarmNone;
     pListModel = [[PListModel alloc] init];
-    
     // views
     CGSize plusSize = CGSizeMake(38, 38);
 
@@ -51,7 +51,6 @@
     
     [addButton setBackgroundImage:[UIImage imageNamed:@"plusButton"] forState:UIControlStateNormal];
     [addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    
     // init the alams that were stored
     NSArray *userAlarms = [pListModel getAlarms];
     if ([userAlarms count]>0) {
@@ -69,7 +68,6 @@
     
    
 
-    
     [self beginTick];
 }
 
@@ -87,7 +85,6 @@
     NSMutableArray *alarmsData = [[NSMutableArray alloc] init];
     for (AlarmView *alarm in alarms)
         [alarmsData addObject:[NSDictionary dictionaryWithDictionary:alarm.alarmInfo]];
-    
     [pListModel saveAlarms:alarmsData];
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:currAlarmIndex] forKey:@"currAlarmIndex"];
 }
@@ -122,16 +119,24 @@
 
 -(void)respondedToLocalNot{
     [[UIApplication sharedApplication] cancelAllLocalNotifications];
-    for (AlarmView *alarmView in alarms){
-        //[alarmView alarmCountdownEnded];
-        [self alarmCountdownEnded:alarmView];
-        NSLog(@"respondtolocalnot");
-        
-    }
+    AlarmView *alarmView;
+    int indexOfTrippedAlarm = -1;
+    NSArray *userAlarms = [pListModel getAlarms];
+    if ([userAlarms count]>0) {
+        for (NSDictionary *alarmInfo in userAlarms) {
+            indexOfTrippedAlarm++;
+            if (floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0)) {
+                alarmView = [alarms objectAtIndex:indexOfTrippedAlarm];
+            }
+            
+        }
+        [alarmView alarmCountdownEnded];
+
     
+    }
 }
 
-- (void) addAlarmWithInfo:(NSDictionary *)alarmInfo switchTo:(BOOL)switchToAlarm {    
+- (void) addAlarmWithInfo:(NSDictionary *)alarmInfo switchTo:(BOOL)switchToAlarm {
     currAlarmIndex = [alarms count];
     AlarmView *newAlarm = [[AlarmView alloc] initWithFrame:prevAlarmRect index:currAlarmIndex delegate:self alarmInfo:alarmInfo];
     [alarms addObject:newAlarm];

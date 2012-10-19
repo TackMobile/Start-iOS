@@ -30,6 +30,7 @@
     if (localNotification) {
         [self.viewController switchAlarmWithIndex:[[localNotification.userInfo objectForKey:@"alarmIndex"] intValue]];
         [self.viewController respondedToLocalNot];
+       
         
     }
     
@@ -129,6 +130,7 @@
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
     NSLog(@"didRecieveLocalNotification");
     [self.viewController respondedToLocalNot];
+    
     
 }
 

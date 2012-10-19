@@ -381,9 +381,9 @@ const float Spacing = 0.0f;
         while ([(NSDate *)[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0)
             [alarmInfo setObject:[NSDate dateWithTimeInterval:86400 sinceDate:[alarmInfo objectForKey:@"date"]] forKey:@"date"];
         // check to see if it will go off
-        if (isSet && floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5)
-            [self alarmCountdownEnded];
-        
+        if (isSet && floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5){
+            [self alarmCountdownEnded];}
+       
         //if (selectDurationView.handleSelected == SelectDurationNoHandle)
         //   [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
         
