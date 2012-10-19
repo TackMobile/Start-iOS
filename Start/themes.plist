@@ -44,9 +44,9 @@
 	</dict>
 	<dict>
 		<key>bgInnerColor</key>
-		<string>66b5e5</string>
+		<string>7068af</string>
 		<key>bgOuterColor</key>
-		<string>507fc1</string>
+		<string>50a0d7</string>
 		<key>innerColor</key>
 		<string>ffffff</string>
 		<key>innerOpacity</key>
@@ -80,7 +80,7 @@
 		<key>centerOpacity</key>
 		<real>0.6</real>
 		<key>bgFilename</key>
-		<string>galaxy</string>
+		<string>epsilon</string>
 	</dict>
 	<dict>
 		<key>bgOuterColor</key>
@@ -124,9 +124,9 @@
 	</dict>
 	<dict>
 		<key>bgOuterColor</key>
-		<string>135e87</string>
+		<string>66b5e5</string>
 		<key>bgInnerColor</key>
-		<string>1e8879</string>
+		<string>507fc1</string>
 		<key>innerColor</key>
 		<string>ffffff</string>
 		<key>innerOpacity</key>
@@ -160,7 +160,7 @@
 		<key>centerOpacity</key>
 		<real>0.6</real>
 		<key>bgFilename</key>
-		<string>lynx</string>
+		<string>galaxy</string>
 	</dict>
 	<dict>
 		<key>bgOuterColor</key>
@@ -204,9 +204,9 @@
 	</dict>
 	<dict>
 		<key>bgOuterColor</key>
-		<string>7068af</string>
+		<string>135e87</string>
 		<key>bgInnerColor</key>
-		<string>50a0d7</string>
+		<string>1e8879</string>
 		<key>innerColor</key>
 		<string>ffffff</string>
 		<key>innerOpacity</key>
@@ -240,7 +240,7 @@
 		<key>centerOpacity</key>
 		<real>0.6</real>
 		<key>bgFilename</key>
-		<string>epsilon</string>
+		<string>lynx</string>
 	</dict>
 	<dict>
 		<key>bgOuterColor</key>
