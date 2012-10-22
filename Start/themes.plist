@@ -43,9 +43,9 @@
 		<string>chamaeleon</string>
 	</dict>
 	<dict>
-		<key>bgInnerColor</key>
-		<string>7068af</string>
 		<key>bgOuterColor</key>
+		<string>7068af</string>
+		<key>bgInnerColor</key>
 		<string>50a0d7</string>
 		<key>innerColor</key>
 		<string>ffffff</string>

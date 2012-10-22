@@ -13,6 +13,10 @@
 		967095FF163095BE004611ED /* lynx2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 967095FE163095BE004611ED /* lynx2.wav */; };
 		96861C131631C47C00390DEF /* about.png in Resources */ = {isa = PBXBuildFile; fileRef = 96861C111631C47C00390DEF /* about.png */; };
 		96861C141631C47C00390DEF /* about@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96861C121631C47C00390DEF /* about@2x.png */; };
+		96BC44DA1635B07000707007 /* chamaeleon2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96BC44D91635B07000707007 /* chamaeleon2.wav */; };
+		96BC44DD1635B0CB00707007 /* epsilon2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96BC44DC1635B0CB00707007 /* epsilon2.wav */; };
+		96BC44DF1635B12700707007 /* hydrus2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96BC44DE1635B12700707007 /* hydrus2.wav */; };
+		96BC44E11635B19100707007 /* phoenix2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96BC44E01635B19100707007 /* phoenix2.wav */; };
 		96E2A95F1625E0E800C45C27 /* chamaeleon.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1915FD124E004E16C7 /* chamaeleon.wav */; };
 		96E2A9601625E0E800C45C27 /* epsilon.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1A15FD124E004E16C7 /* epsilon.wav */; };
 		96E2A9611625E0E800C45C27 /* galaxy.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1B15FD124E004E16C7 /* galaxy.wav */; };
@@ -144,6 +148,10 @@
 		967095FE163095BE004611ED /* lynx2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lynx2.wav; sourceTree = "<group>"; };
 		96861C111631C47C00390DEF /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
 		96861C121631C47C00390DEF /* about@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about@2x.png"; sourceTree = "<group>"; };
+		96BC44D91635B07000707007 /* chamaeleon2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chamaeleon2.wav; sourceTree = "<group>"; };
+		96BC44DC1635B0CB00707007 /* epsilon2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = epsilon2.wav; sourceTree = "<group>"; };
+		96BC44DE1635B12700707007 /* hydrus2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hydrus2.wav; sourceTree = "<group>"; };
+		96BC44E01635B19100707007 /* phoenix2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = phoenix2.wav; sourceTree = "<group>"; };
 		EA13EE1915FD124E004E16C7 /* chamaeleon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chamaeleon.wav; sourceTree = "<group>"; };
 		EA13EE1A15FD124E004E16C7 /* epsilon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = epsilon.wav; sourceTree = "<group>"; };
 		EA13EE1B15FD124E004E16C7 /* galaxy.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = galaxy.wav; sourceTree = "<group>"; };
@@ -392,6 +400,10 @@
 		F335A2CC15D418DF00F0A552 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				96BC44E01635B19100707007 /* phoenix2.wav */,
+				96BC44DE1635B12700707007 /* hydrus2.wav */,
+				96BC44DC1635B0CB00707007 /* epsilon2.wav */,
+				96BC44D91635B07000707007 /* chamaeleon2.wav */,
 				967095FE163095BE004611ED /* lynx2.wav */,
 				EA13EE1915FD124E004E16C7 /* chamaeleon.wav */,
 				EA13EE1A15FD124E004E16C7 /* epsilon.wav */,
@@ -792,6 +804,10 @@
 				967095FF163095BE004611ED /* lynx2.wav in Resources */,
 				96861C131631C47C00390DEF /* about.png in Resources */,
 				96861C141631C47C00390DEF /* about@2x.png in Resources */,
+				96BC44DA1635B07000707007 /* chamaeleon2.wav in Resources */,
+				96BC44DD1635B0CB00707007 /* epsilon2.wav in Resources */,
+				96BC44DF1635B12700707007 /* hydrus2.wav in Resources */,
+				96BC44E11635B19100707007 /* phoenix2.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
