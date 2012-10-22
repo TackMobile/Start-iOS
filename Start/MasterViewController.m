@@ -123,7 +123,32 @@
             NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
                                       [NSNumber numberWithInt:alarmView.index], @"alarmIndex", nil];
             notif.fireDate = [alarmInfo objectForKey:@"date"];
-            notif.soundName = @"galaxy.wav";
+            switch ([[alarmInfo objectForKey:@"songID"] intValue]) {
+                case 0:
+                    notif.soundName = @"chamaeleon2.wav";
+                    break;
+                case 1:
+                    notif.soundName = @"epsilon2.wav";
+                    break;
+                case 2:
+                    notif.soundName = @"hydrus2.wav";
+                    break;
+                case 3:
+                    notif.soundName = @"galaxy.wav";
+                    break;
+                case 4:
+                    notif.soundName = @"phoenix2.wav";
+                    break;
+                case 5:
+                    notif.soundName = @"lynx2.wav";
+                    break;
+                case 6:
+                    notif.soundName = @"galaxy.wav";
+                    break;
+                default:
+                    notif.soundName = @"galaxy.wav";
+                    break;
+            }
             notif.alertBody = @"Alarm Triggered";
             notif.userInfo = userInfo;
             [[UIApplication sharedApplication] scheduleLocalNotification:notif];
