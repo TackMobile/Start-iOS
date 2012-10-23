@@ -28,7 +28,6 @@ const float optionHeight = 40;
         
         //tackLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tack-logo"]];
         tackButton = [[UIButton alloc] init];
-        tackButton.backgroundColor = [UIColor whiteColor];
         underline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search-divider"]];
         copyText = [[UILabel alloc] init];
         versionText = [UILabel new];

@@ -91,14 +91,20 @@
 		<string>twitter-icon</string>
 	</dict>
 	<dict>
-		<key>New item</key>
-		<string></string>
 		<key>url</key>
 		<string></string>
 		<key>title</key>
 		<string>x Weather</string>
 		<key>iconFilename</key>
 		<string>weather-icon</string>
+	</dict>
+	<dict>
+		<key>url</key>
+		<string>instagram://app</string>
+		<key>title</key>
+		<string>Instagram</string>
+		<key>iconFilename</key>
+		<string>instagram-icon</string>
 	</dict>
 </array>
 </plist>
