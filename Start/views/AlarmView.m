@@ -36,8 +36,10 @@ const float Spacing = 0.0f;
         CGSize bgImageSize = CGSizeMake(520, 480);
         CGRect frameRect = [[UIScreen mainScreen] applicationFrame];
         
+        
         // bgImageRect = 
-        radialRect = CGRectMake((self.frame.size.width-bgImageSize.width)/2, (self.frame.size.height-bgImageSize.height)/2, bgImageSize.width, bgImageSize.height);;
+        radialRect = CGRectMake((self.frame.size.width-bgImageSize.width)/2, 0, bgImageSize.width, frameRect.size.height);
+        //radialRect = CGRectMake([UIScreen mainScreen].bounds.origin.x, [UIScreen mainScreen].bounds.origin.y, [UIScreen mainScreen].bounds.size.width , [UIScreen mainScreen].bounds.size.height);
         
         CGRect toolBarRect = CGRectMake(0, 0, self.frame.size.width, 135);
         selectSongRect = CGRectMake(Spacing-16, 0, frameRect.size.width-75, 80);
@@ -54,6 +56,8 @@ const float Spacing = 0.0f;
         
         // backgroundImage = [[UIImageView alloc] initWithFrame:bgImageRect];
         radialGradientView = [[RadialGradientView alloc] initWithFrame:radialRect];
+        
+        
         
         //patternOverlay = [[UIImageView alloc] initWithFrame:radialGradientRect];
         toolbarImage = [[UIImageView alloc] initWithFrame:toolBarRect];

@@ -26,6 +26,7 @@
     [self.window makeKeyAndVisible];
     NSLog(@"launched %@", [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]);
     
+
     UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
     if (localNotification) {
         [self.viewController switchAlarmWithIndex:[[localNotification.userInfo objectForKey:@"alarmIndex"] intValue]];
@@ -33,10 +34,13 @@
        
         
     }
-    
+    NSLog(@"screen size %f", [UIScreen mainScreen].bounds.size.height);
     
     return YES;
 }
+
+
+
 - (BOOL) application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
     
     NSLog(@"launched %@", [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]);
@@ -52,6 +56,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
+    NSLog(@"did enter background");
     // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
     // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         
@@ -120,6 +125,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
+    NSLog(@"terminated");
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 

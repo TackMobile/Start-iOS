@@ -31,7 +31,7 @@
 
     CGRect frameRect = [[UIScreen mainScreen] applicationFrame];
     CGRect selectAlarmRect = CGRectMake(0, frameRect.size.height-50, frameRect.size.width, 50);
-    CGRect plusRect = CGRectMake(5, self.view.frame.size.height - plusSize.height - 5,
+    CGRect plusRect = CGRectMake(5, frameRect.size.height - plusSize.height - 5 ,
                                  plusSize.width, plusSize.height);
 
 

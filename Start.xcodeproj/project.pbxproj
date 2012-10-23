@@ -17,6 +17,7 @@
 		96BC44DD1635B0CB00707007 /* epsilon2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96BC44DC1635B0CB00707007 /* epsilon2.wav */; };
 		96BC44DF1635B12700707007 /* hydrus2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96BC44DE1635B12700707007 /* hydrus2.wav */; };
 		96BC44E11635B19100707007 /* phoenix2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96BC44E01635B19100707007 /* phoenix2.wav */; };
+		96BC44E31635EA7000707007 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96BC44E21635EA7000707007 /* Default-568h@2x.png */; };
 		96E2A95F1625E0E800C45C27 /* chamaeleon.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1915FD124E004E16C7 /* chamaeleon.wav */; };
 		96E2A9601625E0E800C45C27 /* epsilon.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1A15FD124E004E16C7 /* epsilon.wav */; };
 		96E2A9611625E0E800C45C27 /* galaxy.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1B15FD124E004E16C7 /* galaxy.wav */; };
@@ -152,6 +153,7 @@
 		96BC44DC1635B0CB00707007 /* epsilon2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = epsilon2.wav; sourceTree = "<group>"; };
 		96BC44DE1635B12700707007 /* hydrus2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hydrus2.wav; sourceTree = "<group>"; };
 		96BC44E01635B19100707007 /* phoenix2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = phoenix2.wav; sourceTree = "<group>"; };
+		96BC44E21635EA7000707007 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		EA13EE1915FD124E004E16C7 /* chamaeleon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chamaeleon.wav; sourceTree = "<group>"; };
 		EA13EE1A15FD124E004E16C7 /* epsilon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = epsilon.wav; sourceTree = "<group>"; };
 		EA13EE1B15FD124E004E16C7 /* galaxy.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = galaxy.wav; sourceTree = "<group>"; };
@@ -497,6 +499,7 @@
 			isa = PBXGroup;
 			children = (
 				966D3A601624B0CB006CE871 /* TestFlightSDK1 */,
+				96BC44E21635EA7000707007 /* Default-568h@2x.png */,
 				F37C93CC15E97FEF000EBE07 /* Icon@2x.png */,
 				F37C93CA15E97FEA000EBE07 /* Icon.png */,
 				F383C17D158B851200B91F31 /* Start */,
@@ -808,6 +811,7 @@
 				96BC44DD1635B0CB00707007 /* epsilon2.wav in Resources */,
 				96BC44DF1635B12700707007 /* hydrus2.wav in Resources */,
 				96BC44E11635B19100707007 /* phoenix2.wav in Resources */,
+				96BC44E31635EA7000707007 /* Default-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -894,7 +898,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -914,7 +918,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
@@ -930,7 +934,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Start/Start-Prefix.pch";
 				INFOPLIST_FILE = "Start/Start-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/TestFlightSDK1.0\"",
@@ -950,7 +954,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Start/Start-Prefix.pch";
 				INFOPLIST_FILE = "Start/Start-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/TestFlightSDK1.0\"",
