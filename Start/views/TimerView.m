@@ -22,7 +22,7 @@
         [self addSubview:timerLabel];
         
         UIFont *timerFont = [UIFont fontWithName:@"Roboto-Thin" size:80];
-        [timerLabel setTextAlignment:UITextAlignmentCenter];
+        [timerLabel setTextAlignment:NSTextAlignmentCenter];
         [timerLabel setTextColor:[UIColor whiteColor]];
         [timerLabel setBackgroundColor:[UIColor clearColor]];
         [timerLabel setFont:timerFont];
