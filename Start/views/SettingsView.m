@@ -18,13 +18,20 @@ const float optionHeight = 40;
     if (self) {
         pickingSnooze = NO;
         selectedIndex = 0;
+        if ([UIScreen mainScreen].applicationFrame.size.height < 500   ) {
+            bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background"]];
+            intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about"]];
+        }else{
+            bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background-568h@2x.png"]];
+            intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about-568h@2x.png"]];
+        }
         
-        bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background"]];
         //tackLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tack-logo"]];
         tackButton = [[UIButton alloc] init];
+        tackButton.backgroundColor = [UIColor whiteColor];
         underline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search-divider"]];
-        intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about"]];
         copyText = [[UILabel alloc] init];
+        versionText = [UILabel new];
         //tackCopy = [[UILabel alloc] init];
         timePicker = [[UIScrollView alloc] init];
         
@@ -33,12 +40,15 @@ const float optionHeight = 40;
         //[self addSubview:tackLogo];
         [self addSubview:underline];
         [bgImage addSubview:intro];
+        [self addSubview:intro];
         [self addSubview:copyText];
+        [self addSubview:versionText];
         //[self addSubview:tackCopy];
         [self addSubview:timePicker];
         [self addSubview:tackButton];
                 
         [copyText setText:@"Snooze Duration        min"]; // leave the spaces. i know, a hack
+        [versionText setText:@"v1.1"];
         //[tackCopy setText:@"Assembled by"];
         //[tackLogo setAlpha:.8];
         
@@ -60,12 +70,15 @@ const float optionHeight = 40;
         
         // fonts
         UIFont *lgRobotoFont = [UIFont fontWithName:@"Roboto-Thin" size:26];
-        //UIFont *smlRobotoFont = [UIFont fontWithName:@"Roboto-Thin" size:17];
+        UIFont *smlRobotoFont = [UIFont fontWithName:@"Roboto-Thin" size:17];
                 
         UIColor *textColor = [UIColor whiteColor];
         
         [copyText setFont:lgRobotoFont];    [copyText setTextColor:textColor];
         [copyText setBackgroundColor:[UIColor clearColor]];
+        [versionText setFont:smlRobotoFont];
+        [versionText setTextColor:[UIColor grayColor]];
+        [versionText setBackgroundColor:[UIColor clearColor]];
     
         
         //[tackCopy setFont:smlRobotoFont];    [tackCopy setTextColor:textColor];
@@ -109,11 +122,23 @@ const float optionHeight = 40;
     [super layoutSubviews];
     
     CGSize frameSize = [[UIScreen mainScreen] applicationFrame].size;
-    CGSize introSize = CGSizeMake(262, 273);
+    CGSize introSize;
+    CGPoint buttonPosition;
+    
+    if ([UIScreen mainScreen].applicationFrame.size.height < 500) {
+       introSize = CGSizeMake(intro.image.size.width, intro.image.size.height);
+        buttonPosition = CGPointMake(40, 330);
+    }else{
+        introSize = CGSizeMake(262, 323);
+        buttonPosition = CGPointMake(40, 380);
+    }
+
+    
     
     
     //CGSize tackTextSize = [[tackCopy text] sizeWithFont:[tackCopy font]];
     CGSize copyTextSize = [[copyText text] sizeWithFont:[copyText font]];
+    CGSize versionTextSize = [[versionText text] sizeWithFont:[versionText font]];
     
     CGRect bgRect = CGRectMake(0, frameSize.height - bgImage.frame.size.height, frameSize.width, bgImage.frame.size.height);
     //CGRect tackCopyRect = CGRectMake((frameSize.width - (tackTextSize.width+41)) - 25,
@@ -122,9 +147,10 @@ const float optionHeight = 40;
 
     //CGRect tackRect = CGRectMake(tackCopyRect.origin.x + tackCopyRect.size.width + 5,
                              //    tackCopyRect.origin.y - 15, 41, 40);
-    CGRect tackButtonRect = CGRectMake(40, 330, 180, 44);
+    CGRect tackButtonRect = CGRectMake(buttonPosition.x, buttonPosition.y, 180, 44);
     CGRect copyTextRect = CGRectMake(15, 20, 
                                      copyTextSize.width, copyTextSize.height);
+    CGRect versionTextRect = CGRectMake(frameSize.width - versionTextSize.width - 5, frameSize.height - versionTextSize.height - 5, versionTextSize.width, versionTextSize.height);
     
     CGRect underlineRect = CGRectMake(copyTextRect.origin.x,
                                       copyTextRect.origin.y + copyTextRect.size.height + 4,
@@ -140,6 +166,7 @@ const float optionHeight = 40;
    // tackCopy.frame = tackCopyRect;
     tackButton.frame = tackButtonRect;
     copyText.frame = copyTextRect;
+    versionText.frame = versionTextRect;
     
     underline.frame = underlineRect;
     intro.frame = introRect;

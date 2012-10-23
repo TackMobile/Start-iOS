@@ -13,6 +13,8 @@
 		967095FF163095BE004611ED /* lynx2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 967095FE163095BE004611ED /* lynx2.wav */; };
 		96861C131631C47C00390DEF /* about.png in Resources */ = {isa = PBXBuildFile; fileRef = 96861C111631C47C00390DEF /* about.png */; };
 		96861C141631C47C00390DEF /* about@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96861C121631C47C00390DEF /* about@2x.png */; };
+		969A68CC16371E8F008676D3 /* about-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 969A68CA16371E8F008676D3 /* about-568h@2x.png */; };
+		969A68CD16371E8F008676D3 /* grid-background-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 969A68CB16371E8F008676D3 /* grid-background-568h@2x.png */; };
 		96BC44DA1635B07000707007 /* chamaeleon2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96BC44D91635B07000707007 /* chamaeleon2.wav */; };
 		96BC44DD1635B0CB00707007 /* epsilon2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96BC44DC1635B0CB00707007 /* epsilon2.wav */; };
 		96BC44DF1635B12700707007 /* hydrus2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96BC44DE1635B12700707007 /* hydrus2.wav */; };
@@ -149,6 +151,8 @@
 		967095FE163095BE004611ED /* lynx2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lynx2.wav; sourceTree = "<group>"; };
 		96861C111631C47C00390DEF /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
 		96861C121631C47C00390DEF /* about@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about@2x.png"; sourceTree = "<group>"; };
+		969A68CA16371E8F008676D3 /* about-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about-568h@2x.png"; sourceTree = "<group>"; };
+		969A68CB16371E8F008676D3 /* grid-background-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grid-background-568h@2x.png"; sourceTree = "<group>"; };
 		96BC44D91635B07000707007 /* chamaeleon2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chamaeleon2.wav; sourceTree = "<group>"; };
 		96BC44DC1635B0CB00707007 /* epsilon2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = epsilon2.wav; sourceTree = "<group>"; };
 		96BC44DE1635B12700707007 /* hydrus2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hydrus2.wav; sourceTree = "<group>"; };
@@ -429,6 +433,8 @@
 		F33F642315967154000372AE /* img */ = {
 			isa = PBXGroup;
 			children = (
+				969A68CA16371E8F008676D3 /* about-568h@2x.png */,
+				969A68CB16371E8F008676D3 /* grid-background-568h@2x.png */,
 				96861C111631C47C00390DEF /* about.png */,
 				96861C121631C47C00390DEF /* about@2x.png */,
 				F375D51315FFE48500E06B33 /* intro */,
@@ -812,6 +818,8 @@
 				96BC44DF1635B12700707007 /* hydrus2.wav in Resources */,
 				96BC44E11635B19100707007 /* phoenix2.wav in Resources */,
 				96BC44E31635EA7000707007 /* Default-568h@2x.png in Resources */,
+				969A68CC16371E8F008676D3 /* about-568h@2x.png in Resources */,
+				969A68CD16371E8F008676D3 /* grid-background-568h@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
