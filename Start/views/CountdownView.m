@@ -22,7 +22,7 @@
         [self addSubview:countdownLabel];
         
         UIFont *countdownFont = [UIFont fontWithName:@"Roboto-Thin" size:80];
-        [countdownLabel setTextAlignment:UITextAlignmentCenter];
+        [countdownLabel setTextAlignment:NSTextAlignmentCenter];
         [countdownLabel setTextColor:[UIColor whiteColor]];
         [countdownLabel setBackgroundColor:[UIColor clearColor]];
         [countdownLabel setFont:countdownFont];

@@ -24,7 +24,7 @@ const float spacer = -2;
         songLabel = [[UILabel alloc] init];
         artistLabel = [[UILabel alloc] init];
         
-        artistLabel.lineBreakMode = UILineBreakModeWordWrap;
+        artistLabel.lineBreakMode = NSLineBreakByCharWrapping;
         artistLabel.numberOfLines = 0;
         
         UIFont *songLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:30];
@@ -55,7 +55,7 @@ const float spacer = -2;
     float cellWidth = 245;
     CGSize songSize = [[songLabel text] sizeWithFont:[songLabel font]];
     CGSize artistSize = [[artistLabel text] sizeWithFont:[artistLabel font]  
-                                       constrainedToSize:CGSizeMake(245, cellHeight/2) lineBreakMode:UILineBreakModeWordWrap];
+                                       constrainedToSize:CGSizeMake(245, cellHeight/2) lineBreakMode:NSLineBreakByCharWrapping];
     
     float topSpacer = (cellHeight - (songSize.height + spacer + artistSize.height))/2;
     

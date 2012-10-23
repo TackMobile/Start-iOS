@@ -92,7 +92,7 @@ const float Spacing = 0.0f;
         [deleteLabel setFont:[UIFont fontWithName:@"Roboto" size:30]];
         [deleteLabel setBackgroundColor:[UIColor clearColor]]; [deleteLabel setTextColor:[UIColor whiteColor]];
         [deleteLabel setAlpha:0];
-        [deleteLabel setTextAlignment:UITextAlignmentCenter];
+        [deleteLabel setTextAlignment:NSTextAlignmentCenter];
         [deleteLabel setNumberOfLines:0];
         [deleteLabel setText:@"Pinch to Delete"];
                 

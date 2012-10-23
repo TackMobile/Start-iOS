@@ -29,20 +29,20 @@
         snoozeLabel = [[UILabel alloc] init];
         editingPartIndicator = [[UIView alloc] init];
         
-        [timeLabel setTextAlignment:UITextAlignmentCenter];
+        [timeLabel setTextAlignment:NSTextAlignmentCenter];
         [timeLabel setTextColor:[UIColor whiteColor]];
         [timeLabel setBackgroundColor:[UIColor clearColor]];
         [timeLabel setFont:timeLabelFont];
         
-        [meridiemLabel setTextAlignment:UITextAlignmentCenter];
+        [meridiemLabel setTextAlignment:NSTextAlignmentCenter];
         [meridiemLabel setTextColor:[UIColor whiteColor]];
         [meridiemLabel setBackgroundColor:[UIColor clearColor]];
         [meridiemLabel setFont:mdLabelFont];
         
-        [snoozeLabel setTextAlignment:UITextAlignmentCenter];
+        [snoozeLabel setTextAlignment:NSTextAlignmentCenter];
         [snoozeLabel setTextColor:[UIColor whiteColor]];
         [snoozeLabel setBackgroundColor:[UIColor clearColor]];
-        [snoozeLabel setLineBreakMode:UILineBreakModeWordWrap];
+        [snoozeLabel setLineBreakMode:NSLineBreakByCharWrapping];
         snoozeLabel.numberOfLines = 0;
         [snoozeLabel setAlpha:0];
         [snoozeLabel setText:@"TAP TO SNOOZE"];
