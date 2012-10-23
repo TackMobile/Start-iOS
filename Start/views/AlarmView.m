@@ -44,7 +44,7 @@ const float Spacing = 0.0f;
         CGRect toolBarRect = CGRectMake(0, 0, self.frame.size.width, 135);
         selectSongRect = CGRectMake(Spacing-16, 0, frameRect.size.width-75, 80);
         selectActionRect = CGRectMake(Spacing+frameRect.size.width-50, 0, 50, 80);
-        selectDurRect = CGRectMake(Spacing, self.frame.size.height-frameRect.size.width-45, frameRect.size.width, frameRect.size.width);
+        selectDurRect = CGRectMake(Spacing, [UIScreen mainScreen].applicationFrame.size.height/2 - frameRect.size.width/2, frameRect.size.width, frameRect.size.width);
         alarmSetDurRect = CGRectOffset(selectDurRect, 0, -150);
         timerModeDurRect = CGRectOffset(selectDurRect, 0, 150);
         selectedTimeRect = CGRectExtendFromPoint(CGRectCenter(selectDurRect), 65, 65);
@@ -55,7 +55,7 @@ const float Spacing = 0.0f;
         CGRect selectAlarmRect = CGRectMake(0, self.frame.size.height-50, self.frame.size.width, 50);
         
         // backgroundImage = [[UIImageView alloc] initWithFrame:bgImageRect];
-        radialGradientView = [[RadialGradientView alloc] initWithFrame:radialRect];
+        radialGradientView = [[RadialGradientView alloc] initWithFrame:radialRect]; //radial background
         
         
         
@@ -63,9 +63,9 @@ const float Spacing = 0.0f;
         toolbarImage = [[UIImageView alloc] initWithFrame:toolBarRect];
         selectSongView = [[SelectSongView alloc] initWithFrame:selectSongRect delegate:self presetSongs:[pListModel getPresetSongs]];
         selectActionView = [[SelectActionView alloc] initWithFrame:selectActionRect delegate:self actions:[pListModel getActions]];
-        selectDurationView = [[SelectDurationView alloc] initWithFrame:selectDurRect delegate:self];
+        selectDurationView = [[SelectDurationView alloc] initWithFrame:selectDurRect delegate:self]; //dial
         durImageView = [[UIImageView alloc] init];
-        selectedTimeView = [[SelectedTimeView alloc] initWithFrame:selectedTimeRect];
+        selectedTimeView = [[SelectedTimeView alloc] initWithFrame:selectedTimeRect]; //clock in middle of dial
         countdownView = [[CountdownView alloc] initWithFrame:countdownRect];
         UIView *durationMaskView = [[UIView alloc] initWithFrame:durationMaskRect];
         timerView = [[TimerView alloc] initWithFrame:timerRect];
@@ -81,12 +81,12 @@ const float Spacing = 0.0f;
         [self addSubview:countdownView];
         [self addSubview:timerView];
         [self addSubview:durationMaskView];
-            [durationMaskView addSubview:selectDurationView];
+        [durationMaskView addSubview:selectDurationView];
         [self addSubview:durImageView];
         //[self addSubview:toolbarImage];
         [self addSubview:selectSongView];
         [self addSubview:selectActionView];
-        [self addSubview:selectedTimeView];
+        [self addSubview:selectedTimeView]; 
         [self addSubview:deleteLabel];
         
         [deleteLabel setFont:[UIFont fontWithName:@"Roboto" size:30]];

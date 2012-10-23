@@ -29,10 +29,10 @@
     // views
     CGSize plusSize = CGSizeMake(38, 38);
 
-    CGRect frameRect = [[UIScreen mainScreen] applicationFrame];
+    CGRect frameRect = [[UIScreen mainScreen] applicationFrame]; //size of whole screen
     CGRect selectAlarmRect = CGRectMake(0, frameRect.size.height-50, frameRect.size.width, 50);
     CGRect plusRect = CGRectMake(5, frameRect.size.height - plusSize.height - 5 ,
-                                 plusSize.width, plusSize.height);
+                                 plusSize.width, plusSize.height); // y position is the size of the whole screen minus the height of the plus button minus 5
 
 
     currAlarmRect = CGRectMake(-Spacing, 0, frameRect.size.width+(Spacing*2), frameRect.size.height);
