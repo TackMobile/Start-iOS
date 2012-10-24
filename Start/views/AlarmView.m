@@ -414,8 +414,10 @@ const float Spacing = 0.0f;
     return [delegate getMusicPlayer];
 }
 -(BOOL) expandSelectSongView {
-    if (pickingAction || isSnoozing || countdownEnded)
-        return NO;
+    if (pickingAction /*|| isSnoozing */ || countdownEnded)
+    {
+        NSLog(@"return no");
+        return NO;}
     
     pickingSong = YES;
         
@@ -486,7 +488,7 @@ const float Spacing = 0.0f;
 
 #pragma mark - SelectActionViewDelegate
 -(BOOL) expandSelectActionView {
-    if (pickingAction || isSnoozing || countdownEnded)
+    if (pickingAction /*|| isSnoozing*/ || countdownEnded)
         return NO;
     
     pickingAction = YES;
@@ -618,7 +620,8 @@ const float Spacing = 0.0f;
     if (pickingAction)
         [selectActionView quickSelectCell];
     
-    if (countdownEnded) { NSLog(@"snoozetapped");
+    if (countdownEnded) {
+        NSLog(@"snoozetapped");
         countdownEnded = NO;
         isSnoozing = YES;
         NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
