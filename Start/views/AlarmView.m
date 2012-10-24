@@ -414,9 +414,8 @@ const float Spacing = 0.0f;
     return [delegate getMusicPlayer];
 }
 -(BOOL) expandSelectSongView {
-    if (pickingAction /*|| isSnoozing */ || countdownEnded)
+    if (pickingAction /*|| isSnoozing */ || countdownEnded) //does not allow user to press and expand select sound view when the alarm is going off to prevent accidental touch when the user is trying to press snooze
     {
-        NSLog(@"return no");
         return NO;}
     
     pickingSong = YES;
@@ -488,7 +487,7 @@ const float Spacing = 0.0f;
 
 #pragma mark - SelectActionViewDelegate
 -(BOOL) expandSelectActionView {
-    if (pickingAction /*|| isSnoozing*/ || countdownEnded)
+    if (pickingAction /*|| isSnoozing*/ || countdownEnded) //does not allow you to press and expand select action view while the alarm is going off to prevent accidental touches if the user is trying to press snooze
         return NO;
     
     pickingAction = YES;
