@@ -162,7 +162,7 @@
 
 
 -(void)respondedToLocalNot{
-    [[UIApplication sharedApplication] cancelAllLocalNotifications]; //removes all the notifications from the notificaiton screen
+    [[UIApplication sharedApplication] cancelAllLocalNotifications]; //removes all the notifications from the notificaiton center
     AlarmView *alarmView;
     int indexOfTrippedAlarm = -1;
     NSArray *userAlarms = [pListModel getAlarms];
@@ -310,13 +310,16 @@
                                selectAlarmView.frame.origin.y,
                                selectAlarmView.frame.size.width,
                                selectAlarmView.frame.size.height);
+        
     } else {
         footerRect = CGRectMake(0, 
                                selectAlarmView.frame.origin.y,
                                selectAlarmView.frame.size.width,
                                selectAlarmView.frame.size.height);
+        
     }
     [UIView animateWithDuration:.15 animations:^{
+        NSLog(@"animating");
         [selectAlarmView setFrame:footerRect];
         for (AlarmView *alarmView in alarms) {
             [alarmView setFrame:alarmView.newRect];
@@ -440,11 +443,11 @@
 }
 
 -(void)alarmCountdownEnded:(AlarmView *)alarmView {
-    NSLog(@"masterviewcontroller");
     [self switchAlarmWithIndex:alarmView.index];
     alarmView.countdownEnded = YES;
     [alarmView.selectedTimeView showSnooze];
     [musicPlayer playSongWithID:[alarmView.alarmInfo objectForKey:@"songID"] vibrate:YES];
+    NSLog(@"ididididi %@", [alarmView.alarmInfo objectForKey:@"songID"]);
 }
 
 -(void)songPlayingTick:(NSTimer *)timer {

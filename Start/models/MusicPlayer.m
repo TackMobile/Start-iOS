@@ -38,7 +38,10 @@
 - (void) playSongWithID:(NSNumber *)songID vibrate:(bool)vibrate {    
     NSLog(@"song ID: %i", [ songID intValue]);
     stopped = NO;
-    if ([songID intValue] >= 0 && [songID intValue] < 6) {
+    
+    if ([songID intValue] == -1) {
+    //do nothing
+    }else if ([songID intValue] >= 0 && [songID intValue] < 6) { //default tones
         if (!audioLibrary) {
             pListModel  = [[PListModel alloc] init];
             audioLibrary = [pListModel getPresetSongs];
