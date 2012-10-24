@@ -29,10 +29,10 @@
     // views
     CGSize plusSize = CGSizeMake(38, 38);
 
-    CGRect frameRect = [[UIScreen mainScreen] applicationFrame]; //size of whole screen
+    CGRect frameRect = [[UIScreen mainScreen] applicationFrame];
     CGRect selectAlarmRect = CGRectMake(0, frameRect.size.height-50, frameRect.size.width, 50);
     CGRect plusRect = CGRectMake(5, frameRect.size.height - plusSize.height - 5 ,
-                                 plusSize.width, plusSize.height); // y position is the size of the whole screen minus the height of the plus button minus 5
+                                 plusSize.width, plusSize.height);
 
 
     currAlarmRect = CGRectMake(-Spacing, 0, frameRect.size.width+(Spacing*2), frameRect.size.height);
@@ -72,22 +72,22 @@
     }
     
    
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"usedBefore"] == NO) {
-        [self switchAlarmWithIndex:currAlarmIndex + 1];
-        [addButton addTarget:self action:@selector(test) forControlEvents:UIControlEventTouchUpInside];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"usedBefore"] == NO) { //checks to see whether it's the first time the application is launched or not
+        [self switchAlarmWithIndex:currAlarmIndex + 1]; //switches from first alarm to settings screen so the instructions are the first thing the user sees
+        [addButton addTarget:self action:@selector(plusButtonTappedForFirstVisit) forControlEvents:UIControlEventTouchUpInside];
     }else{
         [addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     }
     [self beginTick];
 }
 
--(void)test{
+-(void)plusButtonTappedForFirstVisit{ //if it's the first visit, when the user presses the plus button, switchAlarmWithIndex is called and the first alarm appears on screen
     NSLog(@"test %d", currAlarmIndex);
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"usedBefore"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self switchAlarmWithIndex:currAlarmIndex - 1];
-    [addButton removeTarget:self action:@selector(test) forControlEvents:UIControlEventTouchUpInside];
-    [addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [addButton removeTarget:self action:@selector(test) forControlEvents:UIControlEventTouchUpInside]; //remove this as the selector for the plus button
+    [addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside]; //add this selector for the plus button so when user presses it adds new alarms
 }
 
 - (void) beginTick {
@@ -122,7 +122,7 @@
             NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
                                       [NSNumber numberWithInt:alarmView.index], @"alarmIndex", nil];
             notif.fireDate = [alarmInfo objectForKey:@"date"];
-            switch ([[alarmInfo objectForKey:@"songID"] intValue]) {
+            switch ([[alarmInfo objectForKey:@"songID"] intValue]) { //if the user selects one of the default tones for their alarm...the local notification will play that tone as its sound
                 case 0:
                     notif.soundName = @"chamaeleon2.wav";
                     break;
@@ -145,7 +145,7 @@
                     notif.soundName = @"galaxy.wav";
                     break;
                 default:
-                    notif.soundName = @"galaxy.wav";
+                    notif.soundName = @"galaxy.wav"; //default
                     break;
             }
             notif.alertBody = @"Alarm Triggered";
@@ -162,19 +162,19 @@
 
 
 -(void)respondedToLocalNot{
-    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [[UIApplication sharedApplication] cancelAllLocalNotifications]; //removes all the notifications from the notificaiton screen
     AlarmView *alarmView;
     int indexOfTrippedAlarm = -1;
     NSArray *userAlarms = [pListModel getAlarms];
-    if ([userAlarms count]>0) {
+    if ([userAlarms count]>0) { //tries to find out which of the saved alarms just went off
         for (NSDictionary *alarmInfo in userAlarms) {
             indexOfTrippedAlarm++;
             if (floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0)) {
-                alarmView = [alarms objectAtIndex:indexOfTrippedAlarm];
+                alarmView = [alarms objectAtIndex:indexOfTrippedAlarm]; //saves that instance as alarmView
             }
             
         }
-        [alarmView alarmCountdownEnded];
+        [alarmView alarmCountdownEnded]; //sends the specific instance to alarmCountdownEnded so that specific alarm is the only one that stops.
 
     
     }
@@ -255,13 +255,14 @@
     CGPoint loc = [touch locationInView:self.view];
     CGPoint prevLoc = [touch previousLocationInView:self.view];
     CGSize velocity = CGSizeMake(loc.x-prevLoc.x, loc.y-prevLoc.y);
-    
     if (velocity.width < -10)
         [self switchAlarmWithIndex:[alarms count]-1];
+    
 }
 
 #pragma mark - Positioning & SelectAlarmViewDelegate
 - (void) switchAlarmWithIndex:(int)index {
+    NSLog(@"switch alarm with index %d", index);
     shouldSwitch = SwitchAlarmNone;
         
     if (index < 0 || index > [alarms count])
@@ -389,13 +390,17 @@
     int alarmIndex = alarmView.index;
     
     if (fabsf(x) > currAlarmRect.size.width / 2) {
-        if (x < 0)
-            [self switchAlarmWithIndex:alarmIndex-1];
-        else
-            [self switchAlarmWithIndex:alarmIndex+1];
+        if (x < 0){
+            
+            [self switchAlarmWithIndex:alarmIndex-1];}
+        else{
+            
+            [self switchAlarmWithIndex:alarmIndex+1];}
     } else if (shouldSwitch != SwitchAlarmNone) {
+        
         [self switchAlarmWithIndex:alarmIndex + shouldSwitch];
     } else {
+        
         [self switchAlarmWithIndex:currAlarmIndex];
     }
 }

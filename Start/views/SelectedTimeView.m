@@ -79,15 +79,14 @@
 #pragma mark - Drawing
 
 - (void) showSnooze {
-    NSLog(@"showSnooze");
     [snoozeLabel setAlpha:1];
     [timeLabel setAlpha:0];
     [meridiemLabel setAlpha:0];
 }
 
-- (void) updateDate:(NSDate *)newDate part:(int)partEditing {
-    [snoozeLabel setAlpha:0];
-    [timeLabel setAlpha:1];
+- (void) updateDate:(NSDate *)newDate part:(int)partEditing {//when snooze is tapped this method is called
+    [snoozeLabel setAlpha:0]; //make snooze label invisbile
+    [timeLabel setAlpha:1]; //make time label visible
     [meridiemLabel setAlpha:1];
     
     

@@ -618,7 +618,7 @@ const float Spacing = 0.0f;
     if (pickingAction)
         [selectActionView quickSelectCell];
     
-    if (countdownEnded) {
+    if (countdownEnded) { NSLog(@"snoozetapped");
         countdownEnded = NO;
         isSnoozing = YES;
         NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
