@@ -78,7 +78,7 @@
     UITouch *touch = [touches anyObject];
     
     CGPoint touchLoc = [touch locationInView:self];
-    touchLoc = CGPointMake(touchLoc.x - center.x, touchLoc.y - center.y); // touch rel to center
+    touchLoc = CGPointMake(touchLoc.x - center.x, touchLoc.y - center.y); // touch relative to center
     float distToTouch = sqrtf(powf(touchLoc.x, 2) + powf(touchLoc.y,2));
     float angleToTouch = [self angleFromVector:touchLoc];
         
@@ -113,7 +113,7 @@
     CGPoint prevTouchLoc = [touch previousLocationInView:self];
     CGSize touchVel = CGSizeMake(touchLoc.x-prevTouchLoc.x, touchLoc.y-prevTouchLoc.y);
     
-    touchLoc = CGPointMake(touchLoc.x - center.x, touchLoc.y - center.y); // touch rel to center
+    touchLoc = CGPointMake(touchLoc.x - center.x, touchLoc.y - center.y); // touch relative to center
     float angleToTouch = [self angleFromVector:touchLoc];
     
     // change angle of circles based handle selected

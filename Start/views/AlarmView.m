@@ -47,10 +47,10 @@ const float Spacing = 0.0f;
         selectDurRect = CGRectMake(Spacing, [UIScreen mainScreen].applicationFrame.size.height/2 - frameRect.size.width/2, frameRect.size.width, frameRect.size.width);
         alarmSetDurRect = CGRectOffset(selectDurRect, 0, -150);
         timerModeDurRect = CGRectOffset(selectDurRect, 0, 150);
-        selectedTimeRect = CGRectExtendFromPoint(CGRectCenter(selectDurRect), 65, 65);
+        selectedTimeRect = CGRectExtendFromPoint(CGRectCenter(selectDurRect), 65, 65); 
         CGRect durationMaskRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
-        countdownRect = CGRectMake(Spacing, alarmSetDurRect.origin.y+alarmSetDurRect.size.height, frameRect.size.width, self.frame.size.height - (alarmSetDurRect.origin.y+alarmSetDurRect.size.height) - 65);
-        timerRect = CGRectMake(Spacing, timerModeDurRect.origin.y-countdownRect.size.height, frameRect.size.width, countdownRect.size.height);
+        countdownRect = CGRectMake(Spacing, alarmSetDurRect.origin.y+alarmSetDurRect.size.height, frameRect.size.width, self.frame.size.height - (alarmSetDurRect.origin.y+alarmSetDurRect.size.height) - 65); //alarm clock countdown label
+        timerRect = CGRectMake(Spacing, timerModeDurRect.origin.y-countdownRect.size.height, frameRect.size.width, countdownRect.size.height); //stopwatch label
         CGRect deleteLabelRect = CGRectMake(Spacing, 0, frameRect.size.width, 70);
         CGRect selectAlarmRect = CGRectMake(0, self.frame.size.height-50, self.frame.size.width, 50);
         
@@ -689,7 +689,7 @@ const float Spacing = 0.0f;
     }
 }
 
--(void) durationViewStoppedDraggingWithY:(float)y {
+-(void) durationViewStoppedDraggingWithY:(float)y { //this is when the dial is moved up or down.
     // future: put this is own method
     
     if (pickingSong || pickingAction)
@@ -707,10 +707,10 @@ const float Spacing = 0.0f;
             countdownEnded = NO;
             isSnoozing = NO;
             
-            NSURL *openURL = [NSURL URLWithString:[[selectActionView.actions objectAtIndex:[[alarmInfo objectForKey:@"actionID"] intValue] ] objectForKey:@"url"]];
+            NSURL *openURL = [NSURL URLWithString:[[selectActionView.actions objectAtIndex:[[alarmInfo objectForKey:@"actionID"] intValue] ] objectForKey:@"url"]]; //gets URL of selected action from alarmInfo dictionary.
             
             [[delegate getMusicPlayer] stop];
-            [[UIApplication sharedApplication] openURL:openURL];
+            [[UIApplication sharedApplication] openURL:openURL]; //opens the url
             [selectedTimeView updateDate:[alarmInfo objectForKey:@"date"] part:SelectDurationNoHandle];
         }
     } else if (shouldSet == AlarmViewShouldTimer

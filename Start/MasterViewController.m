@@ -141,7 +141,7 @@
                 case 5:
                     notif.soundName = @"lynx2.wav";
                     break;
-                case 6:
+                case 6: //if it's an iPod song, galaxy will be default tone for local notification
                     notif.soundName = @"galaxy.wav";
                     break;
                 default:
