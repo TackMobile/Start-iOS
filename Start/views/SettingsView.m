@@ -19,6 +19,7 @@ const float optionHeight = 40;
         pickingSnooze = NO;
         selectedIndex = 0;
 <<<<<<< HEAD
+<<<<<<< HEAD
         
         bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background"]];
 =======
@@ -27,24 +28,24 @@ const float optionHeight = 40;
     
         CGPoint tackCoordinates;
       
+=======
+>>>>>>> 0ee3ab7be3348a6f3575c4be151a72eee801ecc8
         if ([UIScreen mainScreen].applicationFrame.size.height < 500   ) {
             bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background"]];
             intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about"]];
-            tackLogo = [[UIImageView alloc] initWithFrame:CGRectMake(177, 349, 30, 30)];
-            tackCoordinates = CGPointMake(48, 354);
-            
         }else{
             bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background-568h@2x.png"]];
             intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about-568h@2x.png"]];
-            tackLogo = [[UIImageView alloc] initWithFrame:CGRectMake(177, 399, 30, 30)];
-            tackCoordinates = CGPointMake(48, 403);
         }
         
+<<<<<<< HEAD
         
   
         
         
 >>>>>>> parent of 0ee3ab7... commit merges
+=======
+>>>>>>> 0ee3ab7be3348a6f3575c4be151a72eee801ecc8
         //tackLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tack-logo"]];
         tackButton = [[UIButton alloc] init];
         underline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search-divider"]];
@@ -54,6 +55,10 @@ const float optionHeight = 40;
         timePicker = [[UIScrollView alloc] init];
         
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 0ee3ab7be3348a6f3575c4be151a72eee801ecc8
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -104,12 +109,21 @@ const float optionHeight = 40;
         createLabel.backgroundColor = backgroundColor;
         CGSize createSize = [[createLabel text] sizeWithFont:[createLabel font]];
 <<<<<<< HEAD
+<<<<<<< HEAD
         createLabel.frame = CGRectMake(48, 102, createSize.width, createSize.height);
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
         createLabel.frame = CGRectMake(48, 102, createSize.width, createSize.height);
 =======
+=======
+        createLabel.frame = CGRectMake(48, 102, createSize.width, createSize.height);
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        createLabel.frame = CGRectMake(48, 102, createSize.width, createSize.height);
+=======
+>>>>>>> 0ee3ab7be3348a6f3575c4be151a72eee801ecc8
         createLabel.frame = CGRectMake(createIcon.frame.origin.x + 40, createIcon.frame.origin.y, createSize.width, createSize.height);
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 =======
@@ -123,12 +137,21 @@ const float optionHeight = 40;
         flickDownLabel.backgroundColor = backgroundColor;
         CGSize flickDownSize = [[flickDownLabel text] sizeWithFont:[flickDownLabel font]];
 <<<<<<< HEAD
+<<<<<<< HEAD
         flickDownLabel.frame = CGRectMake(48, 253, flickDownSize.width, flickDownSize.height);
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
         flickDownLabel.frame = CGRectMake(48, 253, flickDownSize.width, flickDownSize.height);
 =======
+=======
+        flickDownLabel.frame = CGRectMake(48, 253, flickDownSize.width, flickDownSize.height);
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        flickDownLabel.frame = CGRectMake(48, 253, flickDownSize.width, flickDownSize.height);
+=======
+>>>>>>> 0ee3ab7be3348a6f3575c4be151a72eee801ecc8
         flickDownLabel.frame = CGRectMake(flickDownIcon.frame.origin.x + 40, flickDownIcon.frame.origin.y, flickDownSize.width, flickDownSize.height);
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 =======
@@ -161,12 +184,21 @@ const float optionHeight = 40;
         pinchLabel.backgroundColor = backgroundColor;
         CGSize pinchSize = [[pinchLabel text] sizeWithFont:[pinchLabel font]];
 <<<<<<< HEAD
+<<<<<<< HEAD
         pinchLabel.frame = CGRectMake(48, 304, pinchSize.width, pinchSize.height);
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
         pinchLabel.frame = CGRectMake(48, 304, pinchSize.width, pinchSize.height);
 =======
+=======
+        pinchLabel.frame = CGRectMake(48, 304, pinchSize.width, pinchSize.height);
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        pinchLabel.frame = CGRectMake(48, 304, pinchSize.width, pinchSize.height);
+=======
+>>>>>>> 0ee3ab7be3348a6f3575c4be151a72eee801ecc8
         pinchLabel.frame = CGRectMake(pinchIcon.frame.origin.x + 40, pinchIcon.frame.origin.y, pinchSize.width, pinchSize.height);
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 =======
@@ -180,12 +212,21 @@ const float optionHeight = 40;
         setLabel.backgroundColor = backgroundColor;
         CGSize setSize = [[setLabel text] sizeWithFont:[setLabel font]];
 <<<<<<< HEAD
+<<<<<<< HEAD
         setLabel.frame = CGRectMake(48, 152, setSize.width, setSize.height);
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
         setLabel.frame = CGRectMake(48, 152, setSize.width, setSize.height);
 =======
+=======
+        setLabel.frame = CGRectMake(48, 152, setSize.width, setSize.height);
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        setLabel.frame = CGRectMake(48, 152, setSize.width, setSize.height);
+=======
+>>>>>>> 0ee3ab7be3348a6f3575c4be151a72eee801ecc8
         setLabel.frame = CGRectMake(setIcon.frame.origin.x + 40, setIcon.frame.origin.y, setSize.width, setSize.height);
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 =======
@@ -206,10 +247,13 @@ const float optionHeight = 40;
         
         
         
+=======
+>>>>>>> parent of 8451f95... changed the settings page to font instead of image
         
         [self addSubview:bgImage];
         //[self addSubview:tackLogo];
         [self addSubview:underline];
+<<<<<<< HEAD
 <<<<<<< HEAD
         [bgImage addSubview:intro];
 =======
@@ -232,13 +276,14 @@ const float optionHeight = 40;
         
         
 >>>>>>> parent of 0ee3ab7... commit merges
+=======
+        [bgImage addSubview:intro];
+        [self addSubview:intro];
+>>>>>>> 0ee3ab7be3348a6f3575c4be151a72eee801ecc8
         [self addSubview:copyText];
         //[self addSubview:tackCopy];
         [self addSubview:timePicker];
         [self addSubview:tackButton];
-        
-        
-        
                 
         [copyText setText:@"Snooze Duration        min"]; // leave the spaces. i know, a hack
         //[tackCopy setText:@"Assembled by"];
@@ -334,7 +379,6 @@ const float optionHeight = 40;
                                       1);
     CGRect introRect= CGRectMake(underlineRect.origin.x, underlineRect.origin.y + 50, 
                                  introSize.width, introSize.height);
-    NSLog(@"x, y, %f %f", underlineRect.origin.x, underlineRect.origin.y + 50);
     CGRect scrollRect = CGRectMake(frameSize.width-180, 0, 180,
                                    frameSize.height);
     

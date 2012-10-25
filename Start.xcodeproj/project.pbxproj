@@ -24,6 +24,7 @@
 		96E2A9621625E0E800C45C27 /* hydrus.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1C15FD124E004E16C7 /* hydrus.wav */; };
 		96E2A9631625E0E800C45C27 /* lynx.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE2115FD1A5E004E16C7 /* lynx.wav */; };
 		96E2A9641625E0E800C45C27 /* phoenix.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE2315FD260A004E16C7 /* phoenix.wav */; };
+<<<<<<< HEAD
 		96E58C9F1639A51000D5653E /* tack-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E58C9E1639A51000D5653E /* tack-logo.png */; };
 		96E58CA11639A5A500D5653E /* tack-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E58CA01639A5A500D5653E /* tack-logo@2x.png */; };
 <<<<<<< HEAD
@@ -48,6 +49,11 @@
 =======
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 >>>>>>> 50bff3af12dd2286117064fc031abc779672f0c2
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> parent of 8451f95... changed the settings page to font instead of image
+>>>>>>> 0ee3ab7be3348a6f3575c4be151a72eee801ecc8
 		F3143CE615C4D9AE0098A276 /* TimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3143CE515C4D9AE0098A276 /* TimerView.m */; };
 		F31670E515A1109200725274 /* SearchSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F31670E415A1109200725274 /* SearchSongCell.m */; };
 		F317239615A63C5200007124 /* PListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F317239515A63C5200007124 /* PListModel.m */; };
@@ -100,8 +106,8 @@
 		F3CA96701602330600D237FC /* grid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA96651602330600D237FC /* grid@2x.png */; };
 		F3CA96711602330600D237FC /* plusButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA96661602330600D237FC /* plusButton.png */; };
 		F3CA96721602330600D237FC /* search-divider.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA96671602330600D237FC /* search-divider.png */; };
-		F3CA96731602330600D237FC /* tack-logo1.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA96681602330600D237FC /* tack-logo1.png */; };
-		F3CA96741602330600D237FC /* tack-logo1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA96691602330600D237FC /* tack-logo1@2x.png */; };
+		F3CA96731602330600D237FC /* tack-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA96681602330600D237FC /* tack-logo.png */; };
+		F3CA96741602330600D237FC /* tack-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA96691602330600D237FC /* tack-logo@2x.png */; };
 		F3CA96751602330600D237FC /* toolbarBG.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA966A1602330600D237FC /* toolbarBG.png */; };
 		F3CA969C1602332B00D237FC /* calendar-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA96761602332B00D237FC /* calendar-icon.png */; };
 		F3CA969D1602332B00D237FC /* calendar-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3CA96771602332B00D237FC /* calendar-icon@2x.png */; };
@@ -168,6 +174,7 @@
 		96BC44DE1635B12700707007 /* hydrus2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hydrus2.wav; sourceTree = "<group>"; };
 		96BC44E01635B19100707007 /* phoenix2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = phoenix2.wav; sourceTree = "<group>"; };
 		96BC44E21635EA7000707007 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+<<<<<<< HEAD
 		96E58C9C16399FAB00D5653E /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		96E58C9E1639A51000D5653E /* tack-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tack-logo.png"; sourceTree = "<group>"; };
 		96E58CA01639A5A500D5653E /* tack-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tack-logo@2x.png"; sourceTree = "<group>"; };
@@ -193,6 +200,11 @@
 =======
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 >>>>>>> 50bff3af12dd2286117064fc031abc779672f0c2
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> parent of 8451f95... changed the settings page to font instead of image
+>>>>>>> 0ee3ab7be3348a6f3575c4be151a72eee801ecc8
 		EA13EE1915FD124E004E16C7 /* chamaeleon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chamaeleon.wav; sourceTree = "<group>"; };
 		EA13EE1A15FD124E004E16C7 /* epsilon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = epsilon.wav; sourceTree = "<group>"; };
 		EA13EE1B15FD124E004E16C7 /* galaxy.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = galaxy.wav; sourceTree = "<group>"; };
@@ -270,8 +282,8 @@
 		F3CA96651602330600D237FC /* grid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "grid@2x.png"; path = "img/misc/grid@2x.png"; sourceTree = "<group>"; };
 		F3CA96661602330600D237FC /* plusButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = plusButton.png; path = img/misc/plusButton.png; sourceTree = "<group>"; };
 		F3CA96671602330600D237FC /* search-divider.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "search-divider.png"; path = "img/misc/search-divider.png"; sourceTree = "<group>"; };
-		F3CA96681602330600D237FC /* tack-logo1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tack-logo1.png"; path = "img/misc/tack-logo1.png"; sourceTree = "<group>"; };
-		F3CA96691602330600D237FC /* tack-logo1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tack-logo1@2x.png"; path = "img/misc/tack-logo1@2x.png"; sourceTree = "<group>"; };
+		F3CA96681602330600D237FC /* tack-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tack-logo.png"; path = "img/misc/tack-logo.png"; sourceTree = "<group>"; };
+		F3CA96691602330600D237FC /* tack-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tack-logo@2x.png"; path = "img/misc/tack-logo@2x.png"; sourceTree = "<group>"; };
 		F3CA966A1602330600D237FC /* toolbarBG.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = toolbarBG.png; path = img/misc/toolbarBG.png; sourceTree = "<group>"; };
 		F3CA96761602332B00D237FC /* calendar-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "calendar-icon.png"; path = "img/icons/calendar-icon.png"; sourceTree = "<group>"; };
 		F3CA96771602332B00D237FC /* calendar-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "calendar-icon@2x.png"; path = "img/icons/calendar-icon@2x.png"; sourceTree = "<group>"; };
@@ -459,6 +471,9 @@
 			isa = PBXGroup;
 			children = (
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 0ee3ab7be3348a6f3575c4be151a72eee801ecc8
 				96E58D141639D0A000D5653E /* add-icon.png */,
 				96E58D151639D0A000D5653E /* add-icon@2x.png */,
 				96E58D161639D0A000D5653E /* flick-down-icon.png */,
@@ -588,7 +603,6 @@
 			isa = PBXGroup;
 			children = (
 				F383C18C158B851300B91F31 /* ViewController_iPhone.xib */,
-				96E58C9C16399FAB00D5653E /* Storyboard.storyboard */,
 				F383C18F158B851300B91F31 /* ViewController_iPad.xib */,
 			);
 			name = Xibs;
@@ -672,8 +686,6 @@
 		F3FEC0AE15AC8FC60032B893 /* misc */ = {
 			isa = PBXGroup;
 			children = (
-				96E58CA01639A5A500D5653E /* tack-logo@2x.png */,
-				96E58C9E1639A51000D5653E /* tack-logo.png */,
 				F3CA96601602330600D237FC /* bottom-fade.png */,
 				F3CA96611602330600D237FC /* bottom-fade@2x.png */,
 				F3CA96621602330600D237FC /* grid-background.png */,
@@ -682,8 +694,8 @@
 				F3CA96651602330600D237FC /* grid@2x.png */,
 				F3CA96661602330600D237FC /* plusButton.png */,
 				F3CA96671602330600D237FC /* search-divider.png */,
-				F3CA96681602330600D237FC /* tack-logo1.png */,
-				F3CA96691602330600D237FC /* tack-logo1@2x.png */,
+				F3CA96681602330600D237FC /* tack-logo.png */,
+				F3CA96691602330600D237FC /* tack-logo@2x.png */,
 				F3CA966A1602330600D237FC /* toolbarBG.png */,
 				F37203AC15EFDFB600D75E9E /* Default.png */,
 				F37203AD15EFDFB600D75E9E /* Default@2x.png */,
@@ -780,8 +792,8 @@
 				F3CA96701602330600D237FC /* grid@2x.png in Resources */,
 				F3CA96711602330600D237FC /* plusButton.png in Resources */,
 				F3CA96721602330600D237FC /* search-divider.png in Resources */,
-				F3CA96731602330600D237FC /* tack-logo1.png in Resources */,
-				F3CA96741602330600D237FC /* tack-logo1@2x.png in Resources */,
+				F3CA96731602330600D237FC /* tack-logo.png in Resources */,
+				F3CA96741602330600D237FC /* tack-logo@2x.png in Resources */,
 				F3CA96751602330600D237FC /* toolbarBG.png in Resources */,
 				F3CA969C1602332B00D237FC /* calendar-icon.png in Resources */,
 				F3CA969D1602332B00D237FC /* calendar-icon@2x.png in Resources */,
@@ -834,6 +846,7 @@
 <<<<<<< HEAD
 				969A68CC16371E8F008676D3 /* about-568h@2x.png in Resources */,
 				969A68CD16371E8F008676D3 /* grid-background-568h@2x.png in Resources */,
+<<<<<<< HEAD
 				96E58C9F1639A51000D5653E /* tack-logo.png in Resources */,
 				96E58CA11639A5A500D5653E /* tack-logo@2x.png in Resources */,
 <<<<<<< HEAD
@@ -859,12 +872,17 @@
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 >>>>>>> 50bff3af12dd2286117064fc031abc779672f0c2
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> parent of 8451f95... changed the settings page to font instead of image
 =======
 >>>>>>> parent of 173b543... setting screen for iphone 5 and version number
 =======
 >>>>>>> parent of 0ee3ab7... commit merges
+=======
+=======
+>>>>>>> parent of 8451f95... changed the settings page to font instead of image
+>>>>>>> 0ee3ab7be3348a6f3575c4be151a72eee801ecc8
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
