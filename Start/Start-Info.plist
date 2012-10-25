@@ -31,6 +31,7 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -64,6 +65,13 @@
 =======
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 >>>>>>> 50bff3af12dd2286117064fc031abc779672f0c2
+=======
+	<string>1.0 Beta 16</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0B16</string>
+>>>>>>> parent of 8451f95... changed the settings page to font instead of image
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>

@@ -18,27 +18,13 @@ const float optionHeight = 40;
     if (self) {
         pickingSnooze = NO;
         selectedIndex = 0;
-        
-            
-    
-        CGPoint tackCoordinates;
-      
         if ([UIScreen mainScreen].applicationFrame.size.height < 500   ) {
             bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background"]];
             intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about"]];
-            tackLogo = [[UIImageView alloc] initWithFrame:CGRectMake(177, 349, 30, 30)];
-            tackCoordinates = CGPointMake(48, 354);
-            
         }else{
             bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background-568h@2x.png"]];
             intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about-568h@2x.png"]];
-            tackLogo = [[UIImageView alloc] initWithFrame:CGRectMake(177, 399, 30, 30)];
-            tackCoordinates = CGPointMake(48, 403);
         }
-        
-        
-  
-        
         
         //tackLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tack-logo"]];
         tackButton = [[UIButton alloc] init];
@@ -48,6 +34,7 @@ const float optionHeight = 40;
         //tackCopy = [[UILabel alloc] init];
         timePicker = [[UIScrollView alloc] init];
         
+<<<<<<< HEAD
 <<<<<<< HEAD
 =======
 <<<<<<< HEAD
@@ -201,36 +188,19 @@ const float optionHeight = 40;
         
         
         
+=======
+>>>>>>> parent of 8451f95... changed the settings page to font instead of image
         
         [self addSubview:bgImage];
         //[self addSubview:tackLogo];
         [self addSubview:underline];
-        //[bgImage addSubview:intro];
-        //[self addSubview:intro];
-        
-        [self addSubview:createLabel];
-        [self addSubview:createIcon];
-        [self addSubview:flickDownLabel];
-        [self addSubview:flickDownIcon];
-        [self addSubview:flickUpLabe];
-        [self addSubview:flickUpIcon];
-        [self addSubview:pinchLabel];
-        [self addSubview:pinchIcon];
-        [self addSubview:setLabel];
-        [self addSubview:setIcon];
-        [self addSubview:tackLabel];
-        [self addSubview:tackLogo];
-        
-        
-        
+        [bgImage addSubview:intro];
+        [self addSubview:intro];
         [self addSubview:copyText];
         [self addSubview:versionText];
         //[self addSubview:tackCopy];
         [self addSubview:timePicker];
         [self addSubview:tackButton];
-        
-        
-        
                 
         [copyText setText:@"Snooze Duration        min"]; // leave the spaces. i know, a hack
         [versionText setText:@"v1.1"];
@@ -343,7 +313,6 @@ const float optionHeight = 40;
                                       1);
     CGRect introRect= CGRectMake(underlineRect.origin.x, underlineRect.origin.y + 50, 
                                  introSize.width, introSize.height);
-    NSLog(@"x, y, %f %f", underlineRect.origin.x, underlineRect.origin.y + 50);
     CGRect scrollRect = CGRectMake(frameSize.width-180, 0, 180,
                                    frameSize.height);
     

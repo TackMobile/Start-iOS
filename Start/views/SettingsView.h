@@ -26,20 +26,6 @@
     
     int selectedIndex;
     bool pickingSnooze;
-    
-    UILabel *createLabel;
-    UILabel *flickDownLabel;
-    UILabel *flickUpLabe;
-    UILabel *pinchLabel;
-    UILabel *setLabel;
-    UILabel *tackLabel;
-    
-    UIImageView *createIcon;
-    UIImageView *flickDownIcon;
-    UIImageView *flickUpIcon;
-    UIImageView *pinchIcon;
-    UIImageView *setIcon;
-    UIImageView *tackLogo;
 }
 
 -(void) navigatingAway;
