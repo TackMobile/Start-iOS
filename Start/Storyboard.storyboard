@@ -15,11 +15,28 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="about.png" translatesAutoresizingMaskIntoConstraints="NO" id="IXv-wa-RaA">
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="create-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="7rw-Gm-kev"/>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="flick-down-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="MTk-3l-ikw"/>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="flick-up-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="KrA-Ee-7AH"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="add-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="7rw-Gm-kev">
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="19" id="2qQ-83-pe8"/>
+                                    <constraint firstAttribute="height" constant="19" id="YgD-6M-pDF"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="flick-down-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="MTk-3l-ikw">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="TIU-pV-6sa"/>
+                                </constraints>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="flick-up-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="KrA-Ee-7AH">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="28" id="K4G-fu-aqv"/>
+                                </constraints>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="pinch-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="nxc-DT-gOa"/>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="set-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="4bA-94-mEn"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="set-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="4bA-94-mEn">
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="19" id="FMA-WP-bsm"/>
+                                </constraints>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="tack-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="tFY-BZ-Jat">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="41" id="FSM-3e-dZn"/>
@@ -32,16 +49,19 @@
                         <constraints>
                             <constraint firstAttribute="bottom" secondItem="tFY-BZ-Jat" secondAttribute="bottom" constant="103" id="02a-XN-3zh"/>
                             <constraint firstItem="4bA-94-mEn" firstAttribute="leading" secondItem="MOB-gn-nkx" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="1JO-Fp-OGW"/>
+                            <constraint firstItem="MTk-3l-ikw" firstAttribute="trailing" secondItem="KrA-Ee-7AH" secondAttribute="trailing" type="default" id="2LT-dK-BLw"/>
                             <constraint firstAttribute="trailing" secondItem="ere-e8-utB" secondAttribute="trailing" constant="113" id="94v-z5-fo0"/>
                             <constraint firstItem="MTk-3l-ikw" firstAttribute="leading" secondItem="MOB-gn-nkx" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="9zD-xc-hGL"/>
                             <constraint firstItem="nxc-DT-gOa" firstAttribute="leading" secondItem="IXv-wa-RaA" secondAttribute="leading" type="default" id="D9U-Fg-Oxw"/>
+                            <constraint firstItem="7rw-Gm-kev" firstAttribute="top" secondItem="IXv-wa-RaA" secondAttribute="top" type="default" id="Eoh-Ab-MFg"/>
+                            <constraint firstItem="tFY-BZ-Jat" firstAttribute="leading" secondItem="MOB-gn-nkx" secondAttribute="leading" constant="51" id="FLZ-FL-3vL"/>
                             <constraint firstItem="KrA-Ee-7AH" firstAttribute="top" secondItem="MOB-gn-nkx" secondAttribute="top" constant="196" id="HWV-2e-KbN"/>
-                            <constraint firstItem="7rw-Gm-kev" firstAttribute="leading" secondItem="MOB-gn-nkx" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="Hlv-nZ-42B"/>
+                            <constraint firstItem="KrA-Ee-7AH" firstAttribute="trailing" secondItem="4bA-94-mEn" secondAttribute="trailing" type="default" id="NbE-WQ-q3n"/>
+                            <constraint firstItem="4bA-94-mEn" firstAttribute="top" secondItem="MOB-gn-nkx" secondAttribute="top" constant="155" id="P7d-eT-xAD"/>
                             <constraint firstItem="MTk-3l-ikw" firstAttribute="top" secondItem="MOB-gn-nkx" secondAttribute="top" constant="255" id="Qwt-LM-5gt"/>
-                            <constraint firstItem="tFY-BZ-Jat" firstAttribute="leading" secondItem="MOB-gn-nkx" secondAttribute="leading" constant="51" id="UwL-ea-R7w"/>
-                            <constraint firstItem="7rw-Gm-kev" firstAttribute="top" secondItem="IXv-wa-RaA" secondAttribute="top" type="default" id="Whn-U4-7yg"/>
-                            <constraint firstItem="IXv-wa-RaA" firstAttribute="top" secondItem="MOB-gn-nkx" secondAttribute="top" constant="106" id="d6u-NU-0Oy"/>
-                            <constraint firstItem="4bA-94-mEn" firstAttribute="top" secondItem="MOB-gn-nkx" secondAttribute="top" constant="156" id="ecK-Pd-D6P"/>
+                            <constraint firstItem="7rw-Gm-kev" firstAttribute="trailing" secondItem="4bA-94-mEn" secondAttribute="trailing" type="default" id="TR1-AJ-ama"/>
+                            <constraint firstItem="7rw-Gm-kev" firstAttribute="leading" secondItem="MOB-gn-nkx" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="e9D-IY-0AL"/>
+                            <constraint firstItem="7rw-Gm-kev" firstAttribute="top" secondItem="MOB-gn-nkx" secondAttribute="top" constant="106" id="niV-r0-Bww"/>
                             <constraint firstItem="KrA-Ee-7AH" firstAttribute="leading" secondItem="MOB-gn-nkx" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="np5-Rb-e72"/>
                             <constraint firstAttribute="bottom" secondItem="nxc-DT-gOa" secondAttribute="bottom" constant="221" id="rfd-Hn-QXM"/>
                             <constraint firstItem="nxc-DT-gOa" firstAttribute="centerX" secondItem="MTk-3l-ikw" secondAttribute="centerX" type="default" id="rg3-yh-Umx"/>
@@ -56,11 +76,11 @@
     </scenes>
     <resources>
         <image name="about.png" width="262" height="273"/>
-        <image name="create-icon.png" width="19" height="19"/>
-        <image name="flick-down-icon.png" width="19" height="28"/>
-        <image name="flick-up-icon.png" width="19" height="28"/>
+        <image name="add-icon.png" width="29" height="29"/>
+        <image name="flick-down-icon.png" width="29" height="29"/>
+        <image name="flick-up-icon.png" width="29" height="29"/>
         <image name="pinch-icon.png" width="29" height="29"/>
-        <image name="set-icon.png" width="19" height="19"/>
+        <image name="set-icon.png" width="29" height="29"/>
         <image name="tack-logo.png" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
