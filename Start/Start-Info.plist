@@ -30,11 +30,25 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 	<string>1.1 Beta 1</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1.1B1</string>
+<<<<<<< HEAD
+=======
+=======
+	<string>1.0</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>16</string>
+>>>>>>> 5a60a968e51e4b7a282c0fd04d025a388667d414
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIAppFonts</key>
