@@ -48,6 +48,11 @@ const float optionHeight = 40;
         //tackCopy = [[UILabel alloc] init];
         timePicker = [[UIScrollView alloc] init];
         
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 50bff3af12dd2286117064fc031abc779672f0c2
         createIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 106, 19, 19)];
         createIcon.image = [UIImage imageNamed:@"create-icon"];
         flickDownIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 255, 19, 28)];
@@ -57,6 +62,25 @@ const float optionHeight = 40;
         pinchIcon = [[UIImageView alloc] initWithFrame:CGRectMake(15, 300, 29, 29)];
         pinchIcon.image = [UIImage imageNamed:@"pinch-icon"];
         setIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 156, 19, 19)];
+<<<<<<< HEAD
+=======
+=======
+=======
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+        createIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 106, 29, 29)];
+        createIcon.image = [UIImage imageNamed:@"add-icon"];
+        flickDownIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, createIcon.frame.origin.y + 120, 29, 29)];//120 points down from add icon
+        flickDownIcon.image = [UIImage imageNamed:@"flick-down-icon"];
+        flickUpIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, createIcon.frame.origin.y + 80, 29, 29)]; //80 points down from the add icon
+        flickUpIcon.image = [UIImage imageNamed:@"flick-up-icon"];
+        pinchIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, createIcon.frame.origin.y + 160, 29, 29)]; //160 points down from add icon
+        pinchIcon.image = [UIImage imageNamed:@"pinch-icon"];
+        setIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, createIcon.frame.origin.y + 40, 29, 29)]; //40 points down from where the add icon is
+<<<<<<< HEAD
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+=======
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+>>>>>>> 50bff3af12dd2286117064fc031abc779672f0c2
         setIcon.image = [UIImage imageNamed:@"set-icon"];
         tackLogo.image = [UIImage imageNamed:@"tack-logo"];
     
@@ -74,35 +98,95 @@ const float optionHeight = 40;
         createLabel.font = introFonts;
         createLabel.backgroundColor = backgroundColor;
         CGSize createSize = [[createLabel text] sizeWithFont:[createLabel font]];
+<<<<<<< HEAD
         createLabel.frame = CGRectMake(48, 102, createSize.width, createSize.height);
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        createLabel.frame = CGRectMake(48, 102, createSize.width, createSize.height);
+=======
+        createLabel.frame = CGRectMake(createIcon.frame.origin.x + 40, createIcon.frame.origin.y, createSize.width, createSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+=======
+        createLabel.frame = CGRectMake(createIcon.frame.origin.x + 40, createIcon.frame.origin.y, createSize.width, createSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+>>>>>>> 50bff3af12dd2286117064fc031abc779672f0c2
         flickDownLabel = [UILabel new];
         flickDownLabel.text = @"Flick down for stopwatch";
         flickDownLabel.font = introFonts;
         flickDownLabel.textColor = introColor;
         flickDownLabel.backgroundColor = backgroundColor;
         CGSize flickDownSize = [[flickDownLabel text] sizeWithFont:[flickDownLabel font]];
+<<<<<<< HEAD
         flickDownLabel.frame = CGRectMake(48, 253, flickDownSize.width, flickDownSize.height);
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        flickDownLabel.frame = CGRectMake(48, 253, flickDownSize.width, flickDownSize.height);
+=======
+        flickDownLabel.frame = CGRectMake(flickDownIcon.frame.origin.x + 40, flickDownIcon.frame.origin.y, flickDownSize.width, flickDownSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+=======
+        flickDownLabel.frame = CGRectMake(flickDownIcon.frame.origin.x + 40, flickDownIcon.frame.origin.y, flickDownSize.width, flickDownSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+>>>>>>> 50bff3af12dd2286117064fc031abc779672f0c2
         flickUpLabe = [UILabel new];
         flickUpLabe.text = @"Flick up to activate";
         flickUpLabe.font = introFonts;
         flickUpLabe.textColor = introColor;
         flickUpLabe.backgroundColor = backgroundColor;
         CGSize flickUpSize = [[flickUpLabe text] sizeWithFont:[flickUpLabe font]];
+<<<<<<< HEAD
         flickUpLabe.frame = CGRectMake(48, 204, flickUpSize.width, flickUpSize.height);
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        flickUpLabe.frame = CGRectMake(48, 204, flickUpSize.width, flickUpSize.height);
+=======
+        flickUpLabe.frame = CGRectMake(flickUpIcon.frame.origin.x + 40, flickUpIcon.frame.origin.y, flickUpSize.width, flickUpSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+=======
+        flickUpLabe.frame = CGRectMake(flickUpIcon.frame.origin.x + 40, flickUpIcon.frame.origin.y, flickUpSize.width, flickUpSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+>>>>>>> 50bff3af12dd2286117064fc031abc779672f0c2
         pinchLabel = [UILabel new];
         pinchLabel.text = @"Pinch to delete";
         pinchLabel.font = introFonts;
         pinchLabel.textColor = introColor;
         pinchLabel.backgroundColor = backgroundColor;
         CGSize pinchSize = [[pinchLabel text] sizeWithFont:[pinchLabel font]];
+<<<<<<< HEAD
         pinchLabel.frame = CGRectMake(48, 304, pinchSize.width, pinchSize.height);
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        pinchLabel.frame = CGRectMake(48, 304, pinchSize.width, pinchSize.height);
+=======
+        pinchLabel.frame = CGRectMake(pinchIcon.frame.origin.x + 40, pinchIcon.frame.origin.y, pinchSize.width, pinchSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+=======
+        pinchLabel.frame = CGRectMake(pinchIcon.frame.origin.x + 40, pinchIcon.frame.origin.y, pinchSize.width, pinchSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+>>>>>>> 50bff3af12dd2286117064fc031abc779672f0c2
         setLabel = [UILabel new];
         setLabel.text = @"Set time, sound and action";
         setLabel.font = introFonts;
         setLabel.textColor = introColor;
         setLabel.backgroundColor = backgroundColor;
         CGSize setSize = [[setLabel text] sizeWithFont:[setLabel font]];
+<<<<<<< HEAD
         setLabel.frame = CGRectMake(48, 152, setSize.width, setSize.height);
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+        setLabel.frame = CGRectMake(48, 152, setSize.width, setSize.height);
+=======
+        setLabel.frame = CGRectMake(setIcon.frame.origin.x + 40, setIcon.frame.origin.y, setSize.width, setSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+=======
+        setLabel.frame = CGRectMake(setIcon.frame.origin.x + 40, setIcon.frame.origin.y, setSize.width, setSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+>>>>>>> 50bff3af12dd2286117064fc031abc779672f0c2
         tackLabel = [UILabel new];
         tackLabel.text = @"Assembled by";
         tackLabel.font = introFonts;
