@@ -258,7 +258,7 @@
         switch (indexPath.section) {
             case 1:
                 songTitle = @"No Sound";
-                songArtist = @"Tap and hold to preview.";
+                songArtist = @"Tap to select. Hold to preview.";
                 break;
             case 2:
                 songTitle = [[presetSongs objectAtIndex:indexPath.row] objectForKey:@"title"];
@@ -295,8 +295,8 @@
     if (isSearching)
         return tableView.rowHeight;
     
-    if (indexPath.section == 1) // no sound. more room to accomodate instructions
-        return 85;
+    if (indexPath.section == 1) // same height as other rows so icon in left header is centered with text
+        return 60;
     if (indexPath.section == 2) // presetsong
         return ([[[presetSongs objectAtIndex:indexPath.row] objectForKey:@"artist"] isEqualToString:@""])
         ?60:tableView.rowHeight;

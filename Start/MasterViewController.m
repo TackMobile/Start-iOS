@@ -49,6 +49,7 @@
         [self.view addSubview:settingsView];
         [self.view addSubview:selectAlarmView];
         [self.view addSubview:addButton];
+       // [addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     
 
    

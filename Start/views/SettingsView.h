@@ -19,7 +19,6 @@
     UIImageView *intro;
     
     UILabel *copyText;
-    UILabel *versionText;
     UIScrollView *timePicker;
     
     NSArray *snoozeOptions;
