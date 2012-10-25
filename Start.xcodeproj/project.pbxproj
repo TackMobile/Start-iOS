@@ -29,7 +29,10 @@
 		96E58C9F1639A51000D5653E /* tack-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E58C9E1639A51000D5653E /* tack-logo.png */; };
 		96E58CA11639A5A500D5653E /* tack-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E58CA01639A5A500D5653E /* tack-logo@2x.png */; };
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 		96E58D1E1639D0A000D5653E /* add-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E58D141639D0A000D5653E /* add-icon.png */; };
 		96E58D1F1639D0A000D5653E /* add-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E58D151639D0A000D5653E /* add-icon@2x.png */; };
 		96E58D201639D0A000D5653E /* flick-down-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E58D161639D0A000D5653E /* flick-down-icon.png */; };
@@ -40,6 +43,9 @@
 		96E58D251639D0A000D5653E /* pinch-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E58D1B1639D0A000D5653E /* pinch-icon@2x.png */; };
 		96E58D261639D0A000D5653E /* set-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E58D1C1639D0A000D5653E /* set-icon.png */; };
 		96E58D271639D0A000D5653E /* set-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96E58D1D1639D0A000D5653E /* set-icon@2x.png */; };
+<<<<<<< HEAD
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+=======
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 		F3143CE615C4D9AE0098A276 /* TimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3143CE515C4D9AE0098A276 /* TimerView.m */; };
 		F31670E515A1109200725274 /* SearchSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F31670E415A1109200725274 /* SearchSongCell.m */; };
@@ -167,7 +173,10 @@
 		96E58C9E1639A51000D5653E /* tack-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tack-logo.png"; sourceTree = "<group>"; };
 		96E58CA01639A5A500D5653E /* tack-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tack-logo@2x.png"; sourceTree = "<group>"; };
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 		96E58D141639D0A000D5653E /* add-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add-icon.png"; sourceTree = "<group>"; };
 		96E58D151639D0A000D5653E /* add-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add-icon@2x.png"; sourceTree = "<group>"; };
 		96E58D161639D0A000D5653E /* flick-down-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "flick-down-icon.png"; sourceTree = "<group>"; };
@@ -178,6 +187,9 @@
 		96E58D1B1639D0A000D5653E /* pinch-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pinch-icon@2x.png"; sourceTree = "<group>"; };
 		96E58D1C1639D0A000D5653E /* set-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "set-icon.png"; sourceTree = "<group>"; };
 		96E58D1D1639D0A000D5653E /* set-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "set-icon@2x.png"; sourceTree = "<group>"; };
+<<<<<<< HEAD
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+=======
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 		EA13EE1915FD124E004E16C7 /* chamaeleon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = chamaeleon.wav; sourceTree = "<group>"; };
 		EA13EE1A15FD124E004E16C7 /* epsilon.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = epsilon.wav; sourceTree = "<group>"; };
@@ -819,7 +831,10 @@
 				96E58C9F1639A51000D5653E /* tack-logo.png in Resources */,
 				96E58CA11639A5A500D5653E /* tack-logo@2x.png in Resources */,
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 				96E58D1E1639D0A000D5653E /* add-icon.png in Resources */,
 				96E58D1F1639D0A000D5653E /* add-icon@2x.png in Resources */,
 				96E58D201639D0A000D5653E /* flick-down-icon.png in Resources */,
@@ -830,6 +845,9 @@
 				96E58D251639D0A000D5653E /* pinch-icon@2x.png in Resources */,
 				96E58D261639D0A000D5653E /* set-icon.png in Resources */,
 				96E58D271639D0A000D5653E /* set-icon@2x.png in Resources */,
+<<<<<<< HEAD
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+=======
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -16,12 +16,15 @@
                                 <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                             </imageView>
 <<<<<<< HEAD
+<<<<<<< HEAD
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="create-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="7rw-Gm-kev"/>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="flick-down-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="MTk-3l-ikw"/>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="flick-up-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="KrA-Ee-7AH"/>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="pinch-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="nxc-DT-gOa"/>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="set-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="4bA-94-mEn"/>
 =======
+=======
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="add-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="7rw-Gm-kev">
                                 <constraints>
                                     <constraint firstAttribute="width" constant="19" id="2qQ-83-pe8"/>
@@ -44,6 +47,9 @@
                                     <constraint firstAttribute="height" constant="19" id="FMA-WP-bsm"/>
                                 </constraints>
                             </imageView>
+<<<<<<< HEAD
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+=======
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="tack-logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="tFY-BZ-Jat">
                                 <constraints>
@@ -58,6 +64,7 @@
                             <constraint firstAttribute="bottom" secondItem="tFY-BZ-Jat" secondAttribute="bottom" constant="103" id="02a-XN-3zh"/>
                             <constraint firstItem="4bA-94-mEn" firstAttribute="leading" secondItem="MOB-gn-nkx" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="1JO-Fp-OGW"/>
 <<<<<<< HEAD
+<<<<<<< HEAD
                             <constraint firstAttribute="trailing" secondItem="ere-e8-utB" secondAttribute="trailing" constant="113" id="94v-z5-fo0"/>
                             <constraint firstItem="MTk-3l-ikw" firstAttribute="leading" secondItem="MOB-gn-nkx" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="9zD-xc-hGL"/>
                             <constraint firstItem="nxc-DT-gOa" firstAttribute="leading" secondItem="IXv-wa-RaA" secondAttribute="leading" type="default" id="D9U-Fg-Oxw"/>
@@ -69,6 +76,8 @@
                             <constraint firstItem="IXv-wa-RaA" firstAttribute="top" secondItem="MOB-gn-nkx" secondAttribute="top" constant="106" id="d6u-NU-0Oy"/>
                             <constraint firstItem="4bA-94-mEn" firstAttribute="top" secondItem="MOB-gn-nkx" secondAttribute="top" constant="156" id="ecK-Pd-D6P"/>
 =======
+=======
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
                             <constraint firstItem="MTk-3l-ikw" firstAttribute="trailing" secondItem="KrA-Ee-7AH" secondAttribute="trailing" type="default" id="2LT-dK-BLw"/>
                             <constraint firstAttribute="trailing" secondItem="ere-e8-utB" secondAttribute="trailing" constant="113" id="94v-z5-fo0"/>
                             <constraint firstItem="MTk-3l-ikw" firstAttribute="leading" secondItem="MOB-gn-nkx" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="9zD-xc-hGL"/>
@@ -82,6 +91,9 @@
                             <constraint firstItem="7rw-Gm-kev" firstAttribute="trailing" secondItem="4bA-94-mEn" secondAttribute="trailing" type="default" id="TR1-AJ-ama"/>
                             <constraint firstItem="7rw-Gm-kev" firstAttribute="leading" secondItem="MOB-gn-nkx" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="e9D-IY-0AL"/>
                             <constraint firstItem="7rw-Gm-kev" firstAttribute="top" secondItem="MOB-gn-nkx" secondAttribute="top" constant="106" id="niV-r0-Bww"/>
+<<<<<<< HEAD
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+=======
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
                             <constraint firstItem="KrA-Ee-7AH" firstAttribute="leading" secondItem="MOB-gn-nkx" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="np5-Rb-e72"/>
                             <constraint firstAttribute="bottom" secondItem="nxc-DT-gOa" secondAttribute="bottom" constant="221" id="rfd-Hn-QXM"/>
@@ -98,17 +110,23 @@
     <resources>
         <image name="about.png" width="262" height="273"/>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <image name="create-icon.png" width="19" height="19"/>
         <image name="flick-down-icon.png" width="19" height="28"/>
         <image name="flick-up-icon.png" width="19" height="28"/>
         <image name="pinch-icon.png" width="29" height="29"/>
         <image name="set-icon.png" width="19" height="19"/>
 =======
+=======
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
         <image name="add-icon.png" width="29" height="29"/>
         <image name="flick-down-icon.png" width="29" height="29"/>
         <image name="flick-up-icon.png" width="29" height="29"/>
         <image name="pinch-icon.png" width="29" height="29"/>
         <image name="set-icon.png" width="29" height="29"/>
+<<<<<<< HEAD
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+=======
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
         <image name="tack-logo.png" width="30" height="30"/>
     </resources>

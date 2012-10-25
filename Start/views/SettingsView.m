@@ -49,6 +49,7 @@ const float optionHeight = 40;
         timePicker = [[UIScrollView alloc] init];
         
 <<<<<<< HEAD
+<<<<<<< HEAD
         createIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 106, 19, 19)];
         createIcon.image = [UIImage imageNamed:@"create-icon"];
         flickDownIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 255, 19, 28)];
@@ -59,6 +60,8 @@ const float optionHeight = 40;
         pinchIcon.image = [UIImage imageNamed:@"pinch-icon"];
         setIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 156, 19, 19)];
 =======
+=======
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
         createIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 106, 29, 29)];
         createIcon.image = [UIImage imageNamed:@"add-icon"];
         flickDownIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, createIcon.frame.origin.y + 120, 29, 29)];//120 points down from add icon
@@ -68,6 +71,9 @@ const float optionHeight = 40;
         pinchIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, createIcon.frame.origin.y + 160, 29, 29)]; //160 points down from add icon
         pinchIcon.image = [UIImage imageNamed:@"pinch-icon"];
         setIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, createIcon.frame.origin.y + 40, 29, 29)]; //40 points down from where the add icon is
+<<<<<<< HEAD
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
+=======
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
         setIcon.image = [UIImage imageNamed:@"set-icon"];
         tackLogo.image = [UIImage imageNamed:@"tack-logo"];
@@ -87,7 +93,11 @@ const float optionHeight = 40;
         createLabel.backgroundColor = backgroundColor;
         CGSize createSize = [[createLabel text] sizeWithFont:[createLabel font]];
 <<<<<<< HEAD
+<<<<<<< HEAD
         createLabel.frame = CGRectMake(48, 102, createSize.width, createSize.height);
+=======
+        createLabel.frame = CGRectMake(createIcon.frame.origin.x + 40, createIcon.frame.origin.y, createSize.width, createSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 =======
         createLabel.frame = CGRectMake(createIcon.frame.origin.x + 40, createIcon.frame.origin.y, createSize.width, createSize.height);
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
@@ -98,7 +108,11 @@ const float optionHeight = 40;
         flickDownLabel.backgroundColor = backgroundColor;
         CGSize flickDownSize = [[flickDownLabel text] sizeWithFont:[flickDownLabel font]];
 <<<<<<< HEAD
+<<<<<<< HEAD
         flickDownLabel.frame = CGRectMake(48, 253, flickDownSize.width, flickDownSize.height);
+=======
+        flickDownLabel.frame = CGRectMake(flickDownIcon.frame.origin.x + 40, flickDownIcon.frame.origin.y, flickDownSize.width, flickDownSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 =======
         flickDownLabel.frame = CGRectMake(flickDownIcon.frame.origin.x + 40, flickDownIcon.frame.origin.y, flickDownSize.width, flickDownSize.height);
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
@@ -109,7 +123,11 @@ const float optionHeight = 40;
         flickUpLabe.backgroundColor = backgroundColor;
         CGSize flickUpSize = [[flickUpLabe text] sizeWithFont:[flickUpLabe font]];
 <<<<<<< HEAD
+<<<<<<< HEAD
         flickUpLabe.frame = CGRectMake(48, 204, flickUpSize.width, flickUpSize.height);
+=======
+        flickUpLabe.frame = CGRectMake(flickUpIcon.frame.origin.x + 40, flickUpIcon.frame.origin.y, flickUpSize.width, flickUpSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 =======
         flickUpLabe.frame = CGRectMake(flickUpIcon.frame.origin.x + 40, flickUpIcon.frame.origin.y, flickUpSize.width, flickUpSize.height);
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
@@ -120,7 +138,11 @@ const float optionHeight = 40;
         pinchLabel.backgroundColor = backgroundColor;
         CGSize pinchSize = [[pinchLabel text] sizeWithFont:[pinchLabel font]];
 <<<<<<< HEAD
+<<<<<<< HEAD
         pinchLabel.frame = CGRectMake(48, 304, pinchSize.width, pinchSize.height);
+=======
+        pinchLabel.frame = CGRectMake(pinchIcon.frame.origin.x + 40, pinchIcon.frame.origin.y, pinchSize.width, pinchSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 =======
         pinchLabel.frame = CGRectMake(pinchIcon.frame.origin.x + 40, pinchIcon.frame.origin.y, pinchSize.width, pinchSize.height);
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
@@ -131,7 +153,11 @@ const float optionHeight = 40;
         setLabel.backgroundColor = backgroundColor;
         CGSize setSize = [[setLabel text] sizeWithFont:[setLabel font]];
 <<<<<<< HEAD
+<<<<<<< HEAD
         setLabel.frame = CGRectMake(48, 152, setSize.width, setSize.height);
+=======
+        setLabel.frame = CGRectMake(setIcon.frame.origin.x + 40, setIcon.frame.origin.y, setSize.width, setSize.height);
+>>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
 =======
         setLabel.frame = CGRectMake(setIcon.frame.origin.x + 40, setIcon.frame.origin.y, setSize.width, setSize.height);
 >>>>>>> 9f41c791e04fed9ecc3f215e54796b6fa3c7202f
