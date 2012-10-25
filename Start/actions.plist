@@ -28,6 +28,14 @@
 	</dict>
 	<dict>
 		<key>url</key>
+		<string>instagram://app</string>
+		<key>title</key>
+		<string>Instagram</string>
+		<key>iconFilename</key>
+		<string>instagram-icon</string>
+	</dict>
+	<dict>
+		<key>url</key>
 		<string>music:</string>
 		<key>title</key>
 		<string>Music</string>
@@ -52,6 +60,14 @@
 	</dict>
 	<dict>
 		<key>url</key>
+		<string>reeder://</string>
+		<key>title</key>
+		<string>Reeder</string>
+		<key>iconFilename</key>
+		<string>reeder-icon</string>
+	</dict>
+	<dict>
+		<key>url</key>
 		<string>rdio://</string>
 		<key>title</key>
 		<string>Rdio</string>
@@ -65,14 +81,6 @@
 		<string>Safari</string>
 		<key>iconFilename</key>
 		<string>safari-icon</string>
-	</dict>
-	<dict>
-		<key>url</key>
-		<string>reeder://</string>
-		<key>title</key>
-		<string>Reeder</string>
-		<key>iconFilename</key>
-		<string>reeder-icon</string>
 	</dict>
 	<dict>
 		<key>url</key>
@@ -97,14 +105,6 @@
 		<string>x Weather</string>
 		<key>iconFilename</key>
 		<string>weather-icon</string>
-	</dict>
-	<dict>
-		<key>url</key>
-		<string>instagram://app</string>
-		<key>title</key>
-		<string>Instagram</string>
-		<key>iconFilename</key>
-		<string>instagram-icon</string>
 	</dict>
 </array>
 </plist>
