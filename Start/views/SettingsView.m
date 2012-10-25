@@ -18,13 +18,27 @@ const float optionHeight = 40;
     if (self) {
         pickingSnooze = NO;
         selectedIndex = 0;
+        
+            
+    
+        CGPoint tackCoordinates;
+      
         if ([UIScreen mainScreen].applicationFrame.size.height < 500   ) {
             bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background"]];
             intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about"]];
+            tackLogo = [[UIImageView alloc] initWithFrame:CGRectMake(177, 349, 30, 30)];
+            tackCoordinates = CGPointMake(48, 354);
+            
         }else{
             bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background-568h@2x.png"]];
             intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about-568h@2x.png"]];
+            tackLogo = [[UIImageView alloc] initWithFrame:CGRectMake(177, 399, 30, 30)];
+            tackCoordinates = CGPointMake(48, 403);
         }
+        
+        
+  
+        
         
         //tackLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tack-logo"]];
         tackButton = [[UIButton alloc] init];
@@ -34,17 +48,105 @@ const float optionHeight = 40;
         //tackCopy = [[UILabel alloc] init];
         timePicker = [[UIScrollView alloc] init];
         
+        createIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 106, 19, 19)];
+        createIcon.image = [UIImage imageNamed:@"create-icon"];
+        flickDownIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 255, 19, 28)];
+        flickDownIcon.image = [UIImage imageNamed:@"flick-down-icon"];
+        flickUpIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 196, 19, 28)];
+        flickUpIcon.image = [UIImage imageNamed:@"flick-up-icon"];
+        pinchIcon = [[UIImageView alloc] initWithFrame:CGRectMake(15, 300, 29, 29)];
+        pinchIcon.image = [UIImage imageNamed:@"pinch-icon"];
+        setIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 156, 19, 19)];
+        setIcon.image = [UIImage imageNamed:@"set-icon"];
+        tackLogo.image = [UIImage imageNamed:@"tack-logo"];
+    
+        
+        
+        UIFont *introFonts = [UIFont fontWithName:@"Roboto-Thin" size:20];
+        UIColor *introColor = [UIColor whiteColor];
+        UIColor *backgroundColor = [UIColor clearColor];
+
+        
+        
+        createLabel = [UILabel new];
+        createLabel.text = @"Create a new alarm";
+        createLabel.textColor = introColor;
+        createLabel.font = introFonts;
+        createLabel.backgroundColor = backgroundColor;
+        CGSize createSize = [[createLabel text] sizeWithFont:[createLabel font]];
+        createLabel.frame = CGRectMake(48, 102, createSize.width, createSize.height);
+        flickDownLabel = [UILabel new];
+        flickDownLabel.text = @"Flick down for stopwatch";
+        flickDownLabel.font = introFonts;
+        flickDownLabel.textColor = introColor;
+        flickDownLabel.backgroundColor = backgroundColor;
+        CGSize flickDownSize = [[flickDownLabel text] sizeWithFont:[flickDownLabel font]];
+        flickDownLabel.frame = CGRectMake(48, 253, flickDownSize.width, flickDownSize.height);
+        flickUpLabe = [UILabel new];
+        flickUpLabe.text = @"Flick up to activate";
+        flickUpLabe.font = introFonts;
+        flickUpLabe.textColor = introColor;
+        flickUpLabe.backgroundColor = backgroundColor;
+        CGSize flickUpSize = [[flickUpLabe text] sizeWithFont:[flickUpLabe font]];
+        flickUpLabe.frame = CGRectMake(48, 204, flickUpSize.width, flickUpSize.height);
+        pinchLabel = [UILabel new];
+        pinchLabel.text = @"Pinch to delete";
+        pinchLabel.font = introFonts;
+        pinchLabel.textColor = introColor;
+        pinchLabel.backgroundColor = backgroundColor;
+        CGSize pinchSize = [[pinchLabel text] sizeWithFont:[pinchLabel font]];
+        pinchLabel.frame = CGRectMake(48, 304, pinchSize.width, pinchSize.height);
+        setLabel = [UILabel new];
+        setLabel.text = @"Set time, sound and action";
+        setLabel.font = introFonts;
+        setLabel.textColor = introColor;
+        setLabel.backgroundColor = backgroundColor;
+        CGSize setSize = [[setLabel text] sizeWithFont:[setLabel font]];
+        setLabel.frame = CGRectMake(48, 152, setSize.width, setSize.height);
+        tackLabel = [UILabel new];
+        tackLabel.text = @"Assembled by";
+        tackLabel.font = introFonts;
+        tackLabel.textColor= introColor;
+        tackLabel.backgroundColor = backgroundColor;
+        CGSize tackSize = [[tackLabel text] sizeWithFont:[tackLabel font]];
+        tackLabel.frame = CGRectMake(tackCoordinates.x, tackCoordinates.y, tackSize.width, tackSize.height);
+        
+        
+        
+        
+        
+        
+        
         
         [self addSubview:bgImage];
         //[self addSubview:tackLogo];
         [self addSubview:underline];
-        [bgImage addSubview:intro];
-        [self addSubview:intro];
+        //[bgImage addSubview:intro];
+        //[self addSubview:intro];
+        
+        [self addSubview:createLabel];
+        [self addSubview:createIcon];
+        [self addSubview:flickDownLabel];
+        [self addSubview:flickDownIcon];
+        [self addSubview:flickUpLabe];
+        [self addSubview:flickUpIcon];
+        [self addSubview:pinchLabel];
+        [self addSubview:pinchIcon];
+        [self addSubview:setLabel];
+        [self addSubview:setIcon];
+        [self addSubview:tackLabel];
+        [self addSubview:tackLogo];
+        
+        
+        
         [self addSubview:copyText];
         [self addSubview:versionText];
         //[self addSubview:tackCopy];
         [self addSubview:timePicker];
         [self addSubview:tackButton];
+        
+        
+        
                 
         [copyText setText:@"Snooze Duration        min"]; // leave the spaces. i know, a hack
         [versionText setText:@"v1.1"];
@@ -157,6 +259,7 @@ const float optionHeight = 40;
                                       1);
     CGRect introRect= CGRectMake(underlineRect.origin.x, underlineRect.origin.y + 50, 
                                  introSize.width, introSize.height);
+    NSLog(@"x, y, %f %f", underlineRect.origin.x, underlineRect.origin.y + 50);
     CGRect scrollRect = CGRectMake(frameSize.width-180, 0, 180,
                                    frameSize.height);
     
