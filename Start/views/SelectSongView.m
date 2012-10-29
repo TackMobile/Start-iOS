@@ -29,7 +29,7 @@
         
         // views
         CGRect screenBounds = [[UIScreen mainScreen] applicationFrame];
-        CGRect songTableRect = CGRectMake(0, 0, screenBounds.size.width, screenBounds.size.height);
+        CGRect songTableRect = CGRectMake(0, 0, screenBounds.size.width*2, screenBounds.size.height);
         CGRect songDurIndRect = CGRectMake(0, 0, 0, 2);
         
         songTableView = [[UITableView alloc] initWithFrame:songTableRect style:UITableViewStylePlain];
@@ -100,6 +100,41 @@
         musicPlayer = [[MusicPlayer alloc] init];
         [musicPlayer addTargetForSampling:self selector:@selector(songPlayingTick:)];*/
         
+        // add the fade on the right
+        float fadeXPos = 0.74f;
+        float fadeWidth = .06;
+        
+        CAGradientLayer *gradient = [CAGradientLayer layer];
+        NSArray *gradientColors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:1 alpha:1] CGColor],
+                                   (id)[[UIColor colorWithWhite:1 alpha:1] CGColor],
+                                   (id)[[UIColor colorWithWhite:1 alpha:0] CGColor],
+                                   (id)[[UIColor colorWithWhite:1 alpha:0] CGColor],nil];
+        
+        NSArray *gradientLocations = [NSArray arrayWithObjects:
+                                      [NSNumber numberWithFloat:0.0f],
+                                      [NSNumber numberWithFloat:fadeXPos],
+                                      [NSNumber numberWithFloat:fadeXPos+fadeWidth],
+                                      [NSNumber numberWithFloat:1.0f], nil];
+        
+        [gradient setColors:gradientColors];
+        [gradient setLocations:gradientLocations];
+        [gradient setFrame:CGRectMake(0, 0, screenBounds.size.width, songTableView.contentSize.height)];
+        [gradient setStartPoint:CGPointMake(0, .5)]; // middle left
+        [gradient setEndPoint:CGPointMake(1, .5)]; // middle right
+        [self.layer setMask:gradient];
+        [self.layer setMasksToBounds:YES];
+        
+        float searchHeight = [songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].size.height;
+        
+        CALayer *solidLayer = [CALayer layer];
+        solidLayer.backgroundColor = [[UIColor whiteColor] CGColor];
+        [solidLayer setFrame:CGRectMake(0, 0, [[UIScreen mainScreen] applicationFrame].size.width, searchHeight+1)];
+        
+        
+        [gradient addSublayer:solidLayer];
+        [songTableView.layer setMask:gradient];
+        [songTableView.layer setMasksToBounds:YES];
+                
     }
     return self;
 }
@@ -376,6 +411,17 @@
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
     for (LeftHeaderView *headerView in headerViews)
         [headerView updateWithContentOffset:scrollView.contentOffset.y];
+    
+    // move the fade out of way of the search divider
+    float searchHeight = [songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].size.height;
+    CGRect maskFrame = self.layer.mask.frame;
+    if (scrollView.contentOffset.y <= searchHeight){
+        maskFrame.origin.x = scrollView.contentOffset.y;
+    } else {
+        maskFrame.origin.x = 0;
+    }
+    
+    self.layer.mask.frame = maskFrame;
 }
 
 #pragma mark - searchSongCell delegate

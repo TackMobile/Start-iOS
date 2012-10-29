@@ -52,7 +52,7 @@ const float spacer = -2;
     [super layoutSubviews];
     
     float cellHeight = self.frame.size.height;
-    float cellWidth = 245;
+    float cellWidth = self.frame.size.width;
     CGSize songSize = [[songLabel text] sizeWithFont:[songLabel font]];
     CGSize artistSize = [[artistLabel text] sizeWithFont:[artistLabel font]  
                                        constrainedToSize:CGSizeMake(245, cellHeight/2) lineBreakMode:NSLineBreakByCharWrapping];
