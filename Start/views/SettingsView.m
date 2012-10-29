@@ -300,6 +300,18 @@ const float optionHeight = 40;
         selectedIndex = (int)roundf( button.frame.origin.y / optionHeight);
     }
     pickingSnooze = NO;
+    createLabel.alpha = 1;
+    setLabel.alpha = 1;
+    flickUpLabe.alpha = 1;
+    flickDownLabel.alpha = 1;
+    pinchLabel.alpha = 1;
+    createIcon.alpha = 1;
+    setIcon.alpha = 1;
+    flickUpIcon.alpha = 1;
+    flickDownIcon.alpha = 1;
+    pinchIcon.alpha = 1;
+    tackLabel.alpha = 1;
+    tackLogo.alpha = 1;
     [self animateTimePicker];
 }
 
@@ -324,6 +336,19 @@ const float optionHeight = 40;
     
     if (!pickingSnooze && CGRectContainsPoint(CGRectMake(0, 0, [[UIScreen mainScreen] applicationFrame].size.width, copyText.frame.size.height + copyText.frame.origin.y), touchLoc)) {
         pickingSnooze = YES;
+        //fade the background
+        createLabel.alpha = 0.3;
+        setLabel.alpha = 0.3;
+        flickUpLabe.alpha = 0.3;
+        flickDownLabel.alpha = 0.3;
+        pinchLabel.alpha = 0.3;
+        createIcon.alpha = 0.3;
+        setIcon.alpha = 0.3;
+        flickUpIcon.alpha = 0.3;
+        flickDownIcon.alpha = 0.3;
+        pinchIcon.alpha = 0.3;
+        tackLabel.alpha = 0.3;
+        tackLogo.alpha = 0.3;
         [self animateTimePicker];
     }
 }
@@ -370,6 +395,18 @@ const float optionHeight = 40;
                 timePicker.contentOffset = CGPointMake(0, roundedOffset);
             
             [bgImage setAlpha:1];
+            createLabel.alpha = 1;
+            flickUpLabe.alpha = 1;
+            flickDownLabel.alpha = 1;
+            setLabel.alpha = 1;
+            pinchLabel.alpha = 1;
+            createIcon.alpha = 1;
+            setIcon.alpha = 1;
+            flickUpIcon.alpha = 1;
+            flickDownIcon.alpha = 1;
+            pinchIcon.alpha = 1;
+            tackLabel.alpha = 1;
+            tackLogo.alpha = 1;
 
             for (int i=0; i<[snoozeOptions count]; i++) {
                 if (i != selectedIndex)
