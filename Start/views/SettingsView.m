@@ -251,7 +251,7 @@ const float optionHeight = 40;
     CGRect tackButtonRect = CGRectMake(buttonPosition.x, buttonPosition.y, 180, 44);
     CGRect copyTextRect = CGRectMake(15, 20, 
                                      copyTextSize.width, copyTextSize.height);
-    CGRect versionTextRect = CGRectMake(frameSize.width - versionTextSize.width - 5, frameSize.height - versionTextSize.height - 5, versionTextSize.width, versionTextSize.height);
+    CGRect versionTextRect = CGRectMake(frameSize.width - versionTextSize.width - 5, frameSize.height - versionTextSize.height, versionTextSize.width, versionTextSize.height);
     
     CGRect underlineRect = CGRectMake(copyTextRect.origin.x,
                                       copyTextRect.origin.y + copyTextRect.size.height + 4,

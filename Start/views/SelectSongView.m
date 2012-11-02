@@ -421,7 +421,7 @@
         maskFrame.origin.x = 0;
     }
     
-    self.layer.mask.frame = maskFrame;
+    self.layer.mask.frame = maskFrame; 
 }
 
 #pragma mark - searchSongCell delegate
