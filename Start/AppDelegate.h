@@ -3,7 +3,7 @@
 //  Start
 //
 //  Created by Nick Place on 6/15/12.
-//  Copyright (c) 2012 TackMobile. All rights reserved.
+//  Copyright (c) 2012 Tack Mobile. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
