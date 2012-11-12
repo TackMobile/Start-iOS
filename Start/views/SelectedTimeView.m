@@ -94,7 +94,6 @@
     date = newDate;
     
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setTimeZone:[NSTimeZone timeZoneWithName:@"US/Mountain"]];
     
     // update&position the label
     [dateFormatter setDateFormat:@"h:mm"];
