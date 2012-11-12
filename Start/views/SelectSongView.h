@@ -38,12 +38,13 @@
     NSMutableArray *headerViews;
 }
 @property (nonatomic, strong) id<SelectSongViewDelegate> delegate;
-
 @property (nonatomic, strong) MusicManager *musicManager;
 
 @property (nonatomic, strong) UITableView *songTableView;
 @property (nonatomic, strong) UIView *songDurationIndicator;
 
+@property (nonatomic, strong) SongCell *cell;
+@property (nonatomic, strong) SongCell *showCell;
 - (void) quickSelectCell;
 - (void) selectCellWithID:(NSNumber *)cellNumID ;
 - (void)songPlayingTick:(MusicPlayer *)aMusicPlayer;

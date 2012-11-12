@@ -11,7 +11,7 @@
 @implementation SelectSongView
 @synthesize delegate;
 @synthesize musicManager;
-@synthesize songTableView, songDurationIndicator;
+@synthesize songTableView, songDurationIndicator, cell, showCell;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -139,6 +139,8 @@
     return self;
 }
 
+
+
 - (id) initWithFrame:(CGRect)frame delegate:(id<SelectSongViewDelegate>)aDelegate presetSongs:(NSArray *)thePresetSongs {
     presetSongs = thePresetSongs;
     delegate = aDelegate;
@@ -260,15 +262,15 @@
     static NSString *SearchCell = @"SearchCell";
     
     if (indexPath.section == 0) {
-        SearchSongCell *cell = (SearchSongCell *)[tableView dequeueReusableCellWithIdentifier:SearchCell];
-        if (cell == nil) {
-            cell = [[SearchSongCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SearchCell delegate:self];
-            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        SearchSongCell *cells = (SearchSongCell *)[tableView dequeueReusableCellWithIdentifier:SearchCell];
+        if (cells == nil) {
+            cells = [[SearchSongCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SearchCell delegate:self];
+            [cells setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
-        return cell;
+        return cells;
     }
     
-    SongCell *cell = (SongCell *)[tableView dequeueReusableCellWithIdentifier:NormalSongCell];
+    cell = (SongCell *)[tableView dequeueReusableCellWithIdentifier:NormalSongCell];
     if (cell == nil) {
         cell = [[SongCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:NormalSongCell];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
@@ -373,7 +375,7 @@
     [songTableView setUserInteractionEnabled:NO];
     
     // hide cells above and below
-    SongCell *showCell = (SongCell *)[songTableView cellForRowAtIndexPath:indexPath];
+    showCell = (SongCell *)[songTableView cellForRowAtIndexPath:indexPath];
     [UIView animateWithDuration:.2 animations:^{
         for (UITableViewCell *visibleCell in [songTableView visibleCells])
             [visibleCell setAlpha:(visibleCell == showCell)?1:0];

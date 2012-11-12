@@ -460,6 +460,8 @@ const float Spacing = 0.0f;
         [self menuCloseWithPercent:1];
         [selectSongView setFrame:selectSongRect];
         
+        
+        
         [selectDurationView setFrame:[self currRestedSelecDurRect]];
         [selectDurationView setAlpha:1];
         
@@ -510,6 +512,7 @@ const float Spacing = 0.0f;
         [selectedTimeView setAlpha:9];
         
         [selectSongView setFrame:selectSongPushedRect];
+
         [selectSongView setAlpha:.9];
         
         [countdownView setFrame:countdownPushedRect];
@@ -662,15 +665,20 @@ const float Spacing = 0.0f;
     
     if (fabsf(yVel) > 15) {
         if (yVel < 0) {
-            if (isTimerMode)
+            if (isTimerMode){
                 shouldSet = AlarmViewShouldUnSet;
-            else
+            }
+            else{
+                
                 shouldSet = AlarmViewShouldSet;
+            }
         } else {
-            if (isSet)
+            if (isSet){
                 shouldSet = AlarmViewShouldUnSet;
-            else
+            }
+            else{
                 shouldSet = AlarmViewShouldTimer;
+            }
         }
         
     } else if ((shouldSet == AlarmViewShouldSet && yVel > 0) || (shouldSet == AlarmViewShouldUnSet && yVel < 0) || (shouldSet == AlarmViewShouldTimer && yVel < 0))
@@ -682,16 +690,19 @@ const float Spacing = 0.0f;
     if ([delegate respondsToSelector:@selector(durationViewWithIndex:draggedWithPercent:)]) {
         float percentDragged = (selectDurationView.frame.origin.y - selectDurRect.origin.y) / 150;
         [delegate durationViewWithIndex:index draggedWithPercent:-percentDragged];
-        // fade in countdowntimer
+        // fade in stopwatch
+        NSLog(@"dragged, %f", percentDragged);
         [countdownView setAlpha:-percentDragged];
         [selectedTimeView setAlpha:1-percentDragged];
         [selectSongView setAlpha:1-percentDragged];
         [selectActionView setAlpha:1-percentDragged];
+        [selectSongView.showCell.artistLabel setAlpha:1.3+percentDragged];
+        NSLog(@"alpha %f %@", selectSongView.cell.artistLabel.alpha, selectSongView.cell.songLabel.text);
         [timerView setAlpha:percentDragged];
     }
 }
 
--(void) durationViewStoppedDraggingWithY:(float)y { //this is when the dial is moved up or down.
+-(void) durationViewStoppedDraggingWithY:(float)y { //this is when the dial is finished moving up or down.
     // future: put this is own method
     
     if (pickingSong || pickingAction)
@@ -700,15 +711,17 @@ const float Spacing = 0.0f;
     bool set = NO;
     bool timer = NO;
     if (shouldSet == AlarmViewShouldSet
-        || selectDurationView.frame.origin.y < (selectDurRect.origin.y + alarmSetDurRect.origin.y )/2)
+        || selectDurationView.frame.origin.y < (selectDurRect.origin.y + alarmSetDurRect.origin.y )/2) {
         set = YES;
+        NSLog(@"alarmOn");
+    }
     else if (shouldSet == AlarmViewShouldUnSet) {
         set = NO;
-//when the user turns off the alarm*************************************************
+        [selectSongView.cell.artistLabel setAlpha:1];
+//when the user turns off the alarm when the alarm is sounding*************************************************
         if (countdownEnded || isSnoozing) { // stop and launch countdown aciton
             countdownEnded = NO;
             isSnoozing = NO;
-            
             NSURL *openURL = [NSURL URLWithString:[[selectActionView.actions objectAtIndex:[[alarmInfo objectForKey:@"actionID"] intValue] ] objectForKey:@"url"]]; //gets URL of selected action from alarmInfo dictionary.
             
             [[delegate getMusicPlayer] stop];
@@ -733,6 +746,7 @@ const float Spacing = 0.0f;
         [selectDurationView performSelectorInBackground:@selector(setTimerMode:) 
                                              withObject:[NSNumber numberWithBool:NO]];
     }
+
 
     isSet = set;
     isTimerMode = timer;
@@ -763,6 +777,7 @@ const float Spacing = 0.0f;
     float alpha2 = (isTimerMode)?0:1;
     
     [UIView animateWithDuration:.2 animations:^{
+        NSLog(@"animating");
         [selectDurationView setFrame:newFrame];
         [selectedTimeView setCenter:selectDurationView.center];
         // animate fade of countdowntimer & such
