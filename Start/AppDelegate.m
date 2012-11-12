@@ -34,7 +34,6 @@
        
         
     }
-    NSLog(@"screen size %f", [UIScreen mainScreen].bounds.size.height);
     
     return YES;
 }

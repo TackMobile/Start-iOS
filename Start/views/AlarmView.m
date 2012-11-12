@@ -35,7 +35,7 @@ const float Spacing = 0.0f;
         // Views
         CGSize bgImageSize = CGSizeMake(520, 480);
         CGRect frameRect = [[UIScreen mainScreen] applicationFrame];
-        
+         
         
         // bgImageRect = 
         radialRect = CGRectMake((self.frame.size.width-bgImageSize.width)/2, 0, bgImageSize.width, frameRect.size.height);
@@ -45,9 +45,9 @@ const float Spacing = 0.0f;
         selectSongRect = CGRectMake(Spacing-16, 0, frameRect.size.width-65, 80);
         selectActionRect = CGRectMake(Spacing+frameRect.size.width-50, 0, 50, 80);
         selectDurRect = CGRectMake(Spacing, [UIScreen mainScreen].applicationFrame.size.height/2 - frameRect.size.width/2, frameRect.size.width, frameRect.size.width);
-        alarmSetDurRect = CGRectOffset(selectDurRect, 0, -150);
+        alarmSetDurRect = CGRectOffset(selectDurRect, 0, -120);
         timerModeDurRect = CGRectOffset(selectDurRect, 0, 150);
-        selectedTimeRect = CGRectExtendFromPoint(CGRectCenter(selectDurRect), 65, 65); 
+        selectedTimeRect = CGRectExtendFromPoint(CGRectCenter(selectDurRect), 65, 65);
         CGRect durationMaskRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
         countdownRect = CGRectMake(Spacing, alarmSetDurRect.origin.y+alarmSetDurRect.size.height, frameRect.size.width, self.frame.size.height - (alarmSetDurRect.origin.y+alarmSetDurRect.size.height) - 65); //alarm clock countdown label
         timerRect = CGRectMake(Spacing, timerModeDurRect.origin.y-countdownRect.size.height, frameRect.size.width, countdownRect.size.height); //stopwatch label
@@ -86,7 +86,7 @@ const float Spacing = 0.0f;
         //[self addSubview:toolbarImage];
         [self addSubview:selectSongView];
         [self addSubview:selectActionView];
-        [self addSubview:selectedTimeView]; 
+        [self addSubview:selectedTimeView];
         [self addSubview:deleteLabel];
         
         [deleteLabel setFont:[UIFont fontWithName:@"Roboto" size:30]];
@@ -562,9 +562,17 @@ const float Spacing = 0.0f;
 }
 
 -(void) durationDidBeginChanging:(SelectDurationView *)selectDuration {
-    CGRect newSelectedTimeRect = CGRectMake(selectedTimeView.frame.origin.x, -30, selectedTimeView.frame.size.width, selectedTimeView.frame.size.height);
-    CGRect belowSelectedTimeRect = CGRectOffset(newSelectedTimeRect, 0, 15);
-    
+    CGRect belowSelectedTimeRect;
+    CGRect newSelectedTimeRect;
+    if ([[UIScreen mainScreen] applicationFrame].size.height > 500) {
+         newSelectedTimeRect = CGRectMake(selectedTimeView.frame.origin.x, 0, selectedTimeView.frame.size.width, selectedTimeView.frame.size.height);
+         belowSelectedTimeRect = CGRectOffset(newSelectedTimeRect, 0, 15);
+    }else{
+         newSelectedTimeRect = CGRectMake(selectedTimeView.frame.origin.x, -30, selectedTimeView.frame.size.width, selectedTimeView.frame.size.height);
+         belowSelectedTimeRect = CGRectOffset(newSelectedTimeRect, 0, 15);
+
+    }
+        
     // animate selectedTimeView to toolbar
     [UIView animateWithDuration:.1 animations:^{
         [selectedTimeView setAlpha:0];
@@ -574,8 +582,8 @@ const float Spacing = 0.0f;
             [selectedTimeView setFrame:newSelectedTimeRect];
             [selectedTimeView setAlpha:1];
             if ([selectDuration handleSelected] != SelectDurationNoHandle) {
-                [selectSongView setAlpha:.3];
-                [selectActionView setAlpha:.3];
+                [selectSongView setAlpha:.2];
+                [selectActionView setAlpha:.2];
                 [radialGradientView setAlpha:.6];
             }
         }];
@@ -713,6 +721,7 @@ const float Spacing = 0.0f;
     if (shouldSet == AlarmViewShouldSet
         || selectDurationView.frame.origin.y < (selectDurRect.origin.y + alarmSetDurRect.origin.y )/2) {
         set = YES;
+        [selectSongView.showCell.artistLabel setAlpha:0.3];
         NSLog(@"alarmOn");
     }
     else if (shouldSet == AlarmViewShouldUnSet) {

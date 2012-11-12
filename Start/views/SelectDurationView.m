@@ -82,7 +82,6 @@
     float distToTouch = sqrtf(powf(touchLoc.x, 2) + powf(touchLoc.y,2));
     float angleToTouch = [self angleFromVector:touchLoc];
         
-    
     // test to see if touch is in range of any handles
     if (distToTouch < centerRadius) {
         handleSelected = SelectDurationCenterHandle;
