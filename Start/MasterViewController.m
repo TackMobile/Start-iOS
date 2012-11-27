@@ -19,6 +19,8 @@
 - (void)viewDidLoad
 {    
     [super viewDidLoad];
+   
+
 	alarms = [[NSMutableArray alloc] init];
     
     // get the saved alarm index

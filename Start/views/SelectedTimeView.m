@@ -92,15 +92,32 @@
     
     // format & save the date
     date = newDate;
-    
+
     NSDateFormatter *dateFormatter = [NSDateFormatter new];
+    [dateFormatter setLocale:[NSLocale currentLocale]];
+    [dateFormatter setDateStyle:NSDateFormatterNoStyle];
+    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
+    NSRange amRange = [dateString rangeOfString:[dateFormatter AMSymbol]];
+    NSRange pmRange = [dateString rangeOfString:[dateFormatter PMSymbol]];
+    BOOL is24h = (amRange.location == NSNotFound && pmRange.location == NSNotFound); //detects to see if user setting is on 24hour or not
+  
+    if (!is24h) {
+        [dateFormatter setDateFormat:@"h:mm"];
+        [timeLabel setText:[dateFormatter stringFromDate:date]];
+        
+        [dateFormatter setDateFormat:@"a"];
+        [meridiemLabel setText:[dateFormatter stringFromDate:date]];
+    }
     
-    // update&position the label
-    [dateFormatter setDateFormat:@"h:mm"];
-    [timeLabel setText:[dateFormatter stringFromDate:date]];
+    if (is24h) {
+        [dateFormatter setDateFormat:@"HH:mm"];
+        [timeLabel setText:[dateFormatter stringFromDate:date]];
+    }
+   
+  
     
-    [dateFormatter setDateFormat:@"a"];
-    [meridiemLabel setText:[dateFormatter stringFromDate:date]];
+   
     
     [self layoutSubviews];
     
