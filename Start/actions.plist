@@ -84,11 +84,19 @@
 	</dict>
 	<dict>
 		<key>url</key>
-		<string>spotify:</string>
+		<string>spotify:app</string>
 		<key>title</key>
 		<string>Spotify</string>
 		<key>iconFilename</key>
 		<string>spotify-icon</string>
+	</dict>
+	<dict>
+		<key>url</key>
+		<string>tweetbot://timeline</string>
+		<key>title</key>
+		<string>Tweetbot</string>
+		<key>iconFilename</key>
+		<string>tweetbot-icon</string>
 	</dict>
 	<dict>
 		<key>url</key>
