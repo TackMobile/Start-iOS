@@ -80,7 +80,7 @@
     CGRect imageRect = CGRectMake(7, (self.frame.size.height-imageSize.height)/2 -3, imageSize.width, imageSize.height);
     CGRect clearTextRect = CGRectMake(self.frame.size.width-clearTextSize.width-20, (self.frame.size.height-clearTextSize.height)/2 -3, clearTextSize.width, clearTextSize.height);
     CGRect textFieldRect = CGRectMake(imageRect.origin.x+imageSize.width+7, (self.frame.size.height-textFieldSize.height)/2 -3, self.frame.size.width-imageRect.size.width-15, textFieldSize.height);
-    CGRect searchDivRect = CGRectMake(0, self.frame.size.height-10, self.frame.size.width, 1);
+    CGRect searchDivRect = CGRectMake(0, self.frame.size.height-11, self.frame.size.width, 1);
     
     [searchImage setFrame:imageRect];
     [textField setFrame:textFieldRect];
