@@ -40,6 +40,7 @@
     stopped = NO;
     
     if ([songID intValue] == -1) {
+        NSLog(@"n-1");
     //do nothing, play nothing
     }else if ([songID intValue] >= 0 && [songID intValue] < 6) { //default tones
         if (!audioLibrary) {

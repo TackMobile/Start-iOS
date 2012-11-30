@@ -7,6 +7,7 @@
 //
 
 #import "MasterViewController.h"
+#import "MusicPlayer.h"
 
 @interface MasterViewController ()
 @property (nonatomic, strong) UILocalNotification *notif;
@@ -19,7 +20,7 @@
 - (void)viewDidLoad
 {    
     [super viewDidLoad];
-   
+    
 
 	alarms = [[NSMutableArray alloc] init];
     
@@ -160,6 +161,7 @@
         
     
 }
+
 
 
 
