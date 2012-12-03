@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		961FC3C116667EEA0078219B /* tweetbot-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 961FC3BF16667EEA0078219B /* tweetbot-icon.png */; };
 		961FC3C216667EEA0078219B /* tweetbot-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 961FC3C016667EEA0078219B /* tweetbot-icon@2x.png */; };
+		965179D0166D3079004A18A1 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 965179CF166D3079004A18A1 /* Icon-72.png */; };
+		965179D2166D3082004A18A1 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 965179D1166D3082004A18A1 /* Icon-72@2x.png */; };
 		966D3A651624B0CC006CE871 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 966D3A611624B0CC006CE871 /* libTestFlight.a */; };
 		966D3A661624B0CC006CE871 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 966D3A621624B0CC006CE871 /* README.md */; };
 		966D3A671624B0CC006CE871 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 966D3A631624B0CC006CE871 /* release_notes.md */; };
@@ -154,6 +156,8 @@
 /* Begin PBXFileReference section */
 		961FC3BF16667EEA0078219B /* tweetbot-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweetbot-icon.png"; sourceTree = "<group>"; };
 		961FC3C016667EEA0078219B /* tweetbot-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweetbot-icon@2x.png"; sourceTree = "<group>"; };
+		965179CF166D3079004A18A1 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		965179D1166D3082004A18A1 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
 		966D3A611624B0CC006CE871 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
 		966D3A621624B0CC006CE871 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		966D3A631624B0CC006CE871 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
@@ -527,6 +531,8 @@
 		F383C168158B851100B91F31 = {
 			isa = PBXGroup;
 			children = (
+				965179D1166D3082004A18A1 /* Icon-72@2x.png */,
+				965179CF166D3079004A18A1 /* Icon-72.png */,
 				966D3A601624B0CB006CE871 /* TestFlightSDK1 */,
 				96BC44E21635EA7000707007 /* Default-568h@2x.png */,
 				F37C93CC15E97FEF000EBE07 /* Icon@2x.png */,
@@ -854,6 +860,8 @@
 				96A6D505166D13B800679908 /* fantastical-icon@2x.png in Resources */,
 				96A6D509166D13EA00679908 /* sparrow-icon.png in Resources */,
 				96A6D50A166D13EA00679908 /* sparrow-icon@2x.png in Resources */,
+				965179D0166D3079004A18A1 /* Icon-72.png in Resources */,
+				965179D2166D3082004A18A1 /* Icon-72@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
