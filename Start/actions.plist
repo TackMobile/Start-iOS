@@ -28,7 +28,7 @@
 	</dict>
 	<dict>
 		<key>url</key>
-		<string>fantasical://</string>
+		<string>fantastical://</string>
 		<key>title</key>
 		<string>Fantastical</string>
 		<key>iconFilename</key>
