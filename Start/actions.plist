@@ -20,11 +20,19 @@
 	</dict>
 	<dict>
 		<key>url</key>
-		<string>fb://profile</string>
+		<string>fb://feed</string>
 		<key>title</key>
 		<string>Facebook</string>
 		<key>iconFilename</key>
 		<string>facebook-icon</string>
+	</dict>
+	<dict>
+		<key>url</key>
+		<string>fantasical://</string>
+		<key>title</key>
+		<string>Fantastical</string>
+		<key>iconFilename</key>
+		<string>fantastical-icon</string>
 	</dict>
 	<dict>
 		<key>url</key>
@@ -81,6 +89,14 @@
 		<string>Safari</string>
 		<key>iconFilename</key>
 		<string>safari-icon</string>
+	</dict>
+	<dict>
+		<key>url</key>
+		<string>sparrow://</string>
+		<key>title</key>
+		<string>Sparrow</string>
+		<key>iconFilename</key>
+		<string>sparrow-icon</string>
 	</dict>
 	<dict>
 		<key>url</key>

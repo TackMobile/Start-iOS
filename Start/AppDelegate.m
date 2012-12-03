@@ -51,7 +51,7 @@
     NSLog(@"willResignActive");
     notActive = YES;
     [self.viewController saveAlarms];
-    [self.viewController scheduleLocalNotifications];
+    [self.viewController scheduleLocalNotificationWithoutSound];
     
     bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
         // Clean up any unfinished task business by marking where you.

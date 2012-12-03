@@ -162,6 +162,22 @@
     
 }
 
+- (void)scheduleLocalNotificationWithoutSound{
+    for (AlarmView *alarmView in alarms) {
+        NSDictionary *alarmInfo = [alarmView alarmInfo];
+        if ([(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue]) {
+            notif = [[UILocalNotification alloc] init];
+            NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                      [NSNumber numberWithInt:alarmView.index], @"alarmIndex", nil];
+            notif.fireDate = [alarmInfo objectForKey:@"date"];
+            notif.alertBody = @"Alarm Triggered";
+            notif.userInfo = userInfo;
+            [[UIApplication sharedApplication] scheduleLocalNotification:notif];
+            
+        }
+    }
+}
+
 
 
 
