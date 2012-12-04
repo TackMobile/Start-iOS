@@ -43,7 +43,7 @@ const float Spacing = 0.0f;
         
         CGRect toolBarRect = CGRectMake(0, 0, self.frame.size.width, 135);
         selectSongRect = CGRectMake(Spacing-16, 0, frameRect.size.width-65, 80);
-        selectActionRect = CGRectMake(Spacing+frameRect.size.width-50, 0, 50, 80);
+        selectActionRect = CGRectMake(Spacing+frameRect.size.width-50, 0, 50, 70);
         selectDurRect = CGRectMake(Spacing, [UIScreen mainScreen].applicationFrame.size.height/2 - frameRect.size.width/2, frameRect.size.width, frameRect.size.width);
         alarmSetDurRect = CGRectOffset(selectDurRect, 0, -120);
         timerModeDurRect = CGRectOffset(selectDurRect, 0, 150);
