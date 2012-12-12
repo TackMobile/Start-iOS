@@ -36,6 +36,14 @@
 	</dict>
 	<dict>
 		<key>url</key>
+		<string>googlegmail://</string>
+		<key>title</key>
+		<string>Gmail</string>
+		<key>iconFilename</key>
+		<string>gmail-icon</string>
+	</dict>
+	<dict>
+		<key>url</key>
 		<string>instagram://app</string>
 		<key>title</key>
 		<string>Instagram</string>
@@ -121,6 +129,14 @@
 		<string>Twitter</string>
 		<key>iconFilename</key>
 		<string>twitter-icon</string>
+	</dict>
+	<dict>
+		<key>url</key>
+		<string>twitterrific://</string>
+		<key>title</key>
+		<string>Twitterrific</string>
+		<key>iconFilename</key>
+		<string>twitterrific-icon</string>
 	</dict>
 	<dict>
 		<key>url</key>

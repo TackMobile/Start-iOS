@@ -21,6 +21,10 @@
 		969A68CD16371E8F008676D3 /* grid-background-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 969A68CB16371E8F008676D3 /* grid-background-568h@2x.png */; };
 		969CB934163EE2C0006D2E1B /* pinch-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 969CB932163EE2C0006D2E1B /* pinch-icon.png */; };
 		969CB935163EE2C0006D2E1B /* pinch-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 969CB933163EE2C0006D2E1B /* pinch-icon@2x.png */; };
+		96A59FB616793773007E8320 /* gmail-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A59FB41679376D007E8320 /* gmail-icon.png */; };
+		96A59FB716793773007E8320 /* gmail-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A59FB516793770007E8320 /* gmail-icon@2x.png */; };
+		96A59FBA16793862007E8320 /* twitterrific-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A59FB81679385C007E8320 /* twitterrific-icon.png */; };
+		96A59FBB16793862007E8320 /* twitterrific-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A59FB91679385F007E8320 /* twitterrific-icon@2x.png */; };
 		96A6D504166D13B800679908 /* fantastical-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A6D502166D13B800679908 /* fantastical-icon.png */; };
 		96A6D505166D13B800679908 /* fantastical-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A6D503166D13B800679908 /* fantastical-icon@2x.png */; };
 		96A6D509166D13EA00679908 /* sparrow-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A6D507166D13EA00679908 /* sparrow-icon.png */; };
@@ -169,6 +173,10 @@
 		969A68CB16371E8F008676D3 /* grid-background-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "grid-background-568h@2x.png"; sourceTree = "<group>"; };
 		969CB932163EE2C0006D2E1B /* pinch-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pinch-icon.png"; sourceTree = "<group>"; };
 		969CB933163EE2C0006D2E1B /* pinch-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pinch-icon@2x.png"; sourceTree = "<group>"; };
+		96A59FB41679376D007E8320 /* gmail-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gmail-icon.png"; sourceTree = "<group>"; };
+		96A59FB516793770007E8320 /* gmail-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gmail-icon@2x.png"; sourceTree = "<group>"; };
+		96A59FB81679385C007E8320 /* twitterrific-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitterrific-icon.png"; sourceTree = "<group>"; };
+		96A59FB91679385F007E8320 /* twitterrific-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitterrific-icon@2x.png"; sourceTree = "<group>"; };
 		96A6D502166D13B800679908 /* fantastical-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fantastical-icon.png"; sourceTree = "<group>"; };
 		96A6D503166D13B800679908 /* fantastical-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fantastical-icon@2x.png"; sourceTree = "<group>"; };
 		96A6D507166D13EA00679908 /* sparrow-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sparrow-icon.png"; sourceTree = "<group>"; };
@@ -361,6 +369,10 @@
 		F31670F715A24F8C00725274 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				96A59FB81679385C007E8320 /* twitterrific-icon.png */,
+				96A59FB91679385F007E8320 /* twitterrific-icon@2x.png */,
+				96A59FB41679376D007E8320 /* gmail-icon.png */,
+				96A59FB516793770007E8320 /* gmail-icon@2x.png */,
 				F3CA96761602332B00D237FC /* calendar-icon.png */,
 				F3CA96771602332B00D237FC /* calendar-icon@2x.png */,
 				F3CA96781602332B00D237FC /* clear-icon.png */,
@@ -862,6 +874,10 @@
 				96A6D50A166D13EA00679908 /* sparrow-icon@2x.png in Resources */,
 				965179D0166D3079004A18A1 /* Icon-72.png in Resources */,
 				965179D2166D3082004A18A1 /* Icon-72@2x.png in Resources */,
+				96A59FB616793773007E8320 /* gmail-icon.png in Resources */,
+				96A59FB716793773007E8320 /* gmail-icon@2x.png in Resources */,
+				96A59FBA16793862007E8320 /* twitterrific-icon.png in Resources */,
+				96A59FBB16793862007E8320 /* twitterrific-icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

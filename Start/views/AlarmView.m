@@ -634,6 +634,7 @@ const float Spacing = 0.0f;
         NSLog(@"snoozetapped");
         countdownEnded = NO;
         isSnoozing = YES;
+#warning Pressing Snooze Resets the Saved Alarm.
         NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
         NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
         [alarmInfo setObject:snoozeDate forKey:@"date"];
