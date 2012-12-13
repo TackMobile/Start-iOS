@@ -84,6 +84,12 @@
     [meridiemLabel setAlpha:0];
 }
 
+-(void)snoozeTapped{
+    [snoozeLabel setAlpha:0]; //make snooze label invisbile
+    [timeLabel setAlpha:1]; //make time label visible
+    [meridiemLabel setAlpha:1];
+}
+
 - (void) updateDate:(NSDate *)newDate part:(int)partEditing {//when snooze is tapped this method is called
     [snoozeLabel setAlpha:0]; //make snooze label invisbile
     [timeLabel setAlpha:1]; //make time label visible

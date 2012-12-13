@@ -27,5 +27,5 @@ enum SelectedTimeEditingPart {
 
 - (void) showSnooze;
 - (void) updateDate:(NSDate *)newDate part:(int)partEditing;
-
+- (void)snoozeTapped;
 @end

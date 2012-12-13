@@ -9,6 +9,7 @@
 #import "AlarmView.h"
 
 @implementation AlarmView
+
 @synthesize delegate, index, isSet, isTimerMode, newRect;
 @synthesize alarmInfo, countdownEnded;
 @synthesize radialGradientView, /*backgroundImage,*/ patternOverlay, toolbarImage;
@@ -385,13 +386,24 @@ const float Spacing = 0.0f;
         while ([(NSDate *)[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0)
             [alarmInfo setObject:[NSDate dateWithTimeInterval:86400 sinceDate:[alarmInfo objectForKey:@"date"]] forKey:@"date"];
         // check to see if it will go off
-        if (isSet && floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5){
-            [self alarmCountdownEnded];}
+        
+#warning THIS IS WHERE THE ALARM GOES OFF
        
+        if (isSet && floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5)
+            [self alarmCountdownEnded];
+        
+        if (isSnoozing) { //display and trigger an unsaved alarm
+            [countdownView updateWithDate:[alarmInfo objectForKey:@"snoozeAlarm"]];
+            if (floorf([[alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow] < .5))
+                [self alarmCountdownEnded];
+        }else{
+            [countdownView updateWithDate:[alarmInfo objectForKey:@"date"]]; //if it isn't snoozing then countdown will display from regular saved alarm
+        }
+        
         //if (selectDurationView.handleSelected == SelectDurationNoHandle)
         //   [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
         
-        [countdownView updateWithDate:[alarmInfo objectForKey:@"date"]];
+        
     } else {
         [countdownView updateWithDate:[NSDate date]];
     }
@@ -637,9 +649,11 @@ const float Spacing = 0.0f;
 #warning Pressing Snooze Resets the Saved Alarm.
         NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
         NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
-        [alarmInfo setObject:snoozeDate forKey:@"date"];
+        //[alarmInfo setObject:snoozeDate forKey:@"date"];
+        [alarmInfo setObject:snoozeDate forKey:@"snoozeAlarm"];
         [selectDuration setDate:snoozeDate];
         [selectedTimeView updateDate:snoozeDate part:SelectDurationNoHandle];
+        //[selectedTimeView snoozeTapped];
         [[delegate getMusicPlayer] stop];
     }
 }

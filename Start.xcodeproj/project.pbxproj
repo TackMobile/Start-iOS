@@ -23,8 +23,6 @@
 		969CB935163EE2C0006D2E1B /* pinch-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 969CB933163EE2C0006D2E1B /* pinch-icon@2x.png */; };
 		96A59FB616793773007E8320 /* gmail-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A59FB41679376D007E8320 /* gmail-icon.png */; };
 		96A59FB716793773007E8320 /* gmail-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A59FB516793770007E8320 /* gmail-icon@2x.png */; };
-		96A59FBA16793862007E8320 /* twitterrific-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A59FB81679385C007E8320 /* twitterrific-icon.png */; };
-		96A59FBB16793862007E8320 /* twitterrific-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A59FB91679385F007E8320 /* twitterrific-icon@2x.png */; };
 		96A6D504166D13B800679908 /* fantastical-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A6D502166D13B800679908 /* fantastical-icon.png */; };
 		96A6D505166D13B800679908 /* fantastical-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A6D503166D13B800679908 /* fantastical-icon@2x.png */; };
 		96A6D509166D13EA00679908 /* sparrow-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96A6D507166D13EA00679908 /* sparrow-icon.png */; };
@@ -34,6 +32,8 @@
 		96BC44DF1635B12700707007 /* hydrus2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96BC44DE1635B12700707007 /* hydrus2.wav */; };
 		96BC44E11635B19100707007 /* phoenix2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 96BC44E01635B19100707007 /* phoenix2.wav */; };
 		96BC44E31635EA7000707007 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96BC44E21635EA7000707007 /* Default-568h@2x.png */; };
+		96D707A5167A35FC00DC4C89 /* twitterrific-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96D707A3167A35FC00DC4C89 /* twitterrific-icon.png */; };
+		96D707A6167A35FC00DC4C89 /* twitterrific-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96D707A4167A35FC00DC4C89 /* twitterrific-icon@2x.png */; };
 		96E2A95F1625E0E800C45C27 /* chamaeleon.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1915FD124E004E16C7 /* chamaeleon.wav */; };
 		96E2A9601625E0E800C45C27 /* epsilon.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1A15FD124E004E16C7 /* epsilon.wav */; };
 		96E2A9611625E0E800C45C27 /* galaxy.wav in Resources */ = {isa = PBXBuildFile; fileRef = EA13EE1B15FD124E004E16C7 /* galaxy.wav */; };
@@ -175,8 +175,6 @@
 		969CB933163EE2C0006D2E1B /* pinch-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pinch-icon@2x.png"; sourceTree = "<group>"; };
 		96A59FB41679376D007E8320 /* gmail-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gmail-icon.png"; sourceTree = "<group>"; };
 		96A59FB516793770007E8320 /* gmail-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gmail-icon@2x.png"; sourceTree = "<group>"; };
-		96A59FB81679385C007E8320 /* twitterrific-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitterrific-icon.png"; sourceTree = "<group>"; };
-		96A59FB91679385F007E8320 /* twitterrific-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitterrific-icon@2x.png"; sourceTree = "<group>"; };
 		96A6D502166D13B800679908 /* fantastical-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fantastical-icon.png"; sourceTree = "<group>"; };
 		96A6D503166D13B800679908 /* fantastical-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fantastical-icon@2x.png"; sourceTree = "<group>"; };
 		96A6D507166D13EA00679908 /* sparrow-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sparrow-icon.png"; sourceTree = "<group>"; };
@@ -186,6 +184,8 @@
 		96BC44DE1635B12700707007 /* hydrus2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hydrus2.wav; sourceTree = "<group>"; };
 		96BC44E01635B19100707007 /* phoenix2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = phoenix2.wav; sourceTree = "<group>"; };
 		96BC44E21635EA7000707007 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		96D707A3167A35FC00DC4C89 /* twitterrific-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitterrific-icon.png"; sourceTree = "<group>"; };
+		96D707A4167A35FC00DC4C89 /* twitterrific-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "twitterrific-icon@2x.png"; sourceTree = "<group>"; };
 		96E58C9C16399FAB00D5653E /* Storyboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Storyboard.storyboard; sourceTree = "<group>"; };
 		96E58C9E1639A51000D5653E /* tack-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tack-logo.png"; sourceTree = "<group>"; };
 		96E58CA01639A5A500D5653E /* tack-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tack-logo@2x.png"; sourceTree = "<group>"; };
@@ -369,8 +369,8 @@
 		F31670F715A24F8C00725274 /* icons */ = {
 			isa = PBXGroup;
 			children = (
-				96A59FB81679385C007E8320 /* twitterrific-icon.png */,
-				96A59FB91679385F007E8320 /* twitterrific-icon@2x.png */,
+				96D707A3167A35FC00DC4C89 /* twitterrific-icon.png */,
+				96D707A4167A35FC00DC4C89 /* twitterrific-icon@2x.png */,
 				96A59FB41679376D007E8320 /* gmail-icon.png */,
 				96A59FB516793770007E8320 /* gmail-icon@2x.png */,
 				F3CA96761602332B00D237FC /* calendar-icon.png */,
@@ -876,8 +876,8 @@
 				965179D2166D3082004A18A1 /* Icon-72@2x.png in Resources */,
 				96A59FB616793773007E8320 /* gmail-icon.png in Resources */,
 				96A59FB716793773007E8320 /* gmail-icon@2x.png in Resources */,
-				96A59FBA16793862007E8320 /* twitterrific-icon.png in Resources */,
-				96A59FBB16793862007E8320 /* twitterrific-icon@2x.png in Resources */,
+				96D707A5167A35FC00DC4C89 /* twitterrific-icon.png in Resources */,
+				96D707A6167A35FC00DC4C89 /* twitterrific-icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
