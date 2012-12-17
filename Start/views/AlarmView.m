@@ -387,7 +387,6 @@ const float Spacing = 0.0f;
             [alarmInfo setObject:[NSDate dateWithTimeInterval:86400 sinceDate:[alarmInfo objectForKey:@"date"]] forKey:@"date"];
         // check to see if it will go off
         
-#warning THIS IS WHERE THE ALARM GOES OFF
        
         if (isSet && floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5)
             [self alarmCountdownEnded];
@@ -569,7 +568,7 @@ const float Spacing = 0.0f;
 
 #pragma mark - SelectDurationViewDelegate
 -(void) durationDidChange:(SelectDurationView *)selectDuration {    
-    // update selected time
+    // update selected time label
     [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
 }
 
@@ -646,7 +645,6 @@ const float Spacing = 0.0f;
         NSLog(@"snoozetapped");
         countdownEnded = NO;
         isSnoozing = YES;
-#warning Pressing Snooze Resets the Saved Alarm.
         NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
         NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
         //[alarmInfo setObject:snoozeDate forKey:@"date"];
@@ -747,7 +745,7 @@ const float Spacing = 0.0f;
             countdownEnded = NO;
             isSnoozing = NO;
             NSURL *openURL = [NSURL URLWithString:[[selectActionView.actions objectAtIndex:[[alarmInfo objectForKey:@"actionID"] intValue] ] objectForKey:@"url"]]; //gets URL of selected action from alarmInfo dictionary.
-            
+            [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
             [[delegate getMusicPlayer] stop];
             [[UIApplication sharedApplication] openURL:openURL]; //opens the url
             [selectedTimeView updateDate:[alarmInfo objectForKey:@"date"] part:SelectDurationNoHandle];

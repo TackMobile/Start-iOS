@@ -149,7 +149,7 @@ const float optionHeight = 40;
         
                 
         [copyText setText:@"Snooze Duration        min"]; // leave the spaces. i know, a hack
-        [versionText setText:@"v1.1.3"];
+        [versionText setText:@"v1.1.4"];
         //[tackCopy setText:@"Assembled by"];
         //[tackLogo setAlpha:.8];
         

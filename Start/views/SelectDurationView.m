@@ -423,6 +423,7 @@
     CGRect centerRect = CGRectMake(center.x-centerRadius, center.y-centerRadius, centerRadius*2, centerRadius*2);
     
     // outer
+    
     UIBezierPath *outerCircle = [UIBezierPath bezierPath];
     if (isTimerMode) {
         [outerCircle addArcWithCenter:center radius:innerRadius startAngle:0 endAngle:M_PI*2 clockwise:YES];
@@ -432,6 +433,7 @@
         [outerCircle addArcWithCenter:center radius:outerRadius startAngle:outerAngle+startAngle endAngle:outerStartAngle+startAngle clockwise:NO];
     }
     //[outerCircle closePath];
+    
     
     UIBezierPath *outerFill = [UIBezierPath bezierPath];
     if (!isTimerMode) {
