@@ -713,6 +713,13 @@ const float Spacing = 0.0f;
     } else if ((shouldSet == AlarmViewShouldSet && yVel > 0) || (shouldSet == AlarmViewShouldUnSet && yVel < 0) || (shouldSet == AlarmViewShouldStopwatch && yVel < 0))
         shouldSet = AlarmViewShouldNone;
     
+    // compress the durationSelector if duration selector is below original position
+    if (newDurRect.origin.y > selectDurRect.origin.y) {
+        float currDist = stopwatchModeDurRect.origin.y - newDurRect.origin.y;
+        float fullDist = stopwatchModeDurRect.origin.y - selectDurRect.origin.y;
+        [selectDurationView compressByRatio:currDist/fullDist];
+    }
+    
     [selectDurationView setFrame:newDurRect];
     // keep the inner text centered with time picker
     [selectedTimeView setCenter:selectDurationView.center];
@@ -743,7 +750,6 @@ const float Spacing = 0.0f;
         || selectDurationView.frame.origin.y < (selectDurRect.origin.y + alarmSetDurRect.origin.y )/2) {
         setAlarm = YES;
         [selectSongView.showCell.artistLabel setAlpha:0.3];
-        NSLog(@"alarmOn");
     }
     else if (shouldSet == AlarmViewShouldUnSet) {
         setAlarm = NO;
@@ -767,20 +773,19 @@ const float Spacing = 0.0f;
     // reset the timer if it is new
     if (!isStopwatchMode && startStopwatchMode) {
         [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
-        [selectDurationView performSelectorInBackground:@selector(setTimerMode:) 
-                                             withObject:[NSNumber numberWithBool:YES]];
     } else if (!startStopwatchMode && isStopwatchMode) {
         // zero out the timer
         [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
         [self updateProperties];
-        [selectDurationView performSelectorInBackground:@selector(setTimerMode:) 
-                                             withObject:[NSNumber numberWithBool:NO]];
     }
 
 
     isSet = setAlarm;
     isStopwatchMode = startStopwatchMode;
-        
+    
+    // compress/expand time picker
+    [selectDurationView compressByRatio:isStopwatchMode?0:1];
+    
     // save the set bool
     [alarmInfo setObject:[NSNumber numberWithBool:isSet] forKey:@"isSet"];
     [alarmInfo setObject:[NSNumber numberWithBool:isStopwatchMode] forKey:@"isTimerMode"];

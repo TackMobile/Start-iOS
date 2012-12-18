@@ -65,8 +65,9 @@ enum AlarmViewShouldSet {
     bool pickingAction;
     bool cancelTouch;
     bool isSnoozing;
-        
+    
     UIImageView *durImageView;
+    
 }
 extern const float Spacing;
 

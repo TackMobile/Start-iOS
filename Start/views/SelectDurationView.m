@@ -46,8 +46,8 @@
                  nil];
         
         // set the picker sizes
-        outerRadius = 143;
-        innerRadius = 101;
+        origOuterRadius = outerRadius = 143;
+        origInnerRadius = innerRadius = 101;
         centerRadius = 65;
                 
         center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
@@ -183,6 +183,14 @@
 }
 
 #pragma mark - Properties
+- (void) compressByRatio:(float)ratio {
+    NSLog(@"%f", ratio);
+    outerRadius = centerRadius + (ratio * (origOuterRadius - centerRadius));
+    innerRadius = centerRadius + (ratio * (origInnerRadius - centerRadius));
+    [self setNeedsDisplay];
+
+}
+
 - (void) setTimerMode:(NSNumber *)on {
     isTimerMode = [on boolValue];
     [self setNeedsDisplay];

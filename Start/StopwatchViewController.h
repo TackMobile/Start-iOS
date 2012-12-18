@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface StopwatchViewController : UIViewController
+@interface StopwatchViewController : UIViewController {
+    
+}
 
 @end
