@@ -673,17 +673,22 @@ const float Spacing = 0.0f;
     
     CGRect newDurRect = selectDurRect;
     CGRect proposedFrame = CGRectOffset(selectDurationView.frame, 0, yVel);
-        
+    
+    // make the picker stop in the middle if it was in timer mode OR if it was set.
     if ((proposedFrame.origin.y >= selectDurRect.origin.y && isSet)
         || (proposedFrame.origin.y <= selectDurRect.origin.y && isTimerMode))
         newDurRect = selectDurRect;
+    // cant go any lower than the stopwatch mode rect
     else if (proposedFrame.origin.y >= timerModeDurRect.origin.y)
         newDurRect = timerModeDurRect;
+    // cent go any higher than the alarmSet rect
     else if (proposedFrame.origin.y <= alarmSetDurRect.origin.y)
         newDurRect = alarmSetDurRect;
+    // somewhere in between
     else
         newDurRect = proposedFrame;
     
+    // checking for a swipe
     if (fabsf(yVel) > 15) {
         if (yVel < 0) {
             if (isTimerMode){
@@ -706,19 +711,19 @@ const float Spacing = 0.0f;
         shouldSet = AlarmViewShouldNone;
     
     [selectDurationView setFrame:newDurRect];
+    // keep the inner text centered with time picker
     [selectedTimeView setCenter:selectDurationView.center];
     
     if ([delegate respondsToSelector:@selector(durationViewWithIndex:draggedWithPercent:)]) {
         float percentDragged = (selectDurationView.frame.origin.y - selectDurRect.origin.y) / 150;
         [delegate durationViewWithIndex:index draggedWithPercent:-percentDragged];
-        // fade in stopwatch
-        NSLog(@"dragged, %f", percentDragged);
+        // fade in stopwatch, fade out alarm functions
         [countdownView setAlpha:-percentDragged];
         [selectedTimeView setAlpha:1-percentDragged];
         [selectSongView setAlpha:1-percentDragged];
         [selectActionView setAlpha:1-percentDragged];
         [selectSongView.showCell.artistLabel setAlpha:1.3+percentDragged];
-        NSLog(@"alpha %f %@", selectSongView.cell.artistLabel.alpha, selectSongView.cell.songLabel.text);
+        
         [timerView setAlpha:percentDragged];
     }
 }
