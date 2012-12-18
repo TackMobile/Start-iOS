@@ -18,7 +18,8 @@
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
-        // Custom initialization
+        // testing
+        [self.view setBackgroundColor:[UIColor blueColor]];
     }
     return self;
 }
