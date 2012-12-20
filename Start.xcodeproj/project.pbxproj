@@ -64,6 +64,7 @@
 		F3721DA915BF5CF500A365D1 /* MusicPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3721DA815BF5CF500A365D1 /* MusicPlayer.m */; };
 		F37C93CB15E97FEA000EBE07 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F37C93CA15E97FEA000EBE07 /* Icon.png */; };
 		F37C93CD15E97FF0000EBE07 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F37C93CC15E97FEF000EBE07 /* Icon@2x.png */; };
+		F37E556C1680FB3D002FB2EB /* StopwatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E556B1680FB3D002FB2EB /* StopwatchViewController.m */; };
 		F383C178158B851200B91F31 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F383C177158B851200B91F31 /* UIKit.framework */; };
 		F383C17A158B851200B91F31 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F383C179158B851200B91F31 /* Foundation.framework */; };
 		F383C17C158B851200B91F31 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F383C17B158B851200B91F31 /* CoreGraphics.framework */; };
@@ -230,6 +231,8 @@
 		F3721DA815BF5CF500A365D1 /* MusicPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MusicPlayer.m; path = models/MusicPlayer.m; sourceTree = "<group>"; };
 		F37C93CA15E97FEA000EBE07 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		F37C93CC15E97FEF000EBE07 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
+		F37E556A1680FB3D002FB2EB /* StopwatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopwatchViewController.h; sourceTree = "<group>"; };
+		F37E556B1680FB3D002FB2EB /* StopwatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StopwatchViewController.m; sourceTree = "<group>"; };
 		F383C173158B851200B91F31 /* Start.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Start.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F383C177158B851200B91F31 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		F383C179158B851200B91F31 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -552,6 +555,15 @@
 			path = intro;
 			sourceTree = "<group>";
 		};
+		F37E556E1680FB48002FB2EB /* Stopwatch */ = {
+			isa = PBXGroup;
+			children = (
+				F37E556A1680FB3D002FB2EB /* StopwatchViewController.h */,
+				F37E556B1680FB3D002FB2EB /* StopwatchViewController.m */,
+			);
+			name = Stopwatch;
+			sourceTree = "<group>";
+		};
 		F383C168158B851100B91F31 = {
 			isa = PBXGroup;
 			children = (
@@ -639,6 +651,7 @@
 		F383C199158B870400B91F31 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F37E556E1680FB48002FB2EB /* Stopwatch */,
 				F383C19D158B879F00B91F31 /* SelectAlarmView.h */,
 				F383C19E158B879F00B91F31 /* SelectAlarmView.m */,
 				F327EC9B15938BE0008B962F /* AlarmView */,
@@ -927,6 +940,7 @@
 				F3CA96381602328C00D237FC /* SettingsView.m in Sources */,
 				F3CA96DD1602364000D237FC /* RadialGradientView.m in Sources */,
 				F3AE566D16151F2700266DAD /* SelectSongView.m in Sources */,
+				F37E556C1680FB3D002FB2EB /* StopwatchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

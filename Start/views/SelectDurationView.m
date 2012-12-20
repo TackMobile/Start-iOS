@@ -20,16 +20,25 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self setNeedsDisplay];
         handleSelected = SelectDurationNoHandle;
         draggingOrientation = SelectDurationDraggingNone;
         changing = NO;
-        isTimerMode = NO;
+        isStopwatchMode = NO;
         _date = [NSDate date];
         prevOuterAngle = 0;
         outerAngle = innerAngle = 0;
         
         originalFrame = frame;
+        
+        // LAYERS
+        centerLayer = [[CAShapeLayer alloc] init];
+        innerLayer = [[CALayer alloc] init];
+        outerLayer = [[CALayer alloc] init];
+        
+        [self.layer addSublayer:outerLayer];
+        [self.layer addSublayer:innerLayer];
+        [self.layer addSublayer:centerLayer];
+        [self initializeLayers];
         
         // default theme
         theme = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
@@ -46,8 +55,8 @@
                  nil];
         
         // set the picker sizes
-        outerRadius = 143;
-        innerRadius = 101;
+        origOuterRadius = outerRadius = 143;
+        origInnerRadius = innerRadius = 101;
         centerRadius = 65;
                 
         center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
@@ -118,11 +127,11 @@
     // change angle of circles based handle selected
     if (handleSelected == SelectDurationOuterHandle) {
         [self setSnappedOuterAngle:angleToTouch];
-        [self setNeedsDisplay];
+        [self updateLayers];
         
     } else if (handleSelected == SelectDurationInnerHandle) {
         [self setSnappedInnerAngle:angleToTouch];
-        [self setNeedsDisplay];
+        [self updateLayers];
         
     } else if (handleSelected == SelectDurationCenterHandle || handleSelected == SelectDurationNoHandle) {
         // touchLoc need to be in parent because picker will be moving
@@ -183,13 +192,35 @@
 }
 
 #pragma mark - Properties
-- (void) setTimerMode:(NSNumber *)on {
-    isTimerMode = [on boolValue];
-    [self setNeedsDisplay];
+- (void) compressByRatio:(float)ratio {
+    /*outerRadius = centerRadius + (ratio * (origOuterRadius - centerRadius));
+    innerRadius = centerRadius + (ratio * (origInnerRadius - centerRadius));
+    outerRing.opacity = ratio;
+    innerRing.opacity = ratio;
+    
+    [self updateLayers];*/
+
+}
+- (void) animateCompressByRatio:(float)ratio {
+    /*CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0, 1.0, 1.0)];
+    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.0, 0.0, 0.0)];
+    animation.repeatCount = 1;
+    animation.removedOnCompletion = NO;
+    animation.fillMode = kCAFillModeForwards;
+    animation.duration = 1;
+    [outerLayer addAnimation:animation forKey:@"transform.scale"];
+    NSLog(@"%f, %f", outerRing.frame.size.width, outerRing.frame.size.height);*/
+
+}
+
+- (void) setStopwatchMode:(NSNumber *)on {
+    isStopwatchMode = [on boolValue];
+    [self updateLayers];
 }
 - (void) updateTheme:(NSDictionary *)newTheme {
     theme = newTheme;
-    [self setNeedsDisplay];
+    [self updateLayers];
 }
 
 - (void) updateAngles {
@@ -229,50 +260,6 @@
 }
 
 
-/*-(void) setTimeInterval:(NSTimeInterval)timeInterval {
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate dateWithTimeIntervalSinceNow:timeInterval]];
-    
-    
-    int minute = dateComponents.minute;
-    int hour = dateComponents.hour>12?dateComponents.hour-12:dateComponents.hour;
-    int second = dateComponents.second;
-    
-    dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
-    
-    float newInnerAngle = hour * (M_PI*2)/12;
-    float newOuterAngle = hour * (M_PI*2)/60;
-    
-    float saveInnerAngle = innerAngle;
-    float saveOuterAngle = outerAngle;
-    
-    [self setSnappedOuterAngle:newOuterAngle];
-    [self setSnappedInnerAngle:newInnerAngle];
-    
-    // start handles
-    float saveOuterStartAngle = outerStartAngle;
-    float saveInnerStartAngle = innerStartAngle;
-    
-    
-    hour = [dateComponents hour];
-    minute = dateComponents.minute;
-    second = dateComponents.second;
-    
-    NSTimeInterval intervalInDay = (hour*3600) + (minute*60) + second;
-    
-    while (intervalInDay > 43200.0f)
-        intervalInDay = intervalInDay - 43200.0f;
-    
-    float newInnerStartAngle = roundf(intervalInDay/3600.0f) * (M_PI*60);
-    float newOuterStartAngle = ((int)intervalInDay%3600)/(3600) * (M_PI*2)/60;
-    
-    [self setSnappedOuterStartAngle:newOuterStartAngle];
-    [self setSnappedInnerStartAngle:newInnerStartAngle];
-
-    if ((innerAngle != saveInnerAngle) || (outerAngle != saveOuterAngle)
-        || (innerStartAngle != saveInnerStartAngle) || (outerStartAngle != saveOuterStartAngle))
-        [self setNeedsDisplay];
-}*/
 - (void) updateTimerTick:(NSTimer *)timer {
     if (handleSelected != SelectDurationNoHandle)
         return;
@@ -315,7 +302,7 @@
     
     if ((innerAngle != saveInnerAngle) || (outerAngle != saveOuterAngle)
         || (innerStartAngle != saveInnerStartAngle) || (outerStartAngle != saveOuterStartAngle))
-        [self setNeedsDisplay];
+        [self updateLayers];
 }
 
 - (void) setDate:(NSDate *)date {
@@ -413,102 +400,128 @@
                                  nil]; 
  */
 
+- (void) initializeLayers {
+    innerFill = [[CAShapeLayer alloc] init];
+    innerHandle = [[CAShapeLayer alloc] init];
+    innerRing = [[CAShapeLayer alloc] init];
+    outerFill = [[CAShapeLayer alloc] init];
+    outerHandle = [[CAShapeLayer alloc] init];
+    outerRing = [[CAShapeLayer alloc] init];
+
+    [innerLayer addSublayer:innerFill];
+    [innerLayer addSublayer:innerHandle];
+    [innerLayer addSublayer:innerRing];
+    
+    [outerLayer addSublayer:outerFill];
+    [outerLayer addSublayer:outerHandle];
+    [outerLayer addSublayer:outerRing];
+    
+    CGRect layerFrame = (CGRect){CGPointZero, self.frame.size};
+    CGPoint layerAnchor = CGRectGetCenter(outerLayer.frame);
+    
+    innerLayer.frame = outerLayer.frame =centerLayer.frame = layerFrame;
+    innerLayer.anchorPoint = outerLayer.anchorPoint = centerLayer.anchorPoint = layerAnchor;
+    
+    [self updateLayers];
+
+}
+
+- (void)updateLayers {
+    
+    // Step 1: create the paths ---------------------------------
+    
+    float startAngle = DEGREES_TO_RADIANS(-90);
+    
+    CGRect centerCircleRect = CGRectMake(-centerRadius, -centerRadius, centerRadius*2, centerRadius*2);
+    CGRect innerRingRect = CGRectMake(-innerRadius, -innerRadius, innerRadius*2, innerRadius*2);
+    CGRect outerRingRect = CGRectMake(-outerRadius, -outerRadius, outerRadius*2, outerRadius*2);
+
+
+
+    // OUTER CIRCLE
+    UIBezierPath *outerCirclePath = [UIBezierPath bezierPath];
+    if (isStopwatchMode) {
+        [outerCirclePath addArcWithCenter:CGPointZero radius:innerRadius startAngle:0 endAngle:M_PI*2 clockwise:YES];
+        [outerCirclePath addArcWithCenter:CGPointZero radius:outerRadius startAngle:M_PI*2 endAngle:0 clockwise:NO];
+    } else {
+        [outerCirclePath addArcWithCenter:CGPointZero radius:innerRadius startAngle:outerStartAngle+startAngle endAngle:outerAngle+startAngle clockwise:YES];
+        [outerCirclePath addArcWithCenter:CGPointZero radius:outerRadius startAngle:outerAngle+startAngle endAngle:outerStartAngle+startAngle clockwise:NO];
+    }
+    
+    // OUTER HANDLE
+    UIBezierPath *outerHandlePath = [UIBezierPath bezierPath];
+    [outerHandlePath moveToPoint:[self vectorFromAngle:outerAngle distance:innerRadius origin:CGPointZero]];
+    [outerHandlePath addLineToPoint:[self vectorFromAngle:outerAngle distance:outerRadius origin:CGPointZero]];
+
+     
+    // INNER CIRCLE
+    UIBezierPath *innerCirclePath = [UIBezierPath bezierPath];
+    if (isStopwatchMode) {
+        [innerCirclePath addArcWithCenter:CGPointZero radius:centerRadius startAngle:0 endAngle:M_PI*2 clockwise:YES];
+        [innerCirclePath addArcWithCenter:CGPointZero radius:innerRadius startAngle:M_PI*2 endAngle:0 clockwise:NO];
+    } else {
+        [innerCirclePath addArcWithCenter:CGPointZero radius:centerRadius startAngle:innerStartAngle+startAngle endAngle:innerAngle+startAngle clockwise:YES];
+        [innerCirclePath addArcWithCenter:CGPointZero radius:innerRadius startAngle:innerAngle+startAngle endAngle:innerStartAngle+startAngle clockwise:NO];
+    }
+    
+    // INNER HANDLE
+    UIBezierPath *innerHandlePath = [UIBezierPath bezierPath];
+    [innerHandlePath moveToPoint:[self vectorFromAngle:innerAngle distance:centerRadius origin:CGPointZero]];
+    [innerHandlePath addLineToPoint:[self vectorFromAngle:innerAngle distance:innerRadius origin:CGPointZero]];
+
+    
+    // CENTER CIRCLE
+    UIBezierPath *centerCirclePath = [UIBezierPath bezierPathWithOvalInRect:centerCircleRect];
+    
+    // RINGS
+    UIBezierPath *innerRingPath = [UIBezierPath bezierPathWithOvalInRect:innerRingRect];
+    UIBezierPath *outerRingPath = [UIBezierPath bezierPathWithOvalInRect:outerRingRect];
+    
+
+    // Step 2: update layers and fill the paths ---------------------------------
+
+    outerFill.path = outerCirclePath.CGPath;
+    outerFill.fillColor = [[theme objectForKey:@"outerColor"] CGColor];
+    
+    outerHandle.path = outerHandlePath.CGPath;
+    outerHandle.lineWidth = 2.0;
+    outerHandle.strokeColor = [[theme objectForKey:@"outerHandleColor"] CGColor];
+    
+    outerRing.path = outerRingPath.CGPath;
+    outerRing.lineWidth = 1.0;
+    outerRing.fillColor = [[UIColor clearColor] CGColor];
+    outerRing.strokeColor = [[theme objectForKey:@"outerRingColor"] CGColor];
+    
+    outerRing.anchorPoint = CGPointMake(outerRadius, outerRadius);
+    
+    innerFill.path = innerCirclePath.CGPath;
+    innerFill.fillColor = [[theme objectForKey:@"innerColor"] CGColor];
+    
+    innerHandle.path = innerHandlePath.CGPath;
+    innerHandle.lineWidth = 2.0;
+    innerHandle.strokeColor = [[theme objectForKey:@"innerHandleColor"] CGColor];
+    
+    innerRing.path = innerRingPath.CGPath;
+    innerRing.lineWidth = 1.0;
+    innerRing.fillColor = [[UIColor clearColor] CGColor];
+    innerRing.strokeColor = [[theme objectForKey:@"innerRingColor"] CGColor];
+    
+    centerLayer.path = centerCirclePath.CGPath;
+    centerLayer.fillColor = [[theme objectForKey:@"centerColor"] CGColor];
+}
+
 - (void)drawRect:(CGRect)rect
 {
-    CGContextRef aRef = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(aRef);
-    
-    // draw the circles
-    float startAngle = DEGREES_TO_RADIANS(-90);
-    CGRect centerRect = CGRectMake(center.x-centerRadius, center.y-centerRadius, centerRadius*2, centerRadius*2);
-    
-    // outer
-    
-    UIBezierPath *outerCircle = [UIBezierPath bezierPath];
-    if (isTimerMode) {
-        [outerCircle addArcWithCenter:center radius:innerRadius startAngle:0 endAngle:M_PI*2 clockwise:YES];
-        [outerCircle addArcWithCenter:center radius:outerRadius startAngle:M_PI*2 endAngle:0 clockwise:NO];
-    } else {
-        [outerCircle addArcWithCenter:center radius:innerRadius startAngle:outerStartAngle+startAngle endAngle:outerAngle+startAngle clockwise:YES];
-        [outerCircle addArcWithCenter:center radius:outerRadius startAngle:outerAngle+startAngle endAngle:outerStartAngle+startAngle clockwise:NO];
-    }
-    //[outerCircle closePath];
-    
-    
-    UIBezierPath *outerFill = [UIBezierPath bezierPath];
-    if (!isTimerMode) {
-        [outerFill addArcWithCenter:center radius:innerRadius startAngle:outerAngle+startAngle 
-                           endAngle:outerStartAngle+startAngle clockwise:YES];
-        [outerFill addArcWithCenter:center radius:outerRadius startAngle:outerStartAngle+startAngle 
-                       endAngle:outerAngle+startAngle clockwise:NO];
-    }
-    //[outerFill closePath];
-    
-    UIBezierPath *outerLine = [UIBezierPath bezierPath];
-    [outerLine moveToPoint:[self vectorFromAngle:outerAngle distance:innerRadius origin:center]];
-    [outerLine addLineToPoint:[self vectorFromAngle:outerAngle distance:outerRadius origin:center]];
-
-    // inner
-    UIBezierPath *innerCircle = [UIBezierPath bezierPath];
-    if (isTimerMode) {
-        [innerCircle addArcWithCenter:center radius:centerRadius startAngle:0 endAngle:M_PI*2 clockwise:YES];
-        [innerCircle addArcWithCenter:center radius:innerRadius startAngle:M_PI*2 endAngle:0 clockwise:NO];
-    } else {
-        [innerCircle addArcWithCenter:center radius:centerRadius startAngle:innerStartAngle+startAngle endAngle:innerAngle+startAngle clockwise:YES];
-        [innerCircle addArcWithCenter:center radius:innerRadius startAngle:innerAngle+startAngle endAngle:innerStartAngle+startAngle clockwise:NO];
-    }
-    //[innerCircle closePath];
-    
-    UIBezierPath *innerFill = [UIBezierPath bezierPath];
-    if (!isTimerMode) {
-        [innerFill addArcWithCenter:center radius:centerRadius startAngle:innerStartAngle+startAngle endAngle:M_PI*2 clockwise:YES];
-        [innerFill addArcWithCenter:center radius:innerRadius startAngle:innerStartAngle+startAngle endAngle:innerAngle+startAngle clockwise:NO];
-    }
-    //[innerFill closePath];
-    
-    UIBezierPath *centerCircle = [UIBezierPath bezierPathWithOvalInRect:centerRect];
-    
-    [[theme objectForKey:@"outerColor"] setFill];       [outerCircle fill];
-    [[theme objectForKey:@"outerFillColor"] setFill];   [outerFill fill];
-    
-    [[theme objectForKey:@"innerColor"] setFill];       [innerCircle fill];
-    [[theme objectForKey:@"innerFillColor"] setFill];   [innerFill fill];
-
-    [[theme objectForKey:@"centerColor"] setFill];      [centerCircle fill];
-    
-    // thicker lines
-    
-    UIBezierPath *innerLine = [UIBezierPath bezierPath];
-    [innerLine moveToPoint:[self vectorFromAngle:innerAngle distance:centerRadius origin:center]];
-    [innerLine addLineToPoint:[self vectorFromAngle:innerAngle distance:innerRadius origin:center]];
-    
-    if (!isTimerMode) {
-        [[theme objectForKey:@"innerHandleColor"] setStroke];
-        innerLine.lineWidth = 2;    [innerLine stroke];
-            
-        [[theme objectForKey:@"outerHandleColor"] setStroke];
-        outerLine.lineWidth = 2;    [outerLine stroke];
-    }
-    
-    // draw the rings
-    CGRect outerRect = CGRectMake(center.x-outerRadius, center.y-outerRadius, outerRadius*2, outerRadius*2);
-    CGRect innerRect = CGRectMake(center.x-innerRadius, center.y-innerRadius, innerRadius*2, innerRadius*2);
-    
-    UIBezierPath *outerOutline = [UIBezierPath bezierPathWithOvalInRect:outerRect];
-    UIBezierPath *innerOutline = [UIBezierPath bezierPathWithOvalInRect:innerRect];
-    
-    [[theme objectForKey:@"outerRingColor"] setStroke];
-    outerOutline.lineWidth = 1; [outerOutline stroke];
-    
-    [[theme objectForKey:@"innerRingColor"] setStroke];
-    innerOutline.lineWidth = 1; [innerOutline stroke];
-    
-    CGContextRestoreGState(aRef);
+    [self updateLayers];
+    return;
 }
 
 #pragma mark - cg functions
 CGPoint CGPointAddPoint(CGPoint p1, CGPoint p2) {
     return CGPointMake(p1.x+p2.x, p1.y+p2.y);
+}
+CGPoint CGRectGetCenter(CGRect rect) {
+    return CGPointMake(rect.origin.x + rect.size.width/2, rect.origin.y + rect.size.height/2);
 }
 
 @end

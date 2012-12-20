@@ -14,12 +14,11 @@
 #import "SelectedTimeView.h"
 #import "PListModel.h"
 #import "CountdownView.h"
-#import "TimerView.h"
 #import "MusicManager.h"
 #import "RadialGradientView.h"
-
-//testing
 #import "MusicPlayer.h"
+
+#import "StopwatchViewController.h"
 
 @class AlarmView;
 
@@ -42,7 +41,7 @@
 enum AlarmViewShouldSet {
     AlarmViewShouldSet = 0,
     AlarmViewShouldUnSet,
-    AlarmViewShouldTimer,
+    AlarmViewShouldStopwatch,
     AlarmViewShouldNone
 };
 
@@ -52,11 +51,11 @@ enum AlarmViewShouldSet {
     CGRect selectSongRect;
     CGRect selectActionRect;
     CGRect alarmSetDurRect;
-    CGRect timerModeDurRect;
+    CGRect stopwatchModeDurRect;
     CGRect countdownRect;
-    CGRect timerRect;
+    CGRect stopwatchRect;
     CGRect radialRect;
-//    CGRect bgImageRect;
+//  CGRect bgImageRect;
     
     MusicManager *musicManager;
     
@@ -66,8 +65,9 @@ enum AlarmViewShouldSet {
     bool pickingAction;
     bool cancelTouch;
     bool isSnoozing;
-        
+    
     UIImageView *durImageView;
+    
 }
 extern const float Spacing;
 
@@ -75,7 +75,7 @@ extern const float Spacing;
 @property (nonatomic, strong) id<AlarmViewDelegate> delegate;
 @property CGRect newRect;
 @property bool isSet;
-@property bool isTimerMode;
+@property bool isStopwatchMode;
 @property int index;
 
 @property (nonatomic, strong) NSMutableDictionary *alarmInfo;
@@ -93,7 +93,8 @@ extern const float Spacing;
 @property (nonatomic, strong) SelectDurationView *selectDurationView;
 @property (nonatomic, strong) SelectedTimeView *selectedTimeView;
 @property (nonatomic, strong) CountdownView *countdownView;
-@property (nonatomic, strong) TimerView *timerView;
+@property (nonatomic, strong) StopwatchViewController *stopwatchViewController;
+
 @property (nonatomic, strong) UILabel *deleteLabel;
 
 - (void) shiftedFromActiveByPercent:(float)percent;

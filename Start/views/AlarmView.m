@@ -10,11 +10,11 @@
 
 @implementation AlarmView
 
-@synthesize delegate, index, isSet, isTimerMode, newRect;
+@synthesize delegate, index, isSet, isStopwatchMode, newRect;
 @synthesize alarmInfo, countdownEnded;
 @synthesize radialGradientView, /*backgroundImage,*/ patternOverlay, toolbarImage;
 @synthesize selectSongView, selectActionView, selectDurationView, selectedTimeView, deleteLabel;
-@synthesize countdownView, timerView, selectAlarmBg;
+@synthesize countdownView, selectAlarmBg, stopwatchViewController;
 
 const float Spacing = 0.0f;
 
@@ -47,11 +47,12 @@ const float Spacing = 0.0f;
         selectActionRect = CGRectMake(Spacing+frameRect.size.width-50, 0, 50, 70);
         selectDurRect = CGRectMake(Spacing, [UIScreen mainScreen].applicationFrame.size.height/2 - frameRect.size.width/2, frameRect.size.width, frameRect.size.width);
         alarmSetDurRect = CGRectOffset(selectDurRect, 0, -120);
-        timerModeDurRect = CGRectOffset(selectDurRect, 0, 150);
+        stopwatchModeDurRect = CGRectOffset(selectDurRect, 0, 150);
+
+        stopwatchRect = (CGRect){CGPointZero, self.frame.size};
         selectedTimeRect = CGRectExtendFromPoint(CGRectCenter(selectDurRect), 65, 65);
         CGRect durationMaskRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
         countdownRect = CGRectMake(Spacing, alarmSetDurRect.origin.y+alarmSetDurRect.size.height, frameRect.size.width, self.frame.size.height - (alarmSetDurRect.origin.y+alarmSetDurRect.size.height) - 65); //alarm clock countdown label
-        timerRect = CGRectMake(Spacing, timerModeDurRect.origin.y-countdownRect.size.height, frameRect.size.width, countdownRect.size.height); //stopwatch label
         CGRect deleteLabelRect = CGRectMake(Spacing, 0, frameRect.size.width, 70);
         CGRect selectAlarmRect = CGRectMake(0, self.frame.size.height-50, self.frame.size.width, 50);
         
@@ -69,7 +70,8 @@ const float Spacing = 0.0f;
         selectedTimeView = [[SelectedTimeView alloc] initWithFrame:selectedTimeRect]; //clock in middle of dial
         countdownView = [[CountdownView alloc] initWithFrame:countdownRect];
         UIView *durationMaskView = [[UIView alloc] initWithFrame:durationMaskRect];
-        timerView = [[TimerView alloc] initWithFrame:timerRect];
+        stopwatchViewController = [[StopwatchViewController alloc] init];
+        [stopwatchViewController.view setFrame:stopwatchRect];
         deleteLabel = [[UILabel alloc] initWithFrame:deleteLabelRect];
         selectAlarmBg = [[UIImageView alloc] initWithFrame:selectAlarmRect];
         
@@ -80,7 +82,7 @@ const float Spacing = 0.0f;
         //[self addSubview:patternOverlay];
         //[self addSubview:selectAlarmBg];
         [self addSubview:countdownView];
-        [self addSubview:timerView];
+        [self addSubview:stopwatchViewController.view];
         [self addSubview:durationMaskView];
         [durationMaskView addSubview:selectDurationView];
         [self addSubview:durImageView];
@@ -112,7 +114,7 @@ const float Spacing = 0.0f;
         //[backgroundImage setImage:[UIImage imageNamed:@"epsilon"]];
         [self setBackgroundColor:[UIColor blackColor]];
         [countdownView setAlpha:0];
-        [timerView setAlpha:0];
+        [stopwatchViewController.view setAlpha:0];
         [patternOverlay setAlpha:0];
         [toolbarImage setAlpha:0];
         [selectAlarmBg setAlpha:0];
@@ -177,7 +179,7 @@ const float Spacing = 0.0f;
             isSet = YES;
         }
         if ([(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue]) {
-            isTimerMode = NO;
+            isStopwatchMode = NO;
             [alarmInfo setObject:[NSNumber numberWithBool:NO] forKey:@"isTimerMode"];
         } // does not hide selectsong properly
         [self animateSelectDurToRest];
@@ -314,7 +316,7 @@ const float Spacing = 0.0f;
     
     CGRect shiftedDurRect = CGRectOffset([self currRestedSelecDurRect], durPickOffset, 0);
     CGRect shiftedCountdownRect = CGRectOffset(countdownRect, countDownOffset, 0);
-    CGRect shiftedTimerRect = CGRectOffset(timerRect, countDownOffset, 0);
+    CGRect shiftedStopwatchRect = CGRectOffset(stopwatchRect, countDownOffset, 0);
     CGRect shiftedSongRect = CGRectOffset(selectSongRect, songPickOffset, 0);
     CGRect shiftedActionRect = CGRectOffset(selectActionRect, actionPickOffset, 0);
     CGRect shiftedRadialRect = CGRectOffset(radialRect, backgroundOffset, 0);
@@ -322,7 +324,7 @@ const float Spacing = 0.0f;
     [selectDurationView setFrame:shiftedDurRect];
     [selectedTimeView setCenter:selectDurationView.center];
     [countdownView setFrame:shiftedCountdownRect];
-    [timerView setFrame:shiftedTimerRect];
+    [stopwatchViewController.view setFrame:shiftedStopwatchRect];
     [selectSongView setFrame:shiftedSongRect];
     [selectActionView setFrame:shiftedActionRect];
     [radialGradientView setFrame:shiftedRadialRect];
@@ -407,15 +409,16 @@ const float Spacing = 0.0f;
         [countdownView updateWithDate:[NSDate date]];
     }
     
-    if (isTimerMode)
-        [timerView updateWithDate:[alarmInfo objectForKey:@"timerDateBegan"]];
+#warning TODO: Stopwatch function
+    //if (isStopwatchMode)
+        //[timer updateWithDate:[alarmInfo objectForKey:@"timerDateBegan"]];
 }
 
 - (CGRect) currRestedSelecDurRect {
     if (isSet)
         return alarmSetDurRect;
-    else if (isTimerMode)
-        return timerModeDurRect;
+    else if (isStopwatchMode)
+        return stopwatchModeDurRect;
     else
         return selectDurRect;
 }
@@ -437,7 +440,7 @@ const float Spacing = 0.0f;
     CGRect selectDurPushedRect = CGRectOffset(selectDurationView.frame, selectSongView.frame.size.width, 0);
     CGRect selectActionPushedRect = CGRectOffset(selectActionView.frame, 90, 0);
     CGRect countdownPushedRect = CGRectOffset(countdownView.frame, selectSongView.frame.size.width, 0);
-    CGRect timerPushedRect = CGRectOffset(timerRect, selectSongView.frame.size.width, 0);
+    CGRect timerPushedRect = CGRectOffset(stopwatchRect, selectSongView.frame.size.width, 0);
 
     
     [UIView animateWithDuration:.2 animations:^{
@@ -457,8 +460,8 @@ const float Spacing = 0.0f;
         [countdownView setFrame:countdownPushedRect];
         [countdownView setAlpha:isSet?.6:0];
         
-        [timerView setFrame:timerPushedRect];
-        [timerView setAlpha:isTimerMode?.6:0];
+        [stopwatchViewController.view setFrame:timerPushedRect];
+        [stopwatchViewController.view setAlpha:isStopwatchMode?.6:0];
     }];
         
     return YES;
@@ -485,8 +488,8 @@ const float Spacing = 0.0f;
         [countdownView setFrame:countdownRect];
         [countdownView setAlpha:isSet?1:0];
         
-        [timerView setFrame:timerRect];
-        [timerView setAlpha:isTimerMode?1:0];
+        [stopwatchViewController.view setFrame:stopwatchRect];
+        [stopwatchViewController.view setAlpha:isStopwatchMode?1:0];
     }];
 }
      
@@ -509,7 +512,7 @@ const float Spacing = 0.0f;
     CGRect selectDurPushedRect = CGRectOffset(selectDurationView.frame, -newSelectActionRect.size.width, 0);
     CGRect selectSongPushedRect = CGRectOffset(selectSongView.frame, -selectSongView.frame.size.width + Spacing, 0);
     CGRect countdownPushedRect = CGRectOffset(countdownView.frame, -newSelectActionRect.size.width, 0);
-    CGRect timerPushedRect = CGRectOffset(timerRect, -newSelectActionRect.size.width, 0);
+    CGRect stopwatchPushedRect = CGRectOffset(stopwatchRect, -newSelectActionRect.size.width, 0);
 
     
     [UIView animateWithDuration:.2 animations:^{
@@ -529,8 +532,8 @@ const float Spacing = 0.0f;
         [countdownView setFrame:countdownPushedRect];
         [countdownView setAlpha:isSet?.6:0];
         
-        [timerView setFrame:timerPushedRect];
-        [timerView setAlpha:isTimerMode?.6:0];
+        [stopwatchViewController.view setFrame:stopwatchPushedRect];
+        [stopwatchViewController.view setAlpha:isStopwatchMode?.6:0];
     }];
     
     
@@ -561,8 +564,8 @@ const float Spacing = 0.0f;
         [countdownView setFrame:countdownRect];
         [countdownView setAlpha:isSet?1:0];
         
-        [timerView setFrame:timerRect];
-        [timerView setAlpha:isTimerMode?1:0];
+        [stopwatchViewController.view setFrame:stopwatchRect];
+        [stopwatchViewController.view setAlpha:isStopwatchMode?1:0];
     }];
 }
 
@@ -673,20 +676,25 @@ const float Spacing = 0.0f;
     
     CGRect newDurRect = selectDurRect;
     CGRect proposedFrame = CGRectOffset(selectDurationView.frame, 0, yVel);
-        
+    
+    // make the picker stop in the middle if it was in timer mode OR if it was set.
     if ((proposedFrame.origin.y >= selectDurRect.origin.y && isSet)
-        || (proposedFrame.origin.y <= selectDurRect.origin.y && isTimerMode))
+        || (proposedFrame.origin.y <= selectDurRect.origin.y && isStopwatchMode))
         newDurRect = selectDurRect;
-    else if (proposedFrame.origin.y >= timerModeDurRect.origin.y)
-        newDurRect = timerModeDurRect;
+    // cant go any lower than the stopwatch mode rect
+    else if (proposedFrame.origin.y >= stopwatchModeDurRect.origin.y)
+        newDurRect = stopwatchModeDurRect;
+    // cent go any higher than the alarmSet rect
     else if (proposedFrame.origin.y <= alarmSetDurRect.origin.y)
         newDurRect = alarmSetDurRect;
+    // somewhere in between
     else
         newDurRect = proposedFrame;
     
+    // checking for a swipe
     if (fabsf(yVel) > 15) {
         if (yVel < 0) {
-            if (isTimerMode){
+            if (isStopwatchMode){
                 shouldSet = AlarmViewShouldUnSet;
             }
             else{
@@ -698,49 +706,55 @@ const float Spacing = 0.0f;
                 shouldSet = AlarmViewShouldUnSet;
             }
             else{
-                shouldSet = AlarmViewShouldTimer;
+                shouldSet = AlarmViewShouldStopwatch;
             }
         }
         
-    } else if ((shouldSet == AlarmViewShouldSet && yVel > 0) || (shouldSet == AlarmViewShouldUnSet && yVel < 0) || (shouldSet == AlarmViewShouldTimer && yVel < 0))
+    } else if ((shouldSet == AlarmViewShouldSet && yVel > 0) || (shouldSet == AlarmViewShouldUnSet && yVel < 0) || (shouldSet == AlarmViewShouldStopwatch && yVel < 0))
         shouldSet = AlarmViewShouldNone;
     
+    // compress the durationSelector if duration selector is below original position
+    if (newDurRect.origin.y > selectDurRect.origin.y) {
+        float currDist = stopwatchModeDurRect.origin.y - newDurRect.origin.y;
+        float fullDist = stopwatchModeDurRect.origin.y - selectDurRect.origin.y;
+        [selectDurationView compressByRatio:currDist/fullDist];
+    }
+    
     [selectDurationView setFrame:newDurRect];
+    // keep the inner text centered with time picker
     [selectedTimeView setCenter:selectDurationView.center];
     
     if ([delegate respondsToSelector:@selector(durationViewWithIndex:draggedWithPercent:)]) {
         float percentDragged = (selectDurationView.frame.origin.y - selectDurRect.origin.y) / 150;
         [delegate durationViewWithIndex:index draggedWithPercent:-percentDragged];
-        // fade in stopwatch
-        NSLog(@"dragged, %f", percentDragged);
+        // fade in stopwatch, fade out alarm functions
         [countdownView setAlpha:-percentDragged];
         [selectedTimeView setAlpha:1-percentDragged];
         [selectSongView setAlpha:1-percentDragged];
         [selectActionView setAlpha:1-percentDragged];
         [selectSongView.showCell.artistLabel setAlpha:1.3+percentDragged];
-        NSLog(@"alpha %f %@", selectSongView.cell.artistLabel.alpha, selectSongView.cell.songLabel.text);
-        [timerView setAlpha:percentDragged];
+        
+        [stopwatchViewController.view setAlpha:percentDragged];
     }
 }
 
--(void) durationViewStoppedDraggingWithY:(float)y { //this is when the dial is finished moving up or down.
+-(void) durationViewStoppedDraggingWithY:(float)y { // this is when the dial is finished moving up or down.
     // future: put this is own method
     
     if (pickingSong || pickingAction)
         return;
     
-    bool set = NO;
-    bool timer = NO;
+    bool setAlarm = NO;
+    bool startStopwatchMode = NO;
     if (shouldSet == AlarmViewShouldSet
         || selectDurationView.frame.origin.y < (selectDurRect.origin.y + alarmSetDurRect.origin.y )/2) {
-        set = YES;
+        setAlarm = YES;
         [selectSongView.showCell.artistLabel setAlpha:0.3];
-        NSLog(@"alarmOn");
     }
     else if (shouldSet == AlarmViewShouldUnSet) {
-        set = NO;
+        setAlarm = NO;
         [selectSongView.cell.artistLabel setAlpha:1];
-//when the user turns off the alarm when the alarm is sounding*************************************************
+        // when the user turns off the alarm when the alarm is sounding
         if (countdownEnded || isSnoozing) { // stop and launch countdown aciton
             countdownEnded = NO;
             isSnoozing = NO;
@@ -750,32 +764,31 @@ const float Spacing = 0.0f;
             [[UIApplication sharedApplication] openURL:openURL]; //opens the url
             [selectedTimeView updateDate:[alarmInfo objectForKey:@"date"] part:SelectDurationNoHandle];
         }
-    } else if (shouldSet == AlarmViewShouldTimer
-             || selectDurationView.frame.origin.y > (selectDurRect.origin.y + timerModeDurRect.origin.y )/2) {
-        set = NO;
-        timer = YES;
+    } else if (shouldSet == AlarmViewShouldStopwatch
+             || selectDurationView.frame.origin.y > (selectDurRect.origin.y + stopwatchModeDurRect.origin.y )/2) {
+        setAlarm = NO;
+        startStopwatchMode = YES;
     }
     
     // reset the timer if it is new
-    if (!isTimerMode && timer) {
+    if (!isStopwatchMode && startStopwatchMode) {
         [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
-        [selectDurationView performSelectorInBackground:@selector(setTimerMode:) 
-                                             withObject:[NSNumber numberWithBool:YES]];
-    } else if (!timer && isTimerMode) {
+    } else if (!startStopwatchMode && isStopwatchMode) {
         // zero out the timer
         [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
         [self updateProperties];
-        [selectDurationView performSelectorInBackground:@selector(setTimerMode:) 
-                                             withObject:[NSNumber numberWithBool:NO]];
     }
 
 
-    isSet = set;
-    isTimerMode = timer;
-        
+    isSet = setAlarm;
+    isStopwatchMode = startStopwatchMode;
+    
+    // compress/expand time picker
+    [selectDurationView animateCompressByRatio:isStopwatchMode?0:1];
+    
     // save the set bool
     [alarmInfo setObject:[NSNumber numberWithBool:isSet] forKey:@"isSet"];
-    [alarmInfo setObject:[NSNumber numberWithBool:isTimerMode] forKey:@"isTimerMode"];
+    [alarmInfo setObject:[NSNumber numberWithBool:isStopwatchMode] forKey:@"isTimerMode"];
     
     shouldSet = AlarmViewShouldNone;
     [self animateSelectDurToRest];
@@ -784,7 +797,7 @@ const float Spacing = 0.0f;
 }
 
 -(bool) shouldLockPicker {
-    return (isSet || isTimerMode || ![self canMove]);
+    return (isSet || isStopwatchMode || ![self canMove]);
 }
 
 #pragma mark - Animation
@@ -793,10 +806,10 @@ const float Spacing = 0.0f;
     CGRect newFrame = [self currRestedSelecDurRect];
     
     if ([delegate respondsToSelector:@selector(durationViewWithIndex:draggedWithPercent:)])
-        [delegate durationViewWithIndex:index draggedWithPercent:(isSet?1:isTimerMode?-1:0)];
+        [delegate durationViewWithIndex:index draggedWithPercent:(isSet?1:isStopwatchMode?-1:0)];
     
     float alpha1 = (isSet?1:0);
-    float alpha2 = (isTimerMode)?0:1;
+    float alpha2 = (isStopwatchMode)?0:1;
     
     [UIView animateWithDuration:.2 animations:^{
         NSLog(@"animating");
@@ -804,7 +817,7 @@ const float Spacing = 0.0f;
         [selectedTimeView setCenter:selectDurationView.center];
         // animate fade of countdowntimer & such
         [countdownView setAlpha:alpha1];
-        [timerView setAlpha:1-alpha2];
+        [stopwatchViewController.view setAlpha:1-alpha2];
         [selectedTimeView setAlpha:alpha2];
         [selectSongView setAlpha:alpha2];
         [selectActionView setAlpha:alpha2];
