@@ -124,7 +124,12 @@
             notif = [[UILocalNotification alloc] init];
             NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
                                       [NSNumber numberWithInt:alarmView.index], @"alarmIndex", nil];
+            
+            
             notif.fireDate = [alarmInfo objectForKey:@"date"];
+            
+            if (alarmView.isSnoozing)
+                notif.fireDate = [alarmInfo objectForKey:@"snoozeAlarm"];
             switch ([[alarmInfo objectForKey:@"songID"] intValue]) { //if the user selects one of the default tones for their alarm...the local notification will play that tone as its sound
                 case 0:
                     notif.soundName = @"chamaeleon2.wav";
@@ -165,11 +170,15 @@
 - (void)scheduleLocalNotificationWithoutSound{
     for (AlarmView *alarmView in alarms) {
         NSDictionary *alarmInfo = [alarmView alarmInfo];
+        NSLog(@"scheduleLocalNotificationWithoutSound %i", [[NSUserDefaults standardUserDefaults] boolForKey:@"isSet"]);
         if ([(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue]) {
             notif = [[UILocalNotification alloc] init];
             NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
                                       [NSNumber numberWithInt:alarmView.index], @"alarmIndex", nil];
-            notif.fireDate = [alarmInfo objectForKey:@"date"];
+            if (alarmView.isSnoozing)
+                notif.fireDate = [alarmInfo objectForKey:@"snoozeAlarm"];
+            else
+                notif.fireDate = [alarmInfo objectForKey:@"date"];
             notif.alertBody = @"Alarm Triggered";
             notif.userInfo = userInfo;
             [[UIApplication sharedApplication] scheduleLocalNotification:notif];
@@ -182,15 +191,16 @@
 
 
 -(void)respondedToLocalNot{
-    [[UIApplication sharedApplication] cancelAllLocalNotifications]; //removes all the notifications from the notificaiton center
+//    [[UIApplication sharedApplication] cancelAllLocalNotifications]; //removes all the notifications from the notificaiton center
     AlarmView *alarmView;
     int indexOfTrippedAlarm = -1;
     NSArray *userAlarms = [pListModel getAlarms];
     if ([userAlarms count]>0) { //tries to find out which of the saved alarms just went off
         for (NSDictionary *alarmInfo in userAlarms) {
             indexOfTrippedAlarm++;
-            if (floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0)) {
+            if (floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0) || floorf([[alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow] < 0)) {
                 alarmView = [alarms objectAtIndex:indexOfTrippedAlarm]; //saves that instance as alarmView
+                [[UIApplication sharedApplication] cancelAllLocalNotifications];
             }
             
         }
@@ -467,7 +477,7 @@
     alarmView.countdownEnded = YES;
     [alarmView.selectedTimeView showSnooze];
     [musicPlayer playSongWithID:[alarmView.alarmInfo objectForKey:@"songID"] vibrate:YES];
-    NSLog(@"ididididi %@", [alarmView.alarmInfo objectForKey:@"songID"]);
+    
 }
 
 -(void)songPlayingTick:(NSTimer *)timer {

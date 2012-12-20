@@ -10,7 +10,7 @@
 
 @implementation SelectedTimeView
 @synthesize editingPart, date, editingPartIndicator;
-@synthesize timeLabel, meridiemLabel,snoozeLabel;
+@synthesize timeLabel, meridiemLabel,snoozeLabel, timerModeLabel;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -33,6 +33,11 @@
         [timeLabel setTextColor:[UIColor whiteColor]];
         [timeLabel setBackgroundColor:[UIColor clearColor]];
         [timeLabel setFont:timeLabelFont];
+        
+        [timerModeLabel setTextAlignment:NSTextAlignmentCenter];
+        [timerModeLabel setTextColor:[UIColor whiteColor]];
+        [timerModeLabel setBackgroundColor:[UIColor clearColor]];
+        [timerModeLabel setFont:timeLabelFont];
         
         [meridiemLabel setTextAlignment:NSTextAlignmentCenter];
         [meridiemLabel setTextColor:[UIColor whiteColor]];
@@ -84,16 +89,16 @@
     [meridiemLabel setAlpha:0];
 }
 
--(void)snoozeTapped{
-    [snoozeLabel setAlpha:0]; //make snooze label invisbile
-    [timeLabel setAlpha:1]; //make time label visible
-    [meridiemLabel setAlpha:1];
-}
 
+
+//when user drags handle this method is called
 - (void) updateDate:(NSDate *)newDate part:(int)partEditing {//when snooze is tapped this method is called
-    [snoozeLabel setAlpha:0]; //make snooze label invisbile
-    [timeLabel setAlpha:1]; //make time label visible
-    [meridiemLabel setAlpha:1];
+    if (!timerMode) {
+        [snoozeLabel setAlpha:0]; //make snooze label invisbile
+        [timeLabel setAlpha:1]; //make time label visible
+        [meridiemLabel setAlpha:1];
+    }
+    
     
     
     // format & save the date
@@ -121,7 +126,7 @@
         [timeLabel setText:[dateFormatter stringFromDate:date]];
     }
    
-  
+    NSLog(@"update date");
     
    
     

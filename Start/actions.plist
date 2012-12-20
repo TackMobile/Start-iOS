@@ -20,6 +20,14 @@
 	</dict>
 	<dict>
 		<key>url</key>
+		<string>anydo://</string>
+		<key>title</key>
+		<string>Anydo</string>
+		<key>iconFilename</key>
+		<string>anydo-icon</string>
+	</dict>
+	<dict>
+		<key>url</key>
 		<string>fb://feed</string>
 		<key>title</key>
 		<string>Facebook</string>
@@ -81,6 +89,14 @@
 		<string>Path</string>
 		<key>iconFilename</key>
 		<string>path-icon</string>
+	</dict>
+	<dict>
+		<key>url</key>
+		<string>pocket://</string>
+		<key>title</key>
+		<string>Pocket</string>
+		<key>iconFilename</key>
+		<string>pocket-icon</string>
 	</dict>
 	<dict>
 		<key>url</key>

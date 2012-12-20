@@ -15,6 +15,7 @@ enum SelectedTimeEditingPart {
 };
 
 @interface SelectedTimeView : UIView {
+    bool timerMode;
 }
 
 @property int editingPart;
@@ -23,9 +24,9 @@ enum SelectedTimeEditingPart {
 @property (nonatomic, strong) UILabel *timeLabel;
 @property (nonatomic, strong) UILabel *meridiemLabel;
 @property (nonatomic, strong) UILabel *snoozeLabel;
+@property (nonatomic ,strong) UILabel *timerModeLabel;
 @property (nonatomic, strong) UIView *editingPartIndicator;
 
 - (void) showSnooze;
 - (void) updateDate:(NSDate *)newDate part:(int)partEditing;
-- (void)snoozeTapped;
 @end
