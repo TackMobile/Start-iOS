@@ -76,6 +76,7 @@ extern const float Spacing;
 @property CGRect newRect;
 @property bool isSet;
 @property bool isStopwatchMode;
+@property bool isSnoozing;
 @property int index;
 
 @property (nonatomic, strong) NSMutableDictionary *alarmInfo;

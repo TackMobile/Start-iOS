@@ -48,7 +48,7 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
-    NSLog(@"willResignActive");
+    NSLog(@"willResignActive %i", [[NSUserDefaults standardUserDefaults] boolForKey:@"isSet"]);
     notActive = YES;
     [self.viewController saveAlarms];
     [self.viewController scheduleLocalNotificationWithoutSound];
@@ -65,7 +65,14 @@
         while ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
             //bool anySet = NO;
             for (AlarmView *alarm in self.viewController.alarms) {
+                NSLog(@"alarm.isSnoozing %i", alarm.isSnoozing);
                 if (alarm.isSet && floorf([[alarm.alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5) {
+                    if (!alarm.countdownEnded) {
+                        [alarm alarmCountdownEnded];
+                        [self.viewController switchAlarmWithIndex:alarm.index];
+                    }
+                }
+                if (alarm.isSnoozing && floorf([[alarm.alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow]) < .5){
                     if (!alarm.countdownEnded) {
                         [alarm alarmCountdownEnded];
                         [self.viewController switchAlarmWithIndex:alarm.index];
@@ -124,6 +131,12 @@
                         [alarm alarmCountdownEnded];
                         [self.viewController switchAlarmWithIndex:alarm.index];
                     }
+                    if (alarm.isSnoozing && floorf([[alarm.alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow]) < .5){
+                        if (!alarm.countdownEnded) {
+                            [alarm alarmCountdownEnded];
+                            [self.viewController switchAlarmWithIndex:alarm.index];
+                        }
+                    }
                 }
                 /*if (alarm.isSet)
                     anySet = YES;*/
@@ -169,7 +182,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     NSLog(@"terminated");
-    [self.viewController scheduleLocalNotifications];
+//    [self.viewController scheduleLocalNotifications];
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 

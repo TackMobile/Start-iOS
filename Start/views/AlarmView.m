@@ -10,7 +10,7 @@
 
 @implementation AlarmView
 
-@synthesize delegate, index, isSet, isStopwatchMode, newRect;
+@synthesize delegate, index, isSet, isStopwatchMode, newRect, isSnoozing;
 @synthesize alarmInfo, countdownEnded;
 @synthesize radialGradientView, /*backgroundImage,*/ patternOverlay, toolbarImage;
 @synthesize selectSongView, selectActionView, selectDurationView, selectedTimeView, deleteLabel;
@@ -197,6 +197,7 @@ const float Spacing = 0.0f;
         [delegate alarmCountdownEnded:self];
         countdownEnded = YES;
         [selectedTimeView showSnooze];
+        NSLog(@"showSnooze");
     }
 }
 
@@ -643,18 +644,16 @@ const float Spacing = 0.0f;
         [selectSongView quickSelectCell];
     if (pickingAction)
         [selectActionView quickSelectCell];
-    
     if (countdownEnded) {
         NSLog(@"snoozetapped");
         countdownEnded = NO;
         isSnoozing = YES;
         NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
+        //NSTimeInterval testSnoozeTime = 1 * 60.0f;
         NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
-        //[alarmInfo setObject:snoozeDate forKey:@"date"];
         [alarmInfo setObject:snoozeDate forKey:@"snoozeAlarm"];
         [selectDuration setDate:snoozeDate];
         [selectedTimeView updateDate:snoozeDate part:SelectDurationNoHandle];
-        //[selectedTimeView snoozeTapped];
         [[delegate getMusicPlayer] stop];
     }
 }
@@ -740,7 +739,8 @@ const float Spacing = 0.0f;
 
 -(void) durationViewStoppedDraggingWithY:(float)y { // this is when the dial is finished moving up or down.
     // future: put this is own method
-    
+   // [[UIApplication sharedApplication] setIdleTimerDisabled:NO];
+
     if (pickingSong || pickingAction)
         return;
     
