@@ -410,9 +410,8 @@ const float Spacing = 0.0f;
         [countdownView updateWithDate:[NSDate date]];
     }
     
-#warning TODO: Stopwatch function
-    //if (isStopwatchMode)
-        //[timer updateWithDate:[alarmInfo objectForKey:@"timerDateBegan"]];
+    if (isStopwatchMode)
+        [stopwatchViewController.timerView updateWithDate:[alarmInfo objectForKey:@"timerDateBegan"]];
 }
 
 - (CGRect) currRestedSelecDurRect {
@@ -773,18 +772,20 @@ const float Spacing = 0.0f;
     // reset the timer if it is new
     if (!isStopwatchMode && startStopwatchMode) {
         [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
+        
+        // compress/expand time picker
+        [selectDurationView animateCompressByRatio:startStopwatchMode?0:1];
     } else if (!startStopwatchMode && isStopwatchMode) {
         // zero out the timer
         [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
         [self updateProperties];
+        
+        // compress/expand time picker
+        [selectDurationView animateCompressByRatio:startStopwatchMode?0:1];
     }
-
 
     isSet = setAlarm;
     isStopwatchMode = startStopwatchMode;
-    
-    // compress/expand time picker
-    [selectDurationView animateCompressByRatio:isStopwatchMode?0:1];
     
     // save the set bool
     [alarmInfo setObject:[NSNumber numberWithBool:isSet] forKey:@"isSet"];

@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TimerView.h"
 
 @interface StopwatchViewController : UIViewController {
-    
 }
+
+@property (strong, nonatomic)     TimerView *timerView;
 
 @end

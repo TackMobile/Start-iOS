@@ -211,6 +211,39 @@
     animation.duration = 1;
     [outerLayer addAnimation:animation forKey:@"transform.scale"];
     NSLog(@"%f, %f", outerRing.frame.size.width, outerRing.frame.size.height);*/
+    
+    // temporary fix
+    
+    CABasicAnimation *fillAnimation = [CABasicAnimation animationWithKeyPath:@"fillColor"];
+    fillAnimation.duration = 0.2f;
+    if (ratio == 0) {
+        fillAnimation.fromValue = (id)[[UIColor clearColor] CGColor];
+        fillAnimation.toValue = (id)outerFill.fillColor;
+    } else {
+        fillAnimation.toValue = (id)[[UIColor clearColor] CGColor];
+        fillAnimation.fromValue = (id)outerFill.fillColor;
+    }
+    fillAnimation.removedOnCompletion = NO;
+    fillAnimation.fillMode = kCAFillModeForwards;
+
+    [outerRing addAnimation:fillAnimation forKey:@"fillColorAnimation"];
+    
+    CABasicAnimation *clearAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
+    clearAnimation.duration = 0.2f;
+    if (ratio == 0) {
+        clearAnimation.fromValue = [NSNumber numberWithFloat: 1.0f];
+        clearAnimation.toValue = [NSNumber numberWithFloat: 0.0f];
+    } else {
+        clearAnimation.toValue = [NSNumber numberWithFloat: 1.0f];
+        clearAnimation.fromValue = [NSNumber numberWithFloat: 0.0f];
+    }
+    clearAnimation.removedOnCompletion = NO;
+    clearAnimation.fillMode = kCAFillModeForwards;
+    
+    [innerFill addAnimation:clearAnimation forKey:@"opacityAnimation"];
+    [innerHandle addAnimation:clearAnimation forKey:@"opacityAnimation"];
+    [outerHandle addAnimation:clearAnimation forKey:@"opacityAnimation"];
+    [outerFill addAnimation:clearAnimation forKey:@"opacityAnimation"];
 
 }
 
