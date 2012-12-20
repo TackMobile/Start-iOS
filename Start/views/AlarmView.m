@@ -410,9 +410,8 @@ const float Spacing = 0.0f;
         [countdownView updateWithDate:[NSDate date]];
     }
     
-#warning TODO: Stopwatch function
-    //if (isStopwatchMode)
-        //[timer updateWithDate:[alarmInfo objectForKey:@"timerDateBegan"]];
+    if (isStopwatchMode)
+        [stopwatchViewController.timerView updateWithDate:[alarmInfo objectForKey:@"timerDateBegan"]];
 }
 
 - (CGRect) currRestedSelecDurRect {
