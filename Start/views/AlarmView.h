@@ -76,6 +76,7 @@ extern const float Spacing;
 @property CGRect newRect;
 @property bool isSet;
 @property bool isStopwatchMode;
+@property bool isTimerMode;
 @property bool isSnoozing;
 @property int index;
 

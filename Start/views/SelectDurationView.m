@@ -191,6 +191,20 @@
     [self touchesEnded:touches withEvent:event];
 }
 
+#pragma mark - functionality
+- (void) enterTimerMode {
+    isTimerMode = YES;
+    outerAngle = 0;
+    innerAngle = 0;
+    outerStartAngle = 0;
+    innerStartAngle = 0;
+    [self updateLayers];
+}
+- (void) exitTimerMode {
+    isTimerMode = NO;
+    [self updateLayers];
+}
+
 #pragma mark - Properties
 - (void) compressByRatio:(float)ratio {
     /*outerRadius = centerRadius + (ratio * (origOuterRadius - centerRadius));
@@ -260,6 +274,12 @@
     
 }
 
+-(NSTimeInterval) getDuration {
+    int min = (int)roundf(outerAngle/(M_PI*2/60));
+    int hour = (int)roundf(innerAngle/(M_PI*2/24));
+    return hour*3600 + min*60;
+}
+
 -(NSDate *) getDate {
     int min = (int)roundf(outerAngle/(M_PI*2/60));
     int hour = (int)roundf(innerAngle/(M_PI*2/24));
@@ -299,7 +319,10 @@
     [self update];
 }
 
-- (void) update {    
+- (void) update {
+    if (isTimerMode)
+        return;
+        
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:_date];
     
@@ -343,6 +366,8 @@
     _date = date;
     [self update];
 }
+
+#pragma mark - angles
 
 - (bool) touchAngle:(float)touchAngle isWithinAngle:(float)angle {
     float padding = DEGREES_TO_RADIANS(15);

@@ -55,8 +55,10 @@ enum SelectDurationDraggingOrientation {
     
     bool changing;
     bool isStopwatchMode;
+    bool isTimerMode;
     
     NSDate *_date;
+    NSDate *_timerBeganDate;
     
     // LAYERS
     CAShapeLayer *centerLayer;
@@ -85,11 +87,19 @@ enum SelectDurationDraggingOrientation {
 //-(void) setTimeInterval:(NSTimeInterval)timeInterval;
 -(void) setDate:(NSDate *)date;
 -(NSDate *) getDate;
+- (NSTimeInterval)getDuration;
+
 -(void)updateTimerTick:(NSTimer *)timer;
 -(void)update;
-- (void) setStopwatchMode:(NSNumber *)on;
+
 - (void) compressByRatio:(float)ratio;
 - (void) animateCompressByRatio:(float)ratio;
+
+- (void) setStopwatchMode:(NSNumber *)on;
+
+- (void) enterTimerMode;
+- (void) exitTimerMode;
+
 
 -(id) initWithFrame:(CGRect)frame delegate:(id<SelectDurationViewDelegate>)aDelegate;
 
