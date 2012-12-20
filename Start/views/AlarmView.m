@@ -784,7 +784,7 @@ const float Spacing = 0.0f;
     isStopwatchMode = startStopwatchMode;
     
     // compress/expand time picker
-    [selectDurationView compressByRatio:isStopwatchMode?0:1];
+    [selectDurationView animateCompressByRatio:isStopwatchMode?0:1];
     
     // save the set bool
     [alarmInfo setObject:[NSNumber numberWithBool:isSet] forKey:@"isSet"];

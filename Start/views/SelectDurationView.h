@@ -44,7 +44,6 @@ enum SelectDurationDraggingOrientation {
     float origOuterRadius;
     float origInnerRadius;
 
-    
     float outerStartAngle;
     float innerStartAngle;
     
@@ -55,14 +54,22 @@ enum SelectDurationDraggingOrientation {
     CGPoint center;
     
     bool changing;
-    bool isTimerMode;
+    bool isStopwatchMode;
     
     NSDate *_date;
     
     // LAYERS
-    CALayer *centerLayer;
+    CAShapeLayer *centerLayer;
     CALayer *innerLayer;
+        CAShapeLayer *innerFill;
+        CAShapeLayer *innerHandle;
+        CAShapeLayer *innerRing;
     CALayer *outerLayer;
+        CAShapeLayer *outerFill;
+        CAShapeLayer *outerHandle;
+        CAShapeLayer *outerRing;
+
+
 
 }
 @property int handleSelected;
@@ -80,8 +87,10 @@ enum SelectDurationDraggingOrientation {
 -(NSDate *) getDate;
 -(void)updateTimerTick:(NSTimer *)timer;
 -(void)update;
-- (void) setTimerMode:(NSNumber *)on;
+- (void) setStopwatchMode:(NSNumber *)on;
 - (void) compressByRatio:(float)ratio;
+- (void) animateCompressByRatio:(float)ratio;
+
 -(id) initWithFrame:(CGRect)frame delegate:(id<SelectDurationViewDelegate>)aDelegate;
 
 @end
