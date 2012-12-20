@@ -191,7 +191,7 @@
 
 
 -(void)respondedToLocalNot{
-//    [[UIApplication sharedApplication] cancelAllLocalNotifications]; //removes all the notifications from the notificaiton center
+    [[UIApplication sharedApplication] cancelAllLocalNotifications]; //removes all the notifications from the notificaiton center
     AlarmView *alarmView;
     int indexOfTrippedAlarm = -1;
     NSArray *userAlarms = [pListModel getAlarms];
@@ -200,7 +200,6 @@
             indexOfTrippedAlarm++;
             if (floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0) || floorf([[alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow] < 0)) {
                 alarmView = [alarms objectAtIndex:indexOfTrippedAlarm]; //saves that instance as alarmView
-                [[UIApplication sharedApplication] cancelAllLocalNotifications];
             }
             
         }
