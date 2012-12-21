@@ -392,6 +392,7 @@
 - (void) setDuration:(NSTimeInterval)duration {
     if (duration < 0.0)
         duration = 0.0;
+    
     int days = duration / (60 * 60 * 24);
     duration -= days * (60 * 60 * 24);
     int hours = duration / (60 * 60);

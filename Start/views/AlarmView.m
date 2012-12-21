@@ -515,7 +515,7 @@ const float Spacing = 0.0f;
     }
     
     if (isStopwatchMode)
-        [stopwatchViewController.timerView updateWithDate:[alarmInfo objectForKey:@"timerDateBegan"]];
+        [stopwatchViewController.timerView updateWithDate:[alarmInfo objectForKey:@"stopwatchDateBegan"]];
 }
 
 - (CGRect) currRestedSelecDurRect {
@@ -893,6 +893,10 @@ const float Spacing = 0.0f;
         [selectActionView setAlpha:1-percentDragged];
         [selectSongView.showCell.artistLabel setAlpha:1.3+percentDragged];
         
+        if (percentDragged < 0 && isTimerMode) {
+            [selectedTimeView setAlpha:.7+percentDragged];
+        }
+        
         [stopwatchViewController.view setAlpha:percentDragged];
     }
 }
@@ -929,35 +933,35 @@ const float Spacing = 0.0f;
         setAlarm = NO;
         startStopwatchMode = YES;
     }
-    
-    // reset the timer if it is new
+        
+    // reset the stopwatch if it is new
     if (!isStopwatchMode && startStopwatchMode) {
-        [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
+        [alarmInfo setObject:[NSDate date] forKey:@"stopwatchDateBegan"];
         
         // compress/expand time picker
         [selectDurationView animateCompressByRatio:startStopwatchMode?0:1];
     } else if (!startStopwatchMode && isStopwatchMode) {
         // zero out the timer
-        [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
+        [alarmInfo setObject:[NSDate date] forKey:@"stopwatchDateBegan"];
         [self updateProperties];
         
         // compress/expand time picker
         [selectDurationView animateCompressByRatio:startStopwatchMode?0:1];
     }
+    
     if (isTimerMode) {
-        isTiming = setAlarm;
-        if (isTiming)
+        if (!isTiming && setAlarm) {
+            [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
             [selectDurationView beginTiming];
-        else
-            [selectDurationView stopTiming];
+        } else {
+                [selectDurationView stopTiming];
+        }
+        isTiming = setAlarm;
     } else
         isSet = setAlarm;
     
     isStopwatchMode = startStopwatchMode;
     
-    if (isTiming) {
-        [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
-    }
     
     // save the set bool
     [alarmInfo setObject:[NSNumber numberWithBool:isSet] forKey:@"isSet"];
@@ -1007,9 +1011,15 @@ const float Spacing = 0.0f;
         // animate fade of countdowntimer & such
         [countdownView setAlpha:alpha1];
         [stopwatchViewController.view setAlpha:1-alpha2];
-        [selectedTimeView setAlpha:alpha2];
         [selectSongView setAlpha:alpha2];
         [selectActionView setAlpha:alpha2];
+        
+        if (isTimerMode)
+            [selectedTimeView setAlpha:1-alpha1];
+        else
+            [selectedTimeView setAlpha:alpha2];
+
+        
     } completion:^(BOOL finished) {
         if (alpha2 == 0) {
             [selectActionView removeFromSuperview];
