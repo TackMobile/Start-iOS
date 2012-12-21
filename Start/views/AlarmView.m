@@ -10,7 +10,7 @@
 
 @implementation AlarmView
 
-@synthesize delegate, index, isSet, isStopwatchMode, isTimerMode, newRect, isSnoozing;
+@synthesize delegate, index, isSet, isTiming, isStopwatchMode, isTimerMode, newRect, isSnoozing;
 @synthesize alarmInfo, countdownEnded;
 @synthesize radialGradientView, /*backgroundImage,*/ patternOverlay, toolbarImage;
 @synthesize selectSongView, selectActionView, selectDurationView, selectedTimeView, deleteLabel;
@@ -166,6 +166,7 @@ const float Spacing = 0.0f;
                              @"songID",
                              @"actionID",
                              @"isSet",
+                             @"isTiming",
                              @"themeID",
                              @"isTimerMode",
                              @"timerDateBegan",
@@ -177,6 +178,7 @@ const float Spacing = 0.0f;
                                 [NSDate dateWithTimeIntervalSinceNow:77777],
                                 [NSNumber numberWithInt:0],
                                 [NSNumber numberWithInt:0],
+                                [NSNumber numberWithBool:NO],
                                 [NSNumber numberWithBool:NO],
                                 [NSNumber numberWithInt:-1],
                                 [NSNumber numberWithBool:NO],
@@ -471,6 +473,18 @@ const float Spacing = 0.0f;
             [countdownView updateWithDate:[alarmInfo objectForKey:@"snoozeAlarm"]];
             if (floorf([[alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow] < .5))
                 [self alarmCountdownEnded];
+        } else if (isTimerMode) {
+            NSDate *timerEndsDate;
+            
+            if (isTiming) {
+               timerEndsDate = [(NSDate *)[alarmInfo objectForKey:@"timerDateBegan"] dateByAddingTimeInterval:[(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue]];
+            
+            } else {
+                timerEndsDate = [[NSDate date] dateByAddingTimeInterval:[(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue]];
+
+            }
+            [countdownView updateWithDate:timerEndsDate];
+
         } else {
             [countdownView updateWithDate:[alarmInfo objectForKey:@"date"]]; //if it isn't snoozing then countdown will display from regular saved alarm
         }
@@ -488,7 +502,7 @@ const float Spacing = 0.0f;
 }
 
 - (CGRect) currRestedSelecDurRect {
-    if (isSet)
+    if (isSet || isTiming)
         return alarmSetDurRect;
     else if (isStopwatchMode)
         return stopwatchModeDurRect;
@@ -771,7 +785,7 @@ const float Spacing = 0.0f;
     if (!pickingAction && !pickingSong && !isSet && !isTimerMode) {
         // go into timer mode
         [self enterTimerMode];
-    } else if (isTimerMode) {
+    } else if (isTimerMode && !isTiming) {
         [self exitTimerMode];
     }
 
@@ -913,12 +927,20 @@ const float Spacing = 0.0f;
         // compress/expand time picker
         [selectDurationView animateCompressByRatio:startStopwatchMode?0:1];
     }
-
-    isSet = setAlarm;
+    if (isTimerMode)
+        isTiming = setAlarm;
+    else
+        isSet = setAlarm;
+    
     isStopwatchMode = startStopwatchMode;
+    
+    if (isTiming) {
+        [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
+    }
     
     // save the set bool
     [alarmInfo setObject:[NSNumber numberWithBool:isSet] forKey:@"isSet"];
+    [alarmInfo setObject:[NSNumber numberWithBool:isTiming] forKey:@"isTiming"];
     [alarmInfo setObject:[NSNumber numberWithBool:isStopwatchMode] forKey:@"isTimerMode"];
     
     shouldSet = AlarmViewShouldNone;
@@ -928,7 +950,7 @@ const float Spacing = 0.0f;
 }
 
 -(bool) shouldLockPicker {
-    return (isSet || isStopwatchMode || ![self canMove]);
+    return (isSet || isTiming || isStopwatchMode || ![self canMove]);
 }
 
 #pragma mark - Animation
@@ -937,9 +959,14 @@ const float Spacing = 0.0f;
     CGRect newFrame = [self currRestedSelecDurRect];
     
     if ([delegate respondsToSelector:@selector(durationViewWithIndex:draggedWithPercent:)])
-        [delegate durationViewWithIndex:index draggedWithPercent:(isSet?1:isStopwatchMode?-1:0)];
+        [delegate durationViewWithIndex:index draggedWithPercent:((isSet||isTiming)?1:isStopwatchMode?-1:0)];
     
-    float alpha1 = (isSet?1:0);
+    float alpha1;
+    if (isTimerMode)
+        alpha1 = (isTiming?1:0);
+    else
+        alpha1 = (isSet?1:0);
+    
     float alpha2 = (isStopwatchMode)?0:1;
     
     if (alpha2 == 1 && !isTimerMode) {

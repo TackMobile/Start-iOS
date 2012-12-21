@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CountdownView : UIView
+@interface CountdownView : UIView {
+    bool shouldFlash;
+}
 
 @property (nonatomic, strong) UILabel *countdownLabel;
 

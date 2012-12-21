@@ -75,6 +75,8 @@ extern const float Spacing;
 @property (nonatomic, strong) id<AlarmViewDelegate> delegate;
 @property CGRect newRect;
 @property bool isSet;
+@property bool isTiming;
+
 @property bool isStopwatchMode;
 @property bool isTimerMode;
 @property bool isSnoozing;
