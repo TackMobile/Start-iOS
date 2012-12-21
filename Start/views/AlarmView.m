@@ -359,20 +359,8 @@ const float Spacing = 0.0f;
     [selectActionView removeFromSuperview];
     
     // flash timer message
-    UILabel *timerMessage = [[UILabel alloc] initWithFrame:(CGRect){CGPointZero, {self.frame.size.width, 50}}];
-    [timerMessage setText:@"Timer Mode"];
-    [timerMessage setAlpha:0];
-    [self addSubview:timerMessage];
+    [self displayToastWithText:@"Timer Mode"];
     
-    [UIView animateWithDuration:.2 animations:^{
-        [timerMessage setAlpha:.8];
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:1 delay:.5 options:0 animations:^{
-            [timerMessage setAlpha:0];
-        } completion:^(BOOL finished) {
-            [timerMessage removeFromSuperview];
-        }];
-    }];
 }
 
 - (void) flashAlarmMessage {
@@ -383,23 +371,8 @@ const float Spacing = 0.0f;
             [self addSubview:selectActionView];
     }
     
-    // flash timer message
-    UILabel *timerMessage = [[UILabel alloc] initWithFrame:(CGRect){CGPointZero, {self.frame.size.width, 50}}];
-    [timerMessage setText:@"Alarm Mode"];
-    [timerMessage setAlpha:0];
-    [self addSubview:timerMessage];
-    
-    [UIView animateWithDuration:.2 animations:^{
-        [timerMessage setAlpha:.8];
-        [selectSongView setAlpha:1];
-        [selectActionView setAlpha:1];
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:1 delay:.5 options:0 animations:^{
-            [timerMessage setAlpha:0];
-        } completion:^(BOOL finished) {
-            [timerMessage removeFromSuperview];
-        }];
-    }];
+    // flash alarm message
+    [self displayToastWithText:@"Alarm Mode"];
 }
 
 // parallax
@@ -521,6 +494,26 @@ const float Spacing = 0.0f;
         return stopwatchModeDurRect;
     else
         return selectDurRect;
+}
+
+- (void) displayToastWithText:(NSString *)text {
+    // flash timer message
+    UILabel *toast = [[UILabel alloc] initWithFrame:(CGRect){(CGPoint){0,10}, {self.frame.size.width, 50}}];
+    [toast setTextAlignment:NSTextAlignmentCenter];
+    [toast setText:text];
+    [toast setAlpha:0];
+    [self addSubview:toast];
+    
+    [UIView animateWithDuration:.2 animations:^{
+        [toast setAlpha:.8];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:1 delay:.5 options:0 animations:^{
+            [toast setAlpha:0];
+        } completion:^(BOOL finished) {
+            [toast removeFromSuperview];
+        }];
+    }];
+
 }
 
 #pragma mark - SelectSongViewDelegate
