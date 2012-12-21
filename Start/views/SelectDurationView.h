@@ -16,6 +16,7 @@
 -(void) durationDidBeginChanging:(SelectDurationView *)selectDuration;
 -(void) durationDidEndChanging:(SelectDurationView *)selectDuration;
 -(void) durationViewTapped:(SelectDurationView *)selectDuration;
+-(void) durationViewCoreTapped:(SelectDurationView *)selectDuration;
 
 -(void) durationViewDraggedWithYVel:(float)yVel;
 -(void) durationViewStoppedDraggingWithY:(float)y;
@@ -55,8 +56,10 @@ enum SelectDurationDraggingOrientation {
     
     bool changing;
     bool isStopwatchMode;
+    bool isTimerMode;
     
     NSDate *_date;
+    NSDate *_timerBeganDate;
     
     // LAYERS
     CAShapeLayer *centerLayer;
@@ -82,14 +85,22 @@ enum SelectDurationDraggingOrientation {
 @property (strong, nonatomic) id<SelectDurationViewDelegate> delegate;
 
 -(void) updateTheme:(NSDictionary *)newTheme;
-//-(void) setTimeInterval:(NSTimeInterval)timeInterval;
+- (void) setDuration:(NSTimeInterval)duration ;
 -(void) setDate:(NSDate *)date;
 -(NSDate *) getDate;
+- (NSTimeInterval)getDuration;
+
 -(void)updateTimerTick:(NSTimer *)timer;
 -(void)update;
-- (void) setStopwatchMode:(NSNumber *)on;
+
 - (void) compressByRatio:(float)ratio;
 - (void) animateCompressByRatio:(float)ratio;
+
+- (void) setStopwatchMode:(NSNumber *)on;
+
+- (void) enterTimerMode;
+- (void) exitTimerMode;
+
 
 -(id) initWithFrame:(CGRect)frame delegate:(id<SelectDurationViewDelegate>)aDelegate;
 

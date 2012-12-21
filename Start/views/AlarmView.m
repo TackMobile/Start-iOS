@@ -10,7 +10,7 @@
 
 @implementation AlarmView
 
-@synthesize delegate, index, isSet, isStopwatchMode, newRect, isSnoozing;
+@synthesize delegate, index, isSet, isTiming, isStopwatchMode, isTimerMode, newRect, isSnoozing;
 @synthesize alarmInfo, countdownEnded;
 @synthesize radialGradientView, /*backgroundImage,*/ patternOverlay, toolbarImage;
 @synthesize selectSongView, selectActionView, selectDurationView, selectedTimeView, deleteLabel;
@@ -161,8 +161,31 @@ const float Spacing = 0.0f;
 - (void) viewWillAppear {
     // init the picker's stuff
     if (!alarmInfo) {
-        NSArray *infoKeys = [[NSArray alloc] initWithObjects:@"date", @"songID", @"actionID", @"isSet", @"themeID", @"isTimerMode", @"timerDateBegan", nil];
-        NSArray *infoObjects = [[NSArray alloc] initWithObjects:[NSDate dateWithTimeIntervalSinceNow:77777], [NSNumber numberWithInt:0],[NSNumber numberWithInt:0], [NSNumber numberWithBool:NO], [NSNumber numberWithInt:-1], [NSNumber numberWithBool:NO], [NSDate date], nil];
+        NSArray *infoKeys = [[NSArray alloc] initWithObjects:
+                             @"date",
+                             @"songID",
+                             @"actionID",
+                             @"isSet",
+                             @"isTiming",
+                             @"themeID",
+                             @"isTimerMode",
+                             @"timerDateBegan",
+                             @"timerDuration",
+                             @"isStopwatchMode",
+                             @"StopwatchDateBegan",nil];
+        
+        NSArray *infoObjects = [[NSArray alloc] initWithObjects:
+                                [NSDate dateWithTimeIntervalSinceNow:77777],
+                                [NSNumber numberWithInt:0],
+                                [NSNumber numberWithInt:0],
+                                [NSNumber numberWithBool:NO],
+                                [NSNumber numberWithBool:NO],
+                                [NSNumber numberWithInt:-1],
+                                [NSNumber numberWithBool:NO],
+                                [NSDate date],
+                                [NSNumber numberWithFloat:0],
+                                [NSNumber numberWithBool:NO],
+                                [NSDate date], nil];
         alarmInfo = [[NSMutableDictionary alloc] initWithObjects:infoObjects forKeys:infoKeys];
         [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
         [selectSongView selectCellWithID:[NSNumber numberWithInt:-1]];
@@ -199,6 +222,28 @@ const float Spacing = 0.0f;
         [selectedTimeView showSnooze];
         NSLog(@"showSnooze");
     }
+}
+
+#pragma mark - functionality
+- (void) enterTimerMode {
+    isTimerMode = YES;
+    [self flashTimerMessage];
+    [selectDurationView enterTimerMode];
+    [selectedTimeView enterTimerMode];
+    [selectDurationView setDuration:[(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue]];
+    
+    [self durationDidEndChanging:selectDurationView];
+}
+
+- (void) exitTimerMode {
+    isTimerMode = NO;
+    [self flashAlarmMessage];
+    [selectDurationView exitTimerMode];
+    [selectedTimeView exitTimerMode];
+    [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+    
+    [self durationDidEndChanging:selectDurationView];
+    
 }
 
 #pragma mark - Touches
@@ -250,6 +295,9 @@ const float Spacing = 0.0f;
             [selectSongView setAlpha:0];
             [selectActionView setAlpha:0];
             [deleteLabel setAlpha:1];
+        } completion:^(BOOL finished) {
+            [selectSongView removeFromSuperview];
+            [selectActionView removeFromSuperview];
         }];
         // compress the duration picker!
         UIGraphicsBeginImageContext(selectDurationView.bounds.size);
@@ -286,6 +334,10 @@ const float Spacing = 0.0f;
                 if ([delegate alarmViewPinched:self])
                     return;
         }
+        if (!isStopwatchMode) {
+            [self addSubview:selectSongView];
+            [self addSubview:selectActionView];
+        }
         [UIView animateWithDuration:.2 animations:^{
             [durImageView setFrame:selectDurationView.frame];
             [selectSongView setAlpha:1];
@@ -302,7 +354,30 @@ const float Spacing = 0.0f;
 }
 
 #pragma mark - Posiitoning/Drawing
-// parallax shiz
+- (void) flashTimerMessage {
+    [selectSongView setAlpha:0];
+    [selectSongView removeFromSuperview];
+    [selectActionView setAlpha:0];
+    [selectActionView removeFromSuperview];
+    
+    // flash timer message
+    [self displayToastWithText:@"Timer Mode"];
+    
+}
+
+- (void) flashAlarmMessage {
+    if (!isTimerMode) {
+        if (![[self subviews] containsObject:selectSongView])
+            [self addSubview:selectSongView];
+        if (![[self subviews] containsObject:selectActionView])
+            [self addSubview:selectActionView];
+    }
+    
+    // flash alarm message
+    [self displayToastWithText:@"Alarm Mode"];
+}
+
+// parallax
 - (void) shiftedFromActiveByPercent:(float)percent {
     if (pickingSong || pickingAction)
         return;
@@ -398,7 +473,19 @@ const float Spacing = 0.0f;
             [countdownView updateWithDate:[alarmInfo objectForKey:@"snoozeAlarm"]];
             if (floorf([[alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow] < .5))
                 [self alarmCountdownEnded];
-        }else{
+        } else if (isTimerMode) {
+            NSDate *timerEndsDate;
+            
+            if (isTiming) {
+               timerEndsDate = [(NSDate *)[alarmInfo objectForKey:@"timerDateBegan"] dateByAddingTimeInterval:[(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue]];
+            
+            } else {
+                timerEndsDate = [[NSDate date] dateByAddingTimeInterval:[(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue]];
+
+            }
+            [countdownView updateWithDate:timerEndsDate];
+
+        } else {
             [countdownView updateWithDate:[alarmInfo objectForKey:@"date"]]; //if it isn't snoozing then countdown will display from regular saved alarm
         }
         
@@ -415,12 +502,32 @@ const float Spacing = 0.0f;
 }
 
 - (CGRect) currRestedSelecDurRect {
-    if (isSet)
+    if (isSet || isTiming)
         return alarmSetDurRect;
     else if (isStopwatchMode)
         return stopwatchModeDurRect;
     else
         return selectDurRect;
+}
+
+- (void) displayToastWithText:(NSString *)text {
+    // flash timer message
+    UILabel *toast = [[UILabel alloc] initWithFrame:(CGRect){(CGPoint){0,10}, {self.frame.size.width, 50}}];
+    [toast setTextAlignment:NSTextAlignmentCenter];
+    [toast setText:text];
+    [toast setAlpha:0];
+    [self addSubview:toast];
+    
+    [UIView animateWithDuration:.2 animations:^{
+        [toast setAlpha:.8];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:1 delay:.5 options:0 animations:^{
+            [toast setAlpha:0];
+        } completion:^(BOOL finished) {
+            [toast removeFromSuperview];
+        }];
+    }];
+
 }
 
 #pragma mark - SelectSongViewDelegate
@@ -572,7 +679,10 @@ const float Spacing = 0.0f;
 #pragma mark - SelectDurationViewDelegate
 -(void) durationDidChange:(SelectDurationView *)selectDuration {    
     // update selected time label
-    [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
+    if (!isTimerMode)
+        [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
+    else
+        [selectedTimeView updateDuration:[selectDuration getDuration] part:selectDuration.handleSelected];
 }
 
 -(void) durationDidBeginChanging:(SelectDurationView *)selectDuration {
@@ -602,20 +712,33 @@ const float Spacing = 0.0f;
             }
         }];
     }];
-    [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
+    
+    if (isTimerMode)
+        [selectedTimeView updateDuration:[selectDuration getDuration] part:selectDuration.handleSelected];
+    else
+        [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
 }
 
 -(void) durationDidEndChanging:(SelectDurationView *)selectDuration {
-     // save the time selected
-     NSDate *dateSelected = [selectDuration getDate];
-    
-    NSTimeInterval time = round([dateSelected timeIntervalSinceReferenceDate] / 60.0) * 60.0;
-    dateSelected = [NSDate dateWithTimeIntervalSinceReferenceDate:time];
+    if (isTimerMode) {
+        NSTimeInterval intervalSelected = [selectDuration getDuration];
+        [alarmInfo setObject:[NSNumber numberWithFloat:intervalSelected] forKey:@"timerDuration"];
+        
+        // update selectedTime View
+        [selectedTimeView updateDuration:intervalSelected part:selectDuration.handleSelected];
+    } else {
+        // save the time selected
+        NSDate *dateSelected = [selectDuration getDate];
 
-    [alarmInfo setObject:dateSelected forKey:@"date"];
+        NSTimeInterval time = round([dateSelected timeIntervalSinceReferenceDate] / 60.0) * 60.0;
+        dateSelected = [NSDate dateWithTimeIntervalSinceReferenceDate:time];
+
+        [alarmInfo setObject:dateSelected forKey:@"date"];
+   
     
-    // update selectedTime View
-    [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
+        // update selectedTime View
+        [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
+    }
     
     // animate selectedTimeView back to durationView
     [UIView animateWithDuration:.07 animations:^{
@@ -633,8 +756,9 @@ const float Spacing = 0.0f;
              [selectedTimeView setAlpha:1];
         }];
     }];
-    if ([delegate respondsToSelector:@selector(alarmViewUpdated)])
-        [delegate alarmViewUpdated];
+    if (!isTimerMode)
+        if ([delegate respondsToSelector:@selector(alarmViewUpdated)])
+            [delegate alarmViewUpdated];
 }
 
 -(void) durationViewTapped:(SelectDurationView *)selectDuration {
@@ -644,7 +768,7 @@ const float Spacing = 0.0f;
     if (pickingAction)
         [selectActionView quickSelectCell];
     if (countdownEnded) {
-        NSLog(@"snoozetapped");
+        NSLog(@"snoozeTapped");
         countdownEnded = NO;
         isSnoozing = YES;
         NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
@@ -656,6 +780,17 @@ const float Spacing = 0.0f;
         [[delegate getMusicPlayer] stop];
     }
 }
+
+-(void) durationViewCoreTapped:(SelectDurationView *)selectDuration {
+    if (!pickingAction && !pickingSong && !isSet && !isTimerMode) {
+        // go into timer mode
+        [self enterTimerMode];
+    } else if (isTimerMode && !isTiming) {
+        [self exitTimerMode];
+    }
+
+}
+
 
 -(BOOL) durationViewSwiped:(UISwipeGestureRecognizerDirection)direction {
     if (pickingSong && direction == UISwipeGestureRecognizerDirectionLeft)
@@ -685,7 +820,9 @@ const float Spacing = 0.0f;
     // cent go any higher than the alarmSet rect
     else if (proposedFrame.origin.y <= alarmSetDurRect.origin.y)
         newDurRect = alarmSetDurRect;
-    // somewhere in between
+    // cant go low if timer mode
+    else if (isTimerMode && proposedFrame.origin.y >= selectDurRect.origin.y)
+        newDurRect = selectDurRect;
     else
         newDurRect = proposedFrame;
     
@@ -703,7 +840,7 @@ const float Spacing = 0.0f;
             if (isSet){
                 shouldSet = AlarmViewShouldUnSet;
             }
-            else{
+            else if (!isTimerMode) {
                 shouldSet = AlarmViewShouldStopwatch;
             }
         }
@@ -721,6 +858,13 @@ const float Spacing = 0.0f;
     [selectDurationView setFrame:newDurRect];
     // keep the inner text centered with time picker
     [selectedTimeView setCenter:selectDurationView.center];
+    
+    if (!isTimerMode) {
+        if (![[self subviews] containsObject:selectSongView])
+            [self addSubview:selectSongView];
+        if (![[self subviews] containsObject:selectActionView])
+            [self addSubview:selectActionView];
+    }
     
     if ([delegate respondsToSelector:@selector(durationViewWithIndex:draggedWithPercent:)]) {
         float percentDragged = (selectDurationView.frame.origin.y - selectDurRect.origin.y) / 150;
@@ -783,12 +927,20 @@ const float Spacing = 0.0f;
         // compress/expand time picker
         [selectDurationView animateCompressByRatio:startStopwatchMode?0:1];
     }
-
-    isSet = setAlarm;
+    if (isTimerMode)
+        isTiming = setAlarm;
+    else
+        isSet = setAlarm;
+    
     isStopwatchMode = startStopwatchMode;
+    
+    if (isTiming) {
+        [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
+    }
     
     // save the set bool
     [alarmInfo setObject:[NSNumber numberWithBool:isSet] forKey:@"isSet"];
+    [alarmInfo setObject:[NSNumber numberWithBool:isTiming] forKey:@"isTiming"];
     [alarmInfo setObject:[NSNumber numberWithBool:isStopwatchMode] forKey:@"isTimerMode"];
     
     shouldSet = AlarmViewShouldNone;
@@ -798,7 +950,7 @@ const float Spacing = 0.0f;
 }
 
 -(bool) shouldLockPicker {
-    return (isSet || isStopwatchMode || ![self canMove]);
+    return (isSet || isTiming || isStopwatchMode || ![self canMove]);
 }
 
 #pragma mark - Animation
@@ -807,10 +959,22 @@ const float Spacing = 0.0f;
     CGRect newFrame = [self currRestedSelecDurRect];
     
     if ([delegate respondsToSelector:@selector(durationViewWithIndex:draggedWithPercent:)])
-        [delegate durationViewWithIndex:index draggedWithPercent:(isSet?1:isStopwatchMode?-1:0)];
+        [delegate durationViewWithIndex:index draggedWithPercent:((isSet||isTiming)?1:isStopwatchMode?-1:0)];
     
-    float alpha1 = (isSet?1:0);
+    float alpha1;
+    if (isTimerMode)
+        alpha1 = (isTiming?1:0);
+    else
+        alpha1 = (isSet?1:0);
+    
     float alpha2 = (isStopwatchMode)?0:1;
+    
+    if (alpha2 == 1 && !isTimerMode) {
+        if (![[self subviews] containsObject:selectSongView])
+            [self addSubview:selectSongView];
+        if (![[self subviews] containsObject:selectActionView])
+            [self addSubview:selectActionView];
+    }
     
     [UIView animateWithDuration:.2 animations:^{
         NSLog(@"animating");
@@ -822,7 +986,12 @@ const float Spacing = 0.0f;
         [selectedTimeView setAlpha:alpha2];
         [selectSongView setAlpha:alpha2];
         [selectActionView setAlpha:alpha2];
-    }];  
+    } completion:^(BOOL finished) {
+        if (alpha2 == 0) {
+            [selectActionView removeFromSuperview];
+            [selectSongView removeFromSuperview];
+        }
+    }];
 }
 
 #pragma mark - Utilities

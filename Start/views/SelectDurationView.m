@@ -166,9 +166,14 @@
     _date = [self getDate];
     changing = NO;
 
-    if ([[touches anyObject] tapCount] > 0)
+    if ([[touches anyObject] tapCount] > 0) {
+        if (handleSelected == SelectDurationCenterHandle)
+            if ([delegate respondsToSelector:@selector(durationViewCoreTapped:)])
+                [delegate durationViewCoreTapped:self];
+        
         if ([delegate respondsToSelector:@selector(durationViewTapped:)])
             [delegate durationViewTapped:self];
+    }
     
     if (draggingOrientation == SelectDurationDraggingHoriz || draggingOrientation == SelectDurationDraggingCancel)
         [(UIView *)delegate touchesEnded:touches withEvent:event];
@@ -189,6 +194,20 @@
 
 - (void) touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
     [self touchesEnded:touches withEvent:event];
+}
+
+#pragma mark - functionality
+- (void) enterTimerMode {
+    isTimerMode = YES;
+    outerAngle = 0;
+    innerAngle = 0;
+    outerStartAngle = 0;
+    innerStartAngle = 0;
+    [self updateLayers];
+}
+- (void) exitTimerMode {
+    isTimerMode = NO;
+    [self updateLayers];
 }
 
 #pragma mark - Properties
@@ -260,6 +279,12 @@
     
 }
 
+-(NSTimeInterval) getDuration {
+    int min = (int)roundf(outerAngle/(M_PI*2/60));
+    int hour = (int)roundf(innerAngle/(M_PI*2/24));
+    return hour*3600 + min*60;
+}
+
 -(NSDate *) getDate {
     int min = (int)roundf(outerAngle/(M_PI*2/60));
     int hour = (int)roundf(innerAngle/(M_PI*2/24));
@@ -299,7 +324,10 @@
     [self update];
 }
 
-- (void) update {    
+- (void) update {
+    if (isTimerMode)
+        return;
+        
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:_date];
     
@@ -343,6 +371,24 @@
     _date = date;
     [self update];
 }
+- (void) setDuration:(NSTimeInterval)duration {
+    int days = duration / (60 * 60 * 24);
+    duration -= days * (60 * 60 * 24);
+    int hours = duration / (60 * 60);
+    duration -= hours * (60 * 60);
+    int minutes = duration / 60;
+    
+    float newInnerAngle = hours * (M_PI*2)/24;
+    float newOuterAngle = minutes * (M_PI*2)/60;
+        
+    [self setSnappedOuterAngle:newOuterAngle];
+    [self setSnappedInnerAngle:newInnerAngle];
+    
+    [self updateLayers];
+
+}
+
+#pragma mark - angles
 
 - (bool) touchAngle:(float)touchAngle isWithinAngle:(float)angle {
     float padding = DEGREES_TO_RADIANS(15);
@@ -369,13 +415,19 @@
     if (prevOuterAngle > beforeLim && roundedAngle < afterLim) { // next hour
         NSLog(@"next");
         outerAngle = prevOuterAngle = roundedAngle;
-        [self setDate:[[self getDate] dateByAddingTimeInterval:3600]];
+        if (isTimerMode)
+            [self setDuration:[self getDuration]+3600];
+        else
+            [self setDate:[[self getDate] dateByAddingTimeInterval:3600]];
         return;
 
     } else if (roundedAngle > beforeLim && prevOuterAngle < afterLim) { // prev hour
         NSLog(@"prev");
         outerAngle = prevOuterAngle = roundedAngle;
-        [self setDate:[[self getDate] dateByAddingTimeInterval:-3600]];
+        if (isTimerMode)
+            [self setDuration:[self getDuration]-3600];
+        else
+            [self setDate:[[self getDate] dateByAddingTimeInterval:-3600]];
         return;
     }
     outerAngle = prevOuterAngle = roundedAngle;
