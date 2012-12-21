@@ -128,7 +128,7 @@
             
             notif.fireDate = [alarmInfo objectForKey:@"date"];
             
-            if (alarmView.isSnoozing)
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"snoozing"])
                 notif.fireDate = [alarmInfo objectForKey:@"snoozeAlarm"];
             switch ([[alarmInfo objectForKey:@"songID"] intValue]) { //if the user selects one of the default tones for their alarm...the local notification will play that tone as its sound
                 case 0:
@@ -175,7 +175,7 @@
             notif = [[UILocalNotification alloc] init];
             NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
                                       [NSNumber numberWithInt:alarmView.index], @"alarmIndex", nil];
-            if (alarmView.isSnoozing)
+            if ([[NSUserDefaults standardUserDefaults] boolForKey:@"snoozing"])
                 notif.fireDate = [alarmInfo objectForKey:@"snoozeAlarm"];
             else
                 notif.fireDate = [alarmInfo objectForKey:@"date"];

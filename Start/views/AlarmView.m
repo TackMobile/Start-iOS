@@ -10,7 +10,7 @@
 
 @implementation AlarmView
 
-@synthesize delegate, index, isSet, isTimerMode, newRect, isSnoozing;
+@synthesize delegate, index, isSet, isTimerMode, newRect;
 @synthesize alarmInfo, countdownEnded;
 @synthesize radialGradientView, /*backgroundImage,*/ patternOverlay, toolbarImage;
 @synthesize selectSongView, selectActionView, selectDurationView, selectedTimeView, deleteLabel;
@@ -28,7 +28,7 @@ const float Spacing = 0.0f;
         pickingAction = NO;
         cancelTouch = NO;
         countdownEnded = NO;
-        isSnoozing = NO;
+         
         
         musicManager = [[MusicManager alloc] init];
         PListModel *pListModel = [delegate getPListModel];
@@ -167,7 +167,10 @@ const float Spacing = 0.0f;
     } else {
         // init the duration picker & theme & action & song
         // select duration
-        [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"snoozing"]) //show/load the snooze alarm instead of the original saved alarm if the user was in snooze mode when they relaunched the app
+            [selectDurationView setDate:[alarmInfo objectForKey:@"snoozeAlarm"]];
+        else
+            [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
         // select song
         [selectSongView selectCellWithID:(NSNumber *)[alarmInfo objectForKey:@"songID"]];
         // select action
@@ -195,7 +198,6 @@ const float Spacing = 0.0f;
         [delegate alarmCountdownEnded:self];
         countdownEnded = YES;
         [selectedTimeView showSnooze];
-        NSLog(@"showSnooze");
     }
 }
 
@@ -392,7 +394,7 @@ const float Spacing = 0.0f;
         if (isSet && floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5)
             [self alarmCountdownEnded];
         
-        if (isSnoozing) { //display and trigger an unsaved alarm
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"snoozing"]) { //display and trigger an unsaved alarm
             [countdownView updateWithDate:[alarmInfo objectForKey:@"snoozeAlarm"]];
             if (floorf([[alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow] < .5))
                 [self alarmCountdownEnded];
@@ -426,7 +428,7 @@ const float Spacing = 0.0f;
     return [delegate getMusicPlayer];
 }
 -(BOOL) expandSelectSongView {
-    if (pickingAction /*|| isSnoozing */ || countdownEnded) //does not allow user to press and expand select sound view when the alarm is going off to prevent accidental touch when the user is trying to press snooze
+    if (pickingAction || countdownEnded) //does not allow user to press and expand select sound view when the alarm is going off to prevent accidental touch when the user is trying to press snooze
     {
         return NO;}
     
@@ -501,7 +503,7 @@ const float Spacing = 0.0f;
 
 #pragma mark - SelectActionViewDelegate
 -(BOOL) expandSelectActionView {
-    if (pickingAction /*|| isSnoozing*/ || countdownEnded) //does not allow you to press and expand select action view while the alarm is going off to prevent accidental touches if the user is trying to press snooze
+    if (pickingAction || countdownEnded) //does not allow you to press and expand select action view while the alarm is going off to prevent accidental touches if the user is trying to press snooze
         return NO;
     
     pickingAction = YES;
@@ -644,7 +646,7 @@ const float Spacing = 0.0f;
     if (countdownEnded) {
         NSLog(@"snoozetapped");
         countdownEnded = NO;
-        isSnoozing = YES;
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"snoozing"]; //save to NSUserDefaults just in case the user exits the app...we still need to know it's in snooze mode when the user relaunches the app
         NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
         //NSTimeInterval testSnoozeTime = 1 * 60.0f;
         NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
@@ -741,9 +743,9 @@ const float Spacing = 0.0f;
         set = NO;
         [selectSongView.cell.artistLabel setAlpha:1];
 //when the user turns off the alarm when the alarm is sounding*************************************************
-        if (countdownEnded || isSnoozing) { // stop and launch countdown aciton
+        if (countdownEnded || [[NSUserDefaults standardUserDefaults] boolForKey:@"snoozing"]) { // stop and launch countdown aciton
             countdownEnded = NO;
-            isSnoozing = NO;
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"snoozing"];
             NSURL *openURL = [NSURL URLWithString:[[selectActionView.actions objectAtIndex:[[alarmInfo objectForKey:@"actionID"] intValue] ] objectForKey:@"url"]]; //gets URL of selected action from alarmInfo dictionary.
             [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
             [[delegate getMusicPlayer] stop];

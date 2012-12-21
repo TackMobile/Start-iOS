@@ -65,7 +65,6 @@ enum AlarmViewShouldSet {
     bool pickingSong;
     bool pickingAction;
     bool cancelTouch;
-    bool isSnoozing;
     bool timerMode;
         
     UIImageView *durImageView;
@@ -77,7 +76,6 @@ extern const float Spacing;
 @property CGRect newRect;
 @property bool isSet;
 @property bool isTimerMode;
-@property bool isSnoozing;
 @property int index;
 
 @property (nonatomic, strong) NSMutableDictionary *alarmInfo;
