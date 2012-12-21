@@ -927,9 +927,13 @@ const float Spacing = 0.0f;
         // compress/expand time picker
         [selectDurationView animateCompressByRatio:startStopwatchMode?0:1];
     }
-    if (isTimerMode)
+    if (isTimerMode) {
         isTiming = setAlarm;
-    else
+        if (isTiming)
+            [selectDurationView beginTiming];
+        else
+            [selectDurationView stopTiming];
+    } else
         isSet = setAlarm;
     
     isStopwatchMode = startStopwatchMode;
