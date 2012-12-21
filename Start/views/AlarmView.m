@@ -190,25 +190,31 @@ const float Spacing = 0.0f;
         [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
         [selectSongView selectCellWithID:[NSNumber numberWithInt:-1]];
     } else {
-        // init the duration picker & theme & action & song
-        // select duration
-        [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
-        // select song
         [selectSongView selectCellWithID:(NSNumber *)[alarmInfo objectForKey:@"songID"]];
         // select action
         [selectActionView selectActionWithID:(NSNumber *)[alarmInfo objectForKey:@"actionID"]];
         // set isSet
-        if ([(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue]) {
-            isSet = YES;
+        isSet = [(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue];
+        isTiming = [(NSNumber *)[alarmInfo objectForKey:@"isTiming"] boolValue];
+
+        isTimerMode = [(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue];
+        isStopwatchMode = [(NSNumber *)[alarmInfo objectForKey:@"isStopWatchMode"] boolValue];
+        
+        if (isTimerMode) {
+            [self enterTimerMode];
+            [selectDurationView setDuration:[(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue]];
+        } else {
+            [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
         }
-        if ([(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue]) {
-            isStopwatchMode = NO;
-            [alarmInfo setObject:[NSNumber numberWithBool:NO] forKey:@"isTimerMode"];
-        } // does not hide selectsong properly
+        
+        if (isTiming) {
+            [selectDurationView beginTiming];
+        }
+
         [self animateSelectDurToRest];
     }
     
-    [selectedTimeView updateDate:selectDurationView.getDate part:0];
+    [self durationDidEndChanging:selectDurationView];
 }
 
 - (bool) canMove {
@@ -227,6 +233,8 @@ const float Spacing = 0.0f;
 #pragma mark - functionality
 - (void) enterTimerMode {
     isTimerMode = YES;
+    [alarmInfo setObject:[NSNumber numberWithBool:YES] forKey:@"isTimerMode"];
+    
     [self flashTimerMessage];
     [selectDurationView enterTimerMode];
     [selectedTimeView enterTimerMode];
@@ -237,6 +245,8 @@ const float Spacing = 0.0f;
 
 - (void) exitTimerMode {
     isTimerMode = NO;
+    [alarmInfo setObject:[NSNumber numberWithBool:NO] forKey:@"isTimerMode"];
+
     [self flashAlarmMessage];
     [selectDurationView exitTimerMode];
     [selectedTimeView exitTimerMode];
@@ -945,7 +955,7 @@ const float Spacing = 0.0f;
     // save the set bool
     [alarmInfo setObject:[NSNumber numberWithBool:isSet] forKey:@"isSet"];
     [alarmInfo setObject:[NSNumber numberWithBool:isTiming] forKey:@"isTiming"];
-    [alarmInfo setObject:[NSNumber numberWithBool:isStopwatchMode] forKey:@"isTimerMode"];
+    [alarmInfo setObject:[NSNumber numberWithBool:isStopwatchMode] forKey:@"isStopwatchMode"];
     
     shouldSet = AlarmViewShouldNone;
     [self animateSelectDurToRest];
@@ -955,6 +965,9 @@ const float Spacing = 0.0f;
 
 -(bool) shouldLockPicker {
     return (isSet || isTiming || isStopwatchMode || ![self canMove]);
+}
+-(NSDate *)getDateBegan {
+    return [alarmInfo objectForKey:@"timerDateBegan"];
 }
 
 #pragma mark - Animation

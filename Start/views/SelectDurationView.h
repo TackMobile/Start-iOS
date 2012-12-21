@@ -22,6 +22,7 @@
 -(void) durationViewStoppedDraggingWithY:(float)y;
 
 -(bool) shouldLockPicker;
+-(NSDate *)getDateBegan;
 @end
 
 enum SelectDurationHandleSelected {

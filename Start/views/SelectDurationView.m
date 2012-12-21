@@ -211,7 +211,11 @@
 }
 - (void) beginTiming {
     timerDuration = [self getDuration];
-    _timerBeganDate = [NSDate date];
+    if ([delegate respondsToSelector:@selector(getDateBegan)])
+        _timerBeganDate = [delegate getDateBegan];
+    else
+        _timerBeganDate = [NSDate date];
+    
     isTiming = YES;
 }
 - (void) stopTiming {
