@@ -209,6 +209,15 @@
     isTimerMode = NO;
     [self updateLayers];
 }
+- (void) beginTiming {
+    timerDuration = [self getDuration];
+    _timerBeganDate = [NSDate date];
+    isTiming = YES;
+}
+- (void) stopTiming {
+    isTiming = NO;
+}
+
 
 #pragma mark - Properties
 - (void) compressByRatio:(float)ratio {
@@ -325,45 +334,49 @@
 }
 
 - (void) update {
-    if (isTimerMode)
-        return;
+    if (isTimerMode) {
+        NSLog(@"%f", [[NSDate date] timeIntervalSinceDate:[_timerBeganDate dateByAddingTimeInterval:timerDuration]]);
+        if (isTiming)
+            [self setDuration:[[_timerBeganDate dateByAddingTimeInterval:timerDuration] timeIntervalSinceDate:[NSDate date]]];
+    } else {
         
-    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:_date];
-    
-    int minute = dateComponents.minute;
-    int hour = dateComponents.hour;
-    int second = dateComponents.second;
+        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+        NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:_date];
         
-    float newInnerAngle = hour * (M_PI*2)/24;
-    float newOuterAngle = minute * (M_PI*2)/60;
-    
-    float saveInnerAngle = innerAngle;
-    float saveOuterAngle = outerAngle;
-    
-    [self setSnappedOuterAngle:newOuterAngle];
-    [self setSnappedInnerAngle:newInnerAngle];
-    
-    // start handles
-    dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
+        int minute = dateComponents.minute;
+        int hour = dateComponents.hour;
+        int second = dateComponents.second;
+            
+        float newInnerAngle = hour * (M_PI*2)/24;
+        float newOuterAngle = minute * (M_PI*2)/60;
+        
+        float saveInnerAngle = innerAngle;
+        float saveOuterAngle = outerAngle;
+        
+        [self setSnappedOuterAngle:newOuterAngle];
+        [self setSnappedInnerAngle:newInnerAngle];
+        
+        // start handles
+        dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
 
-    minute = dateComponents.minute;
-    hour = dateComponents.hour;
-    second = dateComponents.second;
-    
-    float newInnerStartAngle = hour * (M_PI*2)/24;
-    float newOuterStartAngle = minute * (M_PI*2)/60;
-    
-    float saveInnerStartAngle = innerStartAngle;
-    float saveOuterStartAngle = outerStartAngle;
-    
-    [self setSnappedOuterStartAngle:newOuterStartAngle];
-    [self setSnappedInnerStartAngle:newInnerStartAngle];
-    
-    
-    if ((innerAngle != saveInnerAngle) || (outerAngle != saveOuterAngle)
-        || (innerStartAngle != saveInnerStartAngle) || (outerStartAngle != saveOuterStartAngle))
-        [self updateLayers];
+        minute = dateComponents.minute;
+        hour = dateComponents.hour;
+        second = dateComponents.second;
+        
+        float newInnerStartAngle = hour * (M_PI*2)/24;
+        float newOuterStartAngle = minute * (M_PI*2)/60;
+        
+        float saveInnerStartAngle = innerStartAngle;
+        float saveOuterStartAngle = outerStartAngle;
+        
+        [self setSnappedOuterStartAngle:newOuterStartAngle];
+        [self setSnappedInnerStartAngle:newInnerStartAngle];
+        
+        
+        if ((innerAngle != saveInnerAngle) || (outerAngle != saveOuterAngle)
+            || (innerStartAngle != saveInnerStartAngle) || (outerStartAngle != saveOuterStartAngle))
+            [self updateLayers];
+    }
 }
 
 - (void) setDate:(NSDate *)date {
@@ -372,6 +385,8 @@
     [self update];
 }
 - (void) setDuration:(NSTimeInterval)duration {
+    if (duration < 0.0)
+        duration = 0.0;
     int days = duration / (60 * 60 * 24);
     duration -= days * (60 * 60 * 24);
     int hours = duration / (60 * 60);
