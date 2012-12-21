@@ -99,7 +99,7 @@ enum SelectDurationDraggingOrientation {
 - (void) compressByRatio:(float)ratio;
 - (void) animateCompressByRatio:(float)ratio;
 
-- (void) setStopwatchMode:(NSNumber *)on;
+- (void) setStopwatchMode:(BOOL)on;
 
 - (void) enterTimerMode;
 - (void) exitTimerMode;

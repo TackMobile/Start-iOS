@@ -69,7 +69,7 @@ const float Spacing = 0.0f;
         durImageView = [[UIImageView alloc] init];
         selectedTimeView = [[SelectedTimeView alloc] initWithFrame:selectedTimeRect]; //clock in middle of dial
         countdownView = [[CountdownView alloc] initWithFrame:countdownRect];
-        UIView *durationMaskView = [[UIView alloc] initWithFrame:durationMaskRect];
+        durationMaskView = [[UIView alloc] initWithFrame:durationMaskRect];
         stopwatchViewController = [[StopwatchViewController alloc] init];
         [stopwatchViewController.view setFrame:stopwatchRect];
         deleteLabel = [[UILabel alloc] initWithFrame:deleteLabelRect];
@@ -122,14 +122,14 @@ const float Spacing = 0.0f;
         [selectActionView.actionTableView setFrame:selectActionTableViewRect];
         
         // add gradient mask to countdownMaskView
-        CAGradientLayer *gradient = [CAGradientLayer layer];
+        toolbarGradient = [CAGradientLayer layer];
         NSArray *gradientColors = [NSArray arrayWithObjects:
                                    (id)[[UIColor clearColor] CGColor],
                                    (id)[[UIColor whiteColor] CGColor],
                                    /*(id)[[UIColor whiteColor] CGColor],
                                    (id)[[UIColor clearColor] CGColor],*/ nil];
         
-        float topFadeHeight = toolBarRect.size.height/self.frame.size.height;
+        float topFadeHeight = (toolBarRect.size.height-10)/self.frame.size.height;
         //float bottomFadeHeight = 1 - (selectAlarmRect.size.height/self.frame.size.height);
         
         NSArray *gradientLocations = [NSArray arrayWithObjects:
@@ -138,11 +138,10 @@ const float Spacing = 0.0f;
                                       /*[NSNumber numberWithFloat:bottomFadeHeight],
                                       [NSNumber numberWithFloat:1.0f-.05f],*/ nil];
         
-        [gradient setColors:gradientColors];
-        [gradient setLocations:gradientLocations];
-        [gradient setFrame:durationMaskRect];
-        [durationMaskView.layer setMask:gradient];
-        [durationMaskView.layer setMasksToBounds:YES];
+        [toolbarGradient setColors:gradientColors];
+        [toolbarGradient setLocations:gradientLocations];
+        [toolbarGradient setFrame:durationMaskRect];
+        [durationMaskView.layer setMask:toolbarGradient];
         
     }
     return self;
@@ -198,14 +197,18 @@ const float Spacing = 0.0f;
         isTiming = [(NSNumber *)[alarmInfo objectForKey:@"isTiming"] boolValue];
 
         isTimerMode = [(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue];
-        isStopwatchMode = [(NSNumber *)[alarmInfo objectForKey:@"isStopWatchMode"] boolValue];
+        isStopwatchMode = [(NSNumber *)[alarmInfo objectForKey:@"isStopwatchMode"] boolValue];
         
         if (isTimerMode) {
-            [self enterTimerMode];
             [selectDurationView setDuration:[(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue]];
+            [self enterTimerMode];
         } else {
             [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
         }
+        
+        //[selectDurationView setStopwatchMode:isStopwatchMode];
+        if (isStopwatchMode)
+            [selectDurationView animateCompressByRatio:0];
         
         if (isTiming) {
             [selectDurationView beginTiming];
@@ -241,6 +244,8 @@ const float Spacing = 0.0f;
     [selectDurationView setDuration:[(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue]];
     
     [self durationDidEndChanging:selectDurationView];
+    
+    [durationMaskView.layer setMask:nil];
 }
 
 - (void) exitTimerMode {
@@ -254,6 +259,8 @@ const float Spacing = 0.0f;
     
     [self durationDidEndChanging:selectDurationView];
     
+    [durationMaskView.layer setMask:toolbarGradient];
+
 }
 
 #pragma mark - Touches
@@ -792,7 +799,7 @@ const float Spacing = 0.0f;
 }
 
 -(void) durationViewCoreTapped:(SelectDurationView *)selectDuration {
-    if (!pickingAction && !pickingSong && !isSet && !isTimerMode) {
+    if (!pickingAction && !pickingSong && !isSet && !isTimerMode && !isStopwatchMode) {
         // go into timer mode
         [self enterTimerMode];
     } else if (isTimerMode && !isTiming) {

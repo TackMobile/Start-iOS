@@ -279,9 +279,10 @@
 
 }
 
-- (void) setStopwatchMode:(NSNumber *)on {
-    isStopwatchMode = [on boolValue];
-    [self updateLayers];
+- (void) setStopwatchMode:(BOOL)on {
+    isStopwatchMode = on;
+    //[self compressByRatio:isStopwatchMode?0:1];
+    //[self updateLayers];
 }
 - (void) updateTheme:(NSDictionary *)newTheme {
     theme = newTheme;
@@ -544,13 +545,8 @@
 
     // OUTER CIRCLE
     UIBezierPath *outerCirclePath = [UIBezierPath bezierPath];
-    if (isStopwatchMode) {
-        [outerCirclePath addArcWithCenter:CGPointZero radius:innerRadius startAngle:0 endAngle:M_PI*2 clockwise:YES];
-        [outerCirclePath addArcWithCenter:CGPointZero radius:outerRadius startAngle:M_PI*2 endAngle:0 clockwise:NO];
-    } else {
-        [outerCirclePath addArcWithCenter:CGPointZero radius:innerRadius startAngle:outerStartAngle+startAngle endAngle:outerAngle+startAngle clockwise:YES];
-        [outerCirclePath addArcWithCenter:CGPointZero radius:outerRadius startAngle:outerAngle+startAngle endAngle:outerStartAngle+startAngle clockwise:NO];
-    }
+    [outerCirclePath addArcWithCenter:CGPointZero radius:innerRadius startAngle:outerStartAngle+startAngle endAngle:outerAngle+startAngle clockwise:YES];
+    [outerCirclePath addArcWithCenter:CGPointZero radius:outerRadius startAngle:outerAngle+startAngle endAngle:outerStartAngle+startAngle clockwise:NO];
     
     // OUTER HANDLE
     UIBezierPath *outerHandlePath = [UIBezierPath bezierPath];
@@ -560,13 +556,8 @@
      
     // INNER CIRCLE
     UIBezierPath *innerCirclePath = [UIBezierPath bezierPath];
-    if (isStopwatchMode) {
-        [innerCirclePath addArcWithCenter:CGPointZero radius:centerRadius startAngle:0 endAngle:M_PI*2 clockwise:YES];
-        [innerCirclePath addArcWithCenter:CGPointZero radius:innerRadius startAngle:M_PI*2 endAngle:0 clockwise:NO];
-    } else {
-        [innerCirclePath addArcWithCenter:CGPointZero radius:centerRadius startAngle:innerStartAngle+startAngle endAngle:innerAngle+startAngle clockwise:YES];
-        [innerCirclePath addArcWithCenter:CGPointZero radius:innerRadius startAngle:innerAngle+startAngle endAngle:innerStartAngle+startAngle clockwise:NO];
-    }
+    [innerCirclePath addArcWithCenter:CGPointZero radius:centerRadius startAngle:innerStartAngle+startAngle endAngle:innerAngle+startAngle clockwise:YES];
+    [innerCirclePath addArcWithCenter:CGPointZero radius:innerRadius startAngle:innerAngle+startAngle endAngle:innerStartAngle+startAngle clockwise:NO];
     
     // INNER HANDLE
     UIBezierPath *innerHandlePath = [UIBezierPath bezierPath];

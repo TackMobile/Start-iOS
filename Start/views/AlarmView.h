@@ -67,6 +67,9 @@ enum AlarmViewShouldSet {
     bool isSnoozing;
     
     UIImageView *durImageView;
+    UIView *durationMaskView;
+    
+    CAGradientLayer *toolbarGradient;
     
 }
 extern const float Spacing;
