@@ -166,9 +166,14 @@
     _date = [self getDate];
     changing = NO;
 
-    if ([[touches anyObject] tapCount] > 0)
+    if ([[touches anyObject] tapCount] > 0) {
+        if (handleSelected == SelectDurationCenterHandle)
+            if ([delegate respondsToSelector:@selector(durationViewCoreTapped:)])
+                [delegate durationViewCoreTapped:self];
+        
         if ([delegate respondsToSelector:@selector(durationViewTapped:)])
             [delegate durationViewTapped:self];
+    }
     
     if (draggingOrientation == SelectDurationDraggingHoriz || draggingOrientation == SelectDurationDraggingCancel)
         [(UIView *)delegate touchesEnded:touches withEvent:event];
@@ -366,6 +371,22 @@
     _date = date;
     [self update];
 }
+- (void) setDuration:(NSTimeInterval)duration {
+    int days = duration / (60 * 60 * 24);
+    duration -= days * (60 * 60 * 24);
+    int hours = duration / (60 * 60);
+    duration -= hours * (60 * 60);
+    int minutes = duration / 60;
+    
+    float newInnerAngle = hours * (M_PI*2)/24;
+    float newOuterAngle = minutes * (M_PI*2)/60;
+        
+    [self setSnappedOuterAngle:newOuterAngle];
+    [self setSnappedInnerAngle:newInnerAngle];
+    
+    [self updateLayers];
+
+}
 
 #pragma mark - angles
 
@@ -394,13 +415,19 @@
     if (prevOuterAngle > beforeLim && roundedAngle < afterLim) { // next hour
         NSLog(@"next");
         outerAngle = prevOuterAngle = roundedAngle;
-        [self setDate:[[self getDate] dateByAddingTimeInterval:3600]];
+        if (isTimerMode)
+            [self setDuration:[self getDuration]+3600];
+        else
+            [self setDate:[[self getDate] dateByAddingTimeInterval:3600]];
         return;
 
     } else if (roundedAngle > beforeLim && prevOuterAngle < afterLim) { // prev hour
         NSLog(@"prev");
         outerAngle = prevOuterAngle = roundedAngle;
-        [self setDate:[[self getDate] dateByAddingTimeInterval:-3600]];
+        if (isTimerMode)
+            [self setDuration:[self getDuration]-3600];
+        else
+            [self setDate:[[self getDate] dateByAddingTimeInterval:-3600]];
         return;
     }
     outerAngle = prevOuterAngle = roundedAngle;

@@ -16,6 +16,7 @@
 -(void) durationDidBeginChanging:(SelectDurationView *)selectDuration;
 -(void) durationDidEndChanging:(SelectDurationView *)selectDuration;
 -(void) durationViewTapped:(SelectDurationView *)selectDuration;
+-(void) durationViewCoreTapped:(SelectDurationView *)selectDuration;
 
 -(void) durationViewDraggedWithYVel:(float)yVel;
 -(void) durationViewStoppedDraggingWithY:(float)y;
@@ -84,7 +85,7 @@ enum SelectDurationDraggingOrientation {
 @property (strong, nonatomic) id<SelectDurationViewDelegate> delegate;
 
 -(void) updateTheme:(NSDictionary *)newTheme;
-//-(void) setTimeInterval:(NSTimeInterval)timeInterval;
+- (void) setDuration:(NSTimeInterval)duration ;
 -(void) setDate:(NSDate *)date;
 -(NSDate *) getDate;
 - (NSTimeInterval)getDuration;

@@ -72,7 +72,13 @@
     CGSize mdLabelSize = [[meridiemLabel text] sizeWithFont:[meridiemLabel font]];
     CGSize snoozeLabelSize = [[snoozeLabel text] sizeWithFont:[snoozeLabel font] constrainedToSize:CGSizeMake(self.frame.size.width, self.frame.size.height)];
     
-    CGRect timeLabelRect = CGRectMake((self.frame.size.width - timeLabelSize.width)/2, (self.frame.size.height-timeLabelSize.height)/2 - 5, timeLabelSize.width, timeLabelSize.height);
+    CGRect timeLabelRect;
+    if (!timerMode) {
+        timeLabelRect = CGRectMake((self.frame.size.width - timeLabelSize.width)/2, (self.frame.size.height-timeLabelSize.height)/2 - 5, timeLabelSize.width, timeLabelSize.height);
+    } else {
+        timeLabelRect = CGRectMake((self.frame.size.width - timeLabelSize.width)/2, (self.frame.size.height-timeLabelSize.height)/2, timeLabelSize.width, timeLabelSize.height);
+
+    }
     CGRect meridiemLabelRect = CGRectMake((self.frame.size.width - mdLabelSize.width)/2, timeLabelRect.origin.y+timeLabelSize.height-3, mdLabelSize.width, mdLabelSize.height);
     CGRect snoozeLabelRect = CGRectMake((self.frame.size.width-snoozeLabelSize.width)/2, (self.frame.size.height - snoozeLabelSize.height)/2, snoozeLabelSize.width, snoozeLabelSize.height);
     
@@ -89,17 +95,19 @@
     [meridiemLabel setAlpha:0];
 }
 
+- (void) enterTimerMode {
+    timerMode = YES;
+    [meridiemLabel removeFromSuperview];
+}
+- (void) exitTimerMode {
+    timerMode = NO;
+    [self addSubview:meridiemLabel];
+}
+
 
 
 //when user drags handle this method is called
 - (void) updateDate:(NSDate *)newDate part:(int)partEditing {//when snooze is tapped this method is called
-    if (!timerMode) {
-        [snoozeLabel setAlpha:0]; //make snooze label invisbile
-        [timeLabel setAlpha:1]; //make time label visible
-        [meridiemLabel setAlpha:1];
-    }
-    
-    
     
     // format & save the date
     date = newDate;
@@ -157,6 +165,46 @@
     CGRect editingPartRect = CGRectMake(labelRect.origin.x + indicatorXOffset, labelRect.origin.y + labelRect.size.height-6, indicatorWidth, 1);
     [editingPartIndicator setFrame:editingPartRect];
 }
+
+- (void) updateDuration:(NSTimeInterval)duration part:(int)partEditing  {
+    
+    int days = duration / (60 * 60 * 24);
+    duration -= days * (60 * 60 * 24);
+    int hours = duration / (60 * 60);
+    duration -= hours * (60 * 60);
+    int minutes = duration / 60;
+	
+    NSString *durString = [NSString stringWithFormat:@"%02d:%02d", hours, minutes];
+    
+    [timeLabel setText:durString];
+    
+    [self layoutSubviews];
+    
+    // change the partIndicator
+    CGSize hourSize = [[NSString stringWithFormat:@"%02d", hours] sizeWithFont:[timeLabel font]];
+    CGSize colonSize = [@":" sizeWithFont:[timeLabel font]];
+    CGSize minSize = [[NSString stringWithFormat:@"%02d", minutes] sizeWithFont:[timeLabel font]];
+    
+    float indicatorXOffset = 0;
+    float indicatorWidth = 0;
+    switch (partEditing) {
+        case SelectedTimeEditingHour:
+            indicatorWidth = hourSize.width;
+            break;
+            
+        case SelectedTimeEditingMinute:
+            indicatorXOffset = hourSize.width + colonSize.width;
+            indicatorWidth = minSize.width;
+            
+        default:
+            break;
+    }
+    CGRect labelRect = timeLabel.frame;
+    CGRect editingPartRect = CGRectMake(labelRect.origin.x + indicatorXOffset, labelRect.origin.y + labelRect.size.height-6, indicatorWidth, 1);
+    [editingPartIndicator setFrame:editingPartRect];
+
+}
+
 
 
 @end

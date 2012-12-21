@@ -169,6 +169,7 @@ const float Spacing = 0.0f;
                              @"themeID",
                              @"isTimerMode",
                              @"timerDateBegan",
+                             @"timerDuration",
                              @"isStopwatchMode",
                              @"StopwatchDateBegan",nil];
         
@@ -180,6 +181,7 @@ const float Spacing = 0.0f;
                                 [NSNumber numberWithInt:-1],
                                 [NSNumber numberWithBool:NO],
                                 [NSDate date],
+                                [NSNumber numberWithFloat:0],
                                 [NSNumber numberWithBool:NO],
                                 [NSDate date], nil];
         alarmInfo = [[NSMutableDictionary alloc] initWithObjects:infoObjects forKeys:infoKeys];
@@ -225,13 +227,20 @@ const float Spacing = 0.0f;
     isTimerMode = YES;
     [self flashTimerMessage];
     [selectDurationView enterTimerMode];
+    [selectedTimeView enterTimerMode];
+    [selectDurationView setDuration:[(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue]];
+    
+    [self durationDidEndChanging:selectDurationView];
 }
 
 - (void) exitTimerMode {
     isTimerMode = NO;
-    [selectDurationView exitTimerMode];
     [self flashAlarmMessage];
+    [selectDurationView exitTimerMode];
+    [selectedTimeView exitTimerMode];
     [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+    
+    [self durationDidEndChanging:selectDurationView];
     
 }
 
@@ -665,6 +674,8 @@ const float Spacing = 0.0f;
     // update selected time label
     if (!isTimerMode)
         [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
+    else
+        [selectedTimeView updateDuration:[selectDuration getDuration] part:selectDuration.handleSelected];
 }
 
 -(void) durationDidBeginChanging:(SelectDurationView *)selectDuration {
@@ -694,21 +705,33 @@ const float Spacing = 0.0f;
             }
         }];
     }];
-    [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
+    
+    if (isTimerMode)
+        [selectedTimeView updateDuration:[selectDuration getDuration] part:selectDuration.handleSelected];
+    else
+        [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
 }
 
 -(void) durationDidEndChanging:(SelectDurationView *)selectDuration {
-     // save the time selected
-     NSDate *dateSelected = [selectDuration getDate];
-    
-    NSTimeInterval time = round([dateSelected timeIntervalSinceReferenceDate] / 60.0) * 60.0;
-    dateSelected = [NSDate dateWithTimeIntervalSinceReferenceDate:time];
+    if (isTimerMode) {
+        NSTimeInterval intervalSelected = [selectDuration getDuration];
+        [alarmInfo setObject:[NSNumber numberWithFloat:intervalSelected] forKey:@"timerDuration"];
+        
+        // update selectedTime View
+        [selectedTimeView updateDuration:intervalSelected part:selectDuration.handleSelected];
+    } else {
+        // save the time selected
+        NSDate *dateSelected = [selectDuration getDate];
 
-    if (!isTimerMode)
+        NSTimeInterval time = round([dateSelected timeIntervalSinceReferenceDate] / 60.0) * 60.0;
+        dateSelected = [NSDate dateWithTimeIntervalSinceReferenceDate:time];
+
         [alarmInfo setObject:dateSelected forKey:@"date"];
+   
     
-    // update selectedTime View
-    [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
+        // update selectedTime View
+        [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
+    }
     
     // animate selectedTimeView back to durationView
     [UIView animateWithDuration:.07 animations:^{
@@ -749,13 +772,18 @@ const float Spacing = 0.0f;
         [selectedTimeView updateDate:snoozeDate part:SelectDurationNoHandle];
         [[delegate getMusicPlayer] stop];
     }
+}
+
+-(void) durationViewCoreTapped:(SelectDurationView *)selectDuration {
     if (!pickingAction && !pickingSong && !isSet && !isTimerMode) {
         // go into timer mode
         [self enterTimerMode];
     } else if (isTimerMode) {
         [self exitTimerMode];
     }
+
 }
+
 
 -(BOOL) durationViewSwiped:(UISwipeGestureRecognizerDirection)direction {
     if (pickingSong && direction == UISwipeGestureRecognizerDirectionLeft)
