@@ -72,11 +72,13 @@
     CGSize mdLabelSize = [[meridiemLabel text] sizeWithFont:[meridiemLabel font]];
     CGSize snoozeLabelSize = [[snoozeLabel text] sizeWithFont:[snoozeLabel font] constrainedToSize:CGSizeMake(self.frame.size.width, self.frame.size.height)];
     
+    
     CGRect timeLabelRect;
-    if (!timerMode) {
-        timeLabelRect = CGRectMake((self.frame.size.width - timeLabelSize.width)/2, (self.frame.size.height-timeLabelSize.height)/2 - 5, timeLabelSize.width, timeLabelSize.height);
-    } else {
+    if (timerMode || mdLabelSize.width == 0.0f) {
         timeLabelRect = CGRectMake((self.frame.size.width - timeLabelSize.width)/2, (self.frame.size.height-timeLabelSize.height)/2, timeLabelSize.width, timeLabelSize.height);
+
+    } else {
+        timeLabelRect = CGRectMake((self.frame.size.width - timeLabelSize.width)/2, (self.frame.size.height-timeLabelSize.height)/2 - 5, timeLabelSize.width, timeLabelSize.height);
 
     }
     CGRect meridiemLabelRect = CGRectMake((self.frame.size.width - mdLabelSize.width)/2, timeLabelRect.origin.y+timeLabelSize.height-3, mdLabelSize.width, mdLabelSize.height);
@@ -121,7 +123,11 @@
     NSRange pmRange = [dateString rangeOfString:[dateFormatter PMSymbol]];
     BOOL is24h = (amRange.location == NSNotFound && pmRange.location == NSNotFound); //detects to see if user setting is on 24hour or not
   
+    NSString *hourFormat;
+    
     if (!is24h) {
+        hourFormat = @"h";
+        
         [dateFormatter setDateFormat:@"h:mm"];
         [timeLabel setText:[dateFormatter stringFromDate:date]];
         
@@ -130,18 +136,16 @@
     }
     
     if (is24h) {
+        hourFormat = @"H";
+
         [dateFormatter setDateFormat:@"HH:mm"];
         [timeLabel setText:[dateFormatter stringFromDate:date]];
     }
    
-    NSLog(@"update date");
-    
-   
-    
     [self layoutSubviews];
     
     // change the partIndicator
-    [dateFormatter setDateFormat:@"h"];
+    [dateFormatter setDateFormat:hourFormat];
     CGSize hourSize = [[dateFormatter stringFromDate:date] sizeWithFont:[timeLabel font]];
     CGSize colonSize = [@":" sizeWithFont:[timeLabel font]];
     [dateFormatter setDateFormat:@"mm"];
