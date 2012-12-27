@@ -220,6 +220,7 @@
 }
 - (void) stopTiming {
     isTiming = NO;
+    [self setDuration:timerDuration];
 }
 
 
