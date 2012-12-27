@@ -37,7 +37,7 @@
 	CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:key];
 	anim.fromValue = [[self presentationLayer] valueForKey:key];
 	anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-	anim.duration = 0.5;
+	anim.duration = 2;
     
 	return anim;
 }
@@ -70,6 +70,8 @@
         [self addSublayer:fillLayer];
         [self addSublayer:handleLayer];
         [self addSublayer:ringLayer];
+        
+        self.drawsAsynchronously = YES;
     }
     return  self;
 }
@@ -102,6 +104,13 @@
     ringLayer.fillColor = [[UIColor clearColor] CGColor];
     ringLayer.strokeColor = [ringStrokeColor CGColor];
 }
+
+
+- (void) drawInContext:(CGContextRef)ctx {
+    [self display];
+}
+
+#pragma mark - utilities
 
 - (CGPoint) vectorFromAngle:(float)angle distance:(float)distance origin:(CGPoint)origin {
     CGPoint vector;

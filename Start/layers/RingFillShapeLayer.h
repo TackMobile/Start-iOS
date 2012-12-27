@@ -16,11 +16,11 @@
 
 }
 
-@property (nonatomic) float innerRadius;
-@property (nonatomic) float outerRadius;
+@property (nonatomic) CGFloat innerRadius;
+@property (nonatomic) CGFloat outerRadius;
 
-@property (nonatomic) float startAngle;
-@property (nonatomic) float endAngle;
+@property (nonatomic) CGFloat startAngle;
+@property (nonatomic) CGFloat endAngle;
 
 @property (nonatomic, strong) UIColor *ringFillColor;
 @property (nonatomic, strong) UIColor *ringStrokeColor;
