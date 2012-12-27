@@ -528,8 +528,9 @@ const float Spacing = 0.0f;
             [countdownView updateWithDate:[self getDate]]; //if it isn't snoozing then countdown will display from regular saved alarm
         }
         
-        //if (selectDurationView.handleSelected == SelectDurationNoHandle)
-        //   [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+        if (selectDurationView.handleSelected == SelectDurationNoHandle)
+            [selectDurationView setSecondsSinceMidnight:[self secondsSinceMidnightWithDate:[self getDate]]];
+
         
         
     } else {
