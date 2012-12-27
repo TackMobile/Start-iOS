@@ -499,8 +499,10 @@ const float Spacing = 0.0f;
 - (void) updateProperties {
     // make sure the date is in future
     if (!countdownEnded) {
-        /*while ([(NSDate *)[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0)
-            [alarmInfo setObject:[NSDate dateWithTimeInterval:86400 sinceDate:[alarmInfo objectForKey:@"date"]] forKey:@"date"];*/ // this is a bug fix that we dont need with secondssincemidnight
+        while ([[self getDate] timeIntervalSinceNow] < 0) {
+            int advancedDate = [(NSNumber *)[alarmInfo objectForKey:@"secondsSinceMidnight"] intValue] + 86400;
+            [alarmInfo setObject:[NSNumber numberWithInt:advancedDate] forKey:@"secondsSinceMidnight"];
+        }
         // check to see if it will go off
         
        
@@ -1079,6 +1081,9 @@ CGPoint CGRectCenter(CGRect rect) {
     [components setHour:hour];
     [components setMinute:minute];
     [components setSecond:1];
+    components.day += days;
+    
+    //if (!isSet && [createdDate timeIntervalSinceNow] < 0)
     
     return [cal dateFromComponents:components];
 }
