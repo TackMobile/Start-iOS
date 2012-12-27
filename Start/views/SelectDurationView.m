@@ -25,6 +25,7 @@
         changing = NO;
         isStopwatchMode = NO;
         _date = [NSDate date];
+        _secondsSinceMidnight = 0;
         prevOuterAngle = 0;
         outerAngle = innerAngle = 0;
         
@@ -163,7 +164,8 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    _date = [self getDate];
+    //_date = [self getDate];
+    _secondsSinceMidnight = [[self getSecondsSinceMidnight] intValue];
     changing = NO;
 
     if ([[touches anyObject] tapCount] > 0) {
@@ -220,6 +222,7 @@
 }
 - (void) stopTiming {
     isTiming = NO;
+    [self setDuration:timerDuration];
 }
 
 
@@ -351,6 +354,17 @@
         int minute = dateComponents.minute;
         int hour = dateComponents.hour;
         int second = dateComponents.second;
+        
+        // check if seconds is set. if it is, override date (depreciated)
+        if (_secondsSinceMidnight > 0) {
+            int duration = _secondsSinceMidnight;
+            
+            int days = duration / (60 * 60 * 24);
+            duration -= days * (60 * 60 * 24);
+            hour = duration / (60 * 60);
+            duration -= hour * (60 * 60);
+            minute = duration / 60;
+        }
             
         float newInnerAngle = hour * (M_PI*2)/24;
         float newOuterAngle = minute * (M_PI*2)/60;
@@ -406,8 +420,20 @@
     [self setSnappedInnerAngle:newInnerAngle];
     
     [self updateLayers];
+}
+
+-(void) setSecondsSinceMidnight:(NSNumber *)seconds {
+    _secondsSinceMidnight = [seconds intValue];
+    [self update];
+}
+-(NSNumber *) getSecondsSinceMidnight {
+    int min = (int)roundf(outerAngle/(M_PI*2/60));
+    int hour = (int)roundf(innerAngle/(M_PI*2/24));
+    
+    return [NSNumber numberWithInt:min*60+hour*3600];
 
 }
+
 
 #pragma mark - angles
 

@@ -60,6 +60,7 @@ enum SelectDurationDraggingOrientation {
     bool isTimerMode;
     bool isTiming;
     
+    int _secondsSinceMidnight;
     NSDate *_date;
     NSDate *_timerBeganDate;
     NSTimeInterval timerDuration;
@@ -89,8 +90,15 @@ enum SelectDurationDraggingOrientation {
 
 -(void) updateTheme:(NSDictionary *)newTheme;
 - (void) setDuration:(NSTimeInterval)duration ;
+
+// depreciated
 -(void) setDate:(NSDate *)date;
 -(NSDate *) getDate;
+
+-(void) setSecondsSinceMidnight:(NSNumber *)seconds;
+-(NSNumber *) getSecondsSinceMidnight;
+
+
 - (NSTimeInterval)getDuration;
 
 -(void)updateTimerTick:(NSTimer *)timer;

@@ -126,7 +126,7 @@
                                       [NSNumber numberWithInt:alarmView.index], @"alarmIndex", nil];
             
             
-            notif.fireDate = [alarmInfo objectForKey:@"date"];
+            notif.fireDate = [alarmView getDate];
             
             if (alarmView.isSnoozing)
                 notif.fireDate = [alarmInfo objectForKey:@"snoozeAlarm"];
@@ -178,7 +178,7 @@
             if (alarmView.isSnoozing)
                 notif.fireDate = [alarmInfo objectForKey:@"snoozeAlarm"];
             else
-                notif.fireDate = [alarmInfo objectForKey:@"date"];
+                notif.fireDate = [alarmView getDate];
             notif.alertBody = @"Alarm Triggered";
             notif.userInfo = userInfo;
             [[UIApplication sharedApplication] scheduleLocalNotification:notif];
@@ -198,7 +198,7 @@
     if ([userAlarms count]>0) { //tries to find out which of the saved alarms just went off
         for (NSDictionary *alarmInfo in userAlarms) {
             indexOfTrippedAlarm++;
-            if (floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0) || floorf([[alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow] < 0)) {
+            if (floorf([[alarmView getDate] timeIntervalSinceNow] < 0) || floorf([[alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow] < 0)) {
                 alarmView = [alarms objectAtIndex:indexOfTrippedAlarm]; //saves that instance as alarmView
             }
             
