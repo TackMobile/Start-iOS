@@ -433,7 +433,10 @@
     int hour = (int)roundf(innerAngle/(M_PI*2/24));
     
     return [NSNumber numberWithInt:min*60+hour*3600];
-
+}
+-(void) addSeconds:(int)seconds {
+    int nowSeconds = [[self getSecondsSinceMidnight] intValue];
+    [self setSecondsSinceMidnight:[NSNumber numberWithInt:nowSeconds+seconds]];
 }
 
 
@@ -467,7 +470,7 @@
         if (isTimerMode)
             [self setDuration:[self getDuration]+3600];
         else
-            [self setDate:[[self getDate] dateByAddingTimeInterval:3600]];
+            [self addSeconds:3600];
         return;
 
     } else if (roundedAngle > beforeLim && prevOuterAngle < afterLim) { // prev hour
@@ -476,7 +479,7 @@
         if (isTimerMode)
             [self setDuration:[self getDuration]-3600];
         else
-            [self setDate:[[self getDate] dateByAddingTimeInterval:-3600]];
+            [self addSeconds:-3600];
         return;
     }
     outerAngle = prevOuterAngle = roundedAngle;
