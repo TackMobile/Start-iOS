@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 TackMobile. All rights reserved.
 //
 
-#define DEGREES_TO_RADIANS(degrees) ((M_PI * degrees)/ 180)
+//#define DEGREES_TO_RADIANS(degrees) ((M_PI * degrees)/ 180)
 #import "SelectDurationView.h"
 
 //#import <QuartzCore/QuartzCore.h>
@@ -203,7 +203,14 @@
     innerAngle = 0;
     outerStartAngle = 0;
     innerStartAngle = 0;
-    [self updateLayers];
+    
+    [CATransaction begin];
+    [CATransaction setValue:[NSNumber numberWithFloat:10.0f]
+                     forKey:kCATransactionAnimationDuration];
+    outerFill.startAngle=0;
+    [CATransaction commit];
+    
+    //[self updateLayers];
 }
 - (void) exitTimerMode {
     isTimerMode = NO;
@@ -246,7 +253,7 @@
     
     // temporary fix
     
-    CABasicAnimation *fillAnimation = [CABasicAnimation animationWithKeyPath:@"fillColor"];
+    /*CABasicAnimation *fillAnimation = [CABasicAnimation animationWithKeyPath:@"fillColor"];
     fillAnimation.duration = 0.2f;
     if (ratio == 0) {
         fillAnimation.fromValue = (id)[[UIColor clearColor] CGColor];
@@ -275,7 +282,7 @@
     [innerFill addAnimation:clearAnimation forKey:@"opacityAnimation"];
     [innerHandle addAnimation:clearAnimation forKey:@"opacityAnimation"];
     [outerHandle addAnimation:clearAnimation forKey:@"opacityAnimation"];
-    [outerFill addAnimation:clearAnimation forKey:@"opacityAnimation"];
+    [outerFill addAnimation:clearAnimation forKey:@"opacityAnimation"];*/
 
 }
 
@@ -487,7 +494,7 @@
     angle = angle + DEGREES_TO_RADIANS(-90);
     vector.y = roundf( distance * sinf( angle ) );
     vector.x = roundf( distance * cosf( angle ) );
-    return CGPointAddPoint(vector, origin);
+    return (CGPoint){vector.x + origin.x, vector.y + origin.y};
 }
 
 #pragma mark - Drawing
@@ -507,21 +514,25 @@
  */
 
 - (void) initializeLayers {
-    innerFill = [[CAShapeLayer alloc] init];
-    innerHandle = [[CAShapeLayer alloc] init];
-    innerRing = [[CAShapeLayer alloc] init];
-    outerFill = [[CAShapeLayer alloc] init];
-    outerHandle = [[CAShapeLayer alloc] init];
-    outerRing = [[CAShapeLayer alloc] init];
+    innerFill = [[RingFillShapeLayer alloc] init];
+    //innerHandle = [[CAShapeLayer alloc] init];
+    //innerRing = [[CAShapeLayer alloc] init];
+    outerFill = [[RingFillShapeLayer alloc] init];
+    //outerHandle = [[CAShapeLayer alloc] init];
+    //outerRing = [[CAShapeLayer alloc] init];
 
     [innerLayer addSublayer:innerFill];
-    [innerLayer addSublayer:innerHandle];
-    [innerLayer addSublayer:innerRing];
+    //[innerLayer addSublayer:innerHandle];
+    //[innerLayer addSublayer:innerRing];
     
     [outerLayer addSublayer:outerFill];
-    [outerLayer addSublayer:outerHandle];
-    [outerLayer addSublayer:outerRing];
+    //[outerLayer addSublayer:outerHandle];
+    //[outerLayer addSublayer:outerRing];
     
+    // PROPERTIES
+    
+    
+    // POSITION
     CGRect layerFrame = (CGRect){CGPointZero, self.frame.size};
     CGPoint layerAnchor = CGRectGetCenter(outerLayer.frame);
     
@@ -536,15 +547,14 @@
     
     // Step 1: create the paths ---------------------------------
     
-    float startAngle = DEGREES_TO_RADIANS(-90);
+    //float startAngle = DEGREES_TO_RADIANS(-90);
     
     CGRect centerCircleRect = CGRectMake(-centerRadius, -centerRadius, centerRadius*2, centerRadius*2);
-    CGRect innerRingRect = CGRectMake(-innerRadius, -innerRadius, innerRadius*2, innerRadius*2);
-    CGRect outerRingRect = CGRectMake(-outerRadius, -outerRadius, outerRadius*2, outerRadius*2);
+    //CGRect innerRingRect = CGRectMake(-innerRadius, -innerRadius, innerRadius*2, innerRadius*2);
+    //CGRect outerRingRect = CGRectMake(-outerRadius, -outerRadius, outerRadius*2, outerRadius*2);
 
 
-
-    // OUTER CIRCLE
+    /* OUTER CIRCLE
     UIBezierPath *outerCirclePath = [UIBezierPath bezierPath];
     [outerCirclePath addArcWithCenter:CGPointZero radius:innerRadius startAngle:outerStartAngle+startAngle endAngle:outerAngle+startAngle clockwise:YES];
     [outerCirclePath addArcWithCenter:CGPointZero radius:outerRadius startAngle:outerAngle+startAngle endAngle:outerStartAngle+startAngle clockwise:NO];
@@ -552,10 +562,28 @@
     // OUTER HANDLE
     UIBezierPath *outerHandlePath = [UIBezierPath bezierPath];
     [outerHandlePath moveToPoint:[self vectorFromAngle:outerAngle distance:innerRadius origin:CGPointZero]];
-    [outerHandlePath addLineToPoint:[self vectorFromAngle:outerAngle distance:outerRadius origin:CGPointZero]];
+    [outerHandlePath addLineToPoint:[self vectorFromAngle:outerAngle distance:outerRadius origin:CGPointZero]];*/
+    
+    // INNER RINGLAYER
+    innerFill.innerRadius = centerRadius;
+    innerFill.outerRadius = innerRadius;
+    innerFill.startAngle = innerStartAngle;
+    innerFill.endAngle = innerAngle;
+    innerFill.ringFillColor = [theme objectForKey:@"innerColor"];
+    innerFill.handleColor = [theme objectForKey:@"innerHandleColor"];
+    innerFill.ringStrokeColor = [theme objectForKey:@"innerRingColor"];
+    
+    // OUTER RINGLAYER
+    outerFill.innerRadius = innerRadius;
+    outerFill.outerRadius = outerRadius;
+    outerFill.startAngle = outerStartAngle;
+    outerFill.endAngle = outerAngle;
+    outerFill.ringFillColor = [theme objectForKey:@"outerColor"];
+    outerFill.handleColor = [theme objectForKey:@"outerHandleColor"];
+    outerFill.ringStrokeColor = [theme objectForKey:@"outerRingColor"];
 
-     
-    // INNER CIRCLE
+
+    /* INNER CIRCLE
     UIBezierPath *innerCirclePath = [UIBezierPath bezierPath];
     [innerCirclePath addArcWithCenter:CGPointZero radius:centerRadius startAngle:innerStartAngle+startAngle endAngle:innerAngle+startAngle clockwise:YES];
     [innerCirclePath addArcWithCenter:CGPointZero radius:innerRadius startAngle:innerAngle+startAngle endAngle:innerStartAngle+startAngle clockwise:NO];
@@ -563,44 +591,44 @@
     // INNER HANDLE
     UIBezierPath *innerHandlePath = [UIBezierPath bezierPath];
     [innerHandlePath moveToPoint:[self vectorFromAngle:innerAngle distance:centerRadius origin:CGPointZero]];
-    [innerHandlePath addLineToPoint:[self vectorFromAngle:innerAngle distance:innerRadius origin:CGPointZero]];
+    [innerHandlePath addLineToPoint:[self vectorFromAngle:innerAngle distance:innerRadius origin:CGPointZero]];*/
 
     
     // CENTER CIRCLE
     UIBezierPath *centerCirclePath = [UIBezierPath bezierPathWithOvalInRect:centerCircleRect];
     
     // RINGS
-    UIBezierPath *innerRingPath = [UIBezierPath bezierPathWithOvalInRect:innerRingRect];
-    UIBezierPath *outerRingPath = [UIBezierPath bezierPathWithOvalInRect:outerRingRect];
+    //UIBezierPath *innerRingPath = [UIBezierPath bezierPathWithOvalInRect:innerRingRect];
+    //UIBezierPath *outerRingPath = [UIBezierPath bezierPathWithOvalInRect:outerRingRect];
     
 
     // Step 2: update layers and fill the paths ---------------------------------
 
-    outerFill.path = outerCirclePath.CGPath;
-    outerFill.fillColor = [[theme objectForKey:@"outerColor"] CGColor];
+    //outerFill.path = outerCirclePath.CGPath;
+    //outerFill.fillColor = [[theme objectForKey:@"outerColor"] CGColor];
     
-    outerHandle.path = outerHandlePath.CGPath;
-    outerHandle.lineWidth = 2.0;
-    outerHandle.strokeColor = [[theme objectForKey:@"outerHandleColor"] CGColor];
+    //outerHandle.path = outerHandlePath.CGPath;
+    //outerHandle.lineWidth = 2.0;
+    //outerHandle.strokeColor = [[theme objectForKey:@"outerHandleColor"] CGColor];
     
-    outerRing.path = outerRingPath.CGPath;
+    /*outerRing.path = outerRingPath.CGPath;
     outerRing.lineWidth = 1.0;
     outerRing.fillColor = [[UIColor clearColor] CGColor];
-    outerRing.strokeColor = [[theme objectForKey:@"outerRingColor"] CGColor];
+    outerRing.strokeColor = [[theme objectForKey:@"outerRingColor"] CGColor];*/
     
-    outerRing.anchorPoint = CGPointMake(outerRadius, outerRadius);
+    //outerRing.anchorPoint = CGPointMake(outerRadius, outerRadius);
     
-    innerFill.path = innerCirclePath.CGPath;
+    /*innerFill.path = innerCirclePath.CGPath;
     innerFill.fillColor = [[theme objectForKey:@"innerColor"] CGColor];
     
     innerHandle.path = innerHandlePath.CGPath;
     innerHandle.lineWidth = 2.0;
-    innerHandle.strokeColor = [[theme objectForKey:@"innerHandleColor"] CGColor];
+    innerHandle.strokeColor = [[theme objectForKey:@"innerHandleColor"] CGColor];*/
     
-    innerRing.path = innerRingPath.CGPath;
+    /*innerRing.path = innerRingPath.CGPath;
     innerRing.lineWidth = 1.0;
     innerRing.fillColor = [[UIColor clearColor] CGColor];
-    innerRing.strokeColor = [[theme objectForKey:@"innerRingColor"] CGColor];
+    innerRing.strokeColor = [[theme objectForKey:@"innerRingColor"] CGColor];*/
     
     centerLayer.path = centerCirclePath.CGPath;
     centerLayer.fillColor = [[theme objectForKey:@"centerColor"] CGColor];
@@ -613,9 +641,9 @@
 }
 
 #pragma mark - cg functions
-CGPoint CGPointAddPoint(CGPoint p1, CGPoint p2) {
+/*CGPoint CGPointAddPoint(CGPoint p1, CGPoint p2) {
     return CGPointMake(p1.x+p2.x, p1.y+p2.y);
-}
+}*/
 CGPoint CGRectGetCenter(CGRect rect) {
     return CGPointMake(rect.origin.x + rect.size.width/2, rect.origin.y + rect.size.height/2);
 }

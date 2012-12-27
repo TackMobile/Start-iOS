@@ -7,10 +7,13 @@
 //
 
 #import <QuartzCore/QuartzCore.h>
+#define DEGREES_TO_RADIANS(degrees) ((M_PI * degrees)/ 180)
 
-@interface RingFillShapeLayer : CAShapeLayer {
+@interface RingFillShapeLayer : CALayer {
     CAShapeLayer *fillLayer;
     CAShapeLayer *handleLayer;
+    CAShapeLayer *ringLayer;
+
 }
 
 @property (nonatomic) float innerRadius;
@@ -19,8 +22,10 @@
 @property (nonatomic) float startAngle;
 @property (nonatomic) float endAngle;
 
-@property (nonatomic, strong) UIColor *fillColor;
+@property (nonatomic, strong) UIColor *ringFillColor;
+@property (nonatomic, strong) UIColor *ringStrokeColor;
 @property (nonatomic, strong) UIColor *handleColor;
+@property (nonatomic, strong) UIColor *ringColor;
 
 
 

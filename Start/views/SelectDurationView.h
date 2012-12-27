@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
+#import "RingFillShapeLayer.h"
+
 @class SelectDurationView;
 
 @protocol SelectDurationViewDelegate <NSObject>
@@ -65,15 +67,18 @@ enum SelectDurationDraggingOrientation {
     NSTimeInterval timerDuration;
     
     // LAYERS
+    RingFillShapeLayer *outerFill;
+    RingFillShapeLayer *innerFill;
+    
     CAShapeLayer *centerLayer;
     CALayer *innerLayer;
-        CAShapeLayer *innerFill;
-        CAShapeLayer *innerHandle;
-        CAShapeLayer *innerRing;
+        //CAShapeLayer *innerFill;
+        //CAShapeLayer *innerHandle;
+        //CAShapeLayer *innerRing;
     CALayer *outerLayer;
-        CAShapeLayer *outerFill;
-        CAShapeLayer *outerHandle;
-        CAShapeLayer *outerRing;
+        //CAShapeLayer *outerFill;
+        //CAShapeLayer *outerHandle;
+        //CAShapeLayer *outerRing;
 
 
 

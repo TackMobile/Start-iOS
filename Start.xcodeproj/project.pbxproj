@@ -1056,8 +1056,8 @@
 		F383C195158B851300B91F31 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Anthony Hoang (NQQN4MBG2Q)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Anthony Hoang (NQQN4MBG2Q)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nick Place (PLTW5M3579)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nick Place (PLTW5M3579)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Start/Start-Prefix.pch";
 				INFOPLIST_FILE = "Start/Start-Info.plist";
@@ -1069,8 +1069,8 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "45C84FA8-E793-464A-B9E6-358559213AE6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "45C84FA8-E793-464A-B9E6-358559213AE6";
+				PROVISIONING_PROFILE = "A7F1E6C9-5EA1-4C33-882C-87C31432C034";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A7F1E6C9-5EA1-4C33-882C-87C31432C034";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1079,8 +1079,8 @@
 		F383C196158B851300B91F31 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer: Anthony Hoang (NQQN4MBG2Q)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Anthony Hoang (NQQN4MBG2Q)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nick Place (PLTW5M3579)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nick Place (PLTW5M3579)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Start/Start-Prefix.pch";
 				INFOPLIST_FILE = "Start/Start-Info.plist";
@@ -1092,8 +1092,8 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "45C84FA8-E793-464A-B9E6-358559213AE6";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "45C84FA8-E793-464A-B9E6-358559213AE6";
+				PROVISIONING_PROFILE = "A7F1E6C9-5EA1-4C33-882C-87C31432C034";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A7F1E6C9-5EA1-4C33-882C-87C31432C034";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
