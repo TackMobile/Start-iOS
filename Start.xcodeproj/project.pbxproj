@@ -56,6 +56,7 @@
 		F326511615C9F1E500ABAF60 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F326511515C9F1E500ABAF60 /* QuartzCore.framework */; };
 		F327EC9715938906008B962F /* MusicManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F327EC9615938906008B962F /* MusicManager.m */; };
 		F327EC9A15938BBF008B962F /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F327EC9915938BBF008B962F /* MediaPlayer.framework */; };
+		F3292F46168C038B003D5F9A /* RingFillShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3292F45168C038B003D5F9A /* RingFillShapeLayer.m */; };
 		F335A2C615D035FA00F0A552 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F335A2C515D035FA00F0A552 /* AudioToolbox.framework */; };
 		F335A2D015D41BF700F0A552 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F335A2CF15D41BF600F0A552 /* AVFoundation.framework */; };
 		F33F641E15951F10000372AE /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = F33F641D15951F10000372AE /* UIImage+StackBlur.m */; };
@@ -222,6 +223,8 @@
 		F327EC9515938906008B962F /* MusicManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicManager.h; path = models/MusicManager.h; sourceTree = "<group>"; };
 		F327EC9615938906008B962F /* MusicManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MusicManager.m; path = models/MusicManager.m; sourceTree = "<group>"; };
 		F327EC9915938BBF008B962F /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		F3292F44168C038B003D5F9A /* RingFillShapeLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RingFillShapeLayer.h; path = layers/RingFillShapeLayer.h; sourceTree = "<group>"; };
+		F3292F45168C038B003D5F9A /* RingFillShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RingFillShapeLayer.m; path = layers/RingFillShapeLayer.m; sourceTree = "<group>"; };
 		F335A2C515D035FA00F0A552 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F335A2CF15D41BF600F0A552 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		F33F641C15951F10000372AE /* UIImage+StackBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+StackBlur.h"; path = "Libs/UIImage+StackBlur.h"; sourceTree = "<group>"; };
@@ -463,6 +466,15 @@
 			name = AlarmView;
 			sourceTree = "<group>";
 		};
+		F3292F42168C036D003D5F9A /* Layers */ = {
+			isa = PBXGroup;
+			children = (
+				F3292F44168C038B003D5F9A /* RingFillShapeLayer.h */,
+				F3292F45168C038B003D5F9A /* RingFillShapeLayer.m */,
+			);
+			name = Layers;
+			sourceTree = "<group>";
+		};
 		F335A2CC15D418DF00F0A552 /* Audio */ = {
 			isa = PBXGroup;
 			children = (
@@ -663,6 +675,7 @@
 		F383C199158B870400B91F31 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F3292F42168C036D003D5F9A /* Layers */,
 				F37E556E1680FB48002FB2EB /* Stopwatch */,
 				F383C19D158B879F00B91F31 /* SelectAlarmView.h */,
 				F383C19E158B879F00B91F31 /* SelectAlarmView.m */,
@@ -957,6 +970,7 @@
 				F3CA96DD1602364000D237FC /* RadialGradientView.m in Sources */,
 				F3AE566D16151F2700266DAD /* SelectSongView.m in Sources */,
 				F37E556C1680FB3D002FB2EB /* StopwatchViewController.m in Sources */,
+				F3292F46168C038B003D5F9A /* RingFillShapeLayer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
