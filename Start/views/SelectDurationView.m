@@ -25,6 +25,7 @@
         changing = NO;
         isStopwatchMode = NO;
         _date = [NSDate date];
+        _secondsSinceMidnight = 0;
         prevOuterAngle = 0;
         outerAngle = innerAngle = 0;
         
@@ -163,7 +164,8 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    _date = [self getDate];
+    //_date = [self getDate];
+    _secondsSinceMidnight = [[self getSecondsSinceMidnight] intValue];
     changing = NO;
 
     if ([[touches anyObject] tapCount] > 0) {
@@ -420,13 +422,13 @@
     [self updateLayers];
 }
 
--(void) setSecondsSinceMidnight:(int)seconds {
-    
+-(void) setSecondsSinceMidnight:(NSNumber *)seconds {
+    _secondsSinceMidnight = [seconds intValue];
+    [self update];
 }
 -(NSNumber *) getSecondsSinceMidnight {
     int min = (int)roundf(outerAngle/(M_PI*2/60));
     int hour = (int)roundf(innerAngle/(M_PI*2/24));
-    int day = 0;
     
     return [NSNumber numberWithInt:min*60+hour*3600];
 

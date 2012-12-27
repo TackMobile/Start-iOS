@@ -110,7 +110,10 @@
 
 //when user drags handle this method is called
 - (void) updateDate:(NSDate *)newDate part:(int)partEditing {//when snooze is tapped this method is called
-    
+    [snoozeLabel setAlpha:0];
+    [timeLabel setAlpha:1];
+    [meridiemLabel setAlpha:1];
+
     // format & save the date
     date = newDate;
 

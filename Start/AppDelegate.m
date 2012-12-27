@@ -66,18 +66,18 @@
             //bool anySet = NO;
             for (AlarmView *alarm in self.viewController.alarms) {
                 NSLog(@"alarm.isSnoozing %i", alarm.isSnoozing);
-                if (alarm.isSet && floorf([[alarm.alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5) {
+                if (alarm.isSet && floorf([[alarm getDate] timeIntervalSinceNow]) < .5) {
                     if (!alarm.countdownEnded) {
                         [alarm alarmCountdownEnded];
                         [self.viewController switchAlarmWithIndex:alarm.index];
                     }
                 }
-                if (alarm.isSnoozing && floorf([[alarm.alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow]) < .5){
+                /*if (alarm.isSnoozing && floorf([[alarm.alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow]) < .5){
                     if (!alarm.countdownEnded) {
                         [alarm alarmCountdownEnded];
                         [self.viewController switchAlarmWithIndex:alarm.index];
                     }
-                }
+                }*/
                 /*if (alarm.isSet)
                  anySet = YES;*/
             }
@@ -126,17 +126,17 @@
         while ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
             //bool anySet = NO;
             for (AlarmView *alarm in self.viewController.alarms) {
-                if (alarm.isSet && floorf([[alarm.alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5) {
+                if (alarm.isSet && floorf([[alarm getDate] timeIntervalSinceNow]) < .5) {
                     if (!alarm.countdownEnded) {
                         [alarm alarmCountdownEnded];
                         [self.viewController switchAlarmWithIndex:alarm.index];
                     }
-                    if (alarm.isSnoozing && floorf([[alarm.alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow]) < .5){
+                    /*if (alarm.isSnoozing && floorf([[alarm.alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow]) < .5){
                         if (!alarm.countdownEnded) {
                             [alarm alarmCountdownEnded];
                             [self.viewController switchAlarmWithIndex:alarm.index];
                         }
-                    }
+                    }*/
                 }
                 /*if (alarm.isSet)
                     anySet = YES;*/
