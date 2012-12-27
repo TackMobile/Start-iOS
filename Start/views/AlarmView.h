@@ -111,5 +111,6 @@ extern const float Spacing;
 - (bool) canMove;
 - (void) alarmCountdownEnded;
 - (id) initWithFrame:(CGRect)frame index:(int)aIndex delegate:(id<AlarmViewDelegate>)aDelegate alarmInfo:(NSDictionary *)theAlarmInfo;
+- (NSDate *)getDate;
 
 @end

@@ -162,6 +162,7 @@ const float Spacing = 0.0f;
     if (!alarmInfo) {
         NSArray *infoKeys = [[NSArray alloc] initWithObjects:
                              @"date",
+                             @"secondsSinceMidnight",
                              @"songID",
                              @"actionID",
                              @"isSet",
@@ -174,7 +175,8 @@ const float Spacing = 0.0f;
                              @"StopwatchDateBegan",nil];
         
         NSArray *infoObjects = [[NSArray alloc] initWithObjects:
-                                [NSDate dateWithTimeIntervalSinceNow:77777],
+                                [NSDate dateWithTimeIntervalSinceNow:10500],
+                                [NSNumber numberWithInt:0],
                                 [NSNumber numberWithInt:0],
                                 [NSNumber numberWithInt:0],
                                 [NSNumber numberWithBool:NO],
@@ -189,6 +191,14 @@ const float Spacing = 0.0f;
         [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
         [selectSongView selectCellWithID:[NSNumber numberWithInt:-1]];
     } else {
+        // if date is set and secondssincemidnight isnt, convert it
+        if ([(NSNumber *)[alarmInfo objectForKey:@"secondsSinceMidnight"] intValue] > 0) {
+            nil;
+        } else {
+            
+            [alarmInfo setObject:[self secondsSinceMidnightWithDate:[alarmInfo objectForKey:@"date"]] forKey:@"secondsSinceMidnight"];
+        }
+        
         [selectSongView selectCellWithID:(NSNumber *)[alarmInfo objectForKey:@"songID"]];
         // select action
         [selectActionView selectActionWithID:(NSNumber *)[alarmInfo objectForKey:@"actionID"]];
@@ -203,7 +213,9 @@ const float Spacing = 0.0f;
             [selectDurationView setDuration:[(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue]];
             [self enterTimerMode];
         } else {
-            [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+            //[selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+            [selectDurationView setSecondsSinceMidnight:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
+
         }
         
         //[selectDurationView setStopwatchMode:isStopwatchMode];
@@ -233,6 +245,13 @@ const float Spacing = 0.0f;
     }
 }
 
+- (NSDate *) getDate {
+    if (isSnoozing)
+        return [alarmInfo objectForKey:@"snoozeDate"];
+    
+    return [self dateTodayWithSecondsFromMidnight:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
+}
+
 #pragma mark - functionality
 - (void) enterTimerMode {
     isTimerMode = YES;
@@ -255,7 +274,9 @@ const float Spacing = 0.0f;
     [self flashAlarmMessage];
     [selectDurationView exitTimerMode];
     [selectedTimeView exitTimerMode];
-    [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+    //[selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+    [selectDurationView setSecondsSinceMidnight:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
+    
     
     [self durationDidEndChanging:selectDurationView];
     
@@ -478,15 +499,16 @@ const float Spacing = 0.0f;
 - (void) updateProperties {
     // make sure the date is in future
     if (!countdownEnded) {
-        while ([(NSDate *)[alarmInfo objectForKey:@"date"] timeIntervalSinceNow] < 0)
-            [alarmInfo setObject:[NSDate dateWithTimeInterval:86400 sinceDate:[alarmInfo objectForKey:@"date"]] forKey:@"date"];
+        while ([[self getDate] timeIntervalSinceNow] < 0) {
+            int advancedDate = [(NSNumber *)[alarmInfo objectForKey:@"secondsSinceMidnight"] intValue] + 86400;
+            [alarmInfo setObject:[NSNumber numberWithInt:advancedDate] forKey:@"secondsSinceMidnight"];
+        }
         // check to see if it will go off
         
        
-        if (isSet && floorf([[alarmInfo objectForKey:@"date"] timeIntervalSinceNow]) < .5)
+        if (!isSnoozing && isSet && floorf([[self getDate] timeIntervalSinceNow]) < .5)
             [self alarmCountdownEnded];
-        
-        if (isSnoozing) { //display and trigger an unsaved alarm
+        else if (isSnoozing) { //display and trigger an unsaved alarm
             [countdownView updateWithDate:[alarmInfo objectForKey:@"snoozeAlarm"]];
             if (floorf([[alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow] < .5))
                 [self alarmCountdownEnded];
@@ -503,7 +525,7 @@ const float Spacing = 0.0f;
             [countdownView updateWithDate:timerEndsDate];
 
         } else {
-            [countdownView updateWithDate:[alarmInfo objectForKey:@"date"]]; //if it isn't snoozing then countdown will display from regular saved alarm
+            [countdownView updateWithDate:[self getDate]]; //if it isn't snoozing then countdown will display from regular saved alarm
         }
         
         //if (selectDurationView.handleSelected == SelectDurationNoHandle)
@@ -744,13 +766,14 @@ const float Spacing = 0.0f;
         // update selectedTime View
         [selectedTimeView updateDuration:intervalSelected part:selectDuration.handleSelected];
     } else {
-        // save the time selected
+        /* save the time selected
         NSDate *dateSelected = [selectDuration getDate];
 
         NSTimeInterval time = round([dateSelected timeIntervalSinceReferenceDate] / 60.0) * 60.0;
         dateSelected = [NSDate dateWithTimeIntervalSinceReferenceDate:time];
 
-        [alarmInfo setObject:dateSelected forKey:@"date"];
+        [alarmInfo setObject:dateSelected forKey:@"date"];*/
+        [alarmInfo setObject:[selectDuration getSecondsSinceMidnight] forKey:@"secondsSinceMidnight"];
    
     
         // update selectedTime View
@@ -924,9 +947,11 @@ const float Spacing = 0.0f;
             isSnoozing = NO;
             NSURL *openURL = [NSURL URLWithString:[[selectActionView.actions objectAtIndex:[[alarmInfo objectForKey:@"actionID"] intValue] ] objectForKey:@"url"]]; //gets URL of selected action from alarmInfo dictionary.
             [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+            [selectDurationView setSecondsSinceMidnight:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
             [[delegate getMusicPlayer] stop];
             [[UIApplication sharedApplication] openURL:openURL]; //opens the url
-            [selectedTimeView updateDate:[alarmInfo objectForKey:@"date"] part:SelectDurationNoHandle];
+            [selectedTimeView updateDate:[self getDate]
+                                    part:SelectDurationNoHandle];
         }
     } else if (shouldSet == AlarmViewShouldStopwatch
              || selectDurationView.frame.origin.y > (selectDurRect.origin.y + stopwatchModeDurRect.origin.y )/2) {
@@ -1036,6 +1061,40 @@ CGRect CGRectExtendFromPoint(CGPoint p1, float dx, float dy) {
 
 CGPoint CGRectCenter(CGRect rect) {
     return CGPointMake(rect.origin.x + rect.size.width/2, rect.origin.y + rect.size.height/2);
+}
+
+- (NSDate *)dateTodayWithSecondsFromMidnight:(NSNumber *)seconds {
+    int duration = [seconds intValue];
+    
+    int days = duration / (60 * 60 * 24);
+    duration -= days * (60 * 60 * 24);
+    int hour = duration / (60 * 60);
+    duration -= hour * (60 * 60);
+    int minute = duration / 60;
+    
+    NSCalendar *cal = [NSCalendar currentCalendar];
+    [cal setTimeZone:[NSTimeZone systemTimeZone]];
+    
+    NSDateComponents *components = [cal components:NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit fromDate:[NSDate date]];
+    [components setTimeZone:[cal timeZone]];
+    
+    [components setHour:hour];
+    [components setMinute:minute];
+    [components setSecond:1];
+    components.day += days;
+    
+    //if (!isSet && [createdDate timeIntervalSinceNow] < 0)
+    
+    return [cal dateFromComponents:components];
+}
+
+- (NSNumber *)secondsSinceMidnightWithDate:(NSDate *)date {
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *dateComponents = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:(NSDate *)date];
+    
+    
+    NSNumber *secondsSinceMidnight = [NSNumber numberWithInt:dateComponents.minute*60 + dateComponents.hour*3600];
+    return secondsSinceMidnight;
 }
 
 @end
