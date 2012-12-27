@@ -25,6 +25,23 @@
     }
 }
 
+-(id<CAAction>)actionForKey:(NSString *)event {
+	if ([RingFillShapeLayer needsDisplayForKey:event]) {
+		return [self makeAnimationForKey:event];
+	}
+	
+	return [super actionForKey:event];
+}
+
+-(CABasicAnimation *)makeAnimationForKey:(NSString *)key {
+	CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:key];
+	anim.fromValue = [[self presentationLayer] valueForKey:key];
+	anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+	anim.duration = 0.5;
+    
+	return anim;
+}
+
 - (id)initWithLayer:(id)layer {
     if (self = [super initWithLayer:layer]) {
         if ([layer isKindOfClass:[RingFillShapeLayer class]]) {
