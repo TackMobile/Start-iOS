@@ -352,6 +352,17 @@
         int minute = dateComponents.minute;
         int hour = dateComponents.hour;
         int second = dateComponents.second;
+        
+        // check if seconds is set. if it is, override date (depreciated)
+        if (_secondsSinceMidnight > 0) {
+            int duration = _secondsSinceMidnight;
+            
+            int days = duration / (60 * 60 * 24);
+            duration -= days * (60 * 60 * 24);
+            hour = duration / (60 * 60);
+            duration -= hour * (60 * 60);
+            minute = duration / 60;
+        }
             
         float newInnerAngle = hour * (M_PI*2)/24;
         float newOuterAngle = minute * (M_PI*2)/60;
@@ -407,8 +418,20 @@
     [self setSnappedInnerAngle:newInnerAngle];
     
     [self updateLayers];
+}
+
+-(void) setSecondsSinceMidnight:(int)seconds {
+    
+}
+-(NSNumber *) getSecondsSinceMidnight {
+    int min = (int)roundf(outerAngle/(M_PI*2/60));
+    int hour = (int)roundf(innerAngle/(M_PI*2/24));
+    int day = 0;
+    
+    return [NSNumber numberWithInt:min*60+hour*3600];
 
 }
+
 
 #pragma mark - angles
 
