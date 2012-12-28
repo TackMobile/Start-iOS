@@ -26,13 +26,13 @@
     }
 }
 
--(id<CAAction>)actionForKey:(NSString *)event {
+/*-(id<CAAction>)actionForKey:(NSString *)event {
 	if ([RingFillShapeLayer needsDisplayForKey:event]) {
 		return [self makeAnimationForKey:event];
 	}
 	
 	return [super actionForKey:event];
-}
+}*/
 
 -(CABasicAnimation *)makeAnimationForKey:(NSString *)key {
 	CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:key];
