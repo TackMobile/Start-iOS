@@ -12,6 +12,7 @@
 
 @dynamic innerRadius, outerRadius, startAngle, endAngle;
 @synthesize ringFillColor, ringStrokeColor, handleColor;
+@synthesize ringLayer, fillLayer;
 
 
 + (BOOL)needsDisplayForKey:(NSString*)key {
@@ -59,16 +60,32 @@
     return self;
 }
 
++ (NSSet *)keyPathsForValuesAffectingContent {
+    
+    static NSSet *keys = nil;
+    
+    if (!keys)
+        
+        keys = [[NSSet alloc] initWithObjects:@"innerRadius", @"outerRadius",
+                @"startAngle", @"endAngle", nil];
+    
+    return keys;
+    
+}
+
+
+
 - (id) init {
     if (self = [super init]) {
         fillLayer = [[CAShapeLayer alloc] init];
-        handleLayer = [[CAShapeLayer alloc] init];
+        _handleLayer = [[CAShapeLayer alloc] init];
         ringLayer = [[CAShapeLayer alloc] init];
         
         ringLayer.lineWidth = 1;
+        ringLayer.fillColor = [[UIColor clearColor] CGColor];
         
         [self addSublayer:fillLayer];
-        [self addSublayer:handleLayer];
+        [self addSublayer:_handleLayer];
         [self addSublayer:ringLayer];
         
         self.drawsAsynchronously = YES;
@@ -96,12 +113,11 @@
     fillLayer.path = circlePath.CGPath;
     fillLayer.fillColor = [ringFillColor CGColor];
     
-    handleLayer.path = handlePath.CGPath;
-    handleLayer.lineWidth = 2.0;
-    handleLayer.strokeColor = [handleColor CGColor];
+    _handleLayer.path = handlePath.CGPath;
+    _handleLayer.lineWidth = 2.0;
+    _handleLayer.strokeColor = [handleColor CGColor];
     
     ringLayer.path = ringPath.CGPath;
-    ringLayer.fillColor = [[UIColor clearColor] CGColor];
     ringLayer.strokeColor = [ringStrokeColor CGColor];
 }
 

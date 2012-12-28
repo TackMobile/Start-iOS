@@ -139,7 +139,7 @@
     }
     
     if (is24h) {
-        hourFormat = @"H";
+        hourFormat = @"HH";
 
         [dateFormatter setDateFormat:@"HH:mm"];
         [timeLabel setText:[dateFormatter stringFromDate:date]];

@@ -252,19 +252,19 @@
     
     // temporary fix
     
-    /*CABasicAnimation *fillAnimation = [CABasicAnimation animationWithKeyPath:@"fillColor"];
+    CABasicAnimation *fillAnimation = [CABasicAnimation animationWithKeyPath:@"fillColor"];
     fillAnimation.duration = 0.2f;
     if (ratio == 0) {
         fillAnimation.fromValue = (id)[[UIColor clearColor] CGColor];
-        fillAnimation.toValue = (id)outerFill.fillColor;
+        fillAnimation.toValue = (id)outerFill.ringFillColor.CGColor;
     } else {
         fillAnimation.toValue = (id)[[UIColor clearColor] CGColor];
-        fillAnimation.fromValue = (id)outerFill.fillColor;
+        fillAnimation.fromValue = (id)outerFill.ringFillColor.CGColor;
     }
     fillAnimation.removedOnCompletion = NO;
     fillAnimation.fillMode = kCAFillModeForwards;
 
-    [outerRing addAnimation:fillAnimation forKey:@"fillColorAnimation"];
+    [outerFill.ringLayer addAnimation:fillAnimation forKey:@"fillColorAnimation"];
     
     CABasicAnimation *clearAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
     clearAnimation.duration = 0.2f;
@@ -278,10 +278,11 @@
     clearAnimation.removedOnCompletion = NO;
     clearAnimation.fillMode = kCAFillModeForwards;
     
-    [innerFill addAnimation:clearAnimation forKey:@"opacityAnimation"];
-    [innerHandle addAnimation:clearAnimation forKey:@"opacityAnimation"];
-    [outerHandle addAnimation:clearAnimation forKey:@"opacityAnimation"];
-    [outerFill addAnimation:clearAnimation forKey:@"opacityAnimation"];*/
+    [innerFill.fillLayer addAnimation:clearAnimation forKey:@"opacityAnimation"];
+    [innerFill.handleLayer addAnimation:clearAnimation forKey:@"opacityAnimation"];
+
+    [outerFill.fillLayer addAnimation:clearAnimation forKey:@"opacityAnimation"];
+    [outerFill.handleLayer addAnimation:clearAnimation forKey:@"opacityAnimation"];
 
 }
 

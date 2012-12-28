@@ -10,9 +10,6 @@
 #define DEGREES_TO_RADIANS(degrees) ((M_PI * degrees)/ 180)
 
 @interface RingFillShapeLayer : CALayer {
-    CAShapeLayer *fillLayer;
-    CAShapeLayer *handleLayer;
-    CAShapeLayer *ringLayer;
 
 }
 
@@ -26,6 +23,12 @@
 @property (nonatomic, strong) UIColor *ringStrokeColor;
 @property (nonatomic, strong) UIColor *handleColor;
 @property (nonatomic, strong) UIColor *ringColor;
+
+@property (nonatomic, strong) CAShapeLayer *ringLayer;
+@property (nonatomic, strong) CAShapeLayer *handleLayer;
+@property (nonatomic, strong) CAShapeLayer *fillLayer;
+
+
 
 
 
