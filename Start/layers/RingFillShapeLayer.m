@@ -12,35 +12,23 @@
 
 @dynamic innerRadius, outerRadius, startAngle, endAngle;
 @synthesize ringFillColor, ringStrokeColor, handleColor;
-@synthesize ringLayer, fillLayer;
+@synthesize ringLayer, fillLayer, shouldAnimate;
 
 
-+ (BOOL)needsDisplayForKey:(NSString*)key {
-    NSArray *keysThatNeedDisplay = [NSArray arrayWithObjects:@"innerRadius", @"outerRadius",
-                                    @"startAngle", @"endAngle", nil];
-    
-    if ([keysThatNeedDisplay containsObject:key]) {
-        return YES;
-    } else {
-        return [super needsDisplayForKey:key];
+- (id) init {
+    if (self = [super init]) {
+        fillLayer = [[CAShapeLayer alloc] init];
+        _handleLayer = [[CAShapeLayer alloc] init];
+        ringLayer = [[CAShapeLayer alloc] init];
+        
+        ringLayer.lineWidth = 1;
+        ringLayer.fillColor = [[UIColor clearColor] CGColor];
+        
+        shouldAnimate = NO;
+        
+        self.drawsAsynchronously = YES;
     }
-}
-
-/*-(id<CAAction>)actionForKey:(NSString *)event {
-	if ([RingFillShapeLayer needsDisplayForKey:event]) {
-		return [self makeAnimationForKey:event];
-	}
-	
-	return [super actionForKey:event];
-}*/
-
--(CABasicAnimation *)makeAnimationForKey:(NSString *)key {
-	CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:key];
-	anim.fromValue = [[self presentationLayer] valueForKey:key];
-	anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-	anim.duration = 2;
-    
-	return anim;
+    return  self;
 }
 
 - (id)initWithLayer:(id)layer {
@@ -59,71 +47,91 @@
     
     return self;
 }
+#pragma mark - properties
+
+- (void) setValue:(id)value forKey:(NSString *)key animated:(bool)animated {
+    shouldAnimate = animated;
+    
+    [self setValue:value forKey:key];
+}
+
+
 
 + (NSSet *)keyPathsForValuesAffectingContent {
     
     static NSSet *keys = nil;
     
     if (!keys)
-        
         keys = [[NSSet alloc] initWithObjects:@"innerRadius", @"outerRadius",
                 @"startAngle", @"endAngle", nil];
     
     return keys;
+}
+
+#pragma  mark - display
+
++ (BOOL)needsDisplayForKey:(NSString*)key {
+    NSArray *keysThatNeedDisplay = [NSArray arrayWithObjects:@"innerRadius", @"outerRadius",
+                                    @"startAngle", @"endAngle", nil];
     
-}
-
-
-
-- (id) init {
-    if (self = [super init]) {
-        fillLayer = [[CAShapeLayer alloc] init];
-        _handleLayer = [[CAShapeLayer alloc] init];
-        ringLayer = [[CAShapeLayer alloc] init];
-        
-        ringLayer.lineWidth = 1;
-        ringLayer.fillColor = [[UIColor clearColor] CGColor];
-        
-        [self addSublayer:fillLayer];
-        [self addSublayer:_handleLayer];
-        [self addSublayer:ringLayer];
-        
-        self.drawsAsynchronously = YES;
+    if ([keysThatNeedDisplay containsObject:key]) {
+        return YES;
+    } else {
+        return [super needsDisplayForKey:key];
     }
-    return  self;
 }
 
+-(id<CAAction>)actionForKey:(NSString *)event {
+	if ([RingFillShapeLayer needsDisplayForKey:event] && shouldAnimate) {
+		return [self makeAnimationForKey:event];
+	}
+	
+	return [super actionForKey:event];
+}
 
-- (void) display {
+-(CABasicAnimation *)makeAnimationForKey:(NSString *)key {
+	CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:key];
+	anim.fromValue = [[self presentationLayer] valueForKey:key];
+	anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
+	anim.duration = 2;
+    
+	return anim;
+}
+
+- (void) drawInContext:(CGContextRef)ctx {
+    
+    CGContextRef aRef = UIGraphicsGetCurrentContext();
+    CGContextSaveGState(aRef);
+    
+    UIGraphicsPushContext(ctx);
+    
     float beginAngle = DEGREES_TO_RADIANS(-90);
+    CGPoint center = (CGPoint){self.frame.size.width/2, self.frame.size.height/2};
     
     // MAKE THE PATHS
     UIBezierPath *circlePath = [UIBezierPath bezierPath];
-    [circlePath addArcWithCenter:CGPointZero radius:self.innerRadius startAngle:self.startAngle+beginAngle endAngle:self.endAngle+beginAngle clockwise:YES];
-    [circlePath addArcWithCenter:CGPointZero radius:self.outerRadius startAngle:self.endAngle+beginAngle endAngle:self.startAngle+beginAngle clockwise:NO];
+    [circlePath addArcWithCenter:center radius:self.innerRadius startAngle:self.startAngle+beginAngle endAngle:self.endAngle+beginAngle clockwise:YES];
+    [circlePath addArcWithCenter:center radius:self.outerRadius startAngle:self.endAngle+beginAngle endAngle:self.startAngle+beginAngle clockwise:NO];
     
     UIBezierPath *handlePath = [UIBezierPath bezierPath];
-    [handlePath moveToPoint:[self vectorFromAngle:self.endAngle distance:self.innerRadius origin:CGPointZero]];
-    [handlePath addLineToPoint:[self vectorFromAngle:self.endAngle distance:self.outerRadius origin:CGPointZero]];
+    [handlePath moveToPoint:[self vectorFromAngle:self.endAngle distance:self.innerRadius origin:center]];
+    [handlePath addLineToPoint:[self vectorFromAngle:self.endAngle distance:self.outerRadius origin:center]];
     
-    UIBezierPath *ringPath = [UIBezierPath bezierPathWithArcCenter:CGPointZero radius:self.outerRadius startAngle:0 endAngle:M_PI*2 clockwise:YES];
-
+    UIBezierPath *ringPath = [UIBezierPath bezierPathWithArcCenter:center radius:self.outerRadius startAngle:0 endAngle:M_PI*2 clockwise:YES];
+    
     
     // DRAW THE LAYERS
-    fillLayer.path = circlePath.CGPath;
-    fillLayer.fillColor = [ringFillColor CGColor];
+    [ringFillColor setFill];
+    [circlePath fill];
     
-    _handleLayer.path = handlePath.CGPath;
-    _handleLayer.lineWidth = 2.0;
-    _handleLayer.strokeColor = [handleColor CGColor];
+    [handleColor setStroke];
+    handlePath.lineWidth = 2.0;
+    [handlePath stroke];
     
-    ringLayer.path = ringPath.CGPath;
-    ringLayer.strokeColor = [ringStrokeColor CGColor];
-}
-
-
-- (void) drawInContext:(CGContextRef)ctx {
-    [self display];
+    [ringStrokeColor setStroke];
+    [ringPath stroke];
+    
+    CGContextRestoreGState(aRef);
 }
 
 #pragma mark - utilities

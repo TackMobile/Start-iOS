@@ -62,6 +62,8 @@ enum SelectDurationDraggingOrientation {
     bool isTimerMode;
     bool isTiming;
     
+    bool switchingModes; // used for animation
+    
     int _secondsSinceMidnight;
     NSDate *_date;
     NSDate *_timerBeganDate;

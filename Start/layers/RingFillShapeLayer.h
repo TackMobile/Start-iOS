@@ -10,8 +10,9 @@
 #define DEGREES_TO_RADIANS(degrees) ((M_PI * degrees)/ 180)
 
 @interface RingFillShapeLayer : CALayer {
-
 }
+
+@property (nonatomic) bool shouldAnimate;
 
 @property (nonatomic) CGFloat innerRadius;
 @property (nonatomic) CGFloat outerRadius;
@@ -29,7 +30,7 @@
 @property (nonatomic, strong) CAShapeLayer *fillLayer;
 
 
-
+- (void) setValue:(id)value forKey:(NSString *)key animated:(bool)animated;
 
 
 @end

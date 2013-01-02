@@ -46,8 +46,10 @@
             shouldFlash = YES;
             [self startFlashing];
         }
-    } else
+    } else {
         shouldFlash = NO;
+        [countdownLabel setAlpha:1];
+    }
     
     int hours = secRemaining / 3600;
     int minutes = secRemaining / 60 - hours * 60;
@@ -58,7 +60,8 @@
 
 - (void) startFlashing {
     [UIView animateWithDuration:.25 delay:.6 options:0 animations:^{
-        [countdownLabel setAlpha:0];
+        if (shouldFlash)
+            [countdownLabel setAlpha:0];
     } completion:^(BOOL finished) {
         [UIView animateWithDuration:.05 delay:.1 options:0 animations:^{
             [countdownLabel setAlpha:1];
