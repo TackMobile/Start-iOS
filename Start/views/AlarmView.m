@@ -233,8 +233,9 @@ const float Spacing = 0.0f;
     if (!countdownEnded && isSet) {
         [delegate alarmCountdownEnded:self];
         countdownEnded = YES;
-        [selectedTimeView showSnooze];
-        NSLog(@"showSnooze");
+        if (!isTimerMode)
+            [selectedTimeView showSnooze];
+        //NSLog(@"showSnooze");
     }
 }
 
@@ -803,7 +804,7 @@ const float Spacing = 0.0f;
     if (pickingAction)
         [selectActionView quickSelectCell];
     if (countdownEnded) {
-        if (!isSnoozing) {
+        if (!isSnoozing && !isTimerMode) {
             countdownEnded = NO;
             isSnoozing = YES;
             NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;

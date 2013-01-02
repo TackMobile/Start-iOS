@@ -99,12 +99,13 @@
 }
 
 - (void) stop {
-    [musicPlayer stop];
-    stopped = YES;
-    shouldVibrate = NO;
+    if (musicPlayer && musicPlayer.playbackState == MPMusicPlaybackStatePlaying)
+        [musicPlayer stop];
     if (audioPlayer && audioPlayer.isPlaying) {
         [audioPlayer stop];
     }
+    stopped = YES;
+    shouldVibrate = NO;
 }
 
 -  (void) updatePlayerQueueWithMediaCollection: (MPMediaItemCollection *) mediaItemCollection {

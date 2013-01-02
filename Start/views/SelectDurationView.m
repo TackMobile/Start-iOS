@@ -452,9 +452,8 @@
 
 -(void) setSnappedOuterAngle:(float)angle {
     float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
-    roundedAngle = (roundedAngle == M_PI*2 )? 0 :roundedAngle;
     
-    roundedAngle = roundedAngle==(M_PI*2)?(0):roundedAngle;
+    roundedAngle = (roundedAngle == M_PI*2 )? 0 :roundedAngle;
 
     float beforeLim = (M_PI * 2.0f) * (3.0f/4.0f);
     float afterLim = (M_PI * 2.0f) * (1.0f/4.0f);
@@ -487,7 +486,6 @@
     float roundedAngle = roundf(angle/(M_PI*2/24)) * (M_PI*2/24);
     roundedAngle = roundedAngle==(M_PI*2)?0:roundedAngle;
     innerAngle = roundedAngle;
-    NSLog(@"%f to %f", innerStartAngle, innerAngle);
 
 }
 
