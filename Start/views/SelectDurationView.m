@@ -223,58 +223,26 @@
 
 #pragma mark - Properties
 - (void) compressByRatio:(float)ratio {
-    /*outerRadius = centerRadius + (ratio * (origOuterRadius - centerRadius));
+    outerRadius = centerRadius + (ratio * (origOuterRadius - centerRadius));
     innerRadius = centerRadius + (ratio * (origInnerRadius - centerRadius));
-    outerRing.opacity = ratio;
-    innerRing.opacity = ratio;
-    
-    [self updateLayers];*/
+        
+    [self updateLayers];
 
 }
 - (void) animateCompressByRatio:(float)ratio {
-    /*CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-    animation.fromValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(1.0, 1.0, 1.0)];
-    animation.toValue = [NSValue valueWithCATransform3D:CATransform3DMakeScale(0.0, 0.0, 0.0)];
-    animation.repeatCount = 1;
-    animation.removedOnCompletion = NO;
-    animation.fillMode = kCAFillModeForwards;
-    animation.duration = 1;
-    [outerLayer addAnimation:animation forKey:@"transform.scale"];
-    NSLog(@"%f, %f", outerRing.frame.size.width, outerRing.frame.size.height);*/
+    innerFill.shouldAnimate = outerFill.shouldAnimate = YES;
     
-    // temporary fix
-    
-    CABasicAnimation *fillAnimation = [CABasicAnimation animationWithKeyPath:@"fillColor"];
-    fillAnimation.duration = 0.2f;
-    if (ratio == 0) {
-        fillAnimation.fromValue = (id)[[UIColor clearColor] CGColor];
-        fillAnimation.toValue = (id)outerFill.ringFillColor.CGColor;
-    } else {
-        fillAnimation.toValue = (id)[[UIColor clearColor] CGColor];
-        fillAnimation.fromValue = (id)outerFill.ringFillColor.CGColor;
+    if (ratio == 0)
+        outerRadius = innerRadius = centerRadius;
+    else {
+        outerRadius = origOuterRadius;
+        innerRadius = origInnerRadius;
     }
-    fillAnimation.removedOnCompletion = NO;
-    fillAnimation.fillMode = kCAFillModeForwards;
-
-    [outerFill.ringLayer addAnimation:fillAnimation forKey:@"fillColorAnimation"];
     
-    CABasicAnimation *clearAnimation = [CABasicAnimation animationWithKeyPath:@"opacity"];
-    clearAnimation.duration = 0.2f;
-    if (ratio == 0) {
-        clearAnimation.fromValue = [NSNumber numberWithFloat: 1.0f];
-        clearAnimation.toValue = [NSNumber numberWithFloat: 0.0f];
-    } else {
-        clearAnimation.toValue = [NSNumber numberWithFloat: 1.0f];
-        clearAnimation.fromValue = [NSNumber numberWithFloat: 0.0f];
-    }
-    clearAnimation.removedOnCompletion = NO;
-    clearAnimation.fillMode = kCAFillModeForwards;
+    [self updateLayers];
     
-    [innerFill.fillLayer addAnimation:clearAnimation forKey:@"opacityAnimation"];
-    [innerFill.handleLayer addAnimation:clearAnimation forKey:@"opacityAnimation"];
+    innerFill.shouldAnimate = outerFill.shouldAnimate = NO;
 
-    [outerFill.fillLayer addAnimation:clearAnimation forKey:@"opacityAnimation"];
-    [outerFill.handleLayer addAnimation:clearAnimation forKey:@"opacityAnimation"];
 
 }
 
