@@ -955,16 +955,10 @@ const float Spacing = 0.0f;
     // reset the stopwatch if it is new
     if (!isStopwatchMode && startStopwatchMode) {
         [alarmInfo setObject:[NSDate date] forKey:@"stopwatchDateBegan"];
-        
-        // compress/expand time picker
-        [selectDurationView animateCompressByRatio:startStopwatchMode?0:1];
     } else if (!startStopwatchMode && isStopwatchMode) {
         // zero out the timer
         [alarmInfo setObject:[NSDate date] forKey:@"stopwatchDateBegan"];
         [self updateProperties];
-        
-        // compress/expand time picker
-        [selectDurationView animateCompressByRatio:startStopwatchMode?0:1];
     }
     
     if (isTimerMode) {
@@ -980,6 +974,7 @@ const float Spacing = 0.0f;
     
     isStopwatchMode = startStopwatchMode;
     
+    [selectDurationView animateCompressByRatio:isStopwatchMode?0:1];
     
     // save the set bool
     [alarmInfo setObject:[NSNumber numberWithBool:isSet] forKey:@"isSet"];

@@ -93,7 +93,7 @@
 	CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:key];
 	anim.fromValue = [[self presentationLayer] valueForKey:key];
 	anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-	anim.duration = 2;
+	anim.duration = .2;
     
 	return anim;
 }
