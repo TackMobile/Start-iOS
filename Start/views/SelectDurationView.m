@@ -33,11 +33,7 @@
         
         // LAYERS
         centerLayer = [[CAShapeLayer alloc] init];
-        innerLayer = [[CALayer alloc] init];
-        outerLayer = [[CALayer alloc] init];
         
-        [self.layer addSublayer:outerLayer];
-        [self.layer addSublayer:innerLayer];
         [self.layer addSublayer:centerLayer];
         [self initializeLayers];
         
@@ -201,18 +197,14 @@
 #pragma mark - functionality
 - (void) enterTimerMode {
     isTimerMode = YES;
-    outerAngle = 0;
-    innerAngle = 0;
     outerStartAngle = 0;
     innerStartAngle = 0;
     
-    outerFill.startAngle=0;
-
-    //[self updateLayers];
+    [self updateLayers];
 }
 - (void) exitTimerMode {
     isTimerMode = NO;
-    [self updateLayers];
+    [self update];
 }
 - (void) beginTiming {
     timerDuration = [self getDuration];
@@ -461,27 +453,33 @@
 -(void) setSnappedOuterAngle:(float)angle {
     float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
     roundedAngle = (roundedAngle == M_PI*2 )? 0 :roundedAngle;
+    
+    roundedAngle = roundedAngle==(M_PI*2)?(0):roundedAngle;
 
     float beforeLim = (M_PI * 2.0f) * (3.0f/4.0f);
     float afterLim = (M_PI * 2.0f) * (1.0f/4.0f);
     
-    if (prevOuterAngle > beforeLim && roundedAngle < afterLim) { // next hour
-        NSLog(@"next");
-        outerAngle = prevOuterAngle = roundedAngle;
-        if (isTimerMode)
-            [self setDuration:[self getDuration]+3600];
-        else
-            [self addSeconds:3600];
-        return;
+    if (handleSelected != SelectDurationNoHandle) {
+        if (prevOuterAngle > beforeLim && roundedAngle < afterLim) { // next hour
+            NSLog(@"next");
+            outerAngle = prevOuterAngle = roundedAngle;
+            if (isTimerMode)
+                [self setDuration:[self getDuration]+3600];
+            else
+                [self addSeconds:3600];
+            
+            return;
 
-    } else if (roundedAngle > beforeLim && prevOuterAngle < afterLim) { // prev hour
-        NSLog(@"prev");
-        outerAngle = prevOuterAngle = roundedAngle;
-        if (isTimerMode)
-            [self setDuration:[self getDuration]-3600];
-        else
-            [self addSeconds:-3600];
-        return;
+        } else if (roundedAngle > beforeLim && prevOuterAngle < afterLim) { // prev hour
+            NSLog(@"prev");
+            outerAngle = prevOuterAngle = roundedAngle;
+            if (isTimerMode)
+                [self setDuration:[self getDuration]-3600];
+            else
+                [self addSeconds:-3600];
+            
+            return;
+        }
     }
     outerAngle = prevOuterAngle = roundedAngle;
 }
@@ -489,6 +487,8 @@
     float roundedAngle = roundf(angle/(M_PI*2/24)) * (M_PI*2/24);
     roundedAngle = roundedAngle==(M_PI*2)?0:roundedAngle;
     innerAngle = roundedAngle;
+    NSLog(@"%f to %f", innerStartAngle, innerAngle);
+
 }
 
 -(void) setSnappedOuterStartAngle:(float)angle {
@@ -540,29 +540,18 @@
 
 - (void) initializeLayers {
     innerFill = [[RingFillShapeLayer alloc] init];
-    //innerHandle = [[CAShapeLayer alloc] init];
-    //innerRing = [[CAShapeLayer alloc] init];
     outerFill = [[RingFillShapeLayer alloc] init];
-    //outerHandle = [[CAShapeLayer alloc] init];
-    //outerRing = [[CAShapeLayer alloc] init];
 
-    [innerLayer addSublayer:innerFill];
-    //[innerLayer addSublayer:innerHandle];
-    //[innerLayer addSublayer:innerRing];
-    
-    [outerLayer addSublayer:outerFill];
-    //[outerLayer addSublayer:outerHandle];
-    //[outerLayer addSublayer:outerRing];
-    
-    // PROPERTIES
-    
+    [self.layer addSublayer:innerFill];
+    [self.layer addSublayer:outerFill];
+        
     
     // POSITION
     CGRect layerFrame = (CGRect){CGPointZero, self.frame.size};
-    CGPoint layerAnchor = CGRectGetCenter(outerLayer.frame);
+    CGPoint layerAnchor = CGPointZero;
     
-    innerLayer.frame = outerLayer.frame =centerLayer.frame = layerFrame;
-    innerLayer.anchorPoint = outerLayer.anchorPoint = centerLayer.anchorPoint = layerAnchor;
+    innerFill.frame = outerFill.frame = innerLayer.frame = outerLayer.frame = centerLayer.frame = layerFrame;
+    centerLayer.anchorPoint = layerAnchor;
     
     [self updateLayers];
 
@@ -576,7 +565,24 @@
     
     CGRect centerCircleRect = CGRectMake(-centerRadius, -centerRadius, centerRadius*2, centerRadius*2);
     
-    // INNER RINGLAYER
+    /* INNER RINGLAYER
+    bool shouldAnimate = (handleSelected != SelectDurationInnerHandle);
+    
+    innerFill.shouldAnimate = NO;
+    // adjust for correct animation rotation
+    if (shouldAnimate) {
+        if (innerFill.startAngle > innerFill.endAngle && innerStartAngle < innerAngle) {
+            innerFill.endAngle += M_PI * 2;
+        } else if (innerFill.startAngle < innerFill.endAngle && innerStartAngle > innerAngle) {
+            innerFill.startAngle += M_PI *2;
+        } else {
+            NSLog(@"everything fine. Current %f < %f, and future %f < %f", innerFill.startAngle, innerFill.endAngle ,innerStartAngle, innerAngle);
+        }
+        
+    }
+    
+    innerFill.shouldAnimate = shouldAnimate;*/
+    
     innerFill.innerRadius = centerRadius;
     innerFill.outerRadius = innerRadius;
     innerFill.startAngle = innerStartAngle;
@@ -585,7 +591,22 @@
     innerFill.handleColor = [theme objectForKey:@"innerHandleColor"];
     innerFill.ringStrokeColor = [theme objectForKey:@"innerRingColor"];
     
-    // OUTER RINGLAYER
+    /* OUTER RINGLAYER
+    shouldAnimate = (handleSelected != SelectDurationOuterHandle);
+    
+    outerFill.shouldAnimate = NO;
+    // adjust for correct animation rotation
+    if (shouldAnimate) {
+        if (outerAngle < outerFill.endAngle) {
+            outerFill.endAngle -= M_PI * 2;
+        }
+        if (outerStartAngle < outerFill.startAngle) {
+            outerFill.startAngle += M_PI * 2;
+        }
+    }
+    
+    outerFill.shouldAnimate = shouldAnimate;*/
+
     outerFill.innerRadius = innerRadius;
     outerFill.outerRadius = outerRadius;
     outerFill.startAngle = outerStartAngle;
@@ -593,7 +614,6 @@
     outerFill.ringFillColor = [theme objectForKey:@"outerColor"];
     outerFill.handleColor = [theme objectForKey:@"outerHandleColor"];
     outerFill.ringStrokeColor = [theme objectForKey:@"outerRingColor"];
-
 
     
     // CENTER CIRCLE
