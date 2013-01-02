@@ -519,6 +519,8 @@
     innerFill.frame = outerFill.frame = innerLayer.frame = outerLayer.frame = centerLayer.frame = layerFrame;
     centerLayer.anchorPoint = layerAnchor;
     
+    innerFill.contentsScale = outerFill.contentsScale = 2.0;
+    
     [self updateLayers];
 
 }

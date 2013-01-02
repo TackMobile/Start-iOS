@@ -267,7 +267,7 @@ const float Spacing = 0.0f;
     
     [self durationDidEndChanging:selectDurationView];
     
-    [durationMaskView.layer setMask:nil];
+    //[durationMaskView.layer setMask:nil];
 }
 
 - (void) exitTimerMode {
@@ -283,7 +283,7 @@ const float Spacing = 0.0f;
     
     [self durationDidEndChanging:selectDurationView];
     
-    [durationMaskView.layer setMask:toolbarGradient];
+    //[durationMaskView.layer setMask:toolbarGradient];
 
 }
 

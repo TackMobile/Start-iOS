@@ -26,7 +26,6 @@
         
         shouldAnimate = NO;
         
-        self.drawsAsynchronously = YES;
     }
     return  self;
 }
@@ -99,10 +98,7 @@
 }
 
 - (void) drawInContext:(CGContextRef)ctx {
-    
-    CGContextRef aRef = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(aRef);
-    
+        
     UIGraphicsPushContext(ctx);
     
     float beginAngle = DEGREES_TO_RADIANS(-90);
@@ -131,7 +127,6 @@
     [ringStrokeColor setStroke];
     [ringPath stroke];
     
-    CGContextRestoreGState(aRef);
 }
 
 #pragma mark - utilities
