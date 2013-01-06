@@ -24,6 +24,7 @@
         UIFont *mdLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:26];
         UIFont *snoozeLabelFont = [UIFont fontWithName:@"Roboto-This" size:35];
         
+        toast = [[UILabel alloc] initWithFrame:(CGRect){(CGPoint){0,10}, {self.frame.size.width, 50}}];
         timeLabel = [[UILabel alloc] init];
         meridiemLabel = [[UILabel alloc] init];
         snoozeLabel = [[UILabel alloc] init];
@@ -53,12 +54,20 @@
         [snoozeLabel setText:@"TAP TO SNOOZE"];
         [snoozeLabel setFont:snoozeLabelFont];
         
+        [toast setText:@""];
+        
+        [toast setAlpha:0];
+        [toast setBackgroundColor:[UIColor clearColor]];
+        [toast setTextColor:[UIColor whiteColor]];
+        
         [editingPartIndicator setBackgroundColor:[UIColor whiteColor]];
+        [toast setTextAlignment:NSTextAlignmentCenter];
         
         [self addSubview:timeLabel];
         [self addSubview:meridiemLabel];
         [self addSubview:snoozeLabel];
         [self addSubview:editingPartIndicator];
+        [self addSubview:toast];
         
         [self layoutSubviews];
         // TESTING
@@ -100,10 +109,30 @@
 - (void) enterTimerMode {
     timerMode = YES;
     [meridiemLabel removeFromSuperview];
+    
+    [self setTitleWithText:@"TIMER"];
 }
 - (void) exitTimerMode {
     timerMode = NO;
     [self addSubview:meridiemLabel];
+    
+    [self setTitleWithText:@""];
+}
+
+- (void) setTitleWithText:(NSString *)text {
+    // flash timer message
+    [toast setAlpha:0];
+    [toast setText:text];
+
+    
+    [UIView animateWithDuration:.1 animations:^{
+        [toast setAlpha:1];
+        [toast setFrame:(CGRect){CGPointZero, toast.frame.size}];
+        
+    } completion:^(BOOL finished) {
+
+    }];
+    
 }
 
 

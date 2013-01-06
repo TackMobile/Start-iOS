@@ -45,7 +45,7 @@ const float Spacing = 0.0f;
         CGRect toolBarRect = CGRectMake(0, 0, self.frame.size.width, 135);
         selectSongRect = CGRectMake(Spacing-16, 0, frameRect.size.width-65, 80);
         selectActionRect = CGRectMake(Spacing+frameRect.size.width-50, 0, 50, 70);
-        selectDurRect = CGRectMake(Spacing, [UIScreen mainScreen].applicationFrame.size.height/2 - frameRect.size.width/2, frameRect.size.width, frameRect.size.width);
+        selectDurRect = CGRectMake(Spacing, [UIScreen mainScreen].applicationFrame.size.height/2 - frameRect.size.width/2.25, frameRect.size.width, frameRect.size.width);
         alarmSetDurRect = CGRectOffset(selectDurRect, 0, -120);
         stopwatchModeDurRect = CGRectOffset(selectDurRect, 0, 150);
 
@@ -260,7 +260,7 @@ const float Spacing = 0.0f;
     isTimerMode = YES;
     [alarmInfo setObject:[NSNumber numberWithBool:YES] forKey:@"isTimerMode"];
     
-    [self flashTimerMessage];
+    //[self flashTimerMessage];
     [selectDurationView enterTimerMode];
     [selectedTimeView enterTimerMode];
     [selectDurationView setDuration:[(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue]];
@@ -274,7 +274,7 @@ const float Spacing = 0.0f;
     isTimerMode = NO;
     [alarmInfo setObject:[NSNumber numberWithBool:NO] forKey:@"isTimerMode"];
 
-    [self flashAlarmMessage];
+    //[self flashAlarmMessage];
     [selectDurationView exitTimerMode];
     [selectedTimeView exitTimerMode];
     //[selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
@@ -395,28 +395,6 @@ const float Spacing = 0.0f;
 }
 
 #pragma mark - Posiitoning/Drawing
-- (void) flashTimerMessage {
-    //[selectSongView setAlpha:0];
-    //[selectSongView removeFromSuperview];
-    //[selectActionView setAlpha:0];
-    //[selectActionView removeFromSuperview];
-    
-    // flash timer message
-    [self displayToastWithText:@"Timer Mode"];
-    
-}
-
-- (void) flashAlarmMessage {
-    /*if (!isTimerMode) {
-        if (![[self subviews] containsObject:selectSongView])
-            [self addSubview:selectSongView];
-        if (![[self subviews] containsObject:selectActionView])
-            [self addSubview:selectActionView];
-    }*/
-    
-    // flash alarm message
-    [self displayToastWithText:@"Alarm Mode"];
-}
 
 // parallax
 - (void) shiftedFromActiveByPercent:(float)percent {
@@ -502,8 +480,8 @@ const float Spacing = 0.0f;
 - (void) updateProperties {
     // make sure the date is in future
     if (!countdownEnded) {
-        while ([[self getDate] timeIntervalSinceNow] < 0) {
-            if (!isTimerMode && !isSet) {
+        if (!isTimerMode && !isSet) {
+            while ([[self getDate] timeIntervalSinceNow] < 0) {
                 int advancedDate = [(NSNumber *)[alarmInfo objectForKey:@"secondsSinceMidnight"] intValue] + 86400;
                 [alarmInfo setObject:[NSNumber numberWithInt:advancedDate] forKey:@"secondsSinceMidnight"];
             }
@@ -723,15 +701,16 @@ const float Spacing = 0.0f;
 -(void) durationDidBeginChanging:(SelectDurationView *)selectDuration {
     CGRect belowSelectedTimeRect;
     CGRect newSelectedTimeRect;
-    if ([[UIScreen mainScreen] applicationFrame].size.height > 500) {
-         newSelectedTimeRect = CGRectMake(selectedTimeView.frame.origin.x, 0, selectedTimeView.frame.size.width, selectedTimeView.frame.size.height);
-         belowSelectedTimeRect = CGRectOffset(newSelectedTimeRect, 0, 15);
-    }else{
-         newSelectedTimeRect = CGRectMake(selectedTimeView.frame.origin.x, -30, selectedTimeView.frame.size.width, selectedTimeView.frame.size.height);
-         belowSelectedTimeRect = CGRectOffset(newSelectedTimeRect, 0, 15);
 
-    }
-        
+    
+    newSelectedTimeRect = (CGRect){ {selectedTimeView.frame.origin.x,
+        (selectDurRect.origin.y - selectedTimeView.frame.size.height)/2}, selectedTimeView.frame.size};
+    belowSelectedTimeRect = CGRectOffset(newSelectedTimeRect, 0, 15);
+    
+    if (isTimerMode)
+        newSelectedTimeRect = CGRectOffset(newSelectedTimeRect, 0, 15);
+
+    
     // animate selectedTimeView to toolbar
     [UIView animateWithDuration:.1 animations:^{
         [selectedTimeView setAlpha:0];
@@ -755,6 +734,10 @@ const float Spacing = 0.0f;
 }
 
 -(void) durationDidEndChanging:(SelectDurationView *)selectDuration {
+    [selectedTimeView setAlpha:0];
+    [selectedTimeView setCenter:(CGPoint){ selectDurationView.center.x, selectDurationView.center.y + 10}];
+
+    
     if (isTimerMode) {
         NSTimeInterval intervalSelected = [selectDuration getDuration];
         [alarmInfo setObject:[NSNumber numberWithFloat:intervalSelected] forKey:@"timerDuration"];
@@ -762,36 +745,25 @@ const float Spacing = 0.0f;
         // update selectedTime View
         [selectedTimeView updateDuration:intervalSelected part:selectDuration.handleSelected];
     } else {
-        /* save the time selected
-        NSDate *dateSelected = [selectDuration getDate];
 
-        NSTimeInterval time = round([dateSelected timeIntervalSinceReferenceDate] / 60.0) * 60.0;
-        dateSelected = [NSDate dateWithTimeIntervalSinceReferenceDate:time];
-
-        [alarmInfo setObject:dateSelected forKey:@"date"];*/
         [alarmInfo setObject:[selectDuration getSecondsSinceMidnight] forKey:@"secondsSinceMidnight"];
-   
-    
         // update selectedTime View
+
         [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
     }
     
     // animate selectedTimeView back to durationView
-    [UIView animateWithDuration:.07 animations:^{
-        CGRect belowSelectedTimeRect = CGRectOffset([selectedTimeView frame], 0, 15);
-        
-        [selectedTimeView setAlpha:0];
-        [selectedTimeView setFrame:belowSelectedTimeRect];
-        
+    [UIView animateWithDuration:.1 animations:^{
+        [selectedTimeView setCenter:selectDurationView.center];
+        [selectedTimeView setAlpha:1];
         [selectSongView setAlpha:1];
         [selectActionView setAlpha:1];
         [radialGradientView setAlpha:1];
     } completion:^(BOOL finished) {
-        [selectedTimeView setCenter:selectDurationView.center];
-        [UIView animateWithDuration:.1 animations:^{
-             [selectedTimeView setAlpha:1];
-        }];
+        if (!CGPointEqualToPoint(selectedTimeView.center, selectDurationView.center))
+            [self durationDidEndChanging:selectDuration];
     }];
+    
     if (!isTimerMode)
         if ([delegate respondsToSelector:@selector(alarmViewUpdated)])
             [delegate alarmViewUpdated];
@@ -965,8 +937,8 @@ const float Spacing = 0.0f;
         if (!isSet && setAlarm) {
             [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
             [selectDurationView beginTiming];
-        } else {
-                [selectDurationView stopTiming];
+        } else if (isSet && !setAlarm) {
+            [selectDurationView stopTiming];
         }
         isSet = setAlarm;
     } else
