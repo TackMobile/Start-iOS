@@ -16,6 +16,7 @@ enum SelectedTimeEditingPart {
 
 @interface SelectedTimeView : UIView {
     bool timerMode;
+    UILabel *toast;
 }
 
 @property int editingPart;
