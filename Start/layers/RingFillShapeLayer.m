@@ -91,8 +91,8 @@
 -(CABasicAnimation *)makeAnimationForKey:(NSString *)key {
 	CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:key];
 	anim.fromValue = [[self presentationLayer] valueForKey:key];
-	anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionLinear];
-	anim.duration = .2;
+	anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
+	anim.duration = .5;
     
 	return anim;
 }
@@ -118,7 +118,9 @@
     
     // DRAW THE LAYERS
     [ringFillColor setFill];
-    [circlePath fill];
+    NSLog(@"%f", fabs(self.startAngle-self.endAngle));
+    if (self.startAngle != self.endAngle && fabs(self.startAngle-self.endAngle) < 6.261)
+        [circlePath fill];
     
     [handleColor setStroke];
     handlePath.lineWidth = 2.0;

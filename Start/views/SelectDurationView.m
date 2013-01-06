@@ -24,6 +24,7 @@
         draggingOrientation = SelectDurationDraggingNone;
         changing = NO;
         isStopwatchMode = NO;
+        switchingModes = NO;
         _date = [NSDate date];
         _secondsSinceMidnight = 0;
         prevOuterAngle = 0;
@@ -124,11 +125,11 @@
     // change angle of circles based handle selected
     if (handleSelected == SelectDurationOuterHandle) {
         [self setSnappedOuterAngle:angleToTouch];
-        [self updateLayers];
+        [self updateLayersAnimated:YES];
         
     } else if (handleSelected == SelectDurationInnerHandle) {
         [self setSnappedInnerAngle:angleToTouch];
-        [self updateLayers];
+        [self updateLayersAnimated:YES];
         
     } else if (handleSelected == SelectDurationCenterHandle || handleSelected == SelectDurationNoHandle) {
         // touchLoc need to be in parent because picker will be moving
@@ -196,15 +197,18 @@
 
 #pragma mark - functionality
 - (void) enterTimerMode {
+    switchingModes = YES;
     isTimerMode = YES;
     outerStartAngle = 0;
     innerStartAngle = 0;
     
-    [self updateLayers];
+    //[self update];
 }
 - (void) exitTimerMode {
+    switchingModes = YES;
     isTimerMode = NO;
-    [self update];
+    
+    //[self update];
 }
 - (void) beginTiming {
     timerDuration = [self getDuration];
@@ -225,8 +229,8 @@
 - (void) compressByRatio:(float)ratio {
     outerRadius = centerRadius + (ratio * (origOuterRadius - centerRadius));
     innerRadius = centerRadius + (ratio * (origInnerRadius - centerRadius));
-        
-    [self updateLayers];
+    
+    [self updateLayersAnimated:NO];
 
 }
 - (void) animateCompressByRatio:(float)ratio {
@@ -239,7 +243,7 @@
         innerRadius = origInnerRadius;
     }
     
-    [self updateLayers];
+    [self updateLayersAnimated:YES];
     
     innerFill.shouldAnimate = outerFill.shouldAnimate = NO;
 
@@ -249,11 +253,11 @@
 - (void) setStopwatchMode:(BOOL)on {
     isStopwatchMode = on;
     //[self compressByRatio:isStopwatchMode?0:1];
-    //[self updateLayers];
+    //[self updateLayersAnimated:YES];
 }
 - (void) updateTheme:(NSDictionary *)newTheme {
     theme = newTheme;
-    [self updateLayers];
+    [self updateLayersAnimated:YES];
 }
 
 - (void) updateAngles {
@@ -309,6 +313,7 @@
     if (isTimerMode) {
         if (isTiming && _timerBeganDate)
             [self setDuration:[[_timerBeganDate dateByAddingTimeInterval:timerDuration] timeIntervalSinceDate:[NSDate date]]];
+        
     } else {
         
         NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
@@ -357,7 +362,7 @@
         
         if ((innerAngle != saveInnerAngle) || (outerAngle != saveOuterAngle)
             || (innerStartAngle != saveInnerStartAngle) || (outerStartAngle != saveOuterStartAngle))
-            [self updateLayers];
+            [self updateLayersAnimated:YES];
     }
 }
 
@@ -376,13 +381,22 @@
     duration -= hours * (60 * 60);
     int minutes = duration / 60;
     
+    float oldInnerAngle = innerAngle;
+    float oldOuterAngle = outerAngle;
+    
     float newInnerAngle = hours * (M_PI*2)/24;
     float newOuterAngle = minutes * (M_PI*2)/60;
         
     [self setSnappedOuterAngle:newOuterAngle];
     [self setSnappedInnerAngle:newInnerAngle];
     
-    [self updateLayers];
+    if (!switchingModes) {
+        outerFill.shouldAnimate = innerFill.shouldAnimate = NO;
+        outerFill.startAngle = innerFill.startAngle = 0;
+    }
+    
+    if ((oldInnerAngle != innerAngle) || (oldOuterAngle != outerAngle))
+        [self updateLayersAnimated:YES];
 }
 
 -(void) setSecondsSinceMidnight:(NSNumber *)seconds {
@@ -419,6 +433,7 @@
 }
 
 -(void) setSnappedOuterAngle:(float)angle {
+    NSLog(@"%f, %f, %f", angle, innerStartAngle, innerAngle);
     float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
     
     roundedAngle = (roundedAngle == M_PI*2 )? 0 :roundedAngle;
@@ -437,7 +452,7 @@
             
             return;
 
-        } else if (roundedAngle > beforeLim && prevOuterAngle < afterLim) { // prev hour
+        } else if (roundedAngle > beforeLim && prevOuterAngle < afterLim && [self getDuration] > 0) { // prev hour
             NSLog(@"prev");
             outerAngle = prevOuterAngle = roundedAngle;
             if (isTimerMode)
@@ -454,6 +469,7 @@
     float roundedAngle = roundf(angle/(M_PI*2/24)) * (M_PI*2/24);
     roundedAngle = roundedAngle==(M_PI*2)?0:roundedAngle;
     innerAngle = roundedAngle;
+
 
 }
 
@@ -521,11 +537,11 @@
     
     innerFill.contentsScale = outerFill.contentsScale = 2.0;
     
-    [self updateLayers];
+    [self updateLayersAnimated:YES];
 
 }
 
-- (void)updateLayers {
+- (void)updateLayersAnimated:(bool)animate {
     
     // Step 1: create the paths ---------------------------------
     
@@ -533,23 +549,23 @@
     
     CGRect centerCircleRect = CGRectMake(-centerRadius, -centerRadius, centerRadius*2, centerRadius*2);
     
-    /* INNER RINGLAYER
-    bool shouldAnimate = (handleSelected != SelectDurationInnerHandle);
+    // INNER RINGLAYER
+    bool shouldAnimate = !animate ? NO : (handleSelected != SelectDurationInnerHandle);
     
     innerFill.shouldAnimate = NO;
     // adjust for correct animation rotation
     if (shouldAnimate) {
-        if (innerFill.startAngle > innerFill.endAngle && innerStartAngle < innerAngle) {
-            innerFill.endAngle += M_PI * 2;
-        } else if (innerFill.startAngle < innerFill.endAngle && innerStartAngle > innerAngle) {
-            innerFill.startAngle += M_PI *2;
-        } else {
-            NSLog(@"everything fine. Current %f < %f, and future %f < %f", innerFill.startAngle, innerFill.endAngle ,innerStartAngle, innerAngle);
+        if (innerFill.startAngle == 0 && innerStartAngle > innerAngle) {
+            innerFill.startAngle = M_PI * 2;
         }
-        
+        if (outerStartAngle == 0 && innerFill.startAngle > innerFill.endAngle) {
+            innerStartAngle = M_PI * 2;
+            if (innerAngle == 0)
+                innerAngle = M_PI * 2;
+        }
     }
     
-    innerFill.shouldAnimate = shouldAnimate;*/
+    innerFill.shouldAnimate = shouldAnimate;
     
     innerFill.innerRadius = centerRadius;
     innerFill.outerRadius = innerRadius;
@@ -559,21 +575,21 @@
     innerFill.handleColor = [theme objectForKey:@"innerHandleColor"];
     innerFill.ringStrokeColor = [theme objectForKey:@"innerRingColor"];
     
-    /* OUTER RINGLAYER
-    shouldAnimate = (handleSelected != SelectDurationOuterHandle);
+    // OUTER RINGLAYER
+    shouldAnimate = !animate ? NO : (handleSelected != SelectDurationOuterHandle);
     
     outerFill.shouldAnimate = NO;
     // adjust for correct animation rotation
     if (shouldAnimate) {
-        if (outerAngle < outerFill.endAngle) {
-            outerFill.endAngle -= M_PI * 2;
+        if (outerFill.startAngle == 0 && outerStartAngle > outerAngle) {
+            outerFill.startAngle = M_PI * 2;
         }
-        if (outerStartAngle < outerFill.startAngle) {
-            outerFill.startAngle += M_PI * 2;
+        if (outerStartAngle == 0 && outerFill.startAngle > outerFill.endAngle) {
+            outerStartAngle = M_PI * 2;
         }
     }
     
-    outerFill.shouldAnimate = shouldAnimate;*/
+    outerFill.shouldAnimate = shouldAnimate;
 
     outerFill.innerRadius = innerRadius;
     outerFill.outerRadius = outerRadius;
@@ -583,6 +599,7 @@
     outerFill.handleColor = [theme objectForKey:@"outerHandleColor"];
     outerFill.ringStrokeColor = [theme objectForKey:@"outerRingColor"];
 
+    switchingModes = NO;
     
     // CENTER CIRCLE
     UIBezierPath *centerCirclePath = [UIBezierPath bezierPathWithOvalInRect:centerCircleRect];
@@ -594,7 +611,7 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    [self updateLayers];
+    [self updateLayersAnimated:YES];
     return;
 }
 
