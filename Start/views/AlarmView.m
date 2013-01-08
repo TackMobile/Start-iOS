@@ -245,6 +245,11 @@ const float Spacing = 0.0f;
     
     if (isTimerMode) {
         NSTimeInterval timerTimeInterval = [(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue];
+        if (timerTimeInterval > 86400.0) { // one day
+            timerTimeInterval -= 86400.0;
+            [alarmInfo setObject:[NSNumber numberWithFloat:timerTimeInterval] forKey:@"timerDuration"];
+        }
+        
         if (isSet) {
             return [(NSDate *)[alarmInfo objectForKey:@"timerDateBegan"] dateByAddingTimeInterval:timerTimeInterval];
         } else {
@@ -915,8 +920,9 @@ const float Spacing = 0.0f;
             [selectDurationView setSecondsSinceMidnight:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
             [[delegate getMusicPlayer] stop];
             [[UIApplication sharedApplication] openURL:openURL]; //opens the url
-            [selectedTimeView updateDate:[self getDate]
-                                    part:SelectDurationNoHandle];
+            if (!isTimerMode)
+                //[selectedTimeView updateDuration:[selectDurationView getDuration] part:selectDurationView.handleSelected];  // not needed any more
+                [selectedTimeView updateDate:[selectDurationView getDate] part:selectDurationView.handleSelected];
         }
     } else if (shouldSet == AlarmViewShouldStopwatch
              || selectDurationView.frame.origin.y > (selectDurRect.origin.y + stopwatchModeDurRect.origin.y )/2) {
@@ -939,6 +945,7 @@ const float Spacing = 0.0f;
             [selectDurationView beginTiming];
         } else if (isSet && !setAlarm) {
             [selectDurationView stopTiming];
+            [[delegate getMusicPlayer] stop];
         }
         isSet = setAlarm;
     } else

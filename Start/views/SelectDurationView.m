@@ -28,7 +28,7 @@
         _date = [NSDate date];
         _secondsSinceMidnight = 0;
         prevOuterAngle = 0;
-        outerAngle = innerAngle = 0;
+        outerAngle = innerAngle = outerStartAngle = innerStartAngle = 0;
         
         originalFrame = frame;
         
@@ -267,6 +267,7 @@
 -(NSTimeInterval) getDuration {
     int min = (int)roundf(outerAngle/(M_PI*2/60));
     int hour = (int)roundf(innerAngle/(M_PI*2/24));
+    NSLog(@"%i", hour*3600 + min*60);
     return hour*3600 + min*60;
 }
 
@@ -433,7 +434,6 @@
 }
 
 -(void) setSnappedOuterAngle:(float)angle {
-    NSLog(@"%f, %f, %f", angle, innerStartAngle, innerAngle);
     float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
     
     roundedAngle = (roundedAngle == M_PI*2 )? 0 :roundedAngle;
@@ -469,8 +469,6 @@
     float roundedAngle = roundf(angle/(M_PI*2/24)) * (M_PI*2/24);
     roundedAngle = roundedAngle==(M_PI*2)?0:roundedAngle;
     innerAngle = roundedAngle;
-
-
 }
 
 -(void) setSnappedOuterStartAngle:(float)angle {
@@ -504,6 +502,38 @@
     return (CGPoint){vector.x + origin.x, vector.y + origin.y};
 }
 
+#pragma mark - caanimation delegate
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
+    if (!flag)
+        return;
+    
+    float fullrad = 6.261f;
+    if (innerStartAngle > fullrad) {
+        innerStartAngle = 0;
+        NSLog(@"caught is");
+    }
+    if (outerStartAngle > fullrad) {
+        outerStartAngle = 0;
+        NSLog(@"caught os");
+    }
+    if (outerAngle > fullrad) {
+        outerAngle = 0;
+        NSLog(@"caught oa");
+    }
+    if (innerAngle > fullrad) {
+        innerAngle = 0;
+        NSLog(@"caught ia");
+    }
+    
+    innerFill.shouldAnimate = outerFill.shouldAnimate = 0;
+    innerFill.startAngle = innerStartAngle;
+    outerFill.startAngle = outerStartAngle;
+    outerFill.endAngle = outerAngle;
+    innerFill.endAngle = innerAngle;
+    
+}
+
+
 #pragma mark - Drawing
 /* THEME FORMAT:
      NSMutableDictionary *theme = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
@@ -523,6 +553,9 @@
 - (void) initializeLayers {
     innerFill = [[RingFillShapeLayer alloc] init];
     outerFill = [[RingFillShapeLayer alloc] init];
+    
+    innerFill.animDelegate = self;
+    outerFill.animDelegate = self;
 
     [self.layer addSublayer:innerFill];
     [self.layer addSublayer:outerFill];
@@ -558,10 +591,17 @@
         if (innerFill.startAngle == 0 && innerStartAngle > innerAngle) {
             innerFill.startAngle = M_PI * 2;
         }
-        if (outerStartAngle == 0 && innerFill.startAngle > innerFill.endAngle) {
+        if (innerStartAngle == 0 && innerFill.startAngle > innerFill.endAngle) {
             innerStartAngle = M_PI * 2;
-            if (innerAngle == 0)
-                innerAngle = M_PI * 2;
+            if (innerAngle == 0) {
+                if (innerAngle == innerStartAngle) {
+                    innerAngle = M_PI * 2;
+                    innerStartAngle = 0;
+                } else {
+                    innerAngle = 0;
+                }
+            }
+
         }
     }
     

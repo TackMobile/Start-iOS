@@ -11,6 +11,7 @@
 @implementation RingFillShapeLayer
 
 @dynamic innerRadius, outerRadius, startAngle, endAngle;
+@synthesize animDelegate;
 @synthesize ringFillColor, ringStrokeColor, handleColor;
 @synthesize ringLayer, fillLayer, shouldAnimate;
 
@@ -93,6 +94,8 @@
 	anim.fromValue = [[self presentationLayer] valueForKey:key];
 	anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
 	anim.duration = .5;
+    
+    anim.delegate = animDelegate;
     
 	return anim;
 }

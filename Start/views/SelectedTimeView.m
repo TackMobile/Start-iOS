@@ -138,7 +138,7 @@
 
 
 //when user drags handle this method is called
-- (void) updateDate:(NSDate *)newDate part:(int)partEditing {//when snooze is tapped this method is called
+- (void) updateDate:(NSDate *)newDate part:(int)partEditing {//when snooze is tapped this method is called    
     [snoozeLabel setAlpha:0];
     [timeLabel setAlpha:1];
     [meridiemLabel setAlpha:1];
@@ -203,7 +203,6 @@
 }
 
 - (void) updateDuration:(NSTimeInterval)duration part:(int)partEditing  {
-    
     int days = duration / (60 * 60 * 24);
     duration -= days * (60 * 60 * 24);
     int hours = duration / (60 * 60);
