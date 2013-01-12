@@ -788,7 +788,7 @@ const float Spacing = 0.0f;
             //NSTimeInterval testSnoozeTime = 1 * 60.0f;
             NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
             [alarmInfo setObject:snoozeDate forKey:@"snoozeAlarm"];
-            [selectDuration setSecondsSinceMidnight:[self secondsSinceMidnightWithDate:snoozeDate]];
+            [selectDuration addSeconds:snoozeTime];
             [selectedTimeView updateDate:snoozeDate part:SelectDurationNoHandle];
             [[delegate getMusicPlayer] stop];
         }
@@ -821,7 +821,7 @@ const float Spacing = 0.0f;
     if (pickingSong || pickingAction)
         return;
     
-    CGRect newDurRect = selectDurRect;
+    CGRect newDurRect;
     CGRect proposedFrame = CGRectOffset(selectDurationView.frame, 0, yVel);
     
     // make the picker stop in the middle if it was in timer mode OR if it was set.
@@ -835,7 +835,7 @@ const float Spacing = 0.0f;
     else if (proposedFrame.origin.y <= alarmSetDurRect.origin.y)
         newDurRect = alarmSetDurRect;
     // cant go low if timer mode
-    else if (isTimerMode && proposedFrame.origin.y >= selectDurRect.origin.y)
+    else if (isSet && proposedFrame.origin.y >= selectDurRect.origin.y)
         newDurRect = selectDurRect;
     else
         newDurRect = proposedFrame;
@@ -873,12 +873,10 @@ const float Spacing = 0.0f;
     // keep the inner text centered with time picker
     [selectedTimeView setCenter:selectDurationView.center];
     
-    if (!isTimerMode) {
-        if (![[self subviews] containsObject:selectSongView])
-            [self addSubview:selectSongView];
-        if (![[self subviews] containsObject:selectActionView])
-            [self addSubview:selectActionView];
-    }
+    if (![[self subviews] containsObject:selectSongView])
+        [self addSubview:selectSongView];
+    if (![[self subviews] containsObject:selectActionView])
+        [self addSubview:selectActionView];
     
     if ([delegate respondsToSelector:@selector(durationViewWithIndex:draggedWithPercent:)]) {
         float percentDragged = (selectDurationView.frame.origin.y - selectDurRect.origin.y) / 150;

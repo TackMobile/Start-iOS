@@ -105,7 +105,7 @@ enum SelectDurationDraggingOrientation {
 -(void) setSecondsSinceMidnight:(NSNumber *)seconds;
 -(NSNumber *) getSecondsSinceMidnight;
 
-
+-(void) addSeconds:(int)seconds;
 - (NSTimeInterval)getDuration;
 
 -(void)updateTimerTick:(NSTimer *)timer;

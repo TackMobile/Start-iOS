@@ -14,6 +14,8 @@
 
 @property (nonatomic, strong) id animDelegate;
 
+@property (nonatomic, strong) NSString *name;
+
 @property (nonatomic) bool shouldAnimate;
 
 @property (nonatomic) CGFloat innerRadius;

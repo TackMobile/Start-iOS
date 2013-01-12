@@ -117,14 +117,14 @@
     
     CGPoint touchLoc = [touch locationInView:self];
     CGPoint prevTouchLoc = [touch previousLocationInView:self];
-    CGSize touchVel = CGSizeMake(touchLoc.x-prevTouchLoc.x, touchLoc.y-prevTouchLoc.y);
+    CGSize touchVel;
     
     touchLoc = CGPointMake(touchLoc.x - center.x, touchLoc.y - center.y); // touch relative to center
     float angleToTouch = [self angleFromVector:touchLoc];
     
     // change angle of circles based handle selected
     if (handleSelected == SelectDurationOuterHandle) {
-        [self setSnappedOuterAngle:angleToTouch];
+        [self setSnappedOuterAngle:angleToTouch checkForNext:YES];
         [self updateLayersAnimated:YES];
         
     } else if (handleSelected == SelectDurationInnerHandle) {
@@ -322,7 +322,6 @@
         
         int minute = dateComponents.minute;
         int hour = dateComponents.hour;
-        int second = dateComponents.second;
         
         // check if seconds is set. if it is, override date (depreciated)
         if (_secondsSinceMidnight > 0) {
@@ -341,7 +340,7 @@
         float saveInnerAngle = innerAngle;
         float saveOuterAngle = outerAngle;
         
-        [self setSnappedOuterAngle:newOuterAngle];
+        [self setSnappedOuterAngle:newOuterAngle checkForNext:NO];
         [self setSnappedInnerAngle:newInnerAngle];
         
         // start handles
@@ -349,7 +348,6 @@
 
         minute = dateComponents.minute;
         hour = dateComponents.hour;
-        second = dateComponents.second;
         
         float newInnerStartAngle = hour * (M_PI*2)/24;
         float newOuterStartAngle = minute * (M_PI*2)/60;
@@ -388,7 +386,7 @@
     float newInnerAngle = hours * (M_PI*2)/24;
     float newOuterAngle = minutes * (M_PI*2)/60;
         
-    [self setSnappedOuterAngle:newOuterAngle];
+    [self setSnappedOuterAngle:newOuterAngle checkForNext:NO];
     [self setSnappedInnerAngle:newInnerAngle];
     
     if (!switchingModes) {
@@ -433,7 +431,7 @@
         
 }
 
--(void) setSnappedOuterAngle:(float)angle {
+-(void) setSnappedOuterAngle:(float)angle checkForNext:(bool)shouldCheck {
     float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
     
     roundedAngle = (roundedAngle == M_PI*2 )? 0 :roundedAngle;
@@ -441,7 +439,7 @@
     float beforeLim = (M_PI * 2.0f) * (3.0f/4.0f);
     float afterLim = (M_PI * 2.0f) * (1.0f/4.0f);
     
-    if (handleSelected != SelectDurationNoHandle) {
+    if (handleSelected != SelectDurationNoHandle && shouldCheck) {
         if (prevOuterAngle > beforeLim && roundedAngle < afterLim) { // next hour
             NSLog(@"next");
             outerAngle = prevOuterAngle = roundedAngle;
@@ -531,6 +529,9 @@
     outerFill.endAngle = outerAngle;
     innerFill.endAngle = innerAngle;
     
+    [innerFill setNeedsDisplay];
+    [outerFill setNeedsDisplay];
+
 }
 
 
@@ -553,6 +554,9 @@
 - (void) initializeLayers {
     innerFill = [[RingFillShapeLayer alloc] init];
     outerFill = [[RingFillShapeLayer alloc] init];
+    
+    outerFill.name = @"OUTER FILL";
+    innerFill.name = @"INNER FILL";
     
     innerFill.animDelegate = self;
     outerFill.animDelegate = self;
@@ -593,15 +597,6 @@
         }
         if (innerStartAngle == 0 && innerFill.startAngle > innerFill.endAngle) {
             innerStartAngle = M_PI * 2;
-            if (innerAngle == 0) {
-                if (innerAngle == innerStartAngle) {
-                    innerAngle = M_PI * 2;
-                    innerStartAngle = 0;
-                } else {
-                    innerAngle = 0;
-                }
-            }
-
         }
     }
     

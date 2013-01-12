@@ -13,7 +13,7 @@
 @dynamic innerRadius, outerRadius, startAngle, endAngle;
 @synthesize animDelegate;
 @synthesize ringFillColor, ringStrokeColor, handleColor;
-@synthesize ringLayer, fillLayer, shouldAnimate;
+@synthesize ringLayer, fillLayer, shouldAnimate, name;
 
 
 - (id) init {
@@ -26,6 +26,8 @@
         ringLayer.fillColor = [[UIColor clearColor] CGColor];
         
         shouldAnimate = NO;
+        
+        self.drawsAsynchronously = YES;
         
     }
     return  self;
@@ -121,7 +123,6 @@
     
     // DRAW THE LAYERS
     [ringFillColor setFill];
-    NSLog(@"%f", fabs(self.startAngle-self.endAngle));
     if (self.startAngle != self.endAngle && fabs(self.startAngle-self.endAngle) < 6.261)
         [circlePath fill];
     
@@ -131,6 +132,8 @@
     
     [ringStrokeColor setStroke];
     [ringPath stroke];
+    
+    // testing
     
 }
 
