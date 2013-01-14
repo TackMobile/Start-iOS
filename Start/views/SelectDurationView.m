@@ -116,7 +116,6 @@
     UITouch *touch = [touches anyObject];
     
     CGPoint touchLoc = [touch locationInView:self];
-    CGPoint prevTouchLoc = [touch previousLocationInView:self];
     CGSize touchVel;
     
     touchLoc = CGPointMake(touchLoc.x - center.x, touchLoc.y - center.y); // touch relative to center
@@ -226,11 +225,11 @@
 
 
 #pragma mark - Properties
-- (void) compressByRatio:(float)ratio {
+- (void) compressByRatio:(float)ratio animated:(bool)animated {
     outerRadius = centerRadius + (ratio * (origOuterRadius - centerRadius));
     innerRadius = centerRadius + (ratio * (origInnerRadius - centerRadius));
     
-    [self updateLayersAnimated:NO];
+    [self updateLayersAnimated:animated];
 
 }
 - (void) animateCompressByRatio:(float)ratio {
@@ -324,7 +323,8 @@
         int hour = dateComponents.hour;
         
         // check if seconds is set. if it is, override date (depreciated)
-        if (_secondsSinceMidnight > 0) {
+            _secondsSinceMidnight = [[self getSecondsSinceMidnight] intValue];
+        
             int duration = _secondsSinceMidnight;
             
             int days = duration / (60 * 60 * 24);
@@ -332,7 +332,6 @@
             hour = duration / (60 * 60);
             duration -= hour * (60 * 60);
             minute = duration / 60;
-        }
             
         float newInnerAngle = hour * (M_PI*2)/24;
         float newOuterAngle = minute * (M_PI*2)/60;
@@ -434,7 +433,7 @@
 -(void) setSnappedOuterAngle:(float)angle checkForNext:(bool)shouldCheck {
     float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
     
-    roundedAngle = (roundedAngle == M_PI*2 )? 0 :roundedAngle;
+    roundedAngle = (roundedAngle > 6.2 && roundedAngle < M_PI * 2 )? 0 :roundedAngle;
 
     float beforeLim = (M_PI * 2.0f) * (3.0f/4.0f);
     float afterLim = (M_PI * 2.0f) * (1.0f/4.0f);
@@ -442,22 +441,32 @@
     if (handleSelected != SelectDurationNoHandle && shouldCheck) {
         if (prevOuterAngle > beforeLim && roundedAngle < afterLim) { // next hour
             NSLog(@"next");
+            
             outerAngle = prevOuterAngle = roundedAngle;
+            [self setSnappedInnerAngle:innerAngle +  (M_PI*2/60)];
+            [self updateLayersAnimated:YES];
+            return;
+            
+            /*outerAngle = prevOuterAngle = roundedAngle;
             if (isTimerMode)
                 [self setDuration:[self getDuration]+3600];
             else
                 [self addSeconds:3600];
             
-            return;
+            return;*/
 
-        } else if (roundedAngle > beforeLim && prevOuterAngle < afterLim && [self getDuration] > 0) { // prev hour
+        } else if (roundedAngle > beforeLim && prevOuterAngle < afterLim) { // prev hour
             NSLog(@"prev");
-            outerAngle = prevOuterAngle = roundedAngle;
-            if (isTimerMode)
-                [self setDuration:[self getDuration]-3600];
-            else
-                [self addSeconds:-3600];
-            
+            if (!isTimerMode || [self getDuration] > 0) {
+                /*outerAngle = prevOuterAngle = roundedAngle;
+                if (isTimerMode)
+                    [self setDuration:[self getDuration]-3600];
+                else
+                    [self addSeconds:-3600];*/
+                outerAngle = prevOuterAngle = roundedAngle;
+                [self setSnappedInnerAngle:innerAngle -  (M_PI*2/60)];
+                return;
+            }
             return;
         }
     }
@@ -465,7 +474,15 @@
 }
 -(void) setSnappedInnerAngle:(float)angle {
     float roundedAngle = roundf(angle/(M_PI*2/24)) * (M_PI*2/24);
-    roundedAngle = roundedAngle==(M_PI*2)?0:roundedAngle;
+    
+    roundedAngle = (roundedAngle > 6.2 && roundedAngle < M_PI * 2 )? 0 :roundedAngle;
+    
+    while (roundedAngle > M_PI * 2)
+        roundedAngle = roundedAngle - (M_PI * 2);
+    
+    while (roundedAngle < 0)
+        roundedAngle = roundedAngle + (M_PI * 2);
+    
     innerAngle = roundedAngle;
 }
 

@@ -111,7 +111,7 @@ enum SelectDurationDraggingOrientation {
 -(void)updateTimerTick:(NSTimer *)timer;
 -(void)update;
 
-- (void) compressByRatio:(float)ratio;
+- (void) compressByRatio:(float)ratio animated:(bool)animated;
 - (void) animateCompressByRatio:(float)ratio;
 
 - (void) setStopwatchMode:(BOOL)on;
