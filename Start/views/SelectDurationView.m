@@ -207,7 +207,6 @@
     [self setSecondsFromZero:seconds];
     
     // adjust for correct animation rotation
-    
     if (innerStartAngle == 0 && innerFill.startAngle > saveInnerEnd) {
         innerStartAngle = M_PI * 2;
     }
@@ -216,11 +215,11 @@
     }
     
     innerFill.shouldAnimate = outerFill.shouldAnimate = YES;
+    waitingForAnimToEnd = YES;
     innerFill.startAngle = innerStartAngle;
     outerFill.startAngle = outerStartAngle;
     
-    switchingModes = NO;
-            
+    // switching modes set to no in animationdidend
     
 }
 - (void) exitTimerModeWithSeconds:(int)seconds {
@@ -230,7 +229,6 @@
     float saveInnerStart = innerFill.startAngle;
     float saveOuterStart = outerFill.startAngle;
 
-    
     disableUpdateAngles = YES;
     [self update];
     disableUpdateAngles = NO;
@@ -244,8 +242,6 @@
     if (saveOuterStart == 0 && outerStartAngle > outerAngle) {
         outerFill.startAngle = M_PI * 2;
     }
-    
-    NSLog(@"%f", outerFill.startAngle);
     
     //[self setSecondsFromZero:seconds];
 
@@ -329,11 +325,7 @@
 }
 
 - (void) update {
-    // update the begin angles if they need to be.
-    /* they need to be if:
-        . in timer mode and the timer is set
-        . in normal mode
-     */
+    // begin angles updated for normal mode. handles updated when a timer is set
     
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     
@@ -358,8 +350,9 @@
             [self setSnappedInnerStartAngle:newInnerStartAngle];
             [self setSnappedOuterStartAngle:newOuterStartAngle];*/
         } else {
-            [self setSnappedInnerStartAngle:0];
-            [self setSnappedOuterStartAngle:0];
+            //[self setSnappedInnerStartAngle:0];
+            //[self setSnappedOuterStartAngle:0];
+            
         }
     } else {
         float newInnerStartAngle = nowHour * (M_PI*2)/24;
@@ -376,8 +369,9 @@
 }
 
 - (void) setSecondsFromZero:(int)seconds {
+    
     if (seconds < 0)
-        seconds = 0;
+        seconds = 86400+seconds;
     
     if (!isTiming) {
         if (isTimerMode)
@@ -492,7 +486,8 @@
     if (handleSelected != SelectDurationNoHandle && shouldCheck) {
         if (prevOuterAngle > beforeLim && roundedAngle < afterLim) {
             NSLog(@"next hour");
-            
+            outerAngle = prevOuterAngle = roundedAngle;
+            [self addSeconds:3600];
             /*outerAngle = prevOuterAngle = roundedAngle;
             [self setSnappedInnerAngle:innerAngle +  (M_PI*2/60)];
             [self updateLayersAnimated:YES];
@@ -511,7 +506,8 @@
             // make sure that we cant go into negative seconds
             if (!isTimerMode || innerAngle > 0) {
                 NSLog(@"previous hour");
-                
+                outerAngle = prevOuterAngle = roundedAngle;
+                [self addSeconds:-3600];
                 /*outerAngle = prevOuterAngle = roundedAngle;
                 if (isTimerMode)
                     [self setDuration:[self getDuration]-3600];
@@ -546,6 +542,19 @@
     
     innerAngle = roundedAngle;
     if (!disableUpdateAngles) {
+        if (innerFill.endAngle == 0 || [self shouldFixAngle:innerFill.endAngle]) {
+            innerFill.shouldAnimate = NO;
+            if (innerAngle < M_PI)
+                innerFill.endAngle = 0;
+            else
+                innerFill.endAngle = M_PI * 2;
+        }
+        if (innerAngle == 0 || [self shouldFixAngle:innerAngle]) {
+            if (innerFill.endAngle < M_PI)
+                innerAngle = 0;
+            else
+                innerAngle = M_PI * 2;
+        }
         innerFill.shouldAnimate = (handleSelected == SelectDurationInnerHandle)?NO:YES;
         innerFill.endAngle = innerAngle;
     }
@@ -555,10 +564,9 @@
 -(void) setSnappedOuterStartAngle:(float)angle {
     float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
     outerStartAngle = roundedAngle;
-    NSLog(@"old: %f. new: %f", outerFill.startAngle, roundedAngle);
     if (!disableUpdateAngles) {
-        outerFill.shouldAnimate = NO;
-        outerFill.startAngle = [self shouldFixAngle:outerFill.startAngle]?0:outerFill.startAngle;
+        //outerFill.shouldAnimate = NO;
+        //outerFill.startAngle = [self shouldFixAngle:outerFill.startAngle]?0:outerFill.startAngle;
         
         outerFill.shouldAnimate = YES;
         outerFill.startAngle = outerStartAngle;
@@ -569,8 +577,8 @@
     innerStartAngle = roundedAngle;
     
     if (!disableUpdateAngles) {
-        innerFill.shouldAnimate = NO;
-        innerFill.startAngle = [self shouldFixAngle:innerFill.startAngle]?0:innerFill.startAngle;
+        //innerFill.shouldAnimate = NO;
+        //innerFill.startAngle = [self shouldFixAngle:innerFill.startAngle]?0:innerFill.startAngle;
         
         innerFill.shouldAnimate = YES;
         innerFill.startAngle = innerStartAngle;
@@ -593,6 +601,26 @@
 }
 
 #pragma mark - Util
+- (void) fixAngles {
+    
+    
+    if ([self shouldFixAngle:innerStartAngle])
+        innerStartAngle = 0;
+    if ([self shouldFixAngle:outerStartAngle])
+        outerStartAngle = 0;
+    if ([self shouldFixAngle:innerAngle])
+        innerAngle = 0;
+    if ([self shouldFixAngle:outerAngle])
+        outerAngle = 0;
+    
+    // fix the rings
+    innerFill.shouldAnimate = outerFill.shouldAnimate = NO;
+    if ([self shouldFixAngle:innerFill.startAngle])
+        innerFill.startAngle = 0;
+    if ([self shouldFixAngle:outerFill.startAngle])
+        outerFill.startAngle = 0;
+}
+
 - (bool) shouldFixAngle:(float)angle {
     return (angle > 6.2 && angle < M_PI*2+.1);
 }
@@ -625,36 +653,13 @@
 
 #pragma mark - caanimation delegate
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
-    //if (!flag || isTiming)
-        return;
-    
-    float fullrad = 6.261f;
-    if (innerStartAngle > fullrad) {
-        innerStartAngle = 0;
-        NSLog(@"caught is");
-    }
-    if (outerStartAngle > fullrad) {
-        outerStartAngle = 0;
-        NSLog(@"caught os");
-    }
-    if (outerAngle > fullrad) {
-        outerAngle = 0;
-        NSLog(@"caught oa");
-    }
-    if (innerAngle > fullrad) {
-        innerAngle = 0;
-        NSLog(@"caught ia");
+    if (flag && waitingForAnimToEnd) {
+        waitingForAnimToEnd = NO;
+        switchingModes = NO;
     }
     
-    innerFill.shouldAnimate = outerFill.shouldAnimate = NO;
-    innerFill.startAngle = innerStartAngle;
-    outerFill.startAngle = outerStartAngle;
-    outerFill.endAngle = outerAngle;
-    innerFill.endAngle = innerAngle;
-    
-    switchingModes = NO;
-
-
+    if (flag && !switchingModes)
+        [self fixAngles];
 }
 
 

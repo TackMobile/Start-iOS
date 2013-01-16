@@ -63,6 +63,7 @@ enum SelectDurationDraggingOrientation {
     bool isTiming;
     
     bool switchingModes; // used for animation
+    bool waitingForAnimToEnd;
     bool disableUpdateAngles;
     
     int _secondsSinceMidnight;
