@@ -768,14 +768,14 @@ const float Spacing = 0.0f;
     if (pickingAction)
         [selectActionView quickSelectCell];
     if (countdownEnded) {
-        if (!isSnoozing && !isTimerMode) {
+        if (!isTimerMode) {
             countdownEnded = NO;
             isSnoozing = YES;
             NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
             //NSTimeInterval testSnoozeTime = 1 * 60.0f;
             NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
             [alarmInfo setObject:snoozeDate forKey:@"snoozeAlarm"];
-            [selectDuration addSeconds:snoozeTime];
+            [selectDuration setSecondsFromZeroWithNumber:[self secondsSinceMidnightWithDate:snoozeDate]];
             [selectedTimeView updateDate:snoozeDate part:SelectDurationNoHandle];
             [[delegate getMusicPlayer] stop];
         }
