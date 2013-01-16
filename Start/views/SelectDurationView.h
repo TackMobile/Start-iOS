@@ -63,6 +63,8 @@ enum SelectDurationDraggingOrientation {
     bool isTiming;
     
     bool switchingModes; // used for animation
+    bool waitingForAnimToEnd;
+    bool disableUpdateAngles;
     
     int _secondsSinceMidnight;
     NSDate *_date;
@@ -96,32 +98,28 @@ enum SelectDurationDraggingOrientation {
 @property (strong, nonatomic) id<SelectDurationViewDelegate> delegate;
 
 -(void) updateTheme:(NSDictionary *)newTheme;
-- (void) setDuration:(NSTimeInterval)duration ;
 
-// depreciated
--(void) setDate:(NSDate *)date;
 -(NSDate *) getDate;
 
--(void) setSecondsSinceMidnight:(NSNumber *)seconds;
--(NSNumber *) getSecondsSinceMidnight;
+- (void) addSeconds:(int)seconds;
 
--(void) addSeconds:(int)seconds;
-- (NSTimeInterval)getDuration;
+- (float) getSecondsFromZero ;
+- (NSNumber *) getNumberSecondsFromZero;
+- (void) setSecondsFromZero:(int)seconds;
+- (void) setSecondsFromZeroWithNumber:(NSNumber *)seconds;
+
 
 -(void)updateTimerTick:(NSTimer *)timer;
 -(void)update;
 
-- (void) compressByRatio:(float)ratio;
-- (void) animateCompressByRatio:(float)ratio;
+- (void) compressByRatio:(float)ratio animated:(bool)animated;
 
 - (void) setStopwatchMode:(BOOL)on;
 
-- (void) enterTimerMode;
-- (void) exitTimerMode;
+- (void) enterTimerModeWithSeconds:(int)seconds;
+- (void) exitTimerModeWithSeconds:(int)seconds;
 - (void) beginTiming;
 - (void) stopTiming;
-
-
 
 -(id) initWithFrame:(CGRect)frame delegate:(id<SelectDurationViewDelegate>)aDelegate;
 

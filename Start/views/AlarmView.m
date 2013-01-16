@@ -53,7 +53,7 @@ const float Spacing = 0.0f;
         selectedTimeRect = CGRectExtendFromPoint(CGRectCenter(selectDurRect), 65, 65);
         CGRect durationMaskRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
         countdownRect = CGRectMake(Spacing, alarmSetDurRect.origin.y+alarmSetDurRect.size.height, frameRect.size.width, self.frame.size.height - (alarmSetDurRect.origin.y+alarmSetDurRect.size.height) - 65); //alarm clock countdown label
-        CGRect deleteLabelRect = CGRectMake(Spacing, 0, frameRect.size.width, 70);
+        CGRect deleteLabelRect = CGRectMake(Spacing, 12, frameRect.size.width, 70);
         CGRect selectAlarmRect = CGRectMake(0, self.frame.size.height-50, self.frame.size.width, 50);
         
         // backgroundImage = [[UIImageView alloc] initWithFrame:bgImageRect];
@@ -66,7 +66,6 @@ const float Spacing = 0.0f;
         selectSongView = [[SelectSongView alloc] initWithFrame:selectSongRect delegate:self presetSongs:[pListModel getPresetSongs]];
         selectActionView = [[SelectActionView alloc] initWithFrame:selectActionRect delegate:self actions:[pListModel getActions]];
         selectDurationView = [[SelectDurationView alloc] initWithFrame:selectDurRect delegate:self]; //dial
-        durImageView = [[UIImageView alloc] init];
         selectedTimeView = [[SelectedTimeView alloc] initWithFrame:selectedTimeRect]; //clock in middle of dial
         countdownView = [[CountdownView alloc] initWithFrame:countdownRect];
         durationMaskView = [[UIView alloc] initWithFrame:durationMaskRect];
@@ -85,7 +84,6 @@ const float Spacing = 0.0f;
         [self addSubview:stopwatchViewController.view];
         [self addSubview:durationMaskView];
         [durationMaskView addSubview:selectDurationView];
-        [self addSubview:durImageView];
         //[self addSubview:toolbarImage];
         [self addSubview:selectSongView];
         [self addSubview:selectActionView];
@@ -100,10 +98,7 @@ const float Spacing = 0.0f;
         [deleteLabel setText:@"Pinch to Delete"];
                 
         [patternOverlay setImage:[UIImage imageNamed:@"grid"]];
-        
-        [durImageView setAlpha:0];
-        [durImageView setUserInteractionEnabled:NO];
-        
+                
         // pinch to delete
         UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(alarmPinched:)];
         [self addGestureRecognizer:pinch];
@@ -186,7 +181,7 @@ const float Spacing = 0.0f;
                                 [NSNumber numberWithBool:NO],
                                 [NSDate date], nil];
         alarmInfo = [[NSMutableDictionary alloc] initWithObjects:infoObjects forKeys:infoKeys];
-        [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
+        [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
         [selectSongView selectCellWithID:[NSNumber numberWithInt:-1]];
     } else {
         // if date is set and secondssincemidnight isnt, convert it
@@ -207,17 +202,17 @@ const float Spacing = 0.0f;
         isStopwatchMode = [(NSNumber *)[alarmInfo objectForKey:@"isStopwatchMode"] boolValue];
         
         if (isTimerMode) {
-            [selectDurationView setDuration:[(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue]];
             [self enterTimerMode];
             if (isSet)
                 [selectDurationView beginTiming];
+            [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"timerDuration"]];
         } else {
-            [selectDurationView setSecondsSinceMidnight:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
+            [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
 
         }
         
         if (isStopwatchMode)
-            [selectDurationView animateCompressByRatio:0];
+            [selectDurationView compressByRatio:0 animated:YES];
 
         [self animateSelectDurToRest];
     }
@@ -266,9 +261,9 @@ const float Spacing = 0.0f;
     [alarmInfo setObject:[NSNumber numberWithBool:YES] forKey:@"isTimerMode"];
     
     //[self flashTimerMessage];
-    [selectDurationView enterTimerMode];
+    int seconds = [[alarmInfo objectForKey:@"timerDuration"] intValue];
+    [selectDurationView enterTimerModeWithSeconds:seconds];
     [selectedTimeView enterTimerMode];
-    [selectDurationView setDuration:[(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue]];
     
     [self durationDidEndChanging:selectDurationView];
     
@@ -279,16 +274,12 @@ const float Spacing = 0.0f;
     isTimerMode = NO;
     [alarmInfo setObject:[NSNumber numberWithBool:NO] forKey:@"isTimerMode"];
 
-    //[self flashAlarmMessage];
-    [selectDurationView exitTimerMode];
+    int seconds = [[alarmInfo objectForKey:@"secondsSinceMidnight"] intValue];
+    [selectDurationView exitTimerModeWithSeconds:seconds];
     [selectedTimeView exitTimerMode];
-    //[selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
-    [selectDurationView setSecondsSinceMidnight:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
     
     
     [self durationDidEndChanging:selectDurationView];
-    
-    //[durationMaskView.layer setMask:toolbarGradient];
 
 }
 
@@ -335,66 +326,58 @@ const float Spacing = 0.0f;
     
     [selectDurationView touchesCancelled:nil withEvent:nil];
     if (pinchRecog.velocity < 0 && pinchRecog.state == UIGestureRecognizerStateBegan) {
-        [durImageView setAlpha:0];
+        NSLog(@"began");
 
-        [UIView animateWithDuration:.2 animations:^{
-            [selectSongView setAlpha:0];
-            [selectActionView setAlpha:0];
-            [deleteLabel setAlpha:1];
-        } completion:^(BOOL finished) {
-            [selectSongView removeFromSuperview];
-            [selectActionView removeFromSuperview];
-        }];
-        // compress the duration picker!
-        UIGraphicsBeginImageContext(selectDurationView.bounds.size);
-        [selectDurationView.layer renderInContext:UIGraphicsGetCurrentContext()];
-        CGContextTranslateCTM(UIGraphicsGetCurrentContext(), selectedTimeView.frame.origin.x-selectDurationView.frame.origin.x,
-                              selectedTimeView.frame.origin.y-selectDurationView.frame.origin.y);
-        [selectedTimeView.layer renderInContext:UIGraphicsGetCurrentContext()];
-        UIImage *durImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        [durImageView setImage:durImage];
-        [durImageView sizeToFit];
-        [durImageView setCenter:selectDurationView.center];
-        // switch out the duration picker with a fake!
-        [selectDurationView setAlpha:0];
-        [selectedTimeView setAlpha:0];
-        [durImageView setAlpha:1];
+        [selectSongView setAlpha:0];
+        [selectActionView setAlpha:0];
+        [deleteLabel setAlpha:1];
+
     } else if (pinchRecog.state == UIGestureRecognizerStateChanged) {
+        NSLog(@"changed");
         [selectDurationView setAlpha:0];
         if (pinchRecog.scale > 1)
             pinchRecog.scale = 1;
-        float scale = 1-(.1 * (1-pinchRecog.scale));
-        float cScale = 1-(3 * (1-pinchRecog.scale));
-        CGSize selectDurSize = selectDurationView.frame.size;
+        float scale = .8 + .2 * (1-(3 * (1-pinchRecog.scale)));
+        NSLog(@"%f", scale);
+        
+        
         if (isSet)
-            countdownView.alpha = cScale;
+            countdownView.alpha = scale;
         
-        CGSize compressedDurSize =CGSizeMake(scale*selectDurSize.width, scale*selectDurSize.height);
-        durImageView.frame = CGRectInset([self currRestedSelecDurRect], selectDurSize.width-compressedDurSize.width, selectDurSize.height-compressedDurSize.height);
-        durImageView.alpha = scale;
+        selectDurationView.alpha = scale;
+        selectedTimeView.alpha = scale;
         
-    } else {
+        if (!isStopwatchMode)
+            [selectDurationView compressByRatio:scale animated:NO];
+        
+        
+    } else if (pinchRecog.state == UIGestureRecognizerStateEnded) {
+        NSLog(@"ended");
         if (pinchRecog.scale < .7) {
             if ([delegate respondsToSelector:@selector(alarmViewPinched:)] )
-                if ([delegate alarmViewPinched:self])
+                if ([delegate alarmViewPinched:self]) {
+                    if (!isStopwatchMode)
+                        [selectDurationView compressByRatio:0 animated:YES];
                     return;
+                }
         }
         if (!isStopwatchMode) {
             [self addSubview:selectSongView];
             [self addSubview:selectActionView];
         }
+        [deleteLabel setAlpha:0];
+        [selectSongView setAlpha:1];
+        [selectActionView setAlpha:1];
+
+        if (!isStopwatchMode)
+            [selectDurationView compressByRatio:1 animated:YES];
+        
         [UIView animateWithDuration:.2 animations:^{
-            [durImageView setFrame:selectDurationView.frame];
-            [selectSongView setAlpha:1];
-            [selectActionView setAlpha:1];
-            [deleteLabel setAlpha:0];
+            [selectDurationView setAlpha:1];
+            [selectedTimeView setAlpha:1];
             if (isSet)
                 countdownView.alpha = 1;
         } completion:^(BOOL finished) {
-            [selectDurationView setAlpha:1];
-            [selectedTimeView setAlpha:1];
-            [durImageView setAlpha:0];
         }];
     }
 }
@@ -506,8 +489,10 @@ const float Spacing = 0.0f;
             [countdownView updateWithDate:[self getDate]]; //if it isn't snoozing then countdown will display from regular saved alarm
         }
         
-        if (selectDurationView.handleSelected == SelectDurationNoHandle)
-            [selectDurationView setSecondsSinceMidnight:[self secondsSinceMidnightWithDate:[self getDate]]];
+        //if (selectDurationView.handleSelected == SelectDurationNoHandle) {
+        //    if (!isTimerMode)
+        //        [selectDurationView setSecondsFromZeroWithNumber:[self secondsSinceMidnightWithDate:[self getDate]]];
+        //}
 
         
         
@@ -700,7 +685,8 @@ const float Spacing = 0.0f;
     if (!isTimerMode)
         [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
     else
-        [selectedTimeView updateDuration:[selectDuration getDuration] part:selectDuration.handleSelected];
+        [selectedTimeView updateDuration:[selectDuration getSecondsFromZero]
+                                    part:selectDuration.handleSelected];
 }
 
 -(void) durationDidBeginChanging:(SelectDurationView *)selectDuration {
@@ -733,7 +719,8 @@ const float Spacing = 0.0f;
     }];
     
     if (isTimerMode)
-        [selectedTimeView updateDuration:[selectDuration getDuration] part:selectDuration.handleSelected];
+        [selectedTimeView updateDuration:[selectDuration getSecondsFromZero]
+                                    part:selectDuration.handleSelected];
     else
         [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
 }
@@ -744,14 +731,14 @@ const float Spacing = 0.0f;
 
     
     if (isTimerMode) {
-        NSTimeInterval intervalSelected = [selectDuration getDuration];
+        NSTimeInterval intervalSelected = [selectDuration getSecondsFromZero];
         [alarmInfo setObject:[NSNumber numberWithFloat:intervalSelected] forKey:@"timerDuration"];
         
         // update selectedTime View
         [selectedTimeView updateDuration:intervalSelected part:selectDuration.handleSelected];
     } else {
 
-        [alarmInfo setObject:[selectDuration getSecondsSinceMidnight] forKey:@"secondsSinceMidnight"];
+        [alarmInfo setObject:[selectDuration getNumberSecondsFromZero] forKey:@"secondsSinceMidnight"];
         // update selectedTime View
 
         [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
@@ -866,7 +853,7 @@ const float Spacing = 0.0f;
     if (newDurRect.origin.y > selectDurRect.origin.y) {
         float currDist = stopwatchModeDurRect.origin.y - newDurRect.origin.y;
         float fullDist = stopwatchModeDurRect.origin.y - selectDurRect.origin.y;
-        [selectDurationView compressByRatio:currDist/fullDist];
+        [selectDurationView compressByRatio:currDist/fullDist animated:NO];
     }
     
     [selectDurationView setFrame:newDurRect];
@@ -914,8 +901,7 @@ const float Spacing = 0.0f;
             countdownEnded = NO;
             isSnoozing = NO;
             NSURL *openURL = [NSURL URLWithString:[[selectActionView.actions objectAtIndex:[[alarmInfo objectForKey:@"actionID"] intValue] ] objectForKey:@"url"]]; //gets URL of selected action from alarmInfo dictionary.
-            [selectDurationView setDate:[alarmInfo objectForKey:@"date"]];
-            [selectDurationView setSecondsSinceMidnight:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
+            [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
             [[delegate getMusicPlayer] stop];
             [[UIApplication sharedApplication] openURL:openURL]; //opens the url
             if (!isTimerMode)
@@ -951,7 +937,7 @@ const float Spacing = 0.0f;
     
     isStopwatchMode = startStopwatchMode;
     
-    [selectDurationView animateCompressByRatio:isStopwatchMode?0:1];
+    [selectDurationView compressByRatio:isStopwatchMode?0:1 animated:YES];
     
     // save the set bool
     [alarmInfo setObject:[NSNumber numberWithBool:isSet] forKey:@"isSet"];

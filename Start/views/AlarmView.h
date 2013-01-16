@@ -66,7 +66,6 @@ enum AlarmViewShouldSet {
     bool cancelTouch;
     bool isSnoozing;
     
-    UIImageView *durImageView;
     UIView *durationMaskView;
     
     CAGradientLayer *toolbarGradient;

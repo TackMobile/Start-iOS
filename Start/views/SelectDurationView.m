@@ -25,6 +25,7 @@
         changing = NO;
         isStopwatchMode = NO;
         switchingModes = NO;
+        disableUpdateAngles = NO;
         _date = [NSDate date];
         _secondsSinceMidnight = 0;
         prevOuterAngle = 0;
@@ -36,7 +37,6 @@
         centerLayer = [[CAShapeLayer alloc] init];
         
         [self.layer addSublayer:centerLayer];
-        [self initializeLayers];
         
         // default theme
         theme = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
@@ -60,6 +60,7 @@
         center = CGPointMake(self.frame.size.width/2, self.frame.size.height/2);
         
         [self setBackgroundColor:[UIColor clearColor]];
+        [self initializeLayers];
         
         // update date timer
         [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTimerTick:) userInfo:nil repeats:YES];
@@ -116,7 +117,6 @@
     UITouch *touch = [touches anyObject];
     
     CGPoint touchLoc = [touch locationInView:self];
-    CGPoint prevTouchLoc = [touch previousLocationInView:self];
     CGSize touchVel;
     
     touchLoc = CGPointMake(touchLoc.x - center.x, touchLoc.y - center.y); // touch relative to center
@@ -125,11 +125,9 @@
     // change angle of circles based handle selected
     if (handleSelected == SelectDurationOuterHandle) {
         [self setSnappedOuterAngle:angleToTouch checkForNext:YES];
-        [self updateLayersAnimated:YES];
         
     } else if (handleSelected == SelectDurationInnerHandle) {
         [self setSnappedInnerAngle:angleToTouch];
-        [self updateLayersAnimated:YES];
         
     } else if (handleSelected == SelectDurationCenterHandle || handleSelected == SelectDurationNoHandle) {
         // touchLoc need to be in parent because picker will be moving
@@ -162,7 +160,7 @@
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     //_date = [self getDate];
-    _secondsSinceMidnight = [[self getSecondsSinceMidnight] intValue];
+    _secondsSinceMidnight = (int)[self getSecondsFromZero];
     changing = NO;
 
     if ([[touches anyObject] tapCount] > 0) {
@@ -196,22 +194,65 @@
 }
 
 #pragma mark - functionality
-- (void) enterTimerMode {
+- (void) enterTimerModeWithSeconds:(int)seconds {
     switchingModes = YES;
     isTimerMode = YES;
     outerStartAngle = 0;
     innerStartAngle = 0;
     
-    //[self update];
+    //disableUpdateAngles = YES;
+    float saveInnerEnd = innerFill.endAngle;
+    float saveOuterEnd = outerFill.endAngle;
+    
+    [self setSecondsFromZero:seconds];
+    
+    // adjust for correct animation rotation
+    if (innerStartAngle == 0 && innerFill.startAngle > saveInnerEnd) {
+        innerStartAngle = M_PI * 2;
+    }
+    if (outerStartAngle == 0 && outerFill.startAngle > saveOuterEnd) {
+        outerStartAngle = M_PI * 2;
+    }
+    
+    innerFill.shouldAnimate = outerFill.shouldAnimate = YES;
+    waitingForAnimToEnd = YES;
+    innerFill.startAngle = innerStartAngle;
+    outerFill.startAngle = outerStartAngle;
+    
+    // switching modes set to no in animationdidend
+    
 }
-- (void) exitTimerMode {
+- (void) exitTimerModeWithSeconds:(int)seconds {
     switchingModes = YES;
     isTimerMode = NO;
     
-    //[self update];
+    float saveInnerStart = innerFill.startAngle;
+    float saveOuterStart = outerFill.startAngle;
+
+    disableUpdateAngles = YES;
+    [self update];
+    disableUpdateAngles = NO;
+    
+    [self setSecondsFromZero:seconds];
+    
+    innerFill.shouldAnimate = outerFill.shouldAnimate = NO;
+    if (saveInnerStart == 0 && innerStartAngle > innerAngle) {
+        innerFill.startAngle = M_PI * 2;
+    }
+    if (saveOuterStart == 0 && outerStartAngle > outerAngle) {
+        outerFill.startAngle = M_PI * 2;
+    }
+    
+    //[self setSecondsFromZero:seconds];
+
+    [self update];
+    
+    switchingModes = NO;
+    
 }
 - (void) beginTiming {
-    timerDuration = [self getDuration];
+    timerDuration = [self getSecondsFromZero];
+    
     if ([delegate respondsToSelector:@selector(getDateBegan)])
         _timerBeganDate = [delegate getDateBegan];
     else
@@ -221,18 +262,24 @@
 }
 - (void) stopTiming {
     isTiming = NO;
-    [self setDuration:timerDuration];
+    [self setSecondsFromZero:timerDuration];
+    [self update];
 }
 
 
 #pragma mark - Properties
-- (void) compressByRatio:(float)ratio {
+- (void) compressByRatio:(float)ratio animated:(bool)animated { // 1 is expanded and 0 is compressed
     outerRadius = centerRadius + (ratio * (origOuterRadius - centerRadius));
     innerRadius = centerRadius + (ratio * (origInnerRadius - centerRadius));
     
-    [self updateLayersAnimated:NO];
+    innerFill.shouldAnimate = outerFill.shouldAnimate = animated;
+    innerFill.innerRadius = centerRadius;
+    innerFill.outerRadius = innerRadius;
+    outerFill.innerRadius = innerRadius;
+    outerFill.outerRadius = outerRadius;
 
 }
+/*
 - (void) animateCompressByRatio:(float)ratio {
     innerFill.shouldAnimate = outerFill.shouldAnimate = YES;
     
@@ -247,8 +294,7 @@
     
     innerFill.shouldAnimate = outerFill.shouldAnimate = NO;
 
-
-}
+}*/
 
 - (void) setStopwatchMode:(BOOL)on {
     isStopwatchMode = on;
@@ -257,9 +303,9 @@
 }
 - (void) updateTheme:(NSDictionary *)newTheme {
     theme = newTheme;
-    [self updateLayersAnimated:YES];
+    [self updateLayers];
 }
-
+/*
 - (void) updateAngles {
     
 }
@@ -270,6 +316,98 @@
     NSLog(@"%i", hour*3600 + min*60);
     return hour*3600 + min*60;
 }
+*/
+
+
+- (void) updateTimerTick:(NSTimer *)timer {
+    if (!switchingModes)
+        [self update];
+}
+
+- (void) update {
+    // begin angles updated for normal mode. handles updated when a timer is set
+    
+    NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    
+    NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
+    
+    int nowMinute = dateComponents.minute;
+    int nowHour = dateComponents.hour;
+    
+    if (isTimerMode) {
+        if (isTiming) {
+            // move handles closer to zero
+            [self setSecondsFromZero:(int)[[NSDate dateWithTimeInterval:timerDuration sinceDate:_timerBeganDate] timeIntervalSinceNow]];
+            
+            /*dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[_timerBeganDate dateByAddingTimeInterval:timerDuration]];
+            
+            int timerMinute = dateComponents.minute;
+            int timerHour = dateComponents.hour;
+            
+            float newInnerStartAngle = innerAngle - (timerHour - nowHour)*(M_PI*2)/24;
+            float newOuterStartAngle = outerAngle - (timerMinute - nowMinute)*(M_PI*2)/60;
+            
+            [self setSnappedInnerStartAngle:newInnerStartAngle];
+            [self setSnappedOuterStartAngle:newOuterStartAngle];*/
+        } else {
+            //[self setSnappedInnerStartAngle:0];
+            //[self setSnappedOuterStartAngle:0];
+            
+        }
+    } else {
+        float newInnerStartAngle = nowHour * (M_PI*2)/24;
+        float newOuterStartAngle = nowMinute * (M_PI*2)/60;
+        
+        [self setSnappedInnerStartAngle:newInnerStartAngle];
+        [self setSnappedOuterStartAngle:newOuterStartAngle];
+    }
+    
+}
+
+- (void) setSecondsFromZeroWithNumber:(NSNumber *)seconds {
+    [self setSecondsFromZero:[seconds intValue]];
+}
+
+- (void) setSecondsFromZero:(int)seconds {
+    
+    if (seconds < 0)
+        seconds = 86400+seconds;
+    
+    if (!isTiming) {
+        if (isTimerMode)
+            timerDuration = seconds;
+        else
+            _secondsSinceMidnight = seconds;
+    }
+    
+    int duration = seconds;
+    
+    int days = duration / (60 * 60 * 24);
+    duration -= days * (60 * 60 * 24);
+    int hours = duration / (60 * 60);
+    duration -= hours * (60 * 60);
+    int minutes = duration / 60;
+    
+    float newInnerAngle = hours * (M_PI*2)/24;
+    float newOuterAngle = minutes * (M_PI*2)/60;
+    
+    [self setSnappedOuterAngle:newOuterAngle checkForNext:NO];
+    [self setSnappedInnerAngle:newInnerAngle];
+}
+
+- (void) addSeconds:(int)seconds {
+    [self setSecondsFromZero:[self getSecondsFromZero] + seconds];
+}
+
+- (float) getSecondsFromZero {
+    int min = (int)roundf(outerAngle/(M_PI*2/60));
+    int hour = (int)roundf(innerAngle/(M_PI*2/24));
+    
+    return min*60+hour*3600;
+}
+-(NSNumber *) getNumberSecondsFromZero {    
+    return [NSNumber numberWithFloat:[self getSecondsFromZero]];
+}
 
 -(NSDate *) getDate {
     int min = (int)roundf(outerAngle/(M_PI*2/60));
@@ -279,97 +417,17 @@
     NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
     NSDateComponents *dateComponents = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
     
-    /*if (dateComponents.hour >= 12) {
-        hour+=12;
-        if (hour < dateComponents.hour)
-            hour+=12;
-    }
-    if (hour > 24) {
-        day++;
-        hour -= 24;
-    }*/
-    
-    /*if (min == 60) {
-        min=0;
-        hour++;
-    }*/
-    
     dateComponents.day += day;
     dateComponents.hour = hour;
     dateComponents.minute = min;
     dateComponents.second = .5;
     
-    //NSLog(@"%i, %i, %i, %i", day, hour, min, 0);
     return [gregorian dateFromComponents:dateComponents];
 }
 
 
-- (void) updateTimerTick:(NSTimer *)timer {
-    if (handleSelected != SelectDurationNoHandle)
-        return;
-    [self update];
-}
 
-- (void) update {
-    if (isTimerMode) {
-        if (isTiming && _timerBeganDate)
-            [self setDuration:[[_timerBeganDate dateByAddingTimeInterval:timerDuration] timeIntervalSinceDate:[NSDate date]]];
-        
-    } else {
-        
-        NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-        NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:_date];
-        
-        int minute = dateComponents.minute;
-        int hour = dateComponents.hour;
-        
-        // check if seconds is set. if it is, override date (depreciated)
-        if (_secondsSinceMidnight > 0) {
-            int duration = _secondsSinceMidnight;
-            
-            int days = duration / (60 * 60 * 24);
-            duration -= days * (60 * 60 * 24);
-            hour = duration / (60 * 60);
-            duration -= hour * (60 * 60);
-            minute = duration / 60;
-        }
-            
-        float newInnerAngle = hour * (M_PI*2)/24;
-        float newOuterAngle = minute * (M_PI*2)/60;
-        
-        float saveInnerAngle = innerAngle;
-        float saveOuterAngle = outerAngle;
-        
-        [self setSnappedOuterAngle:newOuterAngle checkForNext:NO];
-        [self setSnappedInnerAngle:newInnerAngle];
-        
-        // start handles
-        dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
-
-        minute = dateComponents.minute;
-        hour = dateComponents.hour;
-        
-        float newInnerStartAngle = hour * (M_PI*2)/24;
-        float newOuterStartAngle = minute * (M_PI*2)/60;
-        
-        float saveInnerStartAngle = innerStartAngle;
-        float saveOuterStartAngle = outerStartAngle;
-        
-        [self setSnappedOuterStartAngle:newOuterStartAngle];
-        [self setSnappedInnerStartAngle:newInnerStartAngle];
-        
-        
-        if ((innerAngle != saveInnerAngle) || (outerAngle != saveOuterAngle)
-            || (innerStartAngle != saveInnerStartAngle) || (outerStartAngle != saveOuterStartAngle))
-            [self updateLayersAnimated:YES];
-    }
-}
-
-- (void) setDate:(NSDate *)date {
-    // select duration
-    _date = date;
-    [self update];
-}
+/*
 - (void) setDuration:(NSTimeInterval)duration {
     if (duration < 0.0)
         duration = 0.0;
@@ -396,12 +454,13 @@
     
     if ((oldInnerAngle != innerAngle) || (oldOuterAngle != outerAngle))
         [self updateLayersAnimated:YES];
-}
-
+}*/
+/*
 -(void) setSecondsSinceMidnight:(NSNumber *)seconds {
     _secondsSinceMidnight = [seconds intValue];
     [self update];
-}
+}*/
+/*
 -(NSNumber *) getSecondsSinceMidnight {
     int min = (int)roundf(outerAngle/(M_PI*2/60));
     int hour = (int)roundf(innerAngle/(M_PI*2/24));
@@ -411,10 +470,120 @@
 -(void) addSeconds:(int)seconds {
     int nowSeconds = [[self getSecondsSinceMidnight] intValue];
     [self setSecondsSinceMidnight:[NSNumber numberWithInt:nowSeconds+seconds]];
+}*/
+
+
+#pragma mark - picker angles
+
+-(void) setSnappedOuterAngle:(float)angle checkForNext:(bool)shouldCheck {
+    // round the angle
+    float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
+    
+    float beforeLim = (M_PI * 2.0f) * (3.0f/4.0f);
+    float afterLim = (M_PI * 2.0f) * (1.0f/4.0f);
+    
+    // make sure we are moving the correct handle
+    if (handleSelected != SelectDurationNoHandle && shouldCheck) {
+        if (prevOuterAngle > beforeLim && roundedAngle < afterLim) {
+            NSLog(@"next hour");
+            outerAngle = prevOuterAngle = roundedAngle;
+            [self addSeconds:3600];
+            /*outerAngle = prevOuterAngle = roundedAngle;
+            [self setSnappedInnerAngle:innerAngle +  (M_PI*2/60)];
+            [self updateLayersAnimated:YES];
+            return;*/
+            
+            /*outerAngle = prevOuterAngle = roundedAngle;
+            if (isTimerMode)
+                [self setDuration:[self getDuration]+3600];
+            else
+                [self addSeconds:3600];
+            
+            return;*/
+
+        } else if (roundedAngle > beforeLim && prevOuterAngle < afterLim) {
+            
+            // make sure that we cant go into negative seconds
+            if (!isTimerMode || innerAngle > 0) {
+                NSLog(@"previous hour");
+                outerAngle = prevOuterAngle = roundedAngle;
+                [self addSeconds:-3600];
+                /*outerAngle = prevOuterAngle = roundedAngle;
+                if (isTimerMode)
+                    [self setDuration:[self getDuration]-3600];
+                else
+                    [self addSeconds:-3600];*/
+                /*outerAngle = prevOuterAngle = roundedAngle;
+                [self setSnappedInnerAngle:innerAngle -  (M_PI*2/60)];
+                return;*/
+            }
+
+        }
+    }
+    
+    outerAngle = prevOuterAngle = roundedAngle;
+    
+    if (!disableUpdateAngles) {
+        outerFill.shouldAnimate = (handleSelected == SelectDurationOuterHandle)?NO:YES;
+        outerFill.endAngle = outerAngle;
+    }
+    
+}
+-(void) setSnappedInnerAngle:(float)angle {
+    // round the angle
+    float roundedAngle = roundf(angle/(M_PI*2/24)) * (M_PI*2/24);
+    
+    
+    /*while (roundedAngle > M_PI * 2)
+        roundedAngle = roundedAngle - (M_PI * 2);
+    
+    while (roundedAngle < 0)
+        roundedAngle = roundedAngle + (M_PI * 2);*/
+    
+    innerAngle = roundedAngle;
+    if (!disableUpdateAngles) {
+        if (innerFill.endAngle == 0 || [self shouldFixAngle:innerFill.endAngle]) {
+            innerFill.shouldAnimate = NO;
+            if (innerAngle < M_PI)
+                innerFill.endAngle = 0;
+            else
+                innerFill.endAngle = M_PI * 2;
+        }
+        if (innerAngle == 0 || [self shouldFixAngle:innerAngle]) {
+            if (innerFill.endAngle < M_PI)
+                innerAngle = 0;
+            else
+                innerAngle = M_PI * 2;
+        }
+        innerFill.shouldAnimate = (handleSelected == SelectDurationInnerHandle)?NO:YES;
+        innerFill.endAngle = innerAngle;
+    }
+
 }
 
-
-#pragma mark - angles
+-(void) setSnappedOuterStartAngle:(float)angle {
+    float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
+    outerStartAngle = roundedAngle;
+    if (!disableUpdateAngles) {
+        //outerFill.shouldAnimate = NO;
+        //outerFill.startAngle = [self shouldFixAngle:outerFill.startAngle]?0:outerFill.startAngle;
+        
+        outerFill.shouldAnimate = YES;
+        outerFill.startAngle = outerStartAngle;
+    }
+}
+-(void) setSnappedInnerStartAngle:(float)angle {
+    float roundedAngle = roundf(angle/(M_PI*2/24)) * (M_PI*2/24);
+    innerStartAngle = roundedAngle;
+    
+    if (!disableUpdateAngles) {
+        //innerFill.shouldAnimate = NO;
+        //innerFill.startAngle = [self shouldFixAngle:innerFill.startAngle]?0:innerFill.startAngle;
+        
+        innerFill.shouldAnimate = YES;
+        innerFill.startAngle = innerStartAngle;
+    }
+}
 
 - (bool) touchAngle:(float)touchAngle isWithinAngle:(float)angle {
     float padding = DEGREES_TO_RADIANS(15);
@@ -425,61 +594,37 @@
         leftAngle = leftAngle + M_PI * 2;
     if (rightAngle > (M_PI * 2))
         rightAngle = rightAngle - (M_PI * 2);
-        
+    
     return ((touchAngle >= leftAngle && touchAngle <= leftAngle + 2*padding) ||
             (touchAngle <= rightAngle && touchAngle >= rightAngle- 2*padding));
-        
-}
-
--(void) setSnappedOuterAngle:(float)angle checkForNext:(bool)shouldCheck {
-    float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
     
-    roundedAngle = (roundedAngle == M_PI*2 )? 0 :roundedAngle;
-
-    float beforeLim = (M_PI * 2.0f) * (3.0f/4.0f);
-    float afterLim = (M_PI * 2.0f) * (1.0f/4.0f);
-    
-    if (handleSelected != SelectDurationNoHandle && shouldCheck) {
-        if (prevOuterAngle > beforeLim && roundedAngle < afterLim) { // next hour
-            NSLog(@"next");
-            outerAngle = prevOuterAngle = roundedAngle;
-            if (isTimerMode)
-                [self setDuration:[self getDuration]+3600];
-            else
-                [self addSeconds:3600];
-            
-            return;
-
-        } else if (roundedAngle > beforeLim && prevOuterAngle < afterLim && [self getDuration] > 0) { // prev hour
-            NSLog(@"prev");
-            outerAngle = prevOuterAngle = roundedAngle;
-            if (isTimerMode)
-                [self setDuration:[self getDuration]-3600];
-            else
-                [self addSeconds:-3600];
-            
-            return;
-        }
-    }
-    outerAngle = prevOuterAngle = roundedAngle;
 }
--(void) setSnappedInnerAngle:(float)angle {
-    float roundedAngle = roundf(angle/(M_PI*2/24)) * (M_PI*2/24);
-    roundedAngle = roundedAngle==(M_PI*2)?0:roundedAngle;
-    innerAngle = roundedAngle;
-}
-
--(void) setSnappedOuterStartAngle:(float)angle {
-    float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
-    outerStartAngle = roundedAngle;
-}
--(void) setSnappedInnerStartAngle:(float)angle {
-    float roundedAngle = roundf(angle/(M_PI*2/24)) * (M_PI*2/24);
-    innerStartAngle = roundedAngle;
-}
-
 
 #pragma mark - Util
+- (void) fixAngles {
+    
+    
+    if ([self shouldFixAngle:innerStartAngle])
+        innerStartAngle = 0;
+    if ([self shouldFixAngle:outerStartAngle])
+        outerStartAngle = 0;
+    if ([self shouldFixAngle:innerAngle])
+        innerAngle = 0;
+    if ([self shouldFixAngle:outerAngle])
+        outerAngle = 0;
+    
+    // fix the rings
+    innerFill.shouldAnimate = outerFill.shouldAnimate = NO;
+    if ([self shouldFixAngle:innerFill.startAngle])
+        innerFill.startAngle = 0;
+    if ([self shouldFixAngle:outerFill.startAngle])
+        outerFill.startAngle = 0;
+}
+
+- (bool) shouldFixAngle:(float)angle {
+    return (angle > 6.2 && angle < M_PI*2+.1);
+}
+
 - (float) angleFromVector:(CGPoint)vector {
     float angle = atanf(vector.y / vector.x) - DEGREES_TO_RADIANS(-90);
     
@@ -488,6 +633,12 @@
         angle += M_PI;
     if (angle < 0)
         angle += M_PI * 2;
+    
+    // check if angle is M_PI*2
+    if (angle > 6.2 && angle < M_PI * 2) {
+        NSLog(@"Angle is %f. being brought to zero.", angle);
+        angle = 0;
+    }
     
     return angle;
 }
@@ -502,36 +653,13 @@
 
 #pragma mark - caanimation delegate
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag {
-    if (!flag)
-        return;
-    
-    float fullrad = 6.261f;
-    if (innerStartAngle > fullrad) {
-        innerStartAngle = 0;
-        NSLog(@"caught is");
-    }
-    if (outerStartAngle > fullrad) {
-        outerStartAngle = 0;
-        NSLog(@"caught os");
-    }
-    if (outerAngle > fullrad) {
-        outerAngle = 0;
-        NSLog(@"caught oa");
-    }
-    if (innerAngle > fullrad) {
-        innerAngle = 0;
-        NSLog(@"caught ia");
+    if (flag && waitingForAnimToEnd) {
+        waitingForAnimToEnd = NO;
+        switchingModes = NO;
     }
     
-    innerFill.shouldAnimate = outerFill.shouldAnimate = 0;
-    innerFill.startAngle = innerStartAngle;
-    outerFill.startAngle = outerStartAngle;
-    outerFill.endAngle = outerAngle;
-    innerFill.endAngle = innerAngle;
-    
-    [innerFill setNeedsDisplay];
-    [outerFill setNeedsDisplay];
-
+    if (flag && !switchingModes)
+        [self fixAngles];
 }
 
 
@@ -563,7 +691,12 @@
 
     [self.layer addSublayer:innerFill];
     [self.layer addSublayer:outerFill];
-        
+    
+    // draw the center circle which doesn't change
+    CGRect centerCircleRect = CGRectMake(-centerRadius, -centerRadius, centerRadius*2, centerRadius*2);
+    UIBezierPath *centerCirclePath = [UIBezierPath bezierPathWithOvalInRect:centerCircleRect];
+    centerLayer.path = centerCirclePath.CGPath;
+    centerLayer.fillColor = [[theme objectForKey:@"centerColor"] CGColor];
     
     // POSITION
     CGRect layerFrame = (CGRect){CGPointZero, self.frame.size};
@@ -574,79 +707,40 @@
     
     innerFill.contentsScale = outerFill.contentsScale = 2.0;
     
-    [self updateLayersAnimated:YES];
-
-}
-
-- (void)updateLayersAnimated:(bool)animate {
     
-    // Step 1: create the paths ---------------------------------
-    
-    //float startAngle = DEGREES_TO_RADIANS(-90);
-    
-    CGRect centerCircleRect = CGRectMake(-centerRadius, -centerRadius, centerRadius*2, centerRadius*2);
-    
-    // INNER RINGLAYER
-    bool shouldAnimate = !animate ? NO : (handleSelected != SelectDurationInnerHandle);
-    
-    innerFill.shouldAnimate = NO;
-    // adjust for correct animation rotation
-    if (shouldAnimate) {
-        if (innerFill.startAngle == 0 && innerStartAngle > innerAngle) {
-            innerFill.startAngle = M_PI * 2;
-        }
-        if (innerStartAngle == 0 && innerFill.startAngle > innerFill.endAngle) {
-            innerStartAngle = M_PI * 2;
-        }
-    }
-    
-    innerFill.shouldAnimate = shouldAnimate;
-    
+    // original values
     innerFill.innerRadius = centerRadius;
     innerFill.outerRadius = innerRadius;
     innerFill.startAngle = innerStartAngle;
     innerFill.endAngle = innerAngle;
-    innerFill.ringFillColor = [theme objectForKey:@"innerColor"];
-    innerFill.handleColor = [theme objectForKey:@"innerHandleColor"];
-    innerFill.ringStrokeColor = [theme objectForKey:@"innerRingColor"];
     
-    // OUTER RINGLAYER
-    shouldAnimate = !animate ? NO : (handleSelected != SelectDurationOuterHandle);
-    
-    outerFill.shouldAnimate = NO;
-    // adjust for correct animation rotation
-    if (shouldAnimate) {
-        if (outerFill.startAngle == 0 && outerStartAngle > outerAngle) {
-            outerFill.startAngle = M_PI * 2;
-        }
-        if (outerStartAngle == 0 && outerFill.startAngle > outerFill.endAngle) {
-            outerStartAngle = M_PI * 2;
-        }
-    }
-    
-    outerFill.shouldAnimate = shouldAnimate;
-
     outerFill.innerRadius = innerRadius;
     outerFill.outerRadius = outerRadius;
     outerFill.startAngle = outerStartAngle;
     outerFill.endAngle = outerAngle;
+    
+    [self update];
+    [self updateLayers];
+
+}
+
+- (void)updateLayers {
+    // updates the colors
+    
+    innerFill.ringFillColor = [theme objectForKey:@"innerColor"];
+    innerFill.handleColor = [theme objectForKey:@"innerHandleColor"];
+    innerFill.ringStrokeColor = [theme objectForKey:@"innerRingColor"];
+    
     outerFill.ringFillColor = [theme objectForKey:@"outerColor"];
     outerFill.handleColor = [theme objectForKey:@"outerHandleColor"];
     outerFill.ringStrokeColor = [theme objectForKey:@"outerRingColor"];
-
-    switchingModes = NO;
-    
-    // CENTER CIRCLE
-    UIBezierPath *centerCirclePath = [UIBezierPath bezierPathWithOvalInRect:centerCircleRect];
-    
-    
-    centerLayer.path = centerCirclePath.CGPath;
+        
     centerLayer.fillColor = [[theme objectForKey:@"centerColor"] CGColor];
 }
 
 - (void)drawRect:(CGRect)rect
 {
-    [self updateLayersAnimated:YES];
+    [self updateLayers];
     return;
 }
 
