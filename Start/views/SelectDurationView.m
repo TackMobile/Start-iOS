@@ -207,11 +207,15 @@
     [self setSecondsFromZero:seconds];
     
     // adjust for correct animation rotation
-    if (innerStartAngle == 0 && innerFill.startAngle > saveInnerEnd) {
+    if (innerFill.startAngle > saveInnerEnd) {
         innerStartAngle = M_PI * 2;
+    } else {
+        innerStartAngle = 0;
     }
-    if (outerStartAngle == 0 && outerFill.startAngle > saveOuterEnd) {
+    if (outerFill.startAngle > saveOuterEnd) {
         outerStartAngle = M_PI * 2;
+    } else {
+        outerStartAngle = 0;
     }
     
     innerFill.shouldAnimate = outerFill.shouldAnimate = YES;
@@ -226,8 +230,8 @@
     switchingModes = YES;
     isTimerMode = NO;
     
-    float saveInnerStart = innerFill.startAngle;
-    float saveOuterStart = outerFill.startAngle;
+    //float saveInnerStart = innerFill.startAngle;
+    //float saveOuterStart = outerFill.startAngle;
 
     disableUpdateAngles = YES;
     [self update];
@@ -236,12 +240,16 @@
     [self setSecondsFromZero:seconds];
     
     innerFill.shouldAnimate = outerFill.shouldAnimate = NO;
-    if (saveInnerStart == 0 && innerStartAngle > innerAngle) {
+    
+    if (innerStartAngle > innerAngle)
+        innerFill.startAngle = 0;
+    else
         innerFill.startAngle = M_PI * 2;
-    }
-    if (saveOuterStart == 0 && outerStartAngle > outerAngle) {
+    
+    if (outerStartAngle > outerAngle)
+        outerFill.startAngle = 0;
+    else
         outerFill.startAngle = M_PI * 2;
-    }
     
     //[self setSecondsFromZero:seconds];
 
@@ -603,7 +611,7 @@
 #pragma mark - Util
 - (void) fixAngles {
     
-    
+    /*
     if ([self shouldFixAngle:innerStartAngle])
         innerStartAngle = 0;
     if ([self shouldFixAngle:outerStartAngle])
@@ -618,7 +626,7 @@
     if ([self shouldFixAngle:innerFill.startAngle])
         innerFill.startAngle = 0;
     if ([self shouldFixAngle:outerFill.startAngle])
-        outerFill.startAngle = 0;
+        outerFill.startAngle = 0;*/
 }
 
 - (bool) shouldFixAngle:(float)angle {
