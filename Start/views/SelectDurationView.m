@@ -378,7 +378,7 @@
 
 - (void) setSecondsFromZero:(int)seconds {
     
-    if (seconds < 0)
+    if (seconds < 0 && !isTimerMode)
         seconds = 86400+seconds;
     
     if (!isTiming) {

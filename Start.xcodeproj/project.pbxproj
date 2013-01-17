@@ -496,6 +496,7 @@
 		F33F641B15951ED6000372AE /* Libs */ = {
 			isa = PBXGroup;
 			children = (
+				F3703C5F16A887580082115C /* Color Art */,
 				F33F641C15951F10000372AE /* UIImage+StackBlur.h */,
 				F33F641D15951F10000372AE /* UIImage+StackBlur.m */,
 			);
@@ -562,6 +563,13 @@
 				F36DA99D1598F855003A4F3C /* ActionCell.m */,
 			);
 			name = SelectAction;
+			sourceTree = "<group>";
+		};
+		F3703C5F16A887580082115C /* Color Art */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Color Art";
 			sourceTree = "<group>";
 		};
 		F375D51315FFE48500E06B33 /* intro */ = {

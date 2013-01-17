@@ -178,5 +178,13 @@
 		<key>iconFilename</key>
 		<string>zite-icon</string>
 	</dict>
+	<dict>
+		<key>url</key>
+		<string>dayone:/</string>
+		<key>title</key>
+		<string>Day One</string>
+		<key>iconFilename</key>
+		<string>dayone-icon</string>
+	</dict>
 </array>
 </plist>
