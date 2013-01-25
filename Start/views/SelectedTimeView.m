@@ -22,11 +22,11 @@
         // Views
         UIFont *timeLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:50];
         UIFont *mdLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:26];
-        UIFont *snoozeLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:35];
+        UIFont *snoozeLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:30];
         UIFont *toastFont = [UIFont fontWithName:@"Roboto-Thin" size:18];
 
         
-        toast = [[UILabel alloc] initWithFrame:(CGRect){(CGPoint){0,10}, {self.frame.size.width, 55}}];
+        toast = [[UILabel alloc] initWithFrame:(CGRect){(CGPoint){0,0}, {self.frame.size.width, 55}}];
         timeLabel = [[UILabel alloc] init];
         meridiemLabel = [[UILabel alloc] init];
         snoozeLabel = [[UILabel alloc] init];
@@ -100,6 +100,7 @@
 
 - (void) showSnooze {
     [snoozeLabel setAlpha:1];
+    [toast setAlpha:0];
     [timeLabel setAlpha:0];
     [meridiemLabel setAlpha:0];
 }
@@ -138,6 +139,7 @@
 //when user drags handle this method is called
 - (void) updateDate:(NSDate *)newDate part:(int)partEditing {//when snooze is tapped this method is called    
     [snoozeLabel setAlpha:0];
+    [toast setAlpha:1];
     [timeLabel setAlpha:1];
     [meridiemLabel setAlpha:1];
 
