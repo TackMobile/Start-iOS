@@ -22,9 +22,11 @@
         // Views
         UIFont *timeLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:50];
         UIFont *mdLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:26];
-        UIFont *snoozeLabelFont = [UIFont fontWithName:@"Roboto-This" size:35];
+        UIFont *snoozeLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:35];
+        UIFont *toastFont = [UIFont fontWithName:@"Roboto-Thin" size:18];
+
         
-        toast = [[UILabel alloc] initWithFrame:(CGRect){(CGPoint){0,10}, {self.frame.size.width, 50}}];
+        toast = [[UILabel alloc] initWithFrame:(CGRect){(CGPoint){0,10}, {self.frame.size.width, 55}}];
         timeLabel = [[UILabel alloc] init];
         meridiemLabel = [[UILabel alloc] init];
         snoozeLabel = [[UILabel alloc] init];
@@ -54,12 +56,12 @@
         [snoozeLabel setText:@"TAP TO SNOOZE"];
         [snoozeLabel setFont:snoozeLabelFont];
         
-        [toast setText:@""];
-        
-        [toast setAlpha:0];
-        [toast setBackgroundColor:[UIColor clearColor]];
+        [toast setTextAlignment:NSTextAlignmentCenter];
         [toast setTextColor:[UIColor whiteColor]];
-        
+        [toast setBackgroundColor:[UIColor clearColor]];
+        [toast setText:@"ALARM"];
+        [toast setFont:toastFont];
+                
         [editingPartIndicator setBackgroundColor:[UIColor whiteColor]];
         [toast setTextAlignment:NSTextAlignmentCenter];
         
@@ -83,14 +85,10 @@
     
     
     CGRect timeLabelRect;
-    if (timerMode || mdLabelSize.width == 0.0f) {
         timeLabelRect = CGRectMake((self.frame.size.width - timeLabelSize.width)/2, (self.frame.size.height-timeLabelSize.height)/2, timeLabelSize.width, timeLabelSize.height);
 
-    } else {
-        timeLabelRect = CGRectMake((self.frame.size.width - timeLabelSize.width)/2, (self.frame.size.height-timeLabelSize.height)/2 - 5, timeLabelSize.width, timeLabelSize.height);
 
-    }
-    CGRect meridiemLabelRect = CGRectMake((self.frame.size.width - mdLabelSize.width)/2, timeLabelRect.origin.y+timeLabelSize.height-3, mdLabelSize.width, mdLabelSize.height);
+    CGRect meridiemLabelRect = CGRectMake((self.frame.size.width - mdLabelSize.width)/2, timeLabelRect.origin.y+timeLabelSize.height-7, mdLabelSize.width, mdLabelSize.height);
     CGRect snoozeLabelRect = CGRectMake((self.frame.size.width-snoozeLabelSize.width)/2, (self.frame.size.height - snoozeLabelSize.height)/2, snoozeLabelSize.width, snoozeLabelSize.height);
     
     [timeLabel setFrame:timeLabelRect];
@@ -116,7 +114,7 @@
     timerMode = NO;
     [self addSubview:meridiemLabel];
     
-    [self setTitleWithText:@""];
+    [self setTitleWithText:@"ALARM"];
 }
 
 - (void) setTitleWithText:(NSString *)text {
