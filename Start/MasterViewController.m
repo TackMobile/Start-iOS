@@ -206,7 +206,7 @@
                 alarmView = [alarms objectAtIndex:indexOfTrippedAlarm]; //saves that instance as alarmView
             }
         }
-        [alarmView alarmCountdownEnded]; //sends the specific instance to alarmCountdownEnded so that specific alarm is the only one that stops.
+        //[alarmView alarmCountdownEnded]; //sends the specific instance to alarmCountdownEnded so that specific alarm is the only one that stops.
     }
 }
 
