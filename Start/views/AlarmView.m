@@ -325,7 +325,7 @@ const float Spacing = 0.0f;
         return;
     
     [selectDurationView touchesCancelled:nil withEvent:nil];
-    if (pinchRecog.velocity < 0 && pinchRecog.state == UIGestureRecognizerStateBegan) {
+    if (pinchRecog.state == UIGestureRecognizerStateBegan) {
         NSLog(@"began");
 
         [selectSongView setAlpha:0];

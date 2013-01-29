@@ -201,9 +201,12 @@
     innerStartAngle = 0;
     
     //disableUpdateAngles = YES;
+    
+    // save the current inner handle positions
     float saveInnerEnd = innerFill.endAngle;
     float saveOuterEnd = outerFill.endAngle;
     
+    // change innerAngle and outerAngle
     [self setSecondsFromZero:seconds];
     
     // adjust for correct animation rotation
@@ -557,7 +560,7 @@
             else
                 innerFill.endAngle = M_PI * 2;
         }
-        if (innerAngle == 0 || [self shouldFixAngle:innerAngle]) {
+        if (!switchingModes && ( innerAngle == 0 || [self shouldFixAngle:innerAngle])) {
             if (innerFill.endAngle < M_PI)
                 innerAngle = 0;
             else
