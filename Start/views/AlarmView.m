@@ -695,11 +695,12 @@ const float Spacing = 0.0f;
 
     
     newSelectedTimeRect = (CGRect){ {selectedTimeView.frame.origin.x,
-        (selectDurRect.origin.y - selectedTimeView.frame.size.height)/2}, selectedTimeView.frame.size};
+        (selectDurRect.origin.y - selectedTimeView.frame.size.height)/2 +5}, selectedTimeView.frame.size};
     belowSelectedTimeRect = CGRectOffset(newSelectedTimeRect, 0, 15);
     
     if (isTimerMode)
-        newSelectedTimeRect = CGRectOffset(newSelectedTimeRect, 0, 15);
+        newSelectedTimeRect = CGRectOffset(newSelectedTimeRect, 0, 10);
+    
 
     
     // animate selectedTimeView to toolbar
