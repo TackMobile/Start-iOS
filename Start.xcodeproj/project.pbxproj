@@ -67,6 +67,8 @@
 		F37203B215EFDFB600D75E9E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = F37203AC15EFDFB600D75E9E /* Default.png */; };
 		F37203B315EFDFB600D75E9E /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F37203AD15EFDFB600D75E9E /* Default@2x.png */; };
 		F3721DA915BF5CF500A365D1 /* MusicPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3721DA815BF5CF500A365D1 /* MusicPlayer.m */; };
+		F37A059816C00BDC0002AAA2 /* dayone-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F37A059616C00BDC0002AAA2 /* dayone-icon.png */; };
+		F37A059916C00BDC0002AAA2 /* dayone-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F37A059716C00BDC0002AAA2 /* dayone-icon@2x.png */; };
 		F37C93CB15E97FEA000EBE07 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F37C93CA15E97FEA000EBE07 /* Icon.png */; };
 		F37C93CD15E97FF0000EBE07 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F37C93CC15E97FEF000EBE07 /* Icon@2x.png */; };
 		F37E556C1680FB3D002FB2EB /* StopwatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F37E556B1680FB3D002FB2EB /* StopwatchViewController.m */; };
@@ -240,6 +242,8 @@
 		F37203AD15EFDFB600D75E9E /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		F3721DA715BF5CF500A365D1 /* MusicPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MusicPlayer.h; path = models/MusicPlayer.h; sourceTree = "<group>"; };
 		F3721DA815BF5CF500A365D1 /* MusicPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MusicPlayer.m; path = models/MusicPlayer.m; sourceTree = "<group>"; };
+		F37A059616C00BDC0002AAA2 /* dayone-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dayone-icon.png"; sourceTree = "<group>"; };
+		F37A059716C00BDC0002AAA2 /* dayone-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dayone-icon@2x.png"; sourceTree = "<group>"; };
 		F37C93CA15E97FEA000EBE07 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		F37C93CC15E97FEF000EBE07 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		F37E556A1680FB3D002FB2EB /* StopwatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StopwatchViewController.h; sourceTree = "<group>"; };
@@ -391,6 +395,8 @@
 		F31670F715A24F8C00725274 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				F37A059616C00BDC0002AAA2 /* dayone-icon.png */,
+				F37A059716C00BDC0002AAA2 /* dayone-icon@2x.png */,
 				96F700741683779A0020A6CB /* anydo-icon.png */,
 				96F700751683779A0020A6CB /* anydo-icon@2x.png */,
 				96F7006F168377900020A6CB /* pocket-icon.png */,
@@ -944,6 +950,8 @@
 				96F70072168377900020A6CB /* pocket-icon@2x.png in Resources */,
 				96F700761683779A0020A6CB /* anydo-icon.png in Resources */,
 				96F700771683779A0020A6CB /* anydo-icon@2x.png in Resources */,
+				F37A059816C00BDC0002AAA2 /* dayone-icon.png in Resources */,
+				F37A059916C00BDC0002AAA2 /* dayone-icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
