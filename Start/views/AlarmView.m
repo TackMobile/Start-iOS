@@ -184,6 +184,11 @@ const float Spacing = 0.0f;
         [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
         [selectSongView selectCellWithID:[NSNumber numberWithInt:-1]];
     } else {
+        isSet = [(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue];
+        
+        isTimerMode = [(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue];
+        isStopwatchMode = [(NSNumber *)[alarmInfo objectForKey:@"isStopwatchMode"] boolValue];
+
         // if date is set and secondssincemidnight isnt, convert it
         if ([(NSNumber *)[alarmInfo objectForKey:@"secondsSinceMidnight"] intValue] > 0) {
             nil;
@@ -196,23 +201,22 @@ const float Spacing = 0.0f;
         // select action
         [selectActionView selectActionWithID:(NSNumber *)[alarmInfo objectForKey:@"actionID"]];
         // set isSet
-        isSet = [(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue];
-
-        isTimerMode = [(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue];
-        isStopwatchMode = [(NSNumber *)[alarmInfo objectForKey:@"isStopwatchMode"] boolValue];
         
         if (isTimerMode) {
             [self enterTimerMode];
             if (isSet)
                 [selectDurationView beginTiming];
+            
             [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"timerDuration"]];
         } else {
             [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
 
         }
         
-        if (isStopwatchMode)
+        if (isStopwatchMode) {
             [selectDurationView compressByRatio:0 animated:YES];
+            [selectedTimeView setAlpha:0];
+        }
 
         [self animateSelectDurToRest];
     }
@@ -374,7 +378,8 @@ const float Spacing = 0.0f;
         
         [UIView animateWithDuration:.2 animations:^{
             [selectDurationView setAlpha:1];
-            [selectedTimeView setAlpha:1];
+            if (!isStopwatchMode)
+                [selectedTimeView setAlpha:1];
             if (isSet)
                 countdownView.alpha = 1;
         } completion:^(BOOL finished) {
@@ -590,7 +595,8 @@ const float Spacing = 0.0f;
         [selectDurationView setAlpha:1];
         
         [selectedTimeView setCenter:selectDurationView.center];
-        [selectedTimeView setAlpha:1];
+        if (!isStopwatchMode)
+            [selectedTimeView setAlpha:1];
         
         [selectActionView setFrame:selectActionRect];
         [selectActionView setAlpha:1];
@@ -633,7 +639,7 @@ const float Spacing = 0.0f;
         [selectDurationView setAlpha:.9];
         
         [selectedTimeView setCenter:selectDurationView.center];
-        [selectedTimeView setAlpha:9];
+        [selectedTimeView setAlpha:.9];
         
         [selectSongView setFrame:selectSongPushedRect];
 
@@ -666,7 +672,8 @@ const float Spacing = 0.0f;
         [selectDurationView setAlpha:1];
         
         [selectedTimeView setCenter:selectDurationView.center];
-        [selectedTimeView setAlpha:1];
+        if (!isStopwatchMode)
+            [selectedTimeView setAlpha:1];
         
         [selectSongView setFrame:selectSongRect];
         [selectSongView setAlpha:1];
@@ -710,7 +717,8 @@ const float Spacing = 0.0f;
         [selectedTimeView setFrame:belowSelectedTimeRect];
         [UIView animateWithDuration:.07 animations:^{
             [selectedTimeView setFrame:newSelectedTimeRect];
-            [selectedTimeView setAlpha:1];
+            if (!isStopwatchMode)
+                [selectedTimeView setAlpha:1];
             if ([selectDuration handleSelected] != SelectDurationNoHandle) {
                 [selectSongView setAlpha:.2];
                 [selectActionView setAlpha:.2];
@@ -748,7 +756,8 @@ const float Spacing = 0.0f;
     // animate selectedTimeView back to durationView
     [UIView animateWithDuration:.1 animations:^{
         [selectedTimeView setCenter:selectDurationView.center];
-        [selectedTimeView setAlpha:1];
+        if (!isStopwatchMode)
+            [selectedTimeView setAlpha:1];
         [selectSongView setAlpha:1];
         [selectActionView setAlpha:1];
         [radialGradientView setAlpha:1];
