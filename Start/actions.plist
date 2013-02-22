@@ -26,7 +26,7 @@
 		<key>iconFilename</key>
 		<string>anydo-icon</string>
 	</dict>
-    <dict>
+	<dict>
 		<key>url</key>
 		<string>dayone:/</string>
 		<key>title</key>
@@ -105,6 +105,14 @@
 		<string>Pocket</string>
 		<key>iconFilename</key>
 		<string>pocket-icon</string>
+	</dict>
+	<dict>
+		<key>url</key>
+		<string>readmill://</string>
+		<key>title</key>
+		<string>Readmill</string>
+		<key>iconFilename</key>
+		<string>readmill-icon</string>
 	</dict>
 	<dict>
 		<key>url</key>

@@ -197,6 +197,12 @@ const float Spacing = 0.0f;
             [alarmInfo setObject:[self secondsSinceMidnightWithDate:[alarmInfo objectForKey:@"date"]] forKey:@"secondsSinceMidnight"];
         }
         
+        if ((NSDate *)[alarmInfo objectForKey:@"snoozeAlarm"] != nil) {
+            isSnoozing = YES;
+            NSDate *newSnooze = [NSDate dateWithTimeInterval:[[self secondsSinceMidnightWithDate:(NSDate *)[alarmInfo objectForKey:@"snoozeAlarm"]] intValue] sinceDate:[self dateTodayWithSecondsFromMidnight:0]];
+            [alarmInfo setObject:newSnooze forKey:@"snoozeAlarm"];
+        }
+        
         [selectSongView selectCellWithID:(NSNumber *)[alarmInfo objectForKey:@"songID"]];
         // select action
         [selectActionView selectActionWithID:(NSNumber *)[alarmInfo objectForKey:@"actionID"]];
@@ -209,9 +215,14 @@ const float Spacing = 0.0f;
             
             [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"timerDuration"]];
         } else {
-            [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
-
+            if (isSnoozing)
+                [selectDurationView setSecondsFromZeroWithNumber:[self secondsSinceMidnightWithDate:[alarmInfo objectForKey:@"snoozeAlarm"]]];
+            else
+                [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
         }
+        
+        // fix snoozedate
+        
         
         if (isStopwatchMode) {
             [selectDurationView compressByRatio:0 animated:YES];
@@ -219,6 +230,8 @@ const float Spacing = 0.0f;
         }
 
         [self animateSelectDurToRest];
+        
+        NSLog(@"%@", alarmInfo);
     }
     
     [self durationDidEndChanging:selectDurationView];
@@ -229,6 +242,8 @@ const float Spacing = 0.0f;
 }
 
 - (void) alarmCountdownEnded {
+    NSLog(@"countdownended\n%@", alarmInfo);
+    
     if (!countdownEnded && isSet) {
         [delegate alarmCountdownEnded:self];
         countdownEnded = YES;
@@ -239,8 +254,9 @@ const float Spacing = 0.0f;
 }
 
 - (NSDate *) getDate {
-    if (isSnoozing)
-        return [alarmInfo objectForKey:@"snoozeDate"];
+    if (isSnoozing) {
+        return [alarmInfo objectForKey:@"snoozeAlarm"];
+    }
     
     if (isTimerMode) {
         NSTimeInterval timerTimeInterval = [(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue];
@@ -898,18 +914,31 @@ const float Spacing = 0.0f;
     
     bool setAlarm = NO;
     bool startStopwatchMode = NO;
-    if (shouldSet == AlarmViewShouldSet
-        || selectDurationView.frame.origin.y < (selectDurRect.origin.y + alarmSetDurRect.origin.y )/2) {
+    
+    if (shouldSet == AlarmViewShouldNone) {
+        if (selectDurationView.frame.origin.y > (selectDurRect.origin.y + stopwatchModeDurRect.origin.y )/2) {
+            shouldSet = AlarmViewShouldStopwatch;
+        } else if (selectDurationView.frame.origin.y > (selectDurRect.origin.y + alarmSetDurRect.origin.y )/2) {
+            shouldSet = AlarmViewShouldUnSet;
+        } else {
+            shouldSet = AlarmViewShouldSet;
+        }
+    }
+
+    
+    if (shouldSet == AlarmViewShouldSet) {
         setAlarm = YES;
         [selectSongView.showCell.artistLabel setAlpha:0.3];
-    }
-    else if (shouldSet == AlarmViewShouldUnSet) {
+    } else if (shouldSet == AlarmViewShouldUnSet) {
         setAlarm = NO;
         [selectSongView.cell.artistLabel setAlpha:1];
         // when the user turns off the alarm when the alarm is sounding
         if (countdownEnded || isSnoozing) { // stop and launch countdown aciton
+            if (isSnoozing) {
+                [alarmInfo removeObjectForKey:@"snoozeAlarm"];
+                isSnoozing = NO;
+            }
             countdownEnded = NO;
-            isSnoozing = NO;
             NSURL *openURL = [NSURL URLWithString:[[selectActionView.actions objectAtIndex:[[alarmInfo objectForKey:@"actionID"] intValue] ] objectForKey:@"url"]]; //gets URL of selected action from alarmInfo dictionary.
             [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
             [[delegate getMusicPlayer] stop];
@@ -954,6 +983,7 @@ const float Spacing = 0.0f;
     [alarmInfo setObject:[NSNumber numberWithBool:isStopwatchMode] forKey:@"isStopwatchMode"];
     
     shouldSet = AlarmViewShouldNone;
+    
     [self animateSelectDurToRest];
     if ([delegate respondsToSelector:@selector(alarmViewUpdated)])
         [delegate alarmViewUpdated];

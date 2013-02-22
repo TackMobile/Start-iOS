@@ -59,6 +59,10 @@
 		F3292F46168C038B003D5F9A /* RingFillShapeLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = F3292F45168C038B003D5F9A /* RingFillShapeLayer.m */; };
 		F335A2C615D035FA00F0A552 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F335A2C515D035FA00F0A552 /* AudioToolbox.framework */; };
 		F335A2D015D41BF700F0A552 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F335A2CF15D41BF600F0A552 /* AVFoundation.framework */; };
+		F335FA1E16CB5E9800ECF8AB /* readmill-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F335FA1C16CB5E9800ECF8AB /* readmill-icon.png */; };
+		F335FA1F16CB5E9800ECF8AB /* readmill-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F335FA1D16CB5E9800ECF8AB /* readmill-icon@2x.png */; };
+		F335FA3316CB623B00ECF8AB /* tap-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F335FA3116CB623B00ECF8AB /* tap-icon.png */; };
+		F335FA3416CB623B00ECF8AB /* tap-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F335FA3216CB623B00ECF8AB /* tap-icon@2x.png */; };
 		F33F641E15951F10000372AE /* UIImage+StackBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = F33F641D15951F10000372AE /* UIImage+StackBlur.m */; };
 		F36DA9921598EA1E003A4F3C /* Roboto-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F36DA9911598EA1E003A4F3C /* Roboto-Thin.ttf */; };
 		F36DA99A1598EF0C003A4F3C /* SongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F36DA9991598EF0C003A4F3C /* SongCell.m */; };
@@ -229,6 +233,10 @@
 		F3292F45168C038B003D5F9A /* RingFillShapeLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RingFillShapeLayer.m; path = layers/RingFillShapeLayer.m; sourceTree = "<group>"; };
 		F335A2C515D035FA00F0A552 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		F335A2CF15D41BF600F0A552 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		F335FA1C16CB5E9800ECF8AB /* readmill-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "readmill-icon.png"; sourceTree = "<group>"; };
+		F335FA1D16CB5E9800ECF8AB /* readmill-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "readmill-icon@2x.png"; sourceTree = "<group>"; };
+		F335FA3116CB623B00ECF8AB /* tap-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tap-icon.png"; path = "Start/img/icons/tap-icon.png"; sourceTree = SOURCE_ROOT; };
+		F335FA3216CB623B00ECF8AB /* tap-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "tap-icon@2x.png"; path = "Start/img/icons/tap-icon@2x.png"; sourceTree = SOURCE_ROOT; };
 		F33F641C15951F10000372AE /* UIImage+StackBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+StackBlur.h"; path = "Libs/UIImage+StackBlur.h"; sourceTree = "<group>"; };
 		F33F641D15951F10000372AE /* UIImage+StackBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+StackBlur.m"; path = "Libs/UIImage+StackBlur.m"; sourceTree = "<group>"; };
 		F36DA9911598EA1E003A4F3C /* Roboto-Thin.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Thin.ttf"; sourceTree = "<group>"; };
@@ -395,6 +403,8 @@
 		F31670F715A24F8C00725274 /* icons */ = {
 			isa = PBXGroup;
 			children = (
+				F335FA1C16CB5E9800ECF8AB /* readmill-icon.png */,
+				F335FA1D16CB5E9800ECF8AB /* readmill-icon@2x.png */,
 				F37A059616C00BDC0002AAA2 /* dayone-icon.png */,
 				F37A059716C00BDC0002AAA2 /* dayone-icon@2x.png */,
 				96F700741683779A0020A6CB /* anydo-icon.png */,
@@ -581,6 +591,8 @@
 		F375D51315FFE48500E06B33 /* intro */ = {
 			isa = PBXGroup;
 			children = (
+				F335FA3116CB623B00ECF8AB /* tap-icon.png */,
+				F335FA3216CB623B00ECF8AB /* tap-icon@2x.png */,
 				F3CA96C21602333D00D237FC /* create-icon.png */,
 				F3CA96C31602333D00D237FC /* create-icon@2x.png */,
 				F3CA96C41602333D00D237FC /* flick-down-icon.png */,
@@ -952,6 +964,10 @@
 				96F700771683779A0020A6CB /* anydo-icon@2x.png in Resources */,
 				F37A059816C00BDC0002AAA2 /* dayone-icon.png in Resources */,
 				F37A059916C00BDC0002AAA2 /* dayone-icon@2x.png in Resources */,
+				F335FA1E16CB5E9800ECF8AB /* readmill-icon.png in Resources */,
+				F335FA1F16CB5E9800ECF8AB /* readmill-icon@2x.png in Resources */,
+				F335FA3316CB623B00ECF8AB /* tap-icon.png in Resources */,
+				F335FA3416CB623B00ECF8AB /* tap-icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

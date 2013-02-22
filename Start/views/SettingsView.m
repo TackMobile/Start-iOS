@@ -16,145 +16,120 @@ const float optionHeight = 40;
 {
     self = [super initWithFrame:frame];
     if (self) {
+        NSString *version = @"1.1.3";
+        
         pickingSnooze = NO;
         selectedIndex = 0;
-        
-            
-    
-        CGPoint tackCoordinates;
       
         if ([UIScreen mainScreen].applicationFrame.size.height < 500   ) {
             bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background"]];
             intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about"]];
-            tackLogo = [[UIImageView alloc] initWithFrame:CGRectMake(177, 349, 30, 30)];
-            tackCoordinates = CGPointMake(48, 354);
-            
+            tackLogo = [[UIImageView alloc] initWithFrame:CGRectMake(220, 420, 30, 30)];
         }else{
             bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background-568h@2x.png"]];
             intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about-568h@2x.png"]];
-            tackLogo = [[UIImageView alloc] initWithFrame:CGRectMake(177, 399, 30, 30)];
-            tackCoordinates = CGPointMake(48, 403);
+            tackLogo = [[UIImageView alloc] initWithFrame:CGRectMake(220, 506, 30, 30)];
         }
-        
-        
-  
-        
-        
-        //tackLogo = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"tack-logo"]];
+
         tackButton = [[UIButton alloc] init];
         underline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search-divider"]];
         copyText = [[UILabel alloc] init];
         versionText = [UILabel new];
-        //tackCopy = [[UILabel alloc] init];
         timePicker = [[UIScrollView alloc] init];
-        
-        createIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 106, 19, 19)];
-        createIcon.image = [UIImage imageNamed:@"create-icon"];
-        flickDownIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 255, 19, 28)];
-        flickDownIcon.image = [UIImage imageNamed:@"flick-down-icon"];
-        flickUpIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 196, 19, 28)];
-        flickUpIcon.image = [UIImage imageNamed:@"flick-up-icon"];
-        pinchIcon = [[UIImageView alloc] initWithFrame:CGRectMake(15, 300, 29, 29)];
-        pinchIcon.image = [UIImage imageNamed:@"pinch-icon"];
-        setIcon = [[UIImageView alloc] initWithFrame:CGRectMake(20, 156, 19, 19)];
-        setIcon.image = [UIImage imageNamed:@"set-icon"];
-        tackLogo.image = [UIImage imageNamed:@"tack-logo"];
-    
-        
         
         UIFont *introFonts = [UIFont fontWithName:@"Roboto-Thin" size:20];
         UIColor *introColor = [UIColor whiteColor];
         UIColor *backgroundColor = [UIColor clearColor];
+        
+        labelCopy = [NSArray arrayWithObjects:
+                     @"Create a new space",
+                     @"Tap to switch alarm or timer",
+                     @"Set time, sound and action" ,
+                     @"Fick up to activate",
+                     @"Flick down for stopwatch",
+                     @"Pinch to delete", nil];
+        
+        labelIcons = [NSArray arrayWithObjects:
+                      [UIImage imageNamed:@"create-icon"],
+                      [UIImage imageNamed:@"tap-icon"],
+                      [UIImage imageNamed:@"set-icon"],
+                      [UIImage imageNamed:@"flick-up-icon"],
+                      [UIImage imageNamed:@"flick-down-icon"],
+                      [UIImage imageNamed:@"pinch-icon"], nil];
+        
+        float introSpacing = 50;
+        float iconCenterX = 27;
+        float introStart = underline.frame.origin.y + 90;
+        
+        [self addSubview:bgImage];
+        [self addSubview:underline];
+        
+        introLabels = [NSMutableArray new];
+        for (int i=0; i<labelCopy.count; i++) {
+            UIImage *labelIcon = [labelIcons objectAtIndex:i];
+            NSString *labelText = [labelCopy objectAtIndex:i];
+            
+            UILabel *introLabel = [[UILabel alloc] init];
+            UIImageView *introIconView = [[UIImageView alloc] initWithImage:labelIcon];
+            
+            [introIconView sizeToFit];
+            
+            introLabel.text = labelText;
+            introLabel.textColor = introColor;
+            introLabel.font = introFonts;
+            introLabel.backgroundColor = backgroundColor;
+            
+            CGSize labelSize = [[introLabel text] sizeWithFont:[introLabel font]];
+            CGSize iconSize = introIconView.frame.size;
+            
+            CGRect labelRect = (CGRect){
+                {48, floorf((introStart + (introSpacing * i)))},
+                labelSize};
+            
+            CGRect iconRect = (CGRect){
+                {floorf(iconCenterX - (iconSize.width/2)),
+                    floorf((labelRect.origin.y + labelSize.height/2) - (iconSize.height/2))},
+                iconSize};
+            
+            [introLabel setFrame:labelRect];
+            [introIconView setFrame:iconRect];
+            
+            [self addSubview:introLabel];
+            [self addSubview:introIconView];
+            
+            [introLabels addObject:introLabel];
+            [introLabels addObject:introIconView];
+            
+        }
+        
 
-        
-        
-        createLabel = [UILabel new];
-        createLabel.text = @"Create a new alarm";
-        createLabel.textColor = introColor;
-        createLabel.font = introFonts;
-        createLabel.backgroundColor = backgroundColor;
-        CGSize createSize = [[createLabel text] sizeWithFont:[createLabel font]];
-        createLabel.frame = CGRectMake(48, 102, createSize.width, createSize.height);
-        flickDownLabel = [UILabel new];
-        flickDownLabel.text = @"Flick down for stopwatch";
-        flickDownLabel.font = introFonts;
-        flickDownLabel.textColor = introColor;
-        flickDownLabel.backgroundColor = backgroundColor;
-        CGSize flickDownSize = [[flickDownLabel text] sizeWithFont:[flickDownLabel font]];
-        flickDownLabel.frame = CGRectMake(48, 253, flickDownSize.width, flickDownSize.height);
-        flickUpLabe = [UILabel new];
-        flickUpLabe.text = @"Flick up to activate";
-        flickUpLabe.font = introFonts;
-        flickUpLabe.textColor = introColor;
-        flickUpLabe.backgroundColor = backgroundColor;
-        CGSize flickUpSize = [[flickUpLabe text] sizeWithFont:[flickUpLabe font]];
-        flickUpLabe.frame = CGRectMake(48, 204, flickUpSize.width, flickUpSize.height);
-        pinchLabel = [UILabel new];
-        pinchLabel.text = @"Pinch to delete";
-        pinchLabel.font = introFonts;
-        pinchLabel.textColor = introColor;
-        pinchLabel.backgroundColor = backgroundColor;
-        CGSize pinchSize = [[pinchLabel text] sizeWithFont:[pinchLabel font]];
-        pinchLabel.frame = CGRectMake(48, 304, pinchSize.width, pinchSize.height);
-        setLabel = [UILabel new];
-        setLabel.text = @"Set time, sound and action";
-        setLabel.font = introFonts;
-        setLabel.textColor = introColor;
-        setLabel.backgroundColor = backgroundColor;
-        CGSize setSize = [[setLabel text] sizeWithFont:[setLabel font]];
-        setLabel.frame = CGRectMake(48, 152, setSize.width, setSize.height);
         tackLabel = [UILabel new];
         tackLabel.text = @"Assembled by";
-        tackLabel.font = introFonts;
+        tackLabel.font = [UIFont fontWithName:introFonts.fontName size:15];
         tackLabel.textColor= introColor;
         tackLabel.backgroundColor = backgroundColor;
         CGSize tackSize = [[tackLabel text] sizeWithFont:[tackLabel font]];
-        tackLabel.frame = CGRectMake(tackCoordinates.x, tackCoordinates.y, tackSize.width, tackSize.height);
         
+        tackLabel.frame = (CGRect){{tackLogo.frame.origin.x - (tackSize.width + 8),
+            (tackLogo.frame.origin.y+tackLogo.frame.size.height/2) - tackSize.height/2 + 3},
+            tackSize};
         
-        
-        
-        
-        
-        
-        
-        [self addSubview:bgImage];
-        //[self addSubview:tackLogo];
-        [self addSubview:underline];
-        //[bgImage addSubview:intro];
-        //[self addSubview:intro];
-        
-        [self addSubview:createLabel];
-        [self addSubview:createIcon];
-        [self addSubview:flickDownLabel];
-        [self addSubview:flickDownIcon];
-        [self addSubview:flickUpLabe];
-        [self addSubview:flickUpIcon];
-        [self addSubview:pinchLabel];
-        [self addSubview:pinchIcon];
-        [self addSubview:setLabel];
-        [self addSubview:setIcon];
+        tackLogo.image = [UIImage imageNamed:@"tack-logo"];
+
         [self addSubview:tackLabel];
         [self addSubview:tackLogo];
         
-        
-        
         [self addSubview:copyText];
         [self addSubview:versionText];
-        //[self addSubview:tackCopy];
         [self addSubview:timePicker];
         [self addSubview:tackButton];
         
-        
-        
-                
+
         [copyText setText:@"Snooze Duration        min"]; // leave the spaces. i know, a hack
-        [versionText setText:@"v1.1.3"];
-        //[tackCopy setText:@"Assembled by"];
-        //[tackLogo setAlpha:.8];
+        [versionText setText:version];
         
         [tackButton addTarget:self action:@selector(tackTapped:) forControlEvents:UIControlEventTouchUpInside];
-                
+        
         [timePicker setDelegate:self];
         [timePicker setShowsVerticalScrollIndicator:NO];
         [timePicker setShowsHorizontalScrollIndicator:NO];
@@ -178,11 +153,11 @@ const float optionHeight = 40;
         [copyText setFont:lgRobotoFont];    [copyText setTextColor:textColor];
         [copyText setBackgroundColor:[UIColor clearColor]];
         [versionText setFont:smlRobotoFont];
-        [versionText setTextColor:[UIColor grayColor]];
+        [versionText setTextColor:[UIColor colorWithWhite:1 alpha:.8]];
         [versionText setBackgroundColor:[UIColor clearColor]];
     
         
-        //[tackCopy setFont:smlRobotoFont];    [tackCopy setTextColor:textColor];
+        //[tackCopy setFont:smlRobotoFont];[tackCopy setTextColor:textColor];
         //[tackCopy setBackgroundColor:[UIColor clearColor]];
         
         // time picker
@@ -224,34 +199,25 @@ const float optionHeight = 40;
     
     CGSize frameSize = [[UIScreen mainScreen] applicationFrame].size;
     CGSize introSize;
-    CGPoint buttonPosition;
     
     if ([UIScreen mainScreen].applicationFrame.size.height < 500) {
        introSize = CGSizeMake(intro.image.size.width, intro.image.size.height);
-        buttonPosition = CGPointMake(40, 330);
     }else{
         introSize = CGSizeMake(262, 323);
-        buttonPosition = CGPointMake(40, 380);
     }
 
     
-    
-    
-    //CGSize tackTextSize = [[tackCopy text] sizeWithFont:[tackCopy font]];
     CGSize copyTextSize = [[copyText text] sizeWithFont:[copyText font]];
     CGSize versionTextSize = [[versionText text] sizeWithFont:[versionText font]];
     
     CGRect bgRect = CGRectMake(0, frameSize.height - bgImage.frame.size.height, frameSize.width, bgImage.frame.size.height);
-    //CGRect tackCopyRect = CGRectMake((frameSize.width - (tackTextSize.width+41)) - 25,
-      //                               frameSize.height - 40,
-        //                             tackTextSize.width, tackTextSize.height);
-
-    //CGRect tackRect = CGRectMake(tackCopyRect.origin.x + tackCopyRect.size.width + 5,
-                             //    tackCopyRect.origin.y - 15, 41, 40);
-    CGRect tackButtonRect = CGRectMake(buttonPosition.x, buttonPosition.y, 180, 44);
+    
+    CGRect tackButtonRect = (CGRect){{tackLabel.frame.origin.x, tackLogo.frame.origin.y}, {tackLogo.frame.origin.x + tackLogo.frame.size.width - tackLabel.frame.origin.x, tackLogo.frame.size.height}};
+    
     CGRect copyTextRect = CGRectMake(15, 20, 
                                      copyTextSize.width, copyTextSize.height);
-    CGRect versionTextRect = CGRectMake(frameSize.width - versionTextSize.width - 5, frameSize.height - versionTextSize.height, versionTextSize.width, versionTextSize.height);
+    CGRect versionTextRect = CGRectMake(frameSize.width - versionTextSize.width - 19   ,
+                                        floorf(frameSize.height - (versionTextSize.height + 14)), versionTextSize.width, versionTextSize.height);
     
     CGRect underlineRect = CGRectMake(copyTextRect.origin.x,
                                       copyTextRect.origin.y + copyTextRect.size.height + 4,
@@ -264,8 +230,6 @@ const float optionHeight = 40;
                                    frameSize.height);
     
     bgImage.frame = bgRect;
-    //tackLogo.frame = tackRect;
-   // tackCopy.frame = tackCopyRect;
     tackButton.frame = tackButtonRect;
     copyText.frame = copyTextRect;
     versionText.frame = versionTextRect;
@@ -292,7 +256,6 @@ const float optionHeight = 40;
     float roundedOffset = (selectedIndex * optionHeight) - timePicker.contentInset.top;
     timePicker.contentOffset = CGPointMake(0, roundedOffset);
     timePicker.showsVerticalScrollIndicator = NO;
-    //[timePicker sizeToFit];
 }
 
 -(void) snoozeTimeSelected:(UIButton *)button {
@@ -333,22 +296,13 @@ const float optionHeight = 40;
     
     UITouch *touch = [touches anyObject];
     CGPoint touchLoc = [touch locationInView:self];
-    
+        
     if (!pickingSnooze && CGRectContainsPoint(CGRectMake(0, 0, [[UIScreen mainScreen] applicationFrame].size.width, copyText.frame.size.height + copyText.frame.origin.y), touchLoc)) {
         pickingSnooze = YES;
         //fade the background
-        createLabel.alpha = 0.3;
-        setLabel.alpha = 0.3;
-        flickUpLabe.alpha = 0.3;
-        flickDownLabel.alpha = 0.3;
-        pinchLabel.alpha = 0.3;
-        createIcon.alpha = 0.3;
-        setIcon.alpha = 0.3;
-        flickUpIcon.alpha = 0.3;
-        flickDownIcon.alpha = 0.3;
-        pinchIcon.alpha = 0.3;
-        tackLabel.alpha = 0.3;
-        tackLogo.alpha = 0.3;
+        for (UIView *label in introLabels) {
+            [label setAlpha:.3];
+        }
         [self animateTimePicker];
     }
 }
@@ -395,18 +349,9 @@ const float optionHeight = 40;
                 timePicker.contentOffset = CGPointMake(0, roundedOffset);
             
             [bgImage setAlpha:1];
-            createLabel.alpha = 1;
-            flickUpLabe.alpha = 1;
-            flickDownLabel.alpha = 1;
-            setLabel.alpha = 1;
-            pinchLabel.alpha = 1;
-            createIcon.alpha = 1;
-            setIcon.alpha = 1;
-            flickUpIcon.alpha = 1;
-            flickDownIcon.alpha = 1;
-            pinchIcon.alpha = 1;
-            tackLabel.alpha = 1;
-            tackLogo.alpha = 1;
+            for (UIView *label in introLabels) {
+                [label setAlpha:1];
+            }
 
             for (int i=0; i<[snoozeOptions count]; i++) {
                 if (i != selectedIndex)

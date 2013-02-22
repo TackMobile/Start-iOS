@@ -27,7 +27,12 @@
     int selectedIndex;
     bool pickingSnooze;
     
+    NSArray *labelCopy;
+    NSArray *labelIcons;
+    NSMutableArray *introLabels;
+    
     UILabel *createLabel;
+    UILabel *tapLabel;
     UILabel *flickDownLabel;
     UILabel *flickUpLabe;
     UILabel *pinchLabel;
@@ -35,6 +40,7 @@
     UILabel *tackLabel;
     
     UIImageView *createIcon;
+    UIImageView *tapIcon;
     UIImageView *flickDownIcon;
     UIImageView *flickUpIcon;
     UIImageView *pinchIcon;
