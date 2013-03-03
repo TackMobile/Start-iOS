@@ -12,7 +12,7 @@
 
 @protocol SelectActionViewDelegate <NSObject>
 -(BOOL) expandSelectActionView;
--(void) actionSelected:(NSNumber *)actionID;
+-(void) actionSelected:(NSString *)actionTitle;
 @end
 
 @interface SelectActionView : UIView <UITableViewDataSource, UITableViewDelegate, NPTableViewDelegate> {
@@ -30,5 +30,8 @@
 
 - (void) quickSelectCell;
 - (void) selectActionWithID:(NSNumber *)aID;
+- (void) selectActionWithTitle:(NSString *)searchTitle;
+
+- (int) actionIDWithTitle:(NSString *)searchTitle;
 - (id) initWithFrame:(CGRect)frame delegate:(id<SelectActionViewDelegate>)aDelegate actions:(NSArray *)theActions;
 @end

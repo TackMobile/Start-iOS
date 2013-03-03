@@ -159,7 +159,7 @@ const float Spacing = 0.0f;
                              @"date",
                              @"secondsSinceMidnight",
                              @"songID",
-                             @"actionID",
+                             @"actionTitle",
                              @"isSet",
                              @"themeID",
                              @"isTimerMode",
@@ -172,7 +172,7 @@ const float Spacing = 0.0f;
         NSArray *infoObjects = [[NSArray alloc] initWithObjects:
                                 [NSDate dateWithTimeIntervalSinceNow:10500],
                                 [NSNumber numberWithInt:0],
-                                [NSNumber numberWithInt:0],
+                                nil,
                                 [NSNumber numberWithInt:0],
                                 [NSNumber numberWithBool:NO],
                                 [NSNumber numberWithInt:-1],
@@ -211,7 +211,8 @@ const float Spacing = 0.0f;
         
         [selectSongView selectCellWithID:(NSNumber *)[alarmInfo objectForKey:@"songID"]];
         // select action
-        [selectActionView selectActionWithID:(NSNumber *)[alarmInfo objectForKey:@"actionID"]];
+        //[selectActionView selectActionWithID:(NSNumber *)[alarmInfo objectForKey:@"actionID"]];
+        [selectActionView selectActionWithTitle:[alarmInfo objectForKey:@"actionTitle"]];
         // set isSet
         
         if (isTimerMode) {
@@ -691,11 +692,11 @@ const float Spacing = 0.0f;
     return YES;
 }
 
--(void) actionSelected:(NSNumber *)actionID {
+-(void) actionSelected:(NSString *)actionTitle {
     pickingAction = NO;
     
     // save the song ID
-    [alarmInfo setObject:actionID forKey:@"actionID"];
+    [alarmInfo setObject:actionTitle forKey:@"actionTitle"];
     
     // compress the selectActionView
     [UIView animateWithDuration:.2 animations:^{
@@ -958,7 +959,7 @@ const float Spacing = 0.0f;
                 isSnoozing = NO;
             }
             countdownEnded = NO;
-            NSURL *openURL = [NSURL URLWithString:[[selectActionView.actions objectAtIndex:[[alarmInfo objectForKey:@"actionID"] intValue] ] objectForKey:@"url"]]; //gets URL of selected action from alarmInfo dictionary.
+            NSURL *openURL = [NSURL URLWithString:[[selectActionView.actions objectAtIndex:[selectActionView actionIDWithTitle: [alarmInfo objectForKey:@"actionTitle"] ]] objectForKey:@"url"]]; //gets URL of selected action from alarmInfo dictionary.
             [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
             [[delegate getMusicPlayer] stop];
             [[UIApplication sharedApplication] openURL:openURL]; //opens the url

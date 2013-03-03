@@ -55,14 +55,28 @@
     needsQuickSelect = YES;
 }
 
+- (void) selectActionWithTitle:(NSString *)searchTitle {
+    if (searchTitle == nil)
+        [self selectActionWithID:0];
+    [self selectActionWithID:[NSNumber numberWithInt:[self actionIDWithTitle:searchTitle]]];
+}
+
+- (int) actionIDWithTitle:(NSString *)searchTitle {
+    for (int i=[actions count]-1; i>-1; i--) {
+        if ([[[actions objectAtIndex:i] objectForKey:@"title"] isEqualToString:searchTitle])
+            return i;
+    }
+    return -1;
+}
+
 #pragma mark - Positioning
 
 - (void) actionSelectedAtIndexPath:(NSIndexPath *)indexPath {
-    NSNumber *actionID = [NSNumber numberWithInt:indexPath.row];
+   // NSNumber *actionID = [NSNumber numberWithInt:indexPath.row];
     NSString *actionTitle = [(NSDictionary *)[actions objectAtIndex:indexPath.row] objectForKey:@"title"];
     
     if ([delegate respondsToSelector:@selector(actionSelected:)])
-        [delegate actionSelected:actionID];
+        [delegate actionSelected:actionTitle];
     
     [actionTableView setUserInteractionEnabled:NO];
     
