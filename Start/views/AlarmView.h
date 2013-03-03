@@ -66,6 +66,8 @@ enum AlarmViewShouldSet {
     bool cancelTouch;
     bool isSnoozing;
     
+    bool _countdownEnded;
+    
     UIView *durationMaskView;
     
     CAGradientLayer *toolbarGradient;
@@ -73,11 +75,11 @@ enum AlarmViewShouldSet {
 }
 extern const float Spacing;
 
-@property bool countdownEnded;
 @property (nonatomic, strong) id<AlarmViewDelegate> delegate;
 @property CGRect newRect;
 @property bool isSet;
 @property bool isTiming;
+@property bool countdownEnded;
 
 @property bool isStopwatchMode;
 @property bool isTimerMode;
@@ -111,5 +113,8 @@ extern const float Spacing;
 - (void) alarmCountdownEnded;
 - (id) initWithFrame:(CGRect)frame index:(int)aIndex delegate:(id<AlarmViewDelegate>)aDelegate alarmInfo:(NSDictionary *)theAlarmInfo;
 - (NSDate *)getDate;
+
+- (bool) countdownEnded;
+- (void) setCountdownEnded:(bool)newVal;
 
 @end

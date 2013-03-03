@@ -59,6 +59,7 @@
 
 - (void) actionSelectedAtIndexPath:(NSIndexPath *)indexPath {
     NSNumber *actionID = [NSNumber numberWithInt:indexPath.row];
+    NSString *actionTitle = [(NSDictionary *)[actions objectAtIndex:indexPath.row] objectForKey:@"title"];
     
     if ([delegate respondsToSelector:@selector(actionSelected:)])
         [delegate actionSelected:actionID];

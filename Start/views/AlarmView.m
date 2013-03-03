@@ -10,8 +10,8 @@
 
 @implementation AlarmView
 
-@synthesize delegate, index, isSet, isStopwatchMode, isTimerMode, newRect, isSnoozing;
-@synthesize alarmInfo, countdownEnded;
+@synthesize delegate, index, isSet, isStopwatchMode, countdownEnded, isTimerMode, newRect, isSnoozing;
+@synthesize alarmInfo;
 @synthesize radialGradientView, /*backgroundImage,*/ patternOverlay, toolbarImage;
 @synthesize selectSongView, selectActionView, selectDurationView, selectedTimeView, deleteLabel;
 @synthesize countdownView, selectAlarmBg, stopwatchViewController;
@@ -166,7 +166,8 @@ const float Spacing = 0.0f;
                              @"timerDateBegan",
                              @"timerDuration",
                              @"isStopwatchMode",
-                             @"StopwatchDateBegan",nil];
+                             @"StopwatchDateBegan",
+                             @"dateSet",nil];
         
         NSArray *infoObjects = [[NSArray alloc] initWithObjects:
                                 [NSDate dateWithTimeIntervalSinceNow:10500],
@@ -179,7 +180,8 @@ const float Spacing = 0.0f;
                                 [NSDate date],
                                 [NSNumber numberWithFloat:0],
                                 [NSNumber numberWithBool:NO],
-                                [NSDate date], nil];
+                                [NSDate date],
+                                [[NSDate alloc] init], nil];
         alarmInfo = [[NSMutableDictionary alloc] initWithObjects:infoObjects forKeys:infoKeys];
         [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
         [selectSongView selectCellWithID:[NSNumber numberWithInt:-1]];
@@ -188,6 +190,10 @@ const float Spacing = 0.0f;
         
         isTimerMode = [(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue];
         isStopwatchMode = [(NSNumber *)[alarmInfo objectForKey:@"isStopwatchMode"] boolValue];
+
+        /*if ([(NSNumber *)[alarmInfo objectForKey:@"countdownEnded"] boolValue]) {
+            [self alarmCountdownEnded];
+        }*/
 
         // if date is set and secondssincemidnight isnt, convert it
         if ([(NSNumber *)[alarmInfo objectForKey:@"secondsSinceMidnight"] intValue] > 0) {
@@ -245,8 +251,8 @@ const float Spacing = 0.0f;
     NSLog(@"countdownended\n%@", alarmInfo);
     
     if (!countdownEnded && isSet) {
-        [delegate alarmCountdownEnded:self];
         countdownEnded = YES;
+        [delegate alarmCountdownEnded:self];
         if (!isTimerMode)
             [selectedTimeView showSnooze];
         //NSLog(@"showSnooze");
@@ -288,6 +294,16 @@ const float Spacing = 0.0f;
     [self durationDidEndChanging:selectDurationView];
     
     //[durationMaskView.layer setMask:nil];
+}
+
+- (void) setCountdownEnded:(bool)newVal {
+    [alarmInfo setObject:[NSNumber numberWithBool:newVal] forKey:@"countdownEnded"];
+    _countdownEnded = newVal;
+    
+}
+
+- (bool) countdownEnded {
+    return _countdownEnded;
 }
 
 - (void) exitTimerMode {
@@ -497,8 +513,10 @@ const float Spacing = 0.0f;
         }
         // check to see if it will go off
         
-        if (!isSnoozing && isSet && floorf([[self getDate] timeIntervalSinceNow]) < .5)
+        if (!isSnoozing && isSet && floorf([[self getDate] timeIntervalSinceNow]) < .5) {
+            NSLog(@"not snoozing, set, getdate in past: %f", [[self getDate] timeIntervalSinceNow]);
             [self alarmCountdownEnded];
+        }
         
         else if (isSnoozing) { //display and trigger an unsaved alarm
             [countdownView updateWithDate:[alarmInfo objectForKey:@"snoozeAlarm"]];
@@ -929,6 +947,7 @@ const float Spacing = 0.0f;
     if (shouldSet == AlarmViewShouldSet) {
         setAlarm = YES;
         [selectSongView.showCell.artistLabel setAlpha:0.3];
+        
     } else if (shouldSet == AlarmViewShouldUnSet) {
         setAlarm = NO;
         [selectSongView.cell.artistLabel setAlpha:1];
@@ -969,10 +988,23 @@ const float Spacing = 0.0f;
         } else if (isSet && !setAlarm) {
             [selectDurationView stopTiming];
             [[delegate getMusicPlayer] stop];
+            for ( UILocalNotification *notif in [[UIApplication sharedApplication] scheduledLocalNotifications]) {
+                [[UIApplication sharedApplication] cancelLocalNotification:notif];
+            }
         }
         isSet = setAlarm;
-    } else
+    } else {
+        if (!isSet && setAlarm) {
+            [alarmInfo setObject:[NSDate date] forKey:@"dateSet"];
+        } else if (isSet && !setAlarm) {
+            [alarmInfo removeObjectForKey:@"dateSet"];
+            [[delegate getMusicPlayer] stop];
+            for ( UILocalNotification *notif in [[UIApplication sharedApplication] scheduledLocalNotifications]) {
+                [[UIApplication sharedApplication] cancelLocalNotification:notif];
+            }
+        }
         isSet = setAlarm;
+    }
     
     isStopwatchMode = startStopwatchMode;
     
@@ -1064,6 +1096,13 @@ CGPoint CGRectCenter(CGRect rect) {
     [components setMinute:minute];
     [components setSecond:1];
     components.day += days;
+    
+    if (isSet) {
+        NSTimeInterval secondsFromMidnightSet = [[self secondsSinceMidnightWithDate:(NSDate *)[alarmInfo objectForKey:@"dateSet"]] floatValue] ;
+        if ([seconds floatValue] < secondsFromMidnightSet) {
+            components.day++;
+        }
+    }
     
     //if (!isSet && [createdDate timeIntervalSinceNow] < 0)
     

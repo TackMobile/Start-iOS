@@ -183,7 +183,10 @@
                 notif.fireDate = [alarmInfo objectForKey:@"snoozeAlarm"];
             else
                 notif.fireDate = [alarmView getDate];
-            notif.alertBody = @"Alarm Triggered";
+            if (alarmView.isTimerMode)
+                notif.alertBody = @"Timer Finished";
+            else
+                notif.alertBody = @"Alarm Triggered";
             notif.userInfo = userInfo;
             [[UIApplication sharedApplication] scheduleLocalNotification:notif];
             
