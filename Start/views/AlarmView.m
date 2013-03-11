@@ -212,7 +212,11 @@ const float Spacing = 0.0f;
         [selectSongView selectCellWithID:(NSNumber *)[alarmInfo objectForKey:@"songID"]];
         // select action
         //[selectActionView selectActionWithID:(NSNumber *)[alarmInfo objectForKey:@"actionID"]];
-        [selectActionView selectActionWithTitle:[alarmInfo objectForKey:@"actionTitle"]];
+        if ([alarmInfo objectForKey:@"actionTitle"] != nil)
+            [selectActionView selectActionWithTitle:[alarmInfo objectForKey:@"actionTitle"]];
+        else if ([alarmInfo objectForKey:@"actionID"] != nil) {
+            [selectActionView selectActionWithID:(NSNumber *)[alarmInfo objectForKey:@"actionID"]];
+        }
         // set isSet
         
         if (isTimerMode) {

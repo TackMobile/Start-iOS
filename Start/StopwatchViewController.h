@@ -14,4 +14,6 @@
 
 @property (strong, nonatomic)     TimerView *timerView;
 
+//@property (strong, nonatomic) UIButton *
+
 @end
