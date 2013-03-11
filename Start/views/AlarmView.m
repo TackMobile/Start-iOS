@@ -172,8 +172,8 @@ const float Spacing = 0.0f;
         NSArray *infoObjects = [[NSArray alloc] initWithObjects:
                                 [NSDate dateWithTimeIntervalSinceNow:10500],
                                 [NSNumber numberWithInt:0],
-                                nil,
                                 [NSNumber numberWithInt:0],
+                                @"",
                                 [NSNumber numberWithBool:NO],
                                 [NSNumber numberWithInt:-1],
                                 [NSNumber numberWithBool:NO],
