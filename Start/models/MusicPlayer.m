@@ -23,7 +23,7 @@
         audioSession = [AVAudioSession sharedInstance];
         
         NSError *setCategoryError = nil;
-        BOOL success = [audioSession setCategory:AVAudioSessionCategoryPlayback error:&setCategoryError];
+        BOOL success = [audioSession setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&setCategoryError];
         if (!success) { NSLog(@"%@", setCategoryError); }
         
         NSError *activationError = nil;
