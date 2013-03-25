@@ -16,7 +16,7 @@ const float optionHeight = 40;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        NSString *version = @"1.1.3";
+        NSString *appVersionString = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
         
         pickingSnooze = NO;
         selectedIndex = 0;
