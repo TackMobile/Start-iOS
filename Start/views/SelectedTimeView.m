@@ -111,7 +111,7 @@
     
     [self setTitleWithText:@"TIMER"];
 }
-- (void) exitTimerMode {
+- (void) enterAlarmMode {
     timerMode = NO;
     [self addSubview:meridiemLabel];
     

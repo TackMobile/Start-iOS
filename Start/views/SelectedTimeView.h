@@ -33,6 +33,6 @@ enum SelectedTimeEditingPart {
 - (void) updateDuration:(NSTimeInterval)duration part:(int)partEditing;
 
 - (void) enterTimerMode;
-- (void) exitTimerMode;
+- (void) enterAlarmMode;
 
 @end
