@@ -1101,13 +1101,13 @@ CGPoint CGRectCenter(CGRect rect) {
     [components setSecond:1];
     components.day += days;
     
-    if (isSet) {
         NSTimeInterval secondsFromMidnightSet = [[self secondsSinceMidnightWithDate:(NSDate *)[alarmInfo objectForKey:@"dateSet"]] floatValue];
-        if ([seconds floatValue] < secondsFromMidnightSet) {
-            components.day++;
-        }
-    }
-    
+        NSTimeInterval secondsFromMidnightNow = [[self secondsSinceMidnightWithDate:[NSDate date]] floatValue];
+        
+        // if the alarm is set for the next day and it is currently the previous day, add 24h to components
+        if (secondsFromMidnightNow < secondsFromMidnightSet && [seconds floatValue] < secondsFromMidnightSet)
+            components.day--;
+            
     //if (!isSet && [createdDate timeIntervalSinceNow] < 0)
     
     return [cal dateFromComponents:components];
