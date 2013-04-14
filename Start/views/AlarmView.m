@@ -277,29 +277,30 @@ const float Spacing = 0.0f;
 }
 
 - (NSDate *) getDate {
-    if (isSnoozing) {
-        return [alarmInfo objectForKey:@"snoozeAlarm"];
-    }
     
-    NSTimeInterval setDuration;
-    if (isTimerMode) {
-        
-        // make sure timer duration is less than a day
-        setDuration = [(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue];
-        if (setDuration > 86400.0) { // one day
-            setDuration -= 86400.0;
-            [alarmInfo setObject:[NSNumber numberWithFloat:setDuration] forKey:@"timerDuration"];
+    NSDate *theDate;
+    if (isTimerMode)
+        if (isSet)
+            // add timer duration to date set and get seconds since midnight
+            theDate = [[alarmInfo objectForKey:@"dateSet"]
+                        dateByAddingTimeInterval:[[alarmInfo objectForKey:@"timerDuration"] floatValue]];
+        else
+            theDate = [[NSDate date] dateByAddingTimeInterval:
+                       [[alarmInfo objectForKey:@"timerDuration"] floatValue]];
+    else {
+        if (isSnoozing) {
+            theDate = [alarmInfo objectForKey:@"snoozeAlarm"];
+            
+        } else {
+            theDate = [[alarmInfo objectForKey:@"dateSet"]
+                           dateByAddingTimeInterval:[[alarmInfo objectForKey:@"alarmDuration"] floatValue]];
         }
-    } else {
-        setDuration = [(NSNumber *)[alarmInfo objectForKey:@"alarmDuration"] floatValue];
+
     }
     
-    if (isSet) {
-        return [(NSDate *)[alarmInfo objectForKey:@"dateSet"] dateByAddingTimeInterval:setDuration];
-    } else {
-        return [[NSDate date] dateByAddingTimeInterval:setDuration];
-    }
-
+    
+    return theDate;
+    
 }
 
 #pragma mark - functionality
@@ -311,9 +312,22 @@ const float Spacing = 0.0f;
     [selectDurationView enterTimerModeWithSeconds:seconds];
     [selectedTimeView enterTimerMode];
     
-    [self durationDidEndChanging:selectDurationView];
+    // update selectedTime View
+    [selectedTimeView updateDuration:[selectDurationView getSecondsFromZero] part:selectDurationView.handleSelected];
     
     //[durationMaskView.layer setMask:nil];
+}
+
+- (void) enterAlarmMode {
+    isTimerMode = NO;
+    [alarmInfo setObject:[NSNumber numberWithBool:NO] forKey:@"isTimerMode"];
+    
+    int seconds = [self getSecondsFromMidnight];
+    [selectDurationView exitTimerModeWithSeconds:seconds];
+    [selectedTimeView enterAlarmMode];
+    
+    [selectedTimeView updateDate:[selectDurationView getDate] part:selectDurationView.handleSelected];
+    
 }
 
 - (void) setCountdownEnded:(bool)newVal {
@@ -324,18 +338,6 @@ const float Spacing = 0.0f;
 
 - (bool) countdownEnded {
     return _countdownEnded;
-}
-
-- (void) enterAlarmMode {
-    isTimerMode = NO;
-    [alarmInfo setObject:[NSNumber numberWithBool:NO] forKey:@"isTimerMode"];
-
-    int seconds = [self getSecondsFromMidnight];
-    [selectDurationView exitTimerModeWithSeconds:seconds];
-    [selectedTimeView enterAlarmMode];
-    
-    [self durationDidEndChanging:selectDurationView];
-
 }
 
 #pragma mark - Touches
@@ -518,14 +520,15 @@ const float Spacing = 0.0f;
 }
 
 - (void) updateProperties {
-    // make sure the date is in future
     if (!countdownEnded) {
-        /*if (!isTimerMode && !isSet) {
+        // ensure that alarm date is in the future
+        
+        if (!isTimerMode && !isSet) {
             while ([[self getDate] timeIntervalSinceNow] < 0) {
-                int advancedDate = [(NSNumber *)[alarmInfo objectForKey:@"secondsSinceMidnight"] intValue] + 86400;
-                [alarmInfo setObject:[NSNumber numberWithInt:advancedDate] forKey:@"secondsSinceMidnight"];
+                NSDate * advancedDateSet = [(NSDate *)[alarmInfo objectForKey:@"dateSet"] dateByAddingTimeInterval:86400] ;
+                [alarmInfo setObject:advancedDateSet forKey:@"dateSet"];
             }
-        }*/
+        }
         // check to see if it will go off
         
         if (floorf([[self getDate] timeIntervalSinceNow]) < .5) {
@@ -789,13 +792,24 @@ const float Spacing = 0.0f;
         float duration;
         NSTimeInterval intervalSelected = [selectDuration getSecondsFromZero];
         float nowSeconds = [[self secondsSinceMidnightWithDate:[NSDate date]] floatValue];
-        
+            
+        // create a duration value out of dateSet and secondsFromZero on the duration picker
         if (intervalSelected > nowSeconds)
             duration = intervalSelected-nowSeconds;
         else
             duration = (86400-nowSeconds)+intervalSelected;
         
-        [alarmInfo setObject:[NSDate date] forKey:@"dateSet"];
+        NSDate *currentDate = [NSDate date];
+        
+        // round to nearest minute (exclude seconds)
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSUInteger calendarUnits = NSEraCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit;
+        NSDateComponents *dateComps = [calendar components:calendarUnits fromDate:currentDate];
+        [dateComps setSecond:0];
+        currentDate = [calendar dateFromComponents:dateComps];
+        
+        // save when the duration was set and its duration
+        [alarmInfo setObject:currentDate forKey:@"dateSet"];
         [alarmInfo setObject:[NSNumber numberWithFloat:duration] forKey:@"alarmDuration"];
 
         [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
@@ -1009,9 +1023,9 @@ const float Spacing = 0.0f;
         isSet = setAlarm;
     } else {
         if (!isSet && setAlarm) {
-            [alarmInfo setObject:[NSDate date] forKey:@"dateSet"];
+            //[alarmInfo setObject:[NSDate date] forKey:@"dateSet"];
         } else if (isSet && !setAlarm) {
-            [alarmInfo removeObjectForKey:@"dateSet"];
+            //[alarmInfo removeObjectForKey:@"dateSet"];
             [[delegate getMusicPlayer] stop];
             for ( UILocalNotification *notif in [[UIApplication sharedApplication] scheduledLocalNotifications]) {
                 [[UIApplication sharedApplication] cancelLocalNotification:notif];
@@ -1094,8 +1108,11 @@ CGPoint CGRectCenter(CGRect rect) {
 - (int) getSecondsFromMidnight {
     float theSeconds;
     if (isTimerMode)
-        // add timer duration to date set and get seconds since midnight
-        theSeconds = [[self secondsSinceMidnightWithDate:[[alarmInfo objectForKey:@"dateSet"] dateByAddingTimeInterval:[[alarmInfo objectForKey:@"timerDuration"] floatValue]]] floatValue];
+        if (isSet)
+            // add timer duration to date set and get seconds since midnight
+            theSeconds = [[self secondsSinceMidnightWithDate:[[alarmInfo objectForKey:@"dateSet"] dateByAddingTimeInterval:[[alarmInfo objectForKey:@"timerDuration"] floatValue]]] floatValue];
+        else
+            theSeconds = [[self secondsSinceMidnightWithDate:[[NSDate date] dateByAddingTimeInterval:[[alarmInfo objectForKey:@"timerDuration"] floatValue]]] floatValue];
     else {
         if (isSnoozing) {
             theSeconds = [[self secondsSinceMidnightWithDate:[alarmInfo objectForKey:@"snoozeAlarm"]] floatValue];
@@ -1105,7 +1122,6 @@ CGPoint CGRectCenter(CGRect rect) {
         }
     }
     return (int)theSeconds;
-    
 }
 
 - (NSDate *)dateTodayWithSecondsFromMidnight:(NSNumber *)seconds {
