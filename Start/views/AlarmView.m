@@ -529,24 +529,19 @@ const float Spacing = 0.0f;
         if (!isTimerMode && !isSet) { // unset alarm mode
             
             NSDate * newDate = [alarmInfo objectForKey:@"dateAlarmPicked"];
-            float ti = 0;
             
             // make sure alarm is in future
             while ([[self getDate] timeIntervalSinceNow] < 0) {
                 newDate = [(NSDate *)[alarmInfo objectForKey:@"dateAlarmPicked"] dateByAddingTimeInterval:86400] ;
-                ti = [[self getDate] timeIntervalSinceNow];
+                [alarmInfo setObject:newDate forKey:@"dateAlarmPicked"];
             }
             
             // make sure alarm is not too far in future (time-travel bugfix)
             while ([[self getDate] timeIntervalSinceNow] > 86400) {
                 newDate = [(NSDate *)[alarmInfo objectForKey:@"dateAlarmPicked"] dateByAddingTimeInterval:-86400] ;
-                ti = [[self getDate] timeIntervalSinceNow];
+                [alarmInfo setObject:newDate forKey:@"dateAlarmPicked"];
             }
-            
-            NSLog(@"%f", ti);
-            
-            [alarmInfo setObject:newDate forKey:@"dateAlarmPicked"];
-
+        
         }
         // check to see if it will go off
         
