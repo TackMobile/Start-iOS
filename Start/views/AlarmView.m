@@ -186,39 +186,36 @@ const float Spacing = 0.0f;
         [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
         [selectSongView selectCellWithID:[NSNumber numberWithInt:-1]];
     } else {
-        isSet = [(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue];
-        
-        isTimerMode = [(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue];
-        isStopwatchMode = [(NSNumber *)[alarmInfo objectForKey:@"isStopwatchMode"] boolValue];
 
-        /*if ([(NSNumber *)[alarmInfo objectForKey:@"countdownEnded"] boolValue]) {
-            [self alarmCountdownEnded];
-        }*/
-
-        // if date is set and secondssincemidnight isnt, convert it
+        // LOAD DATE
+        // check if a previous version set it as a date
         if ([(NSNumber *)[alarmInfo objectForKey:@"secondsSinceMidnight"] intValue] > 0) {
             nil;
-        } else {
-            
+        } else if ([alarmInfo objectForKey:@"date"] != nil) {
+            // convert date to secondsSinceMidnight
             [alarmInfo setObject:[self secondsSinceMidnightWithDate:[alarmInfo objectForKey:@"date"]] forKey:@"secondsSinceMidnight"];
         }
         
+        // CHECK IF SNOOZING
         if ((NSDate *)[alarmInfo objectForKey:@"snoozeAlarm"] != nil) {
             isSnoozing = YES;
             NSDate *newSnooze = [NSDate dateWithTimeInterval:[[self secondsSinceMidnightWithDate:(NSDate *)[alarmInfo objectForKey:@"snoozeAlarm"]] intValue] sinceDate:[self dateTodayWithSecondsFromMidnight:0]];
             [alarmInfo setObject:newSnooze forKey:@"snoozeAlarm"];
         }
         
+        // LOAD SONG
         [selectSongView selectCellWithID:(NSNumber *)[alarmInfo objectForKey:@"songID"]];
-        // select action
-        //[selectActionView selectActionWithID:(NSNumber *)[alarmInfo objectForKey:@"actionID"]];
+
+        // LOAD ACTION
+        // check if a previous version saved actionID
         if ([alarmInfo objectForKey:@"actionTitle"] != nil)
             [selectActionView selectActionWithTitle:[alarmInfo objectForKey:@"actionTitle"]];
         else if ([alarmInfo objectForKey:@"actionID"] != nil) {
             [selectActionView selectActionWithID:(NSNumber *)[alarmInfo objectForKey:@"actionID"]];
         }
-        // set isSet
-        
+                
+        // LOAD MODE (future: convert to one mode int)
+        isTimerMode = [(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue];        
         if (isTimerMode) {
             [self enterTimerMode];
             if (isSet)
@@ -232,16 +229,17 @@ const float Spacing = 0.0f;
                 [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
         }
         
-        // fix snoozedate
-        
-        
+        isStopwatchMode = [(NSNumber *)[alarmInfo objectForKey:@"isStopwatchMode"] boolValue];
         if (isStopwatchMode) {
             [selectDurationView compressByRatio:0 animated:YES];
             [selectedTimeView setAlpha:0];
         }
 
+        // LOAD SET
+        isSet = [(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue];
         [self animateSelectDurToRest];
         
+        // TALK ABOUT MYSELF
         NSLog(@"%@", alarmInfo);
     }
     
@@ -283,6 +281,7 @@ const float Spacing = 0.0f;
         }
     }
     
+
     return [self dateTodayWithSecondsFromMidnight:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
 }
 
@@ -1103,7 +1102,7 @@ CGPoint CGRectCenter(CGRect rect) {
     components.day += days;
     
     if (isSet) {
-        NSTimeInterval secondsFromMidnightSet = [[self secondsSinceMidnightWithDate:(NSDate *)[alarmInfo objectForKey:@"dateSet"]] floatValue] ;
+        NSTimeInterval secondsFromMidnightSet = [[self secondsSinceMidnightWithDate:(NSDate *)[alarmInfo objectForKey:@"dateSet"]] floatValue];
         if ([seconds floatValue] < secondsFromMidnightSet) {
             components.day++;
         }
