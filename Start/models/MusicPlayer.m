@@ -106,6 +106,8 @@
     }
     stopped = YES;
     shouldVibrate = NO;
+    
+]
 }
 
 -  (void) updatePlayerQueueWithMediaCollection: (MPMediaItemCollection *) mediaItemCollection {
