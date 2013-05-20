@@ -331,7 +331,7 @@
 
 
 - (void) updateTimerTick:(NSTimer *)timer {
-    if (!switchingModes)
+    if (!switchingModes && handleSelected == SelectDurationNoHandle)
         [self update];
 }
 
