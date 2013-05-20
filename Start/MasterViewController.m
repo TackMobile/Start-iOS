@@ -25,8 +25,11 @@
 	alarms = [[NSMutableArray alloc] init];
     
     // get the saved alarm index
-    NSNumber *savedAlarmIndex = (NSNumber *)[[NSUserDefaults standardUserDefaults] objectForKey:@"currAlarmIndex"];
-    currAlarmIndex = (savedAlarmIndex)?[savedAlarmIndex intValue]:1;
+    currAlarmIndex = 1;
+    int savedCurrIndex = 1;
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currAlarmIndex"])
+        savedCurrIndex = [[[NSUserDefaults standardUserDefaults] objectForKey:@"currAlarmIndex"] intValue];
+    
     shouldSwitch = SwitchAlarmNone;
     pListModel = [[PListModel alloc] init];
     // views
@@ -53,8 +56,6 @@
         [self.view addSubview:selectAlarmView];
         [self.view addSubview:addButton];
     
-
-   
     
     [addButton setBackgroundImage:[UIImage imageNamed:@"plusButton"] forState:UIControlStateNormal];
     // init the alams that were stored
@@ -63,22 +64,20 @@
         for (NSDictionary *alarmInfo in userAlarms) {
             [selectAlarmView addAlarmAnimated:NO];
             [self addAlarmWithInfo:alarmInfo switchTo:NO];
-            NSLog(@"alarm already exists %d", currAlarmIndex);
         }
-        [self switchAlarmWithIndex:currAlarmIndex];
     } else {
         // add first alarm
         NSLog(@"add first alarm %d", currAlarmIndex);
         [selectAlarmView addAlarmAnimated:NO];
         [self addAlarmWithInfo:nil switchTo:NO];
-        [self switchAlarmWithIndex:currAlarmIndex];
     }
     
+    [self switchAlarmWithIndex:savedCurrIndex];
    
     if ([[NSUserDefaults standardUserDefaults] boolForKey:@"usedBefore"] == NO) { //checks to see whether it's the first time the application is launched or not
         [self switchAlarmWithIndex:currAlarmIndex + 1]; //switches from first alarm to settings screen so the instructions are the first thing the user sees
         [addButton addTarget:self action:@selector(plusButtonTappedForFirstVisit) forControlEvents:UIControlEventTouchUpInside];
-    }else{
+    } else {
         [addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     }
     [self beginTick];
@@ -326,6 +325,7 @@
     
     currAlarmIndex = index;
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:currAlarmIndex] forKey:@"currAlarmIndex"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     if (index < [alarms count])
         [selectAlarmView makeAlarmActiveAtIndex:currAlarmIndex];

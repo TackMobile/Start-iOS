@@ -180,9 +180,9 @@
 	</dict>
 	<dict>
 		<key>url</key>
-		<string></string>
+		<string>yweather:</string>
 		<key>title</key>
-		<string>x Weather</string>
+		<string>Weather</string>
 		<key>iconFilename</key>
 		<string>weather-icon</string>
 	</dict>
