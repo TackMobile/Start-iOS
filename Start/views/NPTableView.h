@@ -9,6 +9,6 @@
 
 @interface NPTableView : UITableView
 
-@property(nonatomic,assign) id <NPTableViewDelegate> delegate;
+@property(nonatomic,weak) id <NPTableViewDelegate> delegate;
 
 @end;

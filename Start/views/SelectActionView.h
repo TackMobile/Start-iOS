@@ -29,9 +29,10 @@
 @property (nonatomic, strong) NPTableView *actionTableView;
 
 - (void) quickSelectCell;
-- (void) selectActionWithID:(NSNumber *)aID;
 - (void) selectActionWithTitle:(NSString *)searchTitle;
 
 - (int) actionIDWithTitle:(NSString *)searchTitle;
+- (NSString *)actionTitleWithID:(int)theID;
+
 - (id) initWithFrame:(CGRect)frame delegate:(id<SelectActionViewDelegate>)aDelegate actions:(NSArray *)theActions;
 @end

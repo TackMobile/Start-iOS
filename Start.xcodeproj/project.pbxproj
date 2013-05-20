@@ -1092,6 +1092,7 @@
 		F383C195158B851300B91F31 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Nick Place (PLTW5M3579)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nick Place (PLTW5M3579)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1115,6 +1116,7 @@
 		F383C196158B851300B91F31 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Nick Place (PLTW5M3579)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nick Place (PLTW5M3579)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;

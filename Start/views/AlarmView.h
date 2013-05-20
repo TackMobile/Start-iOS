@@ -5,6 +5,8 @@
 //  Created by Nick Place on 6/15/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
+#define NSLog TFLog
+#define NSLog(__FORMAT__, ...) TFLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
@@ -45,7 +47,10 @@ enum AlarmViewShouldSet {
     AlarmViewShouldNone
 };
 
-@interface AlarmView : UIView <SelectDurationViewDelegate, SelectSongViewDelegate, SelectActionViewDelegate> {    
+/*NSString * const a;
+NSString * const kMyTagSecondtItemType;*/
+
+@interface AlarmView : UIView <SelectDurationViewDelegate, SelectSongViewDelegate, SelectActionViewDelegate> {
     CGRect selectedTimeRect;
     CGRect selectDurRect;
     CGRect selectSongRect;
