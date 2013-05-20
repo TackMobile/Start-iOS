@@ -11,9 +11,6 @@
 		961FC3C216667EEA0078219B /* tweetbot-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 961FC3C016667EEA0078219B /* tweetbot-icon@2x.png */; };
 		965179D0166D3079004A18A1 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 965179CF166D3079004A18A1 /* Icon-72.png */; };
 		965179D2166D3082004A18A1 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 965179D1166D3082004A18A1 /* Icon-72@2x.png */; };
-		966D3A651624B0CC006CE871 /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 966D3A611624B0CC006CE871 /* libTestFlight.a */; };
-		966D3A661624B0CC006CE871 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 966D3A621624B0CC006CE871 /* README.md */; };
-		966D3A671624B0CC006CE871 /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = 966D3A631624B0CC006CE871 /* release_notes.md */; };
 		967095FF163095BE004611ED /* lynx2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 967095FE163095BE004611ED /* lynx2.wav */; };
 		96861C131631C47C00390DEF /* about.png in Resources */ = {isa = PBXBuildFile; fileRef = 96861C111631C47C00390DEF /* about.png */; };
 		96861C141631C47C00390DEF /* about@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96861C121631C47C00390DEF /* about@2x.png */; };
@@ -50,6 +47,9 @@
 		96F70072168377900020A6CB /* pocket-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F70070168377900020A6CB /* pocket-icon@2x.png */; };
 		96F700761683779A0020A6CB /* anydo-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F700741683779A0020A6CB /* anydo-icon.png */; };
 		96F700771683779A0020A6CB /* anydo-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F700751683779A0020A6CB /* anydo-icon@2x.png */; };
+		F311700E174AC4CE0049D6CF /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F311700A174AC4CE0049D6CF /* libTestFlight.a */; };
+		F311700F174AC4CE0049D6CF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F311700B174AC4CE0049D6CF /* README.md */; };
+		F3117010174AC4CE0049D6CF /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = F311700C174AC4CE0049D6CF /* release_notes.md */; };
 		F3143CE615C4D9AE0098A276 /* TimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3143CE515C4D9AE0098A276 /* TimerView.m */; };
 		F31670E515A1109200725274 /* SearchSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F31670E415A1109200725274 /* SearchSongCell.m */; };
 		F317239615A63C5200007124 /* PListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F317239515A63C5200007124 /* PListModel.m */; };
@@ -178,10 +178,6 @@
 		961FC3C016667EEA0078219B /* tweetbot-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweetbot-icon@2x.png"; sourceTree = "<group>"; };
 		965179CF166D3079004A18A1 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
 		965179D1166D3082004A18A1 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
-		966D3A611624B0CC006CE871 /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		966D3A621624B0CC006CE871 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		966D3A631624B0CC006CE871 /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
-		966D3A641624B0CC006CE871 /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		967095FE163095BE004611ED /* lynx2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lynx2.wav; sourceTree = "<group>"; };
 		96861C111631C47C00390DEF /* about.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = about.png; sourceTree = "<group>"; };
 		96861C121631C47C00390DEF /* about@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "about@2x.png"; sourceTree = "<group>"; };
@@ -219,6 +215,10 @@
 		EA13EE1C15FD124E004E16C7 /* hydrus.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hydrus.wav; sourceTree = "<group>"; };
 		EA13EE2115FD1A5E004E16C7 /* lynx.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lynx.wav; sourceTree = "<group>"; };
 		EA13EE2315FD260A004E16C7 /* phoenix.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = phoenix.wav; sourceTree = "<group>"; };
+		F311700A174AC4CE0049D6CF /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
+		F311700B174AC4CE0049D6CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
+		F311700C174AC4CE0049D6CF /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
+		F311700D174AC4CE0049D6CF /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		F3143CE415C4D9AD0098A276 /* TimerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimerView.h; path = views/TimerView.h; sourceTree = "<group>"; };
 		F3143CE515C4D9AE0098A276 /* TimerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimerView.m; path = views/TimerView.m; sourceTree = "<group>"; };
 		F31670E315A1109100725274 /* SearchSongCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchSongCell.h; path = views/SearchSongCell.h; sourceTree = "<group>"; };
@@ -382,22 +382,22 @@
 				F383C17A158B851200B91F31 /* Foundation.framework in Frameworks */,
 				F383C17C158B851200B91F31 /* CoreGraphics.framework in Frameworks */,
 				F3FD677215A741730002AFC9 /* libz.dylib in Frameworks */,
-				966D3A651624B0CC006CE871 /* libTestFlight.a in Frameworks */,
+				F311700E174AC4CE0049D6CF /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		966D3A601624B0CB006CE871 /* TestFlightSDK1 */ = {
+		F3117009174AC4CE0049D6CF /* TestFlightSDK1.2.5 */ = {
 			isa = PBXGroup;
 			children = (
-				966D3A611624B0CC006CE871 /* libTestFlight.a */,
-				966D3A621624B0CC006CE871 /* README.md */,
-				966D3A631624B0CC006CE871 /* release_notes.md */,
-				966D3A641624B0CC006CE871 /* TestFlight.h */,
+				F311700A174AC4CE0049D6CF /* libTestFlight.a */,
+				F311700B174AC4CE0049D6CF /* README.md */,
+				F311700C174AC4CE0049D6CF /* release_notes.md */,
+				F311700D174AC4CE0049D6CF /* TestFlight.h */,
 			);
-			path = TestFlightSDK1;
+			path = TestFlightSDK1.2.5;
 			sourceTree = "<group>";
 		};
 		F31670F715A24F8C00725274 /* icons */ = {
@@ -617,9 +617,9 @@
 		F383C168158B851100B91F31 = {
 			isa = PBXGroup;
 			children = (
+				F3117009174AC4CE0049D6CF /* TestFlightSDK1.2.5 */,
 				965179D1166D3082004A18A1 /* Icon-72@2x.png */,
 				965179CF166D3079004A18A1 /* Icon-72.png */,
-				966D3A601624B0CB006CE871 /* TestFlightSDK1 */,
 				96BC44E21635EA7000707007 /* Default-568h@2x.png */,
 				F37C93CC15E97FEF000EBE07 /* Icon@2x.png */,
 				F37C93CA15E97FEA000EBE07 /* Icon.png */,
@@ -926,8 +926,6 @@
 				F3CA96D31602333D00D237FC /* flick-up-icon@2x.png in Resources */,
 				F3CA96D81602333D00D237FC /* set-icon.png in Resources */,
 				F3CA96D91602333D00D237FC /* set-icon@2x.png in Resources */,
-				966D3A661624B0CC006CE871 /* README.md in Resources */,
-				966D3A671624B0CC006CE871 /* release_notes.md in Resources */,
 				967095FF163095BE004611ED /* lynx2.wav in Resources */,
 				96861C131631C47C00390DEF /* about.png in Resources */,
 				96861C141631C47C00390DEF /* about@2x.png in Resources */,
@@ -968,6 +966,8 @@
 				F335FA1F16CB5E9800ECF8AB /* readmill-icon@2x.png in Resources */,
 				F335FA3316CB623B00ECF8AB /* tap-icon.png in Resources */,
 				F335FA3416CB623B00ECF8AB /* tap-icon@2x.png in Resources */,
+				F311700F174AC4CE0049D6CF /* README.md in Resources */,
+				F3117010174AC4CE0049D6CF /* release_notes.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1042,6 +1042,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nick Place (PLTW5M3579)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1057,6 +1058,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PROVISIONING_PROFILE = "A7F1E6C9-5EA1-4C33-882C-87C31432C034";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1069,6 +1071,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Nick Place (PLTW5M3579)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -1078,6 +1081,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PROVISIONING_PROFILE = "A7F1E6C9-5EA1-4C33-882C-87C31432C034";
 				SDKROOT = iphoneos;
 				STRIP_INSTALLED_PRODUCT = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1088,6 +1092,7 @@
 		F383C195158B851300B91F31 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Nick Place (PLTW5M3579)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nick Place (PLTW5M3579)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1098,6 +1103,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/TestFlightSDK1.0\"",
 					"\"$(SRCROOT)/TestFlightSDK1\"",
+					"\"$(SRCROOT)/TestFlightSDK1.2.5\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1111,6 +1117,7 @@
 		F383C196158B851300B91F31 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Nick Place (PLTW5M3579)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nick Place (PLTW5M3579)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1121,6 +1128,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/TestFlightSDK1.0\"",
 					"\"$(SRCROOT)/TestFlightSDK1\"",
+					"\"$(SRCROOT)/TestFlightSDK1.2.5\"",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";

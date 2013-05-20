@@ -143,107 +143,161 @@ const float Spacing = 0.0f;
 }
 
 - (id) initWithFrame:(CGRect)frame index:(int)aIndex delegate:(id<AlarmViewDelegate>)aDelegate alarmInfo:(NSDictionary *)theAlarmInfo {
+    index = aIndex;
+    delegate = aDelegate;
+
+    self = [self initWithFrame:frame];
+    
     if (theAlarmInfo)
         alarmInfo = [[NSMutableDictionary alloc] initWithDictionary:theAlarmInfo];
     else
         alarmInfo = nil;
-    index = aIndex;
-    delegate = aDelegate;
-    return [self initWithFrame:frame];
+    
+    return self;
 }
 
 - (void) viewWillAppear {
     // init the picker's stuff
+    NSNumber *no = [NSNumber numberWithBool:NO];            // false
+    NSNumber *defaultDur = [NSNumber numberWithInt:30*60+(6*60*60)];   // 6:30
+    NSNumber *noID = [NSNumber numberWithInt:-1];
+    
+    NSDictionary *alarmInfoTemplate = [NSDictionary dictionaryWithObjectsAndKeys:
+                                       no,              @"isTimerMode",
+                                       no,              @"isStopwatchMode",
+                                       no,              @"isSet",
+                                       [NSDate date],   @"dateSet",
+                                       [NSDate date],   @"dateAlarmPicked",
+                                       [NSDate date],   @"stopwatchDateBegan",
+                                       defaultDur,      @"alarmDuration",
+                                       defaultDur,      @"timerDuration",
+                                       noID,            @"songID",
+                                       noID,            @"themeID",
+                                       @"",             @"actionTitle", nil];
+    
     if (!alarmInfo) {
-        NSArray *infoKeys = [[NSArray alloc] initWithObjects:
-                             @"date",
-                             @"secondsSinceMidnight",
-                             @"songID",
-                             @"actionTitle",
-                             @"isSet",
-                             @"themeID",
-                             @"isTimerMode",
-                             @"timerDateBegan",
-                             @"timerDuration",
-                             @"isStopwatchMode",
-                             @"StopwatchDateBegan",
-                             @"dateSet",nil];
+        alarmInfo = [NSMutableDictionary dictionaryWithDictionary:alarmInfoTemplate];
         
-        NSArray *infoObjects = [[NSArray alloc] initWithObjects:
-                                [NSDate dateWithTimeIntervalSinceNow:10500],
-                                [NSNumber numberWithInt:0],
-                                [NSNumber numberWithInt:0],
-                                @"",
-                                [NSNumber numberWithBool:NO],
-                                [NSNumber numberWithInt:-1],
-                                [NSNumber numberWithBool:NO],
-                                [NSDate date],
-                                [NSNumber numberWithFloat:0],
-                                [NSNumber numberWithBool:NO],
-                                [NSDate date],
-                                [[NSDate alloc] init], nil];
-        alarmInfo = [[NSMutableDictionary alloc] initWithObjects:infoObjects forKeys:infoKeys];
+        /*
         [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
         [selectSongView selectCellWithID:[NSNumber numberWithInt:-1]];
+         */
+        
     } else {
-
-        // LOAD DATE
-        // check if a previous version set it as a date
-        if ([(NSNumber *)[alarmInfo objectForKey:@"secondsSinceMidnight"] intValue] > 0) {
-            nil;
-        } else if ([alarmInfo objectForKey:@"date"] != nil) {
-            // convert date to secondsSinceMidnight
-            [alarmInfo setObject:[self secondsSinceMidnightWithDate:[alarmInfo objectForKey:@"date"]] forKey:@"secondsSinceMidnight"];
+        
+        NSLog(@"alarmInfo start: %@", alarmInfo);
+        
+        // extend AlarmTemplate with values already in alarmInfo
+        NSMutableDictionary *extendedInfoTemplate = [NSMutableDictionary dictionaryWithDictionary:alarmInfoTemplate];
+    
+        // isTimerMode, isStopeatchMode, isSet
+        [self extendKey:@"isTimerMode" fromDict:alarmInfo toDict:extendedInfoTemplate];
+        [self extendKey:@"isStopwatchMode" fromDict:alarmInfo toDict:extendedInfoTemplate];
+        [self extendKey:@"isSet" fromDict:alarmInfo toDict:extendedInfoTemplate];
+        
+        // dateSet
+        [self extendKey:@"dateSet" fromDict:alarmInfo toDict:extendedInfoTemplate];
+        
+        // dateAlarmPicked
+        if (![self extendKey:@"dateAlarmPicked" fromDict:alarmInfo toDict:extendedInfoTemplate]) {
+            [extendedInfoTemplate setObject:[alarmInfo objectForKey:@"dateSet"] forKey:@"dateAlarmPicked"];
         }
         
-        // CHECK IF SNOOZING
-        if ((NSDate *)[alarmInfo objectForKey:@"snoozeAlarm"] != nil) {
-            isSnoozing = YES;
-            NSDate *newSnooze = [NSDate dateWithTimeInterval:[[self secondsSinceMidnightWithDate:(NSDate *)[alarmInfo objectForKey:@"snoozeAlarm"]] intValue] sinceDate:[self dateTodayWithSecondsFromMidnight:0]];
-            [alarmInfo setObject:newSnooze forKey:@"snoozeAlarm"];
-        }
+        // stopwatchDateBegan
+        [self extendKey:@"stopwatchDateBegan" fromDict:alarmInfo toDict:extendedInfoTemplate];
         
-        // LOAD SONG
-        [selectSongView selectCellWithID:(NSNumber *)[alarmInfo objectForKey:@"songID"]];
-
-        // LOAD ACTION
-        // check if a previous version saved actionID
-        if ([alarmInfo objectForKey:@"actionTitle"] != nil)
-            [selectActionView selectActionWithTitle:[alarmInfo objectForKey:@"actionTitle"]];
-        else if ([alarmInfo objectForKey:@"actionID"] != nil) {
-            [selectActionView selectActionWithID:(NSNumber *)[alarmInfo objectForKey:@"actionID"]];
-        }
-                
-        // LOAD MODE (future: convert to one mode int)
-        isTimerMode = [(NSNumber *)[alarmInfo objectForKey:@"isTimerMode"] boolValue];        
-        if (isTimerMode) {
-            [self enterTimerMode];
-            if (isSet)
-                [selectDurationView beginTiming];
+        // alarmDuration
+        if (![self extendKey:@"alarmDuration" fromDict:alarmInfo toDict:extendedInfoTemplate]) { 
+            // if we can't extend it, check for depreciated keys
             
-            [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"timerDuration"]];
-        } else {
-            if (isSnoozing)
-                [selectDurationView setSecondsFromZeroWithNumber:[self secondsSinceMidnightWithDate:[alarmInfo objectForKey:@"snoozeAlarm"]]];
-            else
-                [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
-        }
-        
-        isStopwatchMode = [(NSNumber *)[alarmInfo objectForKey:@"isStopwatchMode"] boolValue];
-        if (isStopwatchMode) {
-            [selectDurationView compressByRatio:0 animated:YES];
-            [selectedTimeView setAlpha:0];
-        }
+            float secondsSinceMidnight = -1; // get the old amount of secondsSinceMidnight
+            
+            if ([alarmInfo objectForKey:@"secondsSinceMidnight"]) // secondsSinceMidnight is depreciated
+                secondsSinceMidnight = [[alarmInfo objectForKey:@"secondsSinceMidnight"] floatValue];
+            else if ([alarmInfo objectForKey:@"date"])
+                secondsSinceMidnight = [[self secondsSinceMidnightWithDate:(NSDate *)[alarmInfo objectForKey:@"date"]] floatValue];
+            
+            // convert secondsSinceMidnight to a duration from the dateSet
+            float setSecondsSinceMidnight = [[self secondsSinceMidnightWithDate:[alarmInfo objectForKey:@"dateSet"]] floatValue];
+            float alarmDuration;
 
-        // LOAD SET
-        isSet = [(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue];
-        [self animateSelectDurToRest];
+            if (setSecondsSinceMidnight > secondsSinceMidnight) {
+                alarmDuration = (secondsSinceMidnight + 24*60*60)-setSecondsSinceMidnight;
+            } else {
+                alarmDuration = secondsSinceMidnight-setSecondsSinceMidnight;
+            }
+            
+            // save the new duration
+            [extendedInfoTemplate setObject:[NSNumber numberWithFloat:alarmDuration] forKey:@"alarmDuration"];
+        }
         
+        // timerDuration &  songID & themeID
+        [self extendKey:@"timerDuration" fromDict:alarmInfo toDict:extendedInfoTemplate];
+        [self extendKey:@"songID" fromDict:alarmInfo toDict:extendedInfoTemplate];
+        [self extendKey:@"themeID" fromDict:alarmInfo toDict:extendedInfoTemplate];
+        
+        // actionTitle
+        if (![self extendKey:@"actionTitle" fromDict:alarmInfo toDict:extendedInfoTemplate]) {
+            // check for depreciated actionID
+            if ([alarmInfo objectForKey:@"actionID"]) {
+                int actionID = [[alarmInfo objectForKey:@"actionID"] intValue];
+                [extendedInfoTemplate setObject:[selectActionView actionTitleWithID:actionID] forKey:@"actionTitle"];
+            }
+        }
+        
+        // snooze (not in template because it is deleted upon being unset
+        if ([self extendKey:@"snoozeAlarm" fromDict:alarmInfo toDict:extendedInfoTemplate])
+            isSnoozing = YES;
+        
+        alarmInfo = extendedInfoTemplate;
+        
+
+
         // TALK ABOUT MYSELF
-        NSLog(@"%@", alarmInfo);
+        NSLog(@"alarmInfo end: %@", alarmInfo);
+
+    }
+    
+    if ([alarmInfo objectForKey:@"snoozeAlarm"])
+        isSnoozing = YES;
+    
+    // update local variables and views
+    if ([[alarmInfo objectForKey:@"isSet"] boolValue])
+        isSet = YES;
+    
+    
+    if ([[alarmInfo objectForKey:@"isTimerMode"] boolValue]) {
+        [self enterTimerMode]; // sets isTimerMode
+        if (isSet)
+            [selectDurationView beginTiming];
+    } else {
+        [self enterAlarmMode];
+    }
+    [self animateSelectDurToRest];
+    //[selectDurationView setSecondsFromZero:[self getSecondsFromMidnight]];
+    
+    
+    [selectSongView selectCellWithID:[alarmInfo objectForKey:@"songID"]];
+    [selectActionView selectActionWithTitle:[alarmInfo objectForKey:@"actionTitle"]];
+    [self updateThemeWithArtwork:nil];
+    
+    if ([[alarmInfo objectForKey:@"isStopwatchMode"] boolValue]) {
+        isStopwatchMode = YES;
+        [selectDurationView compressByRatio:0 animated:YES];
+        [selectedTimeView setAlpha:0];
     }
     
     [self durationDidEndChanging:selectDurationView];
+}
+
+#pragma mark - utility functions
+
+- (bool) extendKey:(NSString *)key fromDict:(NSDictionary *)fromDict toDict:(NSMutableDictionary *)toDict {
+    if ([fromDict objectForKey:key]) {
+        [toDict setObject:[fromDict objectForKey:key] forKey:key];
+        return YES;
+    }
+    return NO;
 }
 
 - (bool) canMove {
@@ -263,41 +317,60 @@ const float Spacing = 0.0f;
 }
 
 - (NSDate *) getDate {
-    if (isSnoozing) {
-        return [alarmInfo objectForKey:@"snoozeAlarm"];
-    }
     
-    if (isTimerMode) {
-        NSTimeInterval timerTimeInterval = [(NSNumber *)[alarmInfo objectForKey:@"timerDuration"] floatValue];
-        if (timerTimeInterval > 86400.0) { // one day
-            timerTimeInterval -= 86400.0;
-            [alarmInfo setObject:[NSNumber numberWithFloat:timerTimeInterval] forKey:@"timerDuration"];
-        }
-        
-        if (isSet) {
-            return [(NSDate *)[alarmInfo objectForKey:@"timerDateBegan"] dateByAddingTimeInterval:timerTimeInterval];
+    NSDate *theDate;
+    if (isTimerMode)
+        if (isSet)
+            // add timer duration to date set and get seconds since midnight
+            theDate = [[alarmInfo objectForKey:@"dateSet"]
+                        dateByAddingTimeInterval:[[alarmInfo objectForKey:@"timerDuration"] floatValue]];
+        else
+            theDate = [[NSDate date] dateByAddingTimeInterval:
+                       [[alarmInfo objectForKey:@"timerDuration"] floatValue]];
+    else {
+        if (isSnoozing) {
+            theDate = [alarmInfo objectForKey:@"snoozeAlarm"];
+            
         } else {
-            return [[NSDate date] dateByAddingTimeInterval:timerTimeInterval];
+            theDate = [[alarmInfo objectForKey:@"dateAlarmPicked"]
+                           dateByAddingTimeInterval:[[alarmInfo objectForKey:@"alarmDuration"] floatValue]];
         }
+
     }
     
-
-    return [self dateTodayWithSecondsFromMidnight:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
+    return theDate;
+    
 }
+
+#pragma mark - saved user variables
+
+
 
 #pragma mark - functionality
 - (void) enterTimerMode {
     isTimerMode = YES;
     [alarmInfo setObject:[NSNumber numberWithBool:YES] forKey:@"isTimerMode"];
     
-    //[self flashTimerMessage];
     int seconds = [[alarmInfo objectForKey:@"timerDuration"] intValue];
     [selectDurationView enterTimerModeWithSeconds:seconds];
     [selectedTimeView enterTimerMode];
     
-    [self durationDidEndChanging:selectDurationView];
+    // update selectedTime View
+    [selectedTimeView updateDuration:seconds part:selectDurationView.handleSelected];
     
     //[durationMaskView.layer setMask:nil];
+}
+
+- (void) enterAlarmMode {
+    isTimerMode = NO;
+    [alarmInfo setObject:[NSNumber numberWithBool:NO] forKey:@"isTimerMode"];
+    
+    int seconds = [self getSecondsFromMidnight];
+    [selectDurationView exitTimerModeWithSeconds:seconds];
+    [selectedTimeView enterAlarmMode];
+    
+    [selectedTimeView updateDate:[self getDate] part:selectDurationView.handleSelected];
+    
 }
 
 - (void) setCountdownEnded:(bool)newVal {
@@ -308,19 +381,6 @@ const float Spacing = 0.0f;
 
 - (bool) countdownEnded {
     return _countdownEnded;
-}
-
-- (void) exitTimerMode {
-    isTimerMode = NO;
-    [alarmInfo setObject:[NSNumber numberWithBool:NO] forKey:@"isTimerMode"];
-
-    int seconds = [[alarmInfo objectForKey:@"secondsSinceMidnight"] intValue];
-    [selectDurationView exitTimerModeWithSeconds:seconds];
-    [selectedTimeView exitTimerMode];
-    
-    
-    [self durationDidEndChanging:selectDurationView];
-
 }
 
 #pragma mark - Touches
@@ -366,19 +426,16 @@ const float Spacing = 0.0f;
     
     [selectDurationView touchesCancelled:nil withEvent:nil];
     if (pinchRecog.state == UIGestureRecognizerStateBegan) {
-        NSLog(@"began");
 
         [selectSongView setAlpha:0];
         [selectActionView setAlpha:0];
         [deleteLabel setAlpha:1];
 
     } else if (pinchRecog.state == UIGestureRecognizerStateChanged) {
-        NSLog(@"changed");
         [selectDurationView setAlpha:0];
         if (pinchRecog.scale > 1)
             pinchRecog.scale = 1;
         float scale = .8 + .2 * (1-(3 * (1-pinchRecog.scale)));
-        NSLog(@"%f", scale);
         
         
         if (isSet)
@@ -392,7 +449,6 @@ const float Spacing = 0.0f;
         
         
     } else if (pinchRecog.state == UIGestureRecognizerStateEnded) {
-        NSLog(@"ended");
         if (pinchRecog.scale < .7) {
             if ([delegate respondsToSelector:@selector(alarmViewPinched:)] )
                 if ([delegate alarmViewPinched:self]) {
@@ -471,6 +527,10 @@ const float Spacing = 0.0f;
 
 - (void) updateThemeWithArtwork:(UIImage *)artwork {
     int themeID = [(NSNumber *)[alarmInfo objectForKey:@"themeID"] intValue];
+    
+    if (themeID == -1) // convert default theme to 0
+        themeID = 0; // future: rendomize theme
+    
     NSDictionary *theme;
     if (themeID < 7 && themeID > -1) { // preset theme
         theme = [musicManager getThemeWithID:themeID];
@@ -480,7 +540,6 @@ const float Spacing = 0.0f;
         [selectAlarmBg setAlpha:0];
         [patternOverlay setAlpha:0];
         [selectDurationView updateTheme:theme];
-        NSLog(@"update theme");
     } else {
         [toolbarImage setAlpha:1];
         [selectAlarmBg setAlpha:1];
@@ -507,39 +566,41 @@ const float Spacing = 0.0f;
 }
 
 - (void) updateProperties {
-    // make sure the date is in future
     if (!countdownEnded) {
-        if (!isTimerMode && !isSet) {
+        // ensure that alarm date is in the future
+        
+        if (!isTimerMode && !isSet) { // unset alarm mode
+            
+            
+            // make sure alarm is in future
             while ([[self getDate] timeIntervalSinceNow] < 0) {
-                int advancedDate = [(NSNumber *)[alarmInfo objectForKey:@"secondsSinceMidnight"] intValue] + 86400;
-                [alarmInfo setObject:[NSNumber numberWithInt:advancedDate] forKey:@"secondsSinceMidnight"];
+                NSDate *newDate = [(NSDate *)[alarmInfo objectForKey:@"dateAlarmPicked"] dateByAddingTimeInterval:86400] ;
+                [alarmInfo setObject:newDate forKey:@"dateAlarmPicked"];
             }
+            
+            // make sure alarm is not too far in future (time-travel bugfix)
+            while ([[self getDate] timeIntervalSinceNow] > 86400) {
+                NSDate *newDate = [(NSDate *)[alarmInfo objectForKey:@"dateAlarmPicked"] dateByAddingTimeInterval:-86400] ;
+                [alarmInfo setObject:newDate forKey:@"dateAlarmPicked"];
+            }
+        
         }
         // check to see if it will go off
         
-        if (!isSnoozing && isSet && floorf([[self getDate] timeIntervalSinceNow]) < .5) {
-            NSLog(@"not snoozing, set, getdate in past: %f", [[self getDate] timeIntervalSinceNow]);
+        if (floorf([[self getDate] timeIntervalSinceNow]) < .5) {
             [self alarmCountdownEnded];
+            
         }
         
-        else if (isSnoozing) { //display and trigger an unsaved alarm
-            [countdownView updateWithDate:[alarmInfo objectForKey:@"snoozeAlarm"]];
-            if (floorf([[alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow] < .5))
-                [self alarmCountdownEnded];
-        } else if (isTimerMode) {
-            [countdownView updateWithDate:[self getDate]];
-        } else {
-            [countdownView updateWithDate:[self getDate]]; //if it isn't snoozing then countdown will display from regular saved alarm
-        }
+        [countdownView updateWithDate:[self getDate]];
         
         //if (selectDurationView.handleSelected == SelectDurationNoHandle) {
         //    if (!isTimerMode)
         //        [selectDurationView setSecondsFromZeroWithNumber:[self secondsSinceMidnightWithDate:[self getDate]]];
         //}
 
-        
-        
     } else {
+        // update with current date so it will flash 00:00
         [countdownView updateWithDate:[NSDate date]];
     }
     
@@ -581,7 +642,7 @@ const float Spacing = 0.0f;
     return [delegate getMusicPlayer];
 }
 -(BOOL) expandSelectSongView {
-    if (pickingAction /*|| isSnoozing */ || countdownEnded) //does not allow user to press and expand select sound view when the alarm is going off to prevent accidental touch when the user is trying to press snooze
+    if (pickingAction || countdownEnded) //does not allow user to press and expand select sound view when the alarm is going off to prevent accidental touch when the user is trying to press snooze
     {
         return NO;}
     
@@ -779,14 +840,36 @@ const float Spacing = 0.0f;
     
     if (isTimerMode) {
         NSTimeInterval intervalSelected = [selectDuration getSecondsFromZero];
+        NSLog("before %@", alarmInfo);
+
         [alarmInfo setObject:[NSNumber numberWithFloat:intervalSelected] forKey:@"timerDuration"];
         
         // update selectedTime View
         [selectedTimeView updateDuration:intervalSelected part:selectDuration.handleSelected];
+        NSLog("after %@", alarmInfo);
     } else {
-
-        [alarmInfo setObject:[selectDuration getNumberSecondsFromZero] forKey:@"secondsSinceMidnight"];
-        // update selectedTime View
+        float duration;
+        NSTimeInterval intervalSelected = [selectDuration getSecondsFromZero];
+        float nowSeconds = [[self secondsSinceMidnightWithDate:[NSDate date]] floatValue];
+            
+        // create a duration value out of dateSet and secondsFromZero on the duration picker
+        if (intervalSelected > nowSeconds)
+            duration = intervalSelected-nowSeconds;
+        else
+            duration = (86400-nowSeconds)+intervalSelected;
+        
+        NSDate *currentDate = [NSDate date];
+        
+        // round to nearest minute (exclude seconds)
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        NSUInteger calendarUnits = NSEraCalendarUnit | NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit;
+        NSDateComponents *dateComps = [calendar components:calendarUnits fromDate:currentDate];
+        [dateComps setSecond:0];
+        currentDate = [calendar dateFromComponents:dateComps];
+        
+        // save when the duration was set and its duration
+        [alarmInfo setObject:currentDate forKey:@"dateAlarmPicked"];
+        [alarmInfo setObject:[NSNumber numberWithFloat:duration] forKey:@"alarmDuration"];
 
         [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
     }
@@ -819,10 +902,10 @@ const float Spacing = 0.0f;
         if (!isTimerMode) {
             countdownEnded = NO;
             isSnoozing = YES;
-            NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f;
+            NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f; // get the snooze duration from preferences
             //NSTimeInterval testSnoozeTime = 1 * 60.0f;
             NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
-            [alarmInfo setObject:snoozeDate forKey:@"snoozeAlarm"];
+            [alarmInfo setObject:snoozeDate forKey:@"snoozeAlarm"]; // set an alarm for a time in the future
             [selectDuration setSecondsFromZeroWithNumber:[self secondsSinceMidnightWithDate:snoozeDate]];
             [selectedTimeView updateDate:snoozeDate part:SelectDurationNoHandle];
             [[delegate getMusicPlayer] stop];
@@ -835,7 +918,7 @@ const float Spacing = 0.0f;
         // go into timer mode
         [self enterTimerMode];
     } else if (isTimerMode && !isSet) {
-        [self exitTimerMode];
+        [self enterAlarmMode];
     }
 
 }
@@ -963,7 +1046,7 @@ const float Spacing = 0.0f;
             }
             countdownEnded = NO;
             NSURL *openURL = [NSURL URLWithString:[[selectActionView.actions objectAtIndex:[selectActionView actionIDWithTitle: [alarmInfo objectForKey:@"actionTitle"] ]] objectForKey:@"url"]]; //gets URL of selected action from alarmInfo dictionary.
-            [selectDurationView setSecondsFromZeroWithNumber:[alarmInfo objectForKey:@"secondsSinceMidnight"]];
+            [selectDurationView setSecondsFromZeroWithNumber:[NSNumber numberWithInt:[self getSecondsFromMidnight]]];
             [[delegate getMusicPlayer] stop];
             [[UIApplication sharedApplication] openURL:openURL]; //opens the url
             if (!isTimerMode)
@@ -987,7 +1070,7 @@ const float Spacing = 0.0f;
     
     if (isTimerMode) {
         if (!isSet && setAlarm) {
-            [alarmInfo setObject:[NSDate date] forKey:@"timerDateBegan"];
+            [alarmInfo setObject:[NSDate date] forKey:@"dateSet"];
             [selectDurationView beginTiming];
         } else if (isSet && !setAlarm) {
             [selectDurationView stopTiming];
@@ -1028,8 +1111,8 @@ const float Spacing = 0.0f;
 -(bool) shouldLockPicker {
     return (isSet || isStopwatchMode || ![self canMove]);
 }
--(NSDate *)getDateBegan {
-    return [alarmInfo objectForKey:@"timerDateBegan"];
+-(NSDate *)getDateBegan { // for the timer
+    return [alarmInfo objectForKey:@"dateSet"];
 }
 
 #pragma mark - Animation
@@ -1081,6 +1164,11 @@ CGPoint CGRectCenter(CGRect rect) {
     return CGPointMake(rect.origin.x + rect.size.width/2, rect.origin.y + rect.size.height/2);
 }
 
+- (int) getSecondsFromMidnight {
+    
+    return [[self secondsSinceMidnightWithDate:[self getDate]] intValue];
+}
+
 - (NSDate *)dateTodayWithSecondsFromMidnight:(NSNumber *)seconds {
     int duration = [seconds intValue];
     
@@ -1100,15 +1188,6 @@ CGPoint CGRectCenter(CGRect rect) {
     [components setMinute:minute];
     [components setSecond:1];
     components.day += days;
-    
-        NSTimeInterval secondsFromMidnightSet = [[self secondsSinceMidnightWithDate:(NSDate *)[alarmInfo objectForKey:@"dateSet"]] floatValue];
-        NSTimeInterval secondsFromMidnightNow = [[self secondsSinceMidnightWithDate:[NSDate date]] floatValue];
-        
-        // if the alarm is set for the next day and it is currently the previous day, add 24h to components
-        if (secondsFromMidnightNow < secondsFromMidnightSet && [seconds floatValue] < secondsFromMidnightSet)
-            components.day--;
-            
-    //if (!isSet && [createdDate timeIntervalSinceNow] < 0)
     
     return [cal dateFromComponents:components];
 }

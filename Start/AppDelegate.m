@@ -34,7 +34,6 @@
        
         
     }
-    
     return YES;
 }
 
@@ -68,6 +67,7 @@
                 NSLog(@"alarm.isSnoozing %i", alarm.isSnoozing);
                 if (alarm.isSet && floorf([[alarm getDate] timeIntervalSinceNow]) < .5) {
                     if (!alarm.countdownEnded) {
+                        NSLog(@"ended!!!");
                         [alarm alarmCountdownEnded];
                         [self.viewController switchAlarmWithIndex:alarm.index];
                     }
@@ -128,6 +128,7 @@
             for (AlarmView *alarm in self.viewController.alarms) {
                 if (alarm.isSet && floorf([[alarm getDate] timeIntervalSinceNow]) < .5) {
                     if (!alarm.countdownEnded) {
+                        NSLog(@"ended!!!");
                         [alarm alarmCountdownEnded];
                         [self.viewController switchAlarmWithIndex:alarm.index];
                     }

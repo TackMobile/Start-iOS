@@ -69,6 +69,10 @@
     return -1;
 }
 
+- (NSString *)actionTitleWithID:(int)theID {
+    return [(NSDictionary *)[actions objectAtIndex:theID] objectForKey:@"title"];
+}
+
 #pragma mark - Positioning
 
 - (void) actionSelectedAtIndexPath:(NSIndexPath *)indexPath {
