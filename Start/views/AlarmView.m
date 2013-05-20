@@ -213,8 +213,16 @@ const float Spacing = 0.0f;
         }       
         [alarmInfo setValue:[NSNumber numberWithFloat:newDuration] forKey:@"alarmDuration"];
         
-        if ([alarmInfo objectForKey:@"dateAlarmPicked"] == nil)
+        if ([alarmInfo objectForKey:@"dateAlarmPicked"] == nil) {
+            NSDate *replacementDatePicked;
+            if ([alarmInfo objectForKey:@"dateSet"] != nil)
+                replacementDatePicked = [alarmInfo objectForKey:@"dateSet"];
+            else
+                replacementDatePicked = [NSDate date];
+            
             [alarmInfo setObject:[alarmInfo objectForKey:@"dateSet"] forKey:@"dateAlarmPicked"];
+        }
+            
         
         // LOAD SET
         isSet = [(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue];
