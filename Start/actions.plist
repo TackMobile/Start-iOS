@@ -182,7 +182,7 @@
 		<key>url</key>
 		<string>yweather:</string>
 		<key>title</key>
-		<string>Weather</string>
+		<string>Y! Weather</string>
 		<key>iconFilename</key>
 		<string>weather-icon</string>
 	</dict>
