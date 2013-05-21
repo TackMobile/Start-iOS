@@ -7,6 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MSLabel.h"
+
+@protocol SettingsViewDelegate <NSObject>
+
+-(void) hidePlus;
+-(void) showPlus;
+
+
+@end
 
 @interface SettingsView : UIView <UIScrollViewDelegate> {
     UIImageView *bgImage;
@@ -31,22 +40,16 @@
     NSArray *labelIcons;
     NSMutableArray *introLabels;
     
-    UILabel *createLabel;
-    UILabel *tapLabel;
-    UILabel *flickDownLabel;
-    UILabel *flickUpLabe;
-    UILabel *pinchLabel;
-    UILabel *setLabel;
+    UIView *instructionsView;
+    UIView *introView;
+    
     UILabel *tackLabel;
     
-    UIImageView *createIcon;
-    UIImageView *tapIcon;
-    UIImageView *flickDownIcon;
-    UIImageView *flickUpIcon;
-    UIImageView *pinchIcon;
-    UIImageView *setIcon;
     UIImageView *tackLogo;
 }
 
 -(void) navigatingAway;
+- (void) lockTapped:(id)button;
+
+@property (nonatomic, retain) id<SettingsViewDelegate> delegate;
 @end

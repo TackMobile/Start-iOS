@@ -29,6 +29,7 @@ const float Spacing = 0.0f;
         cancelTouch = NO;
         countdownEnded = NO;
         isSnoozing = NO;
+        hasLoaded = NO;
         
         musicManager = [[MusicManager alloc] init];
         PListModel *pListModel = [delegate getPListModel];
@@ -137,7 +138,6 @@ const float Spacing = 0.0f;
         [toolbarGradient setLocations:gradientLocations];
         [toolbarGradient setFrame:durationMaskRect];
         [durationMaskView.layer setMask:toolbarGradient];
-        
     }
     return self;
 }
@@ -154,6 +154,19 @@ const float Spacing = 0.0f;
         alarmInfo = nil;
     
     return self;
+}
+
+- (void) alert:(NSString *)message {
+    UILabel *alertLabel = [[UILabel alloc] initWithFrame:CGRectInset(self.frame, 0, self.frame.size.height * 1/2)];
+    alertLabel.text = message;
+    [self addSubview:alertLabel];
+    
+    [UIView animateWithDuration:.5 delay:2 options:nil animations:^{
+        alertLabel.alpha = 0;
+    } completion:^(BOOL finished) {
+        [alertLabel removeFromSuperview];
+    }];
+    
 }
 
 - (void) viewWillAppear {
@@ -252,7 +265,6 @@ const float Spacing = 0.0f;
         alarmInfo = extendedInfoTemplate;
         
 
-
         // TALK ABOUT MYSELF
         NSLog(@"alarmInfo end: %@", alarmInfo);
 
@@ -273,7 +285,6 @@ const float Spacing = 0.0f;
     } else {
         [self enterAlarmMode];
     }
-    [self animateSelectDurToRest];
     //[selectDurationView setSecondsFromZero:[self getSecondsFromMidnight]];
     
     
@@ -288,6 +299,10 @@ const float Spacing = 0.0f;
     }
     
     [self durationDidEndChanging:selectDurationView];
+    [self animateSelectDurToRest];
+
+    hasLoaded = YES;
+
 }
 
 #pragma mark - utility functions
@@ -566,7 +581,7 @@ const float Spacing = 0.0f;
 }
 
 - (void) updateProperties {
-    if (!countdownEnded) {
+    if (!countdownEnded && hasLoaded) {
         // ensure that alarm date is in the future
         
         if (!isTimerMode && !isSet) { // unset alarm mode
@@ -840,13 +855,11 @@ const float Spacing = 0.0f;
     
     if (isTimerMode) {
         NSTimeInterval intervalSelected = [selectDuration getSecondsFromZero];
-        NSLog("before %@", alarmInfo);
 
         [alarmInfo setObject:[NSNumber numberWithFloat:intervalSelected] forKey:@"timerDuration"];
         
         // update selectedTime View
         [selectedTimeView updateDuration:intervalSelected part:selectDuration.handleSelected];
-        NSLog("after %@", alarmInfo);
     } else {
         float duration;
         NSTimeInterval intervalSelected = [selectDuration getSecondsFromZero];
@@ -855,6 +868,8 @@ const float Spacing = 0.0f;
         // create a duration value out of dateSet and secondsFromZero on the duration picker
         if (intervalSelected > nowSeconds)
             duration = intervalSelected-nowSeconds;
+        else if (isSet)
+            duration = 0;
         else
             duration = (86400-nowSeconds)+intervalSelected;
         
@@ -868,8 +883,10 @@ const float Spacing = 0.0f;
         currentDate = [calendar dateFromComponents:dateComps];
         
         // save when the duration was set and its duration
-        [alarmInfo setObject:currentDate forKey:@"dateAlarmPicked"];
-        [alarmInfo setObject:[NSNumber numberWithFloat:duration] forKey:@"alarmDuration"];
+        if (!isSet) {
+            [alarmInfo setObject:currentDate forKey:@"dateAlarmPicked"];
+            [alarmInfo setObject:[NSNumber numberWithFloat:duration] forKey:@"alarmDuration"];
+        }
 
         [selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
     }

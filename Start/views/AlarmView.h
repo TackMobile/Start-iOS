@@ -71,6 +71,8 @@ NSString * const kMyTagSecondtItemType;*/
     bool cancelTouch;
     bool isSnoozing;
     
+    bool hasLoaded;
+    
     bool _countdownEnded;
     
     UIView *durationMaskView;

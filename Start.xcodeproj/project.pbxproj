@@ -50,6 +50,8 @@
 		F311700E174AC4CE0049D6CF /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F311700A174AC4CE0049D6CF /* libTestFlight.a */; };
 		F311700F174AC4CE0049D6CF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F311700B174AC4CE0049D6CF /* README.md */; };
 		F3117010174AC4CE0049D6CF /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = F311700C174AC4CE0049D6CF /* release_notes.md */; };
+		F3117018174BEAA70049D6CF /* intro-lock.png in Resources */ = {isa = PBXBuildFile; fileRef = F3117016174BEAA70049D6CF /* intro-lock.png */; };
+		F3117019174BEAA70049D6CF /* intro-lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3117017174BEAA70049D6CF /* intro-lock@2x.png */; };
 		F3143CE615C4D9AE0098A276 /* TimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3143CE515C4D9AE0098A276 /* TimerView.m */; };
 		F31670E515A1109200725274 /* SearchSongCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F31670E415A1109200725274 /* SearchSongCell.m */; };
 		F317239615A63C5200007124 /* PListModel.m in Sources */ = {isa = PBXBuildFile; fileRef = F317239515A63C5200007124 /* PListModel.m */; };
@@ -219,6 +221,8 @@
 		F311700B174AC4CE0049D6CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
 		F311700C174AC4CE0049D6CF /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
 		F311700D174AC4CE0049D6CF /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
+		F3117016174BEAA70049D6CF /* intro-lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro-lock.png"; sourceTree = "<group>"; };
+		F3117017174BEAA70049D6CF /* intro-lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro-lock@2x.png"; sourceTree = "<group>"; };
 		F3143CE415C4D9AD0098A276 /* TimerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimerView.h; path = views/TimerView.h; sourceTree = "<group>"; };
 		F3143CE515C4D9AE0098A276 /* TimerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TimerView.m; path = views/TimerView.m; sourceTree = "<group>"; };
 		F31670E315A1109100725274 /* SearchSongCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SearchSongCell.h; path = views/SearchSongCell.h; sourceTree = "<group>"; };
@@ -522,6 +526,8 @@
 		F33F642315967154000372AE /* img */ = {
 			isa = PBXGroup;
 			children = (
+				F3117016174BEAA70049D6CF /* intro-lock.png */,
+				F3117017174BEAA70049D6CF /* intro-lock@2x.png */,
 				96A6D507166D13EA00679908 /* sparrow-icon.png */,
 				96A6D508166D13EA00679908 /* sparrow-icon@2x.png */,
 				96A6D502166D13B800679908 /* fantastical-icon.png */,
@@ -968,6 +974,8 @@
 				F335FA3416CB623B00ECF8AB /* tap-icon@2x.png in Resources */,
 				F311700F174AC4CE0049D6CF /* README.md in Resources */,
 				F3117010174AC4CE0049D6CF /* release_notes.md in Resources */,
+				F3117018174BEAA70049D6CF /* intro-lock.png in Resources */,
+				F3117019174BEAA70049D6CF /* intro-lock@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

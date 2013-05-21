@@ -44,6 +44,9 @@
     currAlarmRect = CGRectMake(-Spacing, 0, frameRect.size.width+(Spacing*2), frameRect.size.height);
     prevAlarmRect = CGRectOffset(currAlarmRect, -frameRect.size.width-Spacing, 0);
     asideOffset = frameRect.size.width+Spacing;
+    
+    // get the user alarms first so that we know wether to hide the plus button or not
+    userAlarms = [pListModel getAlarms];
 
     selectAlarmView = [[SelectAlarmView alloc] initWithFrame:selectAlarmRect delegate:self];
     musicPlayer = [[MusicPlayer alloc] init];
@@ -59,7 +62,6 @@
     
     [addButton setBackgroundImage:[UIImage imageNamed:@"plusButton"] forState:UIControlStateNormal];
     // init the alams that were stored
-    NSArray *userAlarms = [pListModel getAlarms];
     if ([userAlarms count]>0) {
         for (NSDictionary *alarmInfo in userAlarms) {
             [selectAlarmView addAlarmAnimated:NO];
@@ -73,19 +75,19 @@
     }
     
     [self switchAlarmWithIndex:savedCurrIndex];
-   
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:@"usedBefore"] == NO) { //checks to see whether it's the first time the application is launched or not
+    [addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
+    /*if (![[NSUserDefaults standardUserDefaults] boolForKey:@"usedBefore"]) { //checks to see whether it's the first time the application is launched or not
         [self switchAlarmWithIndex:currAlarmIndex + 1]; //switches from first alarm to settings screen so the instructions are the first thing the user sees
         [addButton addTarget:self action:@selector(plusButtonTappedForFirstVisit) forControlEvents:UIControlEventTouchUpInside];
     } else {
         [addButton addTarget:selectAlarmView action:@selector(plusButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
-    }
+    }*/
     [self beginTick];
 }
 
 -(void)plusButtonTappedForFirstVisit{ //if it's the first visit, when the user presses the plus button, switchAlarmWithIndex is called and the first alarm appears on screen
     NSLog(@"test %d", currAlarmIndex);
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"usedBefore"];
+    //[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"usedBefore"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self switchAlarmWithIndex:currAlarmIndex - 1];
     [addButton removeTarget:self action:@selector(test) forControlEvents:UIControlEventTouchUpInside]; //remove this as the selector for the plus button
@@ -108,6 +110,7 @@
         [alarmsData addObject:[NSDictionary dictionaryWithDictionary:alarm.alarmInfo]];
     [pListModel saveAlarms:alarmsData];
     [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:currAlarmIndex] forKey:@"currAlarmIndex"];
+    
 }
 
 - (void) updateAlarmViews:(NSTimer *)timer {
@@ -235,6 +238,8 @@
         [[alarms objectAtIndex:i] setIndex:i];
 }
 
+
+
 - (void) updateGradients {
     return;
     /*
@@ -290,6 +295,21 @@
     if (velocity.width < -10)
         [self switchAlarmWithIndex:[alarms count]-1];
     
+}
+
+#pragma mark - SettingsViewDelegate
+- (void) hidePlus {
+    if ([userAlarms count] == 0) {
+        [UIView animateWithDuration:.2 animations:^{
+            addButton.alpha = 0;
+        }];
+    }
+    
+}
+- (void) showPlus {
+    [UIView animateWithDuration:.2 animations:^{
+        addButton.alpha=1;
+    }];
 }
 
 #pragma mark - Positioning & SelectAlarmViewDelegate
@@ -388,7 +408,7 @@
     // reduce vel if on edges
     if ((alarmRect.origin.x > 0 && currAlarmIndex==-1) 
         || (alarmRect.origin.x < 0 && currAlarmIndex == 0))
-        alarmRect = CGRectOffset(alarmRect, -xVel*4/5, 0);
+        alarmRect = CGRectOffset(alarmRect, -xVel, 0);
     
     CGRect leftAlarmRect = CGRectOffset(alarmRect, -asideOffset, 0);
     CGRect rightAlarmRect = CGRectOffset(alarmRect, asideOffset, 0);

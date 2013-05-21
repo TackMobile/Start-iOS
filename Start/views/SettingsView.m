@@ -9,6 +9,7 @@
 #import "SettingsView.h"
 
 @implementation SettingsView
+@synthesize delegate;
 
 const float optionHeight = 40;
 
@@ -23,14 +24,13 @@ const float optionHeight = 40;
       
         if ([UIScreen mainScreen].applicationFrame.size.height < 500   ) {
             bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background"]];
-            intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about"]];
             tackLogo = [[UIImageView alloc] initWithFrame:CGRectMake(220, 420, 30, 30)];
         }else{
             bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"grid-background-568h@2x.png"]];
-            intro = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"about-568h@2x.png"]];
             tackLogo = [[UIImageView alloc] initWithFrame:CGRectMake(220, 506, 30, 30)];
         }
-
+        
+        
         tackButton = [[UIButton alloc] init];
         underline = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"search-divider"]];
         copyText = [[UILabel alloc] init];
@@ -61,8 +61,10 @@ const float optionHeight = 40;
         float iconCenterX = 27;
         float introStart = underline.frame.origin.y + 90;
         
+        instructionsView = [[UIView alloc] initWithFrame:(CGRect){{0,0}, self.frame.size}];
+        
         [self addSubview:bgImage];
-        [self addSubview:underline];
+        [instructionsView addSubview:underline];
         
         introLabels = [NSMutableArray new];
         for (int i=0; i<labelCopy.count; i++) {
@@ -94,14 +96,17 @@ const float optionHeight = 40;
             [introLabel setFrame:labelRect];
             [introIconView setFrame:iconRect];
             
-            [self addSubview:introLabel];
-            [self addSubview:introIconView];
+            [instructionsView addSubview:introLabel];
+            [instructionsView addSubview:introIconView];
             
             [introLabels addObject:introLabel];
             [introLabels addObject:introIconView];
             
+            if (![[NSUserDefaults standardUserDefaults] boolForKey:@"usedBefore"])
+                if ([delegate respondsToSelector:@selector(hidePlus)]) {
+                    [delegate hidePlus];
+                }
         }
-        
 
         tackLabel = [UILabel new];
         tackLabel.text = @"Assembled by";
@@ -119,12 +124,35 @@ const float optionHeight = 40;
         [self addSubview:tackLabel];
         [self addSubview:tackLogo];
         
-        [self addSubview:copyText];
+        [instructionsView addSubview:copyText];
         [self addSubview:versionText];
-        [self addSubview:timePicker];
+        [instructionsView addSubview:timePicker];
         [self addSubview:tackButton];
         
-
+        // add the intro view components
+        
+        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"seenIntro"]) { // if its the first run
+            introView = [[UIView alloc] initWithFrame:CGRectInset((CGRect){{0,0}, self.frame.size}, 40, 40)];
+            [self addSubview:introView];
+            
+            UIButton *introLock = [UIButton buttonWithType:UIButtonTypeCustom] ;
+            [introLock setImage:[UIImage imageNamed:@"intro-lock.png"] forState:UIControlStateNormal];
+            [introLock addTarget:self action:@selector(lockTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [introLock sizeToFit];
+            [introView addSubview:introLock];
+            
+            instructionsView.alpha = 0;
+            instructionsView.frame = CGRectOffset(instructionsView.frame, 30, 0);
+            
+            if ([delegate respondsToSelector:@selector(hidePlus)]) {
+                [delegate hidePlus];
+            }
+        }
+        
+        [self addSubview:instructionsView];
+        
+        
+        // add the time picker
         [copyText setText:@"Snooze Duration        min"]; // leave the spaces. i know, a hack
         [versionText setText:version];
         
@@ -189,6 +217,7 @@ const float optionHeight = 40;
             }
         }
         [self animateTimePicker];
+        
  
     }
     return self;
@@ -263,16 +292,6 @@ const float optionHeight = 40;
         selectedIndex = (int)roundf( button.frame.origin.y / optionHeight);
     }
     pickingSnooze = NO;
-    createLabel.alpha = 1;
-    setLabel.alpha = 1;
-    flickUpLabe.alpha = 1;
-    flickDownLabel.alpha = 1;
-    pinchLabel.alpha = 1;
-    createIcon.alpha = 1;
-    setIcon.alpha = 1;
-    flickUpIcon.alpha = 1;
-    flickDownIcon.alpha = 1;
-    pinchIcon.alpha = 1;
     tackLabel.alpha = 1;
     tackLogo.alpha = 1;
     [self animateTimePicker];
@@ -282,6 +301,21 @@ const float optionHeight = 40;
     NSURL* tackURL = [NSURL URLWithString:@"http://tackmobile.com/products/start?ref=start"];
     if ([[UIApplication sharedApplication] canOpenURL:tackURL])
         [[UIApplication sharedApplication] openURL:tackURL];
+}
+
+-(void)lockTapped:(id)button {
+    [UIView animateWithDuration:.3 animations:^{
+        [introView setFrame:CGRectOffset(introView.frame, -30, 0)];
+        introView.alpha = 0;
+        [instructionsView setFrame:CGRectOffset(instructionsView.frame, -30, 0)];
+        instructionsView.alpha = 1;
+    }];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenIntro"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if ([delegate respondsToSelector:@selector(showPlus)]) {
+        [delegate showPlus];
+    }
 }
 
 -(void) navigatingAway {
@@ -368,88 +402,5 @@ const float optionHeight = 40;
         }];
     }
 }
-
-
-
-
-
-
-
-
-//goto;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @end

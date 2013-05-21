@@ -20,7 +20,7 @@ enum SwitchAlarmDirection {
     SwitchAlarmPrev
 };
 
-@interface MasterViewController : UIViewController <SelectAlarmViewDelegate, AlarmViewDelegate, AVAudioPlayerDelegate> {
+@interface MasterViewController : UIViewController <SelectAlarmViewDelegate, AlarmViewDelegate, AVAudioPlayerDelegate, SettingsViewDelegate> {
     
     CGRect prevAlarmRect;
     CGRect currAlarmRect;
@@ -29,6 +29,8 @@ enum SwitchAlarmDirection {
     int currAlarmIndex;
     
     int shouldSwitch;
+    
+    NSArray *userAlarms;
 }
 
 //extern const float Spacing;
@@ -46,6 +48,9 @@ enum SwitchAlarmDirection {
 - (void) scheduleLocalNotifications;
 - (void) scheduleLocalNotificationWithoutSound;
 - (void) respondedToLocalNot;
+
+- (void) hidePlus;
+- (void) showPlus;
 
 
 - (void) alarmAdded;
