@@ -51,8 +51,9 @@
     selectAlarmView = [[SelectAlarmView alloc] initWithFrame:selectAlarmRect delegate:self];
     musicPlayer = [[MusicPlayer alloc] init];
     [musicPlayer addTargetForSampling:self selector:@selector(songPlayingTick:)];
-    settingsView = [[SettingsView alloc] initWithFrame:CGRectOffset(frameRect, 0, -frameRect.origin.y)];
     addButton = [[UIButton alloc] initWithFrame:plusRect];
+
+    settingsView = [[SettingsView alloc] initWithDelegate:self frame:CGRectOffset(frameRect, 0, -frameRect.origin.y)];
     
     
         [self.view addSubview:settingsView];
@@ -68,10 +69,10 @@
             [self addAlarmWithInfo:alarmInfo switchTo:NO];
         }
     } else {
-        // add first alarm
+        /* add first alarm
         NSLog(@"add first alarm %d", currAlarmIndex);
         [selectAlarmView addAlarmAnimated:NO];
-        [self addAlarmWithInfo:nil switchTo:NO];
+        [self addAlarmWithInfo:nil switchTo:NO];*/
     }
     
     [self switchAlarmWithIndex:savedCurrIndex];
@@ -203,7 +204,7 @@
     [[UIApplication sharedApplication] cancelAllLocalNotifications]; //removes all the notifications from the notificaiton center
     AlarmView *alarmView;
     int indexOfTrippedAlarm = -1;
-    NSArray *userAlarms = [pListModel getAlarms];
+    userAlarms = [pListModel getAlarms];
     if ([userAlarms count]>0) { //tries to find out which of the saved alarms just went off
         for (NSDictionary *alarmInfo in userAlarms) {
             indexOfTrippedAlarm++;

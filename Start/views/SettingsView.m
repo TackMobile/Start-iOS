@@ -102,10 +102,7 @@ const float optionHeight = 40;
             [introLabels addObject:introLabel];
             [introLabels addObject:introIconView];
             
-            if (![[NSUserDefaults standardUserDefaults] boolForKey:@"usedBefore"])
-                if ([delegate respondsToSelector:@selector(hidePlus)]) {
-                    [delegate hidePlus];
-                }
+
         }
 
         tackLabel = [UILabel new];
@@ -223,6 +220,11 @@ const float optionHeight = 40;
     return self;
 }
 
+- (id) initWithDelegate:(id)_delegate frame:(CGRect)frame {
+    self.delegate = _delegate;
+    return [self initWithFrame:frame];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     
@@ -286,6 +288,8 @@ const float optionHeight = 40;
     timePicker.contentOffset = CGPointMake(0, roundedOffset);
     timePicker.showsVerticalScrollIndicator = NO;
 }
+
+#pragma mark - UI
 
 -(void) snoozeTimeSelected:(UIButton *)button {
     if (pickingSnooze) {

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MSLabel.h"
 
 @protocol SettingsViewDelegate <NSObject>
 
@@ -50,6 +49,7 @@
 
 -(void) navigatingAway;
 - (void) lockTapped:(id)button;
+- (id) initWithDelegate:(id)_delegate frame:(CGRect)frame;
 
 @property (nonatomic, retain) id<SettingsViewDelegate> delegate;
 @end
