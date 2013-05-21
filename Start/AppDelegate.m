@@ -64,7 +64,6 @@
         while ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
             //bool anySet = NO;
             for (AlarmView *alarm in self.viewController.alarms) {
-                NSLog(@"alarm.isSnoozing %i", alarm.isSnoozing);
                 if (alarm.isSet && floorf([[alarm getDate] timeIntervalSinceNow]) < .5) {
                     if (!alarm.countdownEnded) {
                         NSLog(@"ended!!!");

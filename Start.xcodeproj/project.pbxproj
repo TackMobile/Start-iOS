@@ -478,8 +478,6 @@
 				F3CD846D158FB0A400703717 /* SelectedTimeView.m */,
 				F3FEC0A515AC86340032B893 /* CountdownView.h */,
 				F3FEC0A615AC86350032B893 /* CountdownView.m */,
-				F3143CE415C4D9AD0098A276 /* TimerView.h */,
-				F3143CE515C4D9AE0098A276 /* TimerView.m */,
 				F3CA96DB1602364000D237FC /* RadialGradientView.h */,
 				F3CA96DC1602364000D237FC /* RadialGradientView.m */,
 			);
@@ -614,6 +612,8 @@
 		F37E556E1680FB48002FB2EB /* Stopwatch */ = {
 			isa = PBXGroup;
 			children = (
+				F3143CE415C4D9AD0098A276 /* TimerView.h */,
+				F3143CE515C4D9AE0098A276 /* TimerView.m */,
 				F37E556A1680FB3D002FB2EB /* StopwatchViewController.h */,
 				F37E556B1680FB3D002FB2EB /* StopwatchViewController.m */,
 			);

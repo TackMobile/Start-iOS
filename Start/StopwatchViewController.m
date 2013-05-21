@@ -13,29 +13,58 @@
 @end
 
 @implementation StopwatchViewController
-@synthesize timerView;
+@synthesize timerLabel, pausedLabel, timerView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self) {
+        timerLabel = [[UILabel alloc] init];
+        pausedLabel = [[UILabel alloc] init];
         
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void) viewDidLoad {
     [super viewDidLoad];
-    CGRect timerFrame = (CGRect){{0, 100}, {self.view.frame.size.width, 100}};
-    timerView = [[TimerView alloc] initWithFrame:timerFrame];
-    [self.view addSubview:timerView];
+    CGRect timerLabelRect = CGRectMake(0, 100, self.view.frame.size.width, 100);
+    CGRect pauseLabelRect = CGRectMake(0, 200, self.view.frame.size.width, 70);
 
+    timerLabel.frame = timerLabelRect;
+        
+    UIFont *timerFont = [UIFont fontWithName:@"Roboto-Thin" size:80];
+    [timerLabel setTextAlignment:NSTextAlignmentCenter];
+    [timerLabel setTextColor:[UIColor whiteColor]];
+    [timerLabel setBackgroundColor:[UIColor clearColor]];
+    [timerLabel setFont:timerFont];
+    
+    [timerLabel setText:@"00:00:00"];
+    
+    // paused label
+    pausedLabel.frame = pauseLabelRect;
+    UIFont *pauseFont = [UIFont fontWithName:@"Roboto-Thin" size:25];
+    [pausedLabel setTextAlignment:NSTextAlignmentCenter];
+    [pausedLabel setTextColor:[UIColor whiteColor]];
+    [pausedLabel setBackgroundColor:[UIColor clearColor]];
+    [pausedLabel setFont:pauseFont];
+    pausedLabel.alpha = 0;
+    pausedLabel.numberOfLines = 0;
+    [pausedLabel setText:@"Paused.\nTap again to reset"];
+    
+    // add them
+    [self.view addSubview:pausedLabel];
+    [self.view addSubview:timerLabel];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
+- (void) updateWithDate:(NSDate *)newDate {
+    //update the timer label
+    int secRemaining = (int)floor([[NSDate date] timeIntervalSinceDate:newDate] + .5);
+    int hours = secRemaining / 3600;
+    int minutes = secRemaining / 60 - hours * 60;
+    int seconds = secRemaining - minutes * 60 - hours * 3600;
+    
+    [timerLabel setText:[NSString stringWithFormat:@"%02i:%02i:%02i", hours, minutes, seconds]];
 }
 
 @end

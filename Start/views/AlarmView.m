@@ -620,7 +620,7 @@ const float Spacing = 0.0f;
     }
     
     if (isStopwatchMode)
-        [stopwatchViewController.timerView updateWithDate:[alarmInfo objectForKey:@"stopwatchDateBegan"]];
+        [stopwatchViewController updateWithDate:[alarmInfo objectForKey:@"stopwatchDateBegan"]];
 }
 
 - (CGRect) currRestedSelecDurRect {

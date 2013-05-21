@@ -14,6 +14,9 @@
 
 @property (strong, nonatomic)     TimerView *timerView;
 
-//@property (strong, nonatomic) UIButton *
+@property (nonatomic, strong) UILabel *pausedLabel;
+@property (nonatomic, strong) UILabel *timerLabel;
+
+- (void) updateWithDate:(NSDate *)newDate;
 
 @end
