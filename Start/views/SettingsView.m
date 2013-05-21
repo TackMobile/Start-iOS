@@ -129,7 +129,7 @@ const float optionHeight = 40;
         // add the intro view components
         
         if (![[NSUserDefaults standardUserDefaults] boolForKey:@"seenIntro"]) { // if its the first run
-            introView = [[UIView alloc] initWithFrame:CGRectInset((CGRect){{0,0}, self.frame.size}, 40, 40)];
+            introView = [[UIView alloc] initWithFrame:(CGRect){{0,0}, self.frame.size}];
             [self addSubview:introView];
             
             UIButton *introLock = [UIButton buttonWithType:UIButtonTypeCustom] ;
@@ -137,6 +137,8 @@ const float optionHeight = 40;
             [introLock addTarget:self action:@selector(lockTapped:) forControlEvents:UIControlEventTouchUpInside];
             [introLock sizeToFit];
             [introView addSubview:introLock];
+            
+            introLock.frame = CGRectOffset(introLock.frame, floorf((introView.frame.size.width-introLock.frame.size.width)/2)-5, 40);
             
             instructionsView.alpha = 0;
             instructionsView.frame = CGRectOffset(instructionsView.frame, 30, 0);

@@ -583,6 +583,7 @@
         outerFill.startAngle = outerStartAngle;
     }
 }
+
 -(void) setSnappedInnerStartAngle:(float)angle {
     float roundedAngle = roundf(angle/(M_PI*2/24)) * (M_PI*2/24);
     innerStartAngle = roundedAngle;
