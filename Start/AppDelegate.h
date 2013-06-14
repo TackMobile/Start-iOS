@@ -12,8 +12,6 @@
 @class MasterViewController;
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate> {
-    bool notActive;
-    UILocalNotification *reOpenAppNotif;
     unsigned int bgTask;
 }
 

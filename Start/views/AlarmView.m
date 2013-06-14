@@ -331,6 +331,18 @@ const float Spacing = 0.0f;
     }
 }
 
+- (void) alarmCountdownEndedIsActive:(bool)isActive {
+    NSLog(@"countdownended\n%@", alarmInfo);
+    
+    if (!countdownEnded && isSet) {
+        countdownEnded = YES;
+        [delegate alarmCountdownEnded:self];
+        if (!isTimerMode)
+            [selectedTimeView showSnooze];
+        //NSLog(@"showSnooze");
+    }
+}
+
 - (NSDate *) getDate {
     
     NSDate *theDate;
@@ -728,7 +740,35 @@ const float Spacing = 0.0f;
     [alarmInfo setObject:persistentMediaItemID forKey:@"songID"];
     [alarmInfo setObject:themeID forKey:@"themeID"];
     
+    /* display modal if they havent picked music b4
+    if ([persistentMediaItemID intValue] > 0 || [persistentMediaItemID intValue] < -1) {
+        if (![[[NSUserDefaults standardUserDefaults] objectForKey:@"hasPickedSongBefore"] boolValue]) {
+            
+            UIButton *warningMsg = [UIButton buttonWithType:UIButtonTypeCustom] ;
+            [warningMsg setImage:[UIImage imageNamed:@"intro-lock.png"] forState:UIControlStateNormal];
+            [warningMsg addTarget:self action:@selector(musicWarningTapped:) forControlEvents:UIControlEventTouchUpInside];
+            [warningMsg sizeToFit];
+            
+            CGRect warningRect = (CGRect){{(self.frame.size.width-warningMsg.frame.size.width)/2,
+                (self.frame.size.height-warningMsg.frame.size.height)/2}, warningMsg.frame.size};
+            [warningMsg setFrame:warningRect];
+            
+            // testing
+            [warningMsg setBackgroundColor:[UIColor colorWithWhite:0 alpha:.5]];
+            
+            // animate it in
+            
+            [self addSubview:warningMsg];
+
+        }
+    }*/
+
+    
     [self updateThemeWithArtwork:artwork];
+}
+
+- (void) musicWarningTapped:(id)button {
+    [(UIView *)button removeFromSuperview];
 }
 
 #pragma mark - SelectActionViewDelegate
@@ -1154,7 +1194,6 @@ const float Spacing = 0.0f;
     }
     
     [UIView animateWithDuration:.2 animations:^{
-        NSLog(@"animating");
         [selectDurationView setFrame:newFrame];
         [selectedTimeView setCenter:selectDurationView.center];
         // animate fade of countdowntimer & such

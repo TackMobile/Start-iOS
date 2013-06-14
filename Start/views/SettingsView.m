@@ -47,7 +47,8 @@ const float optionHeight = 40;
                      @"Set time, sound and action" ,
                      @"Fick up to activate",
                      @"Flick down for stopwatch",
-                     @"Pinch to delete", nil];
+                     @"Pinch to delete",
+                     @"Keep open for music alarms", nil];
         
         labelIcons = [NSArray arrayWithObjects:
                       [UIImage imageNamed:@"create-icon"],
@@ -55,11 +56,12 @@ const float optionHeight = 40;
                       [UIImage imageNamed:@"set-icon"],
                       [UIImage imageNamed:@"flick-up-icon"],
                       [UIImage imageNamed:@"flick-down-icon"],
-                      [UIImage imageNamed:@"pinch-icon"], nil];
+                      [UIImage imageNamed:@"pinch-icon"],
+                      [UIImage imageNamed:@"song-icon"], nil];
         
-        float introSpacing = 50;
+        float introSpacing = 47;
         float iconCenterX = 27;
-        float introStart = underline.frame.origin.y + 90;
+        float introStart = underline.frame.origin.y + 85;
         
         instructionsView = [[UIView alloc] initWithFrame:(CGRect){{0,0}, self.frame.size}];
         
@@ -126,9 +128,9 @@ const float optionHeight = 40;
         [instructionsView addSubview:timePicker];
         [self addSubview:tackButton];
         
-        // add the intro view components
+        // add the intro view components (not using for now)
         
-        if (![[NSUserDefaults standardUserDefaults] boolForKey:@"seenIntro"]) { // if its the first run
+        /*if (![[NSUserDefaults standardUserDefaults] boolForKey:@"seenIntro"]) { // if its the first run
             introView = [[UIView alloc] initWithFrame:(CGRect){{0,0}, self.frame.size}];
             [self addSubview:introView];
             
@@ -146,7 +148,7 @@ const float optionHeight = 40;
             if ([delegate respondsToSelector:@selector(hidePlus)]) {
                 [delegate hidePlus];
             }
-        }
+        }*/
         
         [self addSubview:instructionsView];
         

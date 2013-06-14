@@ -24,7 +24,7 @@
 
 @end
 
-@interface SelectSongView : UIView <UITableViewDataSource, UITableViewDelegate, SearchSongCellDelegate, SongCellDelegate> {
+@interface SelectSongView : UIView <UITableViewDataSource, UITableViewDelegate, SearchSongCellDelegate, SongCellDelegate, UIAlertViewDelegate> {
     bool isOpen;
     bool isSearching;
     bool artworkPresent;

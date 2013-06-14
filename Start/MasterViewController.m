@@ -10,11 +10,10 @@
 #import "MusicPlayer.h"
 
 @interface MasterViewController ()
-@property (nonatomic, strong) UILocalNotification *notif;
 @end
 
 @implementation MasterViewController
-@synthesize alarms, musicPlayer, settingsView, notif;
+@synthesize alarms, musicPlayer, settingsView;
 @synthesize pListModel, selectAlarmView, tickTimer, addButton;
 
 - (void)viewDidLoad
@@ -105,7 +104,6 @@
 
 - (void) saveAlarms {
     // save alarms
-    NSLog(@"saving alarms...");
     NSMutableArray *alarmsData = [[NSMutableArray alloc] init];
     for (AlarmView *alarm in alarms)
         [alarmsData addObject:[NSDictionary dictionaryWithDictionary:alarm.alarmInfo]];
@@ -120,83 +118,90 @@
     }
 }
 
-- (void) scheduleLocalNotifications {
-    for (AlarmView *alarmView in alarms) {
-        NSDictionary *alarmInfo = [alarmView alarmInfo];
-        if ([(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue]) {
-            notif = [[UILocalNotification alloc] init];
-            NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                      [NSNumber numberWithInt:alarmView.index], @"alarmIndex", nil];
-            
-            
-            notif.fireDate = [alarmView getDate];
-            
-            if (alarmView.isSnoozing)
-                notif.fireDate = [alarmInfo objectForKey:@"snoozeAlarm"];
-            switch ([[alarmInfo objectForKey:@"songID"] intValue]) { //if the user selects one of the default tones for their alarm...the local notification will play that tone as its sound
-                case 0:
-                    notif.soundName = @"chamaeleon2.wav";
-                    break;
-                case 1:
-                    notif.soundName = @"epsilon2.wav";
-                    break;
-                case 2:
-                    notif.soundName = @"hydrus2.wav";
-                    break;
-                case 3:
-                    notif.soundName = @"galaxy.wav";
-                    break;
-                case 4:
-                    notif.soundName = @"phoenix2.wav";
-                    break;
-                case 5:
-                    notif.soundName = @"lynx2.wav";
-                    break;
-                case 6: //if it's an iPod song, galaxy will be default tone for local notification
-                    notif.soundName = @"galaxy.wav";
-                    break;
-                default:
-                    notif.soundName = @"galaxy.wav"; //default
-                    break;
-            }
-            if (alarmView.isTimerMode)
-                notif.alertBody = @"Timer Finished";
-            else
-                notif.alertBody = @"Alarm Triggered";
-            
-            notif.userInfo = userInfo;
-            [[UIApplication sharedApplication] scheduleLocalNotification:notif];
-            
-        }
-    }
-   
-        
+- (void) scheduleLocalNotificationsForActiveState:(bool)isActive {
     
-}
-
-- (void)scheduleLocalNotificationWithoutSound{
     for (AlarmView *alarmView in alarms) {
         NSDictionary *alarmInfo = [alarmView alarmInfo];
-        NSLog(@"scheduleLocalNotificationWithoutSound %i", [[NSUserDefaults standardUserDefaults] boolForKey:@"isSet"]);
         if ([(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue]) {
-            notif = [[UILocalNotification alloc] init];
+            
             NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
                                       [NSNumber numberWithInt:alarmView.index], @"alarmIndex", nil];
-            if (alarmView.isSnoozing)
-                notif.fireDate = [alarmInfo objectForKey:@"snoozeAlarm"];
-            else
-                notif.fireDate = [alarmView getDate];
-            if (alarmView.isTimerMode)
-                notif.alertBody = @"Timer Finished";
-            else
-                notif.alertBody = @"Alarm Triggered";
-            notif.userInfo = userInfo;
-            [[UIApplication sharedApplication] scheduleLocalNotification:notif];
+
             
+            if (isActive && ([[alarmInfo objectForKey:@"songID"] intValue] > 6
+                             || [[alarmInfo objectForKey:@"songID"] intValue] < 0)) { // if the app was kept in the foreground and a song was selected, then we should let the song play instead of a notification
+                
+                UILocalNotification *notif = [[UILocalNotification alloc] init];
+                
+                
+                notif.fireDate = [alarmView getDate];
+
+                notif.userInfo = userInfo;
+                
+                [[UIApplication sharedApplication] scheduleLocalNotification:notif];
+
+            
+            } else { // otherwise, schedule a bunch of them 20 seconds apart
+                
+                int notifCount = 15;
+                NSDate *fireDate = [alarmView getDate];
+                
+                while (notifCount > 0) {
+                    UILocalNotification *notif = [[UILocalNotification alloc] init];
+                    notif.userInfo = userInfo;
+                    notif.fireDate = fireDate;
+                    
+                    switch ([[alarmInfo objectForKey:@"songID"] intValue]) { //if the user selects one of the default tones for their alarm...the local notification will play that tone as its sound
+                        case 0:
+                            notif.soundName = @"chamaeleon2.wav";
+                            break;
+                        case 1:
+                            notif.soundName = @"epsilon2.wav";
+                            break;
+                        case 2:
+                            notif.soundName = @"hydrus2.wav";
+                            break;
+                        case 3:
+                            notif.soundName = @"galaxy.wav";
+                            break;
+                        case 4:
+                            notif.soundName = @"phoenix2.wav";
+                            break;
+                        case 5:
+                            notif.soundName = @"lynx2.wav";
+                            break;
+                        case 6:
+                            notif.soundName = @"galaxy.wav";
+                            break;
+                        default: //if it's an iPod song, galaxy will be default tone for local notification
+                            notif.soundName = @"galaxy.wav";
+                            break;
+                    }
+                    
+                    if (alarmView.isTimerMode)
+                        notif.alertBody = @"Timer Finished";
+                    else
+                        notif.alertBody = @"Alarm Triggered";
+                    
+                    [[UIApplication sharedApplication] scheduleLocalNotification:notif];
+                    
+                    // decide the duration of the notif
+                    NSString *resName = [[notif.soundName componentsSeparatedByString:@"."] objectAtIndex:0];
+                    NSError *setURLError;
+                    NSString *playerPath = [[NSBundle mainBundle] pathForResource:resName ofType:@"wav"];
+                    AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:playerPath] error:&setURLError];
+                    if (setURLError)
+                        NSLog(@"%@", setURLError);
+
+                    
+                    // advance the date and decriment the count
+                    fireDate = [fireDate dateByAddingTimeInterval:audioPlayer.duration];
+                    notifCount--;
+                }
+            }
         }
     }
 }
-
 
 
 
@@ -373,7 +378,6 @@
         
     }
     [UIView animateWithDuration:.15 animations:^{
-        NSLog(@"animating");
         [selectAlarmView setFrame:footerRect];
         for (AlarmView *alarmView in alarms) {
             [alarmView setFrame:alarmView.newRect];
@@ -498,6 +502,8 @@
 
 -(void)alarmCountdownEnded:(AlarmView *)alarmView {
     [self switchAlarmWithIndex:alarmView.index];
+    if ([[alarmView.alarmInfo objectForKey:@"songID"] intValue] > 6 ||
+        [[alarmView.alarmInfo objectForKey:@"songID"] intValue] < 0 )
     [musicPlayer playSongWithID:[alarmView.alarmInfo objectForKey:@"songID"] vibrate:YES];
     
 }

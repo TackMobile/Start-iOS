@@ -43,6 +43,7 @@
         NSLog(@"n-1");
     //do nothing, play nothing
     }else if ([songID intValue] >= 0 && [songID intValue] < 6) { //default tones
+        
         if (!audioLibrary) {
             pListModel  = [[PListModel alloc] init];
             audioLibrary = [pListModel getPresetSongs];
@@ -83,6 +84,7 @@
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&setURLError];
     if (setURLError)
         NSLog(@"%@", setURLError);
+
     
     [self.audioPlayer setVolume:volume];
     [self.audioPlayer setNumberOfLoops:-1];

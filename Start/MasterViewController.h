@@ -45,8 +45,7 @@ enum SwitchAlarmDirection {
 @property (nonatomic, strong) UIButton *addButton;
 
 - (void) saveAlarms;
-- (void) scheduleLocalNotifications;
-- (void) scheduleLocalNotificationWithoutSound;
+- (void) scheduleLocalNotificationsForActiveState:(bool)isActive;
 - (void) respondedToLocalNot;
 
 - (void) hidePlus;
