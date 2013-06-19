@@ -126,31 +126,10 @@ const float optionHeight = 40;
         [instructionsView addSubview:copyText];
         [self addSubview:versionText];
         [instructionsView addSubview:timePicker];
-        [self addSubview:tackButton];
-        
-        // add the intro view components (not using for now)
-        
-        /*if (![[NSUserDefaults standardUserDefaults] boolForKey:@"seenIntro"]) { // if its the first run
-            introView = [[UIView alloc] initWithFrame:(CGRect){{0,0}, self.frame.size}];
-            [self addSubview:introView];
-            
-            UIButton *introLock = [UIButton buttonWithType:UIButtonTypeCustom] ;
-            [introLock setImage:[UIImage imageNamed:@"intro-lock.png"] forState:UIControlStateNormal];
-            [introLock addTarget:self action:@selector(lockTapped:) forControlEvents:UIControlEventTouchUpInside];
-            [introLock sizeToFit];
-            [introView addSubview:introLock];
-            
-            introLock.frame = CGRectOffset(introLock.frame, floorf((introView.frame.size.width-introLock.frame.size.width)/2)-5, 40);
-            
-            instructionsView.alpha = 0;
-            instructionsView.frame = CGRectOffset(instructionsView.frame, 30, 0);
-            
-            if ([delegate respondsToSelector:@selector(hidePlus)]) {
-                [delegate hidePlus];
-            }
-        }*/
         
         [self addSubview:instructionsView];
+        [self addSubview:tackButton];
+
         
         
         // add the time picker

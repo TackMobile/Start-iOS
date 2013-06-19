@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @protocol SearchSongCellDelegate <NSObject>
 -(void) textChanged:(UITextField *)textField;

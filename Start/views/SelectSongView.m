@@ -29,7 +29,7 @@
         
         // views
         CGRect screenBounds = [[UIScreen mainScreen] applicationFrame];
-        CGRect songTableRect = CGRectMake(0, 0, screenBounds.size.width*2, screenBounds.size.height);
+        CGRect songTableRect = CGRectMake(0, 0, screenBounds.size.width, screenBounds.size.height);
         CGRect songDurIndRect = CGRectMake(0, 0, 0, 2);
         
         songTableView = [[UITableView alloc] initWithFrame:songTableRect style:UITableViewStylePlain];

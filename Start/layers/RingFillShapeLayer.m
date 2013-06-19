@@ -25,6 +25,8 @@
         ringLayer.lineWidth = 1;
         ringLayer.fillColor = [[UIColor clearColor] CGColor];
         
+        ringFillColor = ringStrokeColor = handleColor = [UIColor clearColor];
+        
         shouldAnimate = NO;
         
         self.drawsAsynchronously = YES;

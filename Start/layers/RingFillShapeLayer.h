@@ -14,7 +14,7 @@
 
 @property (nonatomic, strong) id animDelegate;
 
-@property (nonatomic, strong) NSString *name;
+@property (atomic, strong) NSString *name;
 
 @property (nonatomic) bool shouldAnimate;
 
@@ -24,14 +24,14 @@
 @property (nonatomic) CGFloat startAngle;
 @property (nonatomic) CGFloat endAngle;
 
-@property (nonatomic, strong) UIColor *ringFillColor;
-@property (nonatomic, strong) UIColor *ringStrokeColor;
-@property (nonatomic, strong) UIColor *handleColor;
-@property (nonatomic, strong) UIColor *ringColor;
+@property (atomic, strong) UIColor *ringFillColor;
+@property (atomic, strong) UIColor *ringStrokeColor;
+@property (atomic, strong) UIColor *handleColor;
+@property (atomic, strong) UIColor *ringColor;
 
-@property (nonatomic, strong) CAShapeLayer *ringLayer;
-@property (nonatomic, strong) CAShapeLayer *handleLayer;
-@property (nonatomic, strong) CAShapeLayer *fillLayer;
+@property (atomic, strong) CAShapeLayer *ringLayer;
+@property (atomic, strong) CAShapeLayer *handleLayer;
+@property (atomic, strong) CAShapeLayer *fillLayer;
 
 
 - (void) setValue:(id)value forKey:(NSString *)key animated:(bool)animated;

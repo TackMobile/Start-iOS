@@ -37,9 +37,9 @@
         [clearTextButton addTarget:self action:@selector(clearButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
         [self addSubview:textField];
-        [self addSubview:clearTextButton];
         [self addSubview:searchImage];
         [self addSubview:searchDivider];
+        [self addSubview:clearTextButton];
         
         [clearTextButton setAlpha:0];
         
@@ -72,20 +72,20 @@
 #pragma mark - Positioning
 - (void) layoutSubviews {
     [super layoutSubviews];
-    
+        
     CGSize textFieldSize = [@"Search" sizeWithFont:[textField font]];
     CGSize imageSize = searchImage.frame.size;
-    CGSize clearTextSize = clearTextButton.frame.size;
     
     CGRect imageRect = CGRectMake(7, (self.frame.size.height-imageSize.height)/2 -3, imageSize.width, imageSize.height);
-    CGRect clearTextRect = CGRectMake(self.frame.size.width-clearTextSize.width-20, (self.frame.size.height-clearTextSize.height)/2 -3, clearTextSize.width, clearTextSize.height);
-    CGRect textFieldRect = CGRectMake(imageRect.origin.x+imageSize.width+7, (self.frame.size.height-textFieldSize.height)/2 -3, self.frame.size.width-imageRect.size.width-15, textFieldSize.height);
-    CGRect searchDivRect = CGRectMake(0, self.frame.size.height-11, self.frame.size.width, 1);
+    CGRect clearTextRect = CGRectMake(self.frame.size.width-40, 0, 40, self.frame.size.height);
+    CGRect textFieldRect = CGRectMake(imageRect.origin.x+imageSize.width+7, (self.frame.size.height-textFieldSize.height)/2 -3, self.frame.size.width-imageRect.size.width-30, textFieldSize.height);
+    CGRect searchDivRect = (CGRect){{0, self.frame.size.height-11},{300,1}};
     
     [searchImage setFrame:imageRect];
     [textField setFrame:textFieldRect];
     [clearTextButton setFrame:clearTextRect];
     [searchDivider setFrame:searchDivRect];
+    
 }
 
 #pragma mark - textfield delegate
@@ -126,6 +126,7 @@
 }
 -(BOOL) textFieldShouldReturn:(UITextField *)aTextField {
     [textField resignFirstResponder];
+    [clearTextButton setAlpha:0];
     if ([delegate respondsToSelector:@selector(didEndSearchingWithText:)])
         [delegate didEndSearchingWithText:[aTextField text]];
     return YES;

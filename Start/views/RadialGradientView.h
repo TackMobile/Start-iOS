@@ -10,8 +10,8 @@
 
 @interface RadialGradientView : UIView
 
-@property (strong, nonatomic) UIColor *innerColor;
-@property (strong, nonatomic) UIColor *outerColor;
+@property (strong) UIColor *innerColor;
+@property (strong) UIColor *outerColor;
 
 - (void)setInnerColor:(UIColor *)iColor outerColor:(UIColor *)oColor;
 

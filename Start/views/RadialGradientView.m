@@ -11,6 +11,16 @@
 @implementation RadialGradientView
 @synthesize innerColor, outerColor;
 
+
+- (id) init {
+    self =[super init];
+    if (self) {
+        innerColor = [UIColor colorWithWhite:.4 alpha:1];
+        outerColor = [UIColor colorWithWhite:.6 alpha:1];
+
+    }
+    return self;
+}
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
