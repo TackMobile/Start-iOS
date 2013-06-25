@@ -12,14 +12,6 @@
 	</dict>
 	<dict>
 		<key>url</key>
-		<string></string>
-		<key>title</key>
-		<string>x Calendar</string>
-		<key>iconFilename</key>
-		<string>calendar-icon</string>
-	</dict>
-	<dict>
-		<key>url</key>
 		<string>anydo://</string>
 		<key>title</key>
 		<string>Anydo</string>
