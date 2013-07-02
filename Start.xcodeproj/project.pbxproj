@@ -47,9 +47,6 @@
 		96F70072168377900020A6CB /* pocket-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F70070168377900020A6CB /* pocket-icon@2x.png */; };
 		96F700761683779A0020A6CB /* anydo-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F700741683779A0020A6CB /* anydo-icon.png */; };
 		96F700771683779A0020A6CB /* anydo-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 96F700751683779A0020A6CB /* anydo-icon@2x.png */; };
-		F311700E174AC4CE0049D6CF /* libTestFlight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F311700A174AC4CE0049D6CF /* libTestFlight.a */; };
-		F311700F174AC4CE0049D6CF /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F311700B174AC4CE0049D6CF /* README.md */; };
-		F3117010174AC4CE0049D6CF /* release_notes.md in Resources */ = {isa = PBXBuildFile; fileRef = F311700C174AC4CE0049D6CF /* release_notes.md */; };
 		F3117018174BEAA70049D6CF /* intro-lock.png in Resources */ = {isa = PBXBuildFile; fileRef = F3117016174BEAA70049D6CF /* intro-lock.png */; };
 		F3117019174BEAA70049D6CF /* intro-lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F3117017174BEAA70049D6CF /* intro-lock@2x.png */; };
 		F3143CE615C4D9AE0098A276 /* TimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = F3143CE515C4D9AE0098A276 /* TimerView.m */; };
@@ -217,10 +214,6 @@
 		EA13EE1C15FD124E004E16C7 /* hydrus.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = hydrus.wav; sourceTree = "<group>"; };
 		EA13EE2115FD1A5E004E16C7 /* lynx.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = lynx.wav; sourceTree = "<group>"; };
 		EA13EE2315FD260A004E16C7 /* phoenix.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = phoenix.wav; sourceTree = "<group>"; };
-		F311700A174AC4CE0049D6CF /* libTestFlight.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libTestFlight.a; sourceTree = "<group>"; };
-		F311700B174AC4CE0049D6CF /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		F311700C174AC4CE0049D6CF /* release_notes.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = release_notes.md; sourceTree = "<group>"; };
-		F311700D174AC4CE0049D6CF /* TestFlight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestFlight.h; sourceTree = "<group>"; };
 		F3117016174BEAA70049D6CF /* intro-lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro-lock.png"; sourceTree = "<group>"; };
 		F3117017174BEAA70049D6CF /* intro-lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "intro-lock@2x.png"; sourceTree = "<group>"; };
 		F3143CE415C4D9AD0098A276 /* TimerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TimerView.h; path = views/TimerView.h; sourceTree = "<group>"; };
@@ -386,24 +379,12 @@
 				F383C17A158B851200B91F31 /* Foundation.framework in Frameworks */,
 				F383C17C158B851200B91F31 /* CoreGraphics.framework in Frameworks */,
 				F3FD677215A741730002AFC9 /* libz.dylib in Frameworks */,
-				F311700E174AC4CE0049D6CF /* libTestFlight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F3117009174AC4CE0049D6CF /* TestFlightSDK1.2.5 */ = {
-			isa = PBXGroup;
-			children = (
-				F311700A174AC4CE0049D6CF /* libTestFlight.a */,
-				F311700B174AC4CE0049D6CF /* README.md */,
-				F311700C174AC4CE0049D6CF /* release_notes.md */,
-				F311700D174AC4CE0049D6CF /* TestFlight.h */,
-			);
-			path = TestFlightSDK1.2.5;
-			sourceTree = "<group>";
-		};
 		F31670F715A24F8C00725274 /* icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -623,7 +604,6 @@
 		F383C168158B851100B91F31 = {
 			isa = PBXGroup;
 			children = (
-				F3117009174AC4CE0049D6CF /* TestFlightSDK1.2.5 */,
 				965179D1166D3082004A18A1 /* Icon-72@2x.png */,
 				965179CF166D3079004A18A1 /* Icon-72.png */,
 				96BC44E21635EA7000707007 /* Default-568h@2x.png */,
@@ -972,8 +952,6 @@
 				F335FA1F16CB5E9800ECF8AB /* readmill-icon@2x.png in Resources */,
 				F335FA3316CB623B00ECF8AB /* tap-icon.png in Resources */,
 				F335FA3416CB623B00ECF8AB /* tap-icon@2x.png in Resources */,
-				F311700F174AC4CE0049D6CF /* README.md in Resources */,
-				F3117010174AC4CE0049D6CF /* release_notes.md in Resources */,
 				F3117018174BEAA70049D6CF /* intro-lock.png in Resources */,
 				F3117019174BEAA70049D6CF /* intro-lock@2x.png in Resources */,
 			);
@@ -1109,7 +1087,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Nick Place (PLTW5M3579)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nick Place (PLTW5M3579)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Start/Start-Prefix.pch";
@@ -1123,6 +1101,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1132,7 +1111,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Nick Place (PLTW5M3579)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Nick Place (PLTW5M3579)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Start/Start-Prefix.pch";
@@ -1146,6 +1125,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};

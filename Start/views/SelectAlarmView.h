@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TestFlight.h"
 
 @protocol SelectAlarmViewDelegate <NSObject>
 - (void) alarmAdded;

@@ -14,7 +14,6 @@
 #import "SearchSongCell.h"
 #import "LeftHeaderView.h"
 #import "ReturnButtonView.h"
-#import "TestFlight.h"
 
 @protocol SelectSongViewDelegate <NSObject>
 -(BOOL) expandSelectSongView;

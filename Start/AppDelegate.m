@@ -18,8 +18,6 @@
 {    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    [TestFlight takeOff:@"8c164a2e084013eae880e49cf6a4e005_NTU1MTAyMDEyLTAzLTIyIDE4OjE2OjE5LjAzNzQ2OA"];
-
     self.viewController = [[MasterViewController alloc] initWithNibName:@"ViewController_iPhone" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];

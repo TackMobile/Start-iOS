@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "TestFlight.h"
 
 @class MasterViewController;
 
