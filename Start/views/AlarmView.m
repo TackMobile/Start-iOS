@@ -161,7 +161,7 @@ const float Spacing = 0.0f;
     alertLabel.text = message;
     [self addSubview:alertLabel];
     
-    [UIView animateWithDuration:.5 delay:2 options:nil animations:^{
+    [UIView animateWithDuration:.5 delay:2 options:0 animations:^{
         alertLabel.alpha = 0;
     } completion:^(BOOL finished) {
         [alertLabel removeFromSuperview];
@@ -213,7 +213,10 @@ const float Spacing = 0.0f;
         
         // dateAlarmPicked
         if (![self extendKey:@"dateAlarmPicked" fromDict:alarmInfo toDict:extendedInfoTemplate]) {
-            [extendedInfoTemplate setObject:[alarmInfo objectForKey:@"dateSet"] forKey:@"dateAlarmPicked"];
+            if ([alarmInfo objectForKey:@"dateSet"])
+                [extendedInfoTemplate setObject:[alarmInfo objectForKey:@"dateSet"] forKey:@"dateAlarmPicked"];
+            else
+                [extendedInfoTemplate setObject:[NSDate date] forKey:@"dateAlarmPicked"];
         }
         
         // stopwatchDateBegan
