@@ -45,7 +45,7 @@ const float optionHeight = 40;
                      @"Create a new space",
                      @"Tap to switch alarm or timer",
                      @"Set time, sound and action" ,
-                     @"Fick up to activate",
+                     @"Flick up to activate",
                      @"Flick down for stopwatch",
                      @"Pinch to delete",
                      @"Keep open for music alarms", nil];
