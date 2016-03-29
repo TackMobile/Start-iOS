@@ -9,12 +9,10 @@
 #import <QuartzCore/QuartzCore.h>
 #define DEGREES_TO_RADIANS(degrees) ((M_PI * degrees)/ 180)
 
-@interface RingFillShapeLayer : CALayer {
-}
-
+@interface RingFillShapeLayer : CALayer 
 @property (nonatomic, strong) id animDelegate;
 
-@property (atomic, strong) NSString *name;
+@property (atomic, strong) NSString *ringName;
 
 @property (nonatomic) bool shouldAnimate;
 
@@ -35,6 +33,5 @@
 
 
 - (void) setValue:(id)value forKey:(NSString *)key animated:(bool)animated;
-
 
 @end

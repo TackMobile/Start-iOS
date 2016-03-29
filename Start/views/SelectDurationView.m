@@ -695,8 +695,8 @@
     innerFill = [[RingFillShapeLayer alloc] init];
     outerFill = [[RingFillShapeLayer alloc] init];
     
-    outerFill.name = @"OUTER FILL";
-    innerFill.name = @"INNER FILL";
+    outerFill.ringName = @"OUTER FILL";
+    innerFill.ringName = @"INNER FILL";
     
     innerFill.animDelegate = self;
     outerFill.animDelegate = self;
