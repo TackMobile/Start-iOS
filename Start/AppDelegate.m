@@ -11,18 +11,13 @@
 #import "MasterViewController.h"
 
 @implementation AppDelegate
-@synthesize window = _window;
-@synthesize viewController = _viewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
     self.viewController = [[MasterViewController alloc] initWithNibName:@"ViewController_iPhone" bundle:nil];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
-    NSLog(@"launched %@", [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]);
-    
 
     // respond to a localnotification being opened
     UILocalNotification *localNotification = [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey];
@@ -32,15 +27,6 @@
     }
     return YES;
 }
-
-
-
-- (BOOL) application:(UIApplication *)application willFinishLaunchingWithOptions:(NSDictionary *)launchOptions{
-    
-    NSLog(@"launched %@", [launchOptions objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]);
-    return YES;
-}
-
 
 // when the app is kept in the foreground, this is fired
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -78,37 +64,8 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    NSLog(@"------------------------------------did enter background");
-    
     [self.viewController scheduleLocalNotificationsForActiveState:NO];
     [self.viewController saveAlarms];
-    
-   /* bgTask = [application beginBackgroundTaskWithExpirationHandler:^{
-        [application endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    }];
-    
-    // Start the long-running task and return immediately. 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        while ([[UIApplication sharedApplication] applicationState] != UIApplicationStateActive) {
-            //bool anySet = NO;
-            for (AlarmView *alarm in self.viewController.alarms) {
-                if (alarm.isSet && floorf([[alarm getDate] timeIntervalSinceNow]) < .5) {
-                    if (!alarm.countdownEnded) {
-                        [alarm alarmCountdownEnded];
-                        [self.viewController switchAlarmWithIndex:alarm.index];
-                    }
-                }
-            }
-        }
-        
-        [application endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    });*/
-    
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -121,21 +78,9 @@
     }
 }
 
-- (void)applicationWillTerminate:(UIApplication *)application
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification
 {
-    NSLog(@"terminated");
-}
-
--(void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-    NSLog(@"error: %@", error);
-}
-
-- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification{
-    NSLog(@"didRecieveLocalNotification");
-    
     [self.viewController respondedToLocalNot];
-    
-    
 }
 
 @end

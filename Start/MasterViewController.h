@@ -21,7 +21,6 @@ enum SwitchAlarmDirection {
 };
 
 @interface MasterViewController : UIViewController <SelectAlarmViewDelegate, AlarmViewDelegate, AVAudioPlayerDelegate, SettingsViewDelegate> {
-    
     CGRect prevAlarmRect;
     CGRect currAlarmRect;
     float asideOffset;
@@ -33,16 +32,7 @@ enum SwitchAlarmDirection {
     NSArray *userAlarms;
 }
 
-//extern const float Spacing;
-
-@property (nonatomic, strong) SettingsView *settingsView;
-@property (nonatomic, strong) MusicPlayer *musicPlayer;
 @property (nonatomic, strong) NSMutableArray *alarms;
-@property (nonatomic, strong) SelectAlarmView *selectAlarmView;
-@property (nonatomic, strong) PListModel *pListModel;
-@property (nonatomic, strong) NSTimer *tickTimer;
-
-@property (nonatomic, strong) UIButton *addButton;
 
 - (void) saveAlarms;
 - (void) scheduleLocalNotificationsForActiveState:(bool)isActive;

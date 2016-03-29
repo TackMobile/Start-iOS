@@ -6,10 +6,7 @@
 //  Copyright (c) 2012 TackMobile. All rights reserved.
 //
 
-//#define DEGREES_TO_RADIANS(degrees) ((M_PI * degrees)/ 180)
 #import "SelectDurationView.h"
-
-//#import <QuartzCore/QuartzCore.h>
 
 @implementation SelectDurationView
 @synthesize handleSelected, draggingOrientation, theme;

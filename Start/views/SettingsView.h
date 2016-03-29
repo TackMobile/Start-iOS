@@ -18,9 +18,6 @@
 
 @interface SettingsView : UIView <UIScrollViewDelegate> {
     UIImageView *bgImage;
-    
-   // UILabel *tackCopy;
-    //UIImageView *tackLogo;
     UIButton *tackButton;
     
     UIImageView *underline;
