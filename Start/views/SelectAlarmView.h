@@ -13,12 +13,7 @@
 - (void) switchAlarmWithIndex:(int)index;
 @end
 
-@interface SelectAlarmView : UIView {
-    int numAlarms;
-    NSMutableArray *alarmButtons;
-    
-    float restedY;
-}
+@interface SelectAlarmView : UIView
 
 @property (nonatomic, strong) id<SelectAlarmViewDelegate> delegate;
 
