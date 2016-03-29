@@ -10,18 +10,20 @@
 
 @interface StopwatchViewController ()
 
+@property (strong, nonatomic) TimerView *timerView;
+@property (nonatomic, strong) UILabel *pausedLabel;
+@property (nonatomic, strong) UILabel *timerLabel;
+
 @end
 
 @implementation StopwatchViewController
-@synthesize timerLabel, pausedLabel, timerView;
 
 - (id)init
 {
     self = [super init];
     if (self) {
-        timerLabel = [[UILabel alloc] init];
-        pausedLabel = [[UILabel alloc] init];
-        
+        _timerLabel = [[UILabel alloc] init];
+        _pausedLabel = [[UILabel alloc] init];
     }
     return self;
 }
@@ -31,30 +33,30 @@
     CGRect timerLabelRect = CGRectMake(0, 100, self.view.frame.size.width, 100);
     CGRect pauseLabelRect = CGRectMake(0, 200, self.view.frame.size.width, 70);
 
-    timerLabel.frame = timerLabelRect;
+    self.timerLabel.frame = timerLabelRect;
         
     UIFont *timerFont = [UIFont fontWithName:@"Roboto-Thin" size:80];
-    [timerLabel setTextAlignment:NSTextAlignmentCenter];
-    [timerLabel setTextColor:[UIColor whiteColor]];
-    [timerLabel setBackgroundColor:[UIColor clearColor]];
-    [timerLabel setFont:timerFont];
+    [self.timerLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.timerLabel setTextColor:[UIColor whiteColor]];
+    [self.timerLabel setBackgroundColor:[UIColor clearColor]];
+    [self.timerLabel setFont:timerFont];
     
-    [timerLabel setText:@"00:00:00"];
+    [self.timerLabel setText:@"00:00:00"];
     
     // paused label
-    pausedLabel.frame = pauseLabelRect;
+    self.pausedLabel.frame = pauseLabelRect;
     UIFont *pauseFont = [UIFont fontWithName:@"Roboto-Thin" size:25];
-    [pausedLabel setTextAlignment:NSTextAlignmentCenter];
-    [pausedLabel setTextColor:[UIColor whiteColor]];
-    [pausedLabel setBackgroundColor:[UIColor clearColor]];
-    [pausedLabel setFont:pauseFont];
-    pausedLabel.alpha = 0;
-    pausedLabel.numberOfLines = 0;
-    [pausedLabel setText:@"Paused.\nTap again to reset"];
+    [self.pausedLabel setTextAlignment:NSTextAlignmentCenter];
+    [self.pausedLabel setTextColor:[UIColor whiteColor]];
+    [self.pausedLabel setBackgroundColor:[UIColor clearColor]];
+    [self.pausedLabel setFont:pauseFont];
+    self.pausedLabel.alpha = 0;
+    self.pausedLabel.numberOfLines = 0;
+    [self.pausedLabel setText:@"Paused.\nTap again to reset"];
     
     // add them
-    [self.view addSubview:pausedLabel];
-    [self.view addSubview:timerLabel];
+    [self.view addSubview:_pausedLabel];
+    [self.view addSubview:_timerLabel];
 }
 
 - (void) updateWithDate:(NSDate *)newDate {
@@ -64,7 +66,7 @@
     int minutes = secRemaining / 60 - hours * 60;
     int seconds = secRemaining - minutes * 60 - hours * 3600;
     
-    [timerLabel setText:[NSString stringWithFormat:@"%02i:%02i:%02i", hours, minutes, seconds]];
+    [self.timerLabel setText:[NSString stringWithFormat:@"%02i:%02i:%02i", hours, minutes, seconds]];
 }
 
 @end

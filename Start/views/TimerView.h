@@ -10,8 +10,6 @@
 
 @interface TimerView : UIView
 
-@property (nonatomic, strong) UILabel *timerLabel;
-
 - (void) updateWithDate:(NSDate *)newDate;
 
 @end
