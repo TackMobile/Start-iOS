@@ -13,9 +13,4 @@
 @property (nonatomic, strong) UILabel *actionTitle;
 @property (nonatomic, strong) UIImageView *icon;
 
-@property float labelOpacity;
-
--(void) hide;
--(void) show;
-
 @end
