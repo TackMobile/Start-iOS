@@ -8,29 +8,30 @@
 
 #import "RingFillShapeLayer.h"
 
+@interface RingFillShapeLayer()
+
+@property (atomic, strong) CAShapeLayer *ringLayer;
+@property (atomic, strong) CAShapeLayer *handleLayer;
+@property (atomic, strong) CAShapeLayer *fillLayer;
+
+@end
+
 @implementation RingFillShapeLayer
-
-@dynamic innerRadius, outerRadius, startAngle, endAngle;
-@synthesize animDelegate;
-@synthesize ringFillColor, ringStrokeColor, handleColor;
-@synthesize ringLayer, fillLayer, shouldAnimate, name;
-
 
 - (id) init {
     if (self = [super init]) {
-        fillLayer = [[CAShapeLayer alloc] init];
+        _fillLayer = [[CAShapeLayer alloc] init];
         _handleLayer = [[CAShapeLayer alloc] init];
-        ringLayer = [[CAShapeLayer alloc] init];
+        _ringLayer = [[CAShapeLayer alloc] init];
         
-        ringLayer.lineWidth = 1;
-        ringLayer.fillColor = [[UIColor clearColor] CGColor];
+        _ringLayer.lineWidth = 1;
+        _ringLayer.fillColor = [[UIColor clearColor] CGColor];
         
-        ringFillColor = ringStrokeColor = handleColor = [UIColor clearColor];
+        _ringFillColor = _ringStrokeColor = _handleColor = [UIColor clearColor];
         
-        shouldAnimate = NO;
+        _shouldAnimate = NO;
         
         self.drawsAsynchronously = YES;
-        
     }
     return  self;
 }
@@ -39,22 +40,22 @@
     if (self = [super initWithLayer:layer]) {
         if ([layer isKindOfClass:[RingFillShapeLayer class]]) {
             RingFillShapeLayer *other = (RingFillShapeLayer *)layer;
-            self.startAngle = other.startAngle;
-            self.endAngle = other.endAngle;
-            self.outerRadius = other.outerRadius;
-            self.innerRadius = other.innerRadius;
-            self.ringFillColor = other.ringFillColor;
-            self.handleColor = other.handleColor;
-            self.ringStrokeColor = other.ringStrokeColor;
+            _startAngle = other.startAngle;
+            _endAngle = other.endAngle;
+            _outerRadius = other.outerRadius;
+            _innerRadius = other.innerRadius;
+            _ringFillColor = other.ringFillColor;
+            _handleColor = other.handleColor;
+            _ringStrokeColor = other.ringStrokeColor;
         }
     }
-    
     return self;
 }
+
 #pragma mark - properties
 
 - (void) setValue:(id)value forKey:(NSString *)key animated:(bool)animated {
-    shouldAnimate = animated;
+    self.shouldAnimate = animated;
     
     [self setValue:value forKey:key];
 }
@@ -62,7 +63,6 @@
 
 
 + (NSSet *)keyPathsForValuesAffectingContent {
-    
     static NSSet *keys = nil;
     
     if (!keys)
@@ -75,8 +75,7 @@
 #pragma  mark - display
 
 + (BOOL)needsDisplayForKey:(NSString*)key {
-    NSArray *keysThatNeedDisplay = [NSArray arrayWithObjects:@"innerRadius", @"outerRadius",
-                                    @"startAngle", @"endAngle", nil];
+    NSArray *keysThatNeedDisplay = @[@"innerRadius", @"outerRadius", @"startAngle", @"endAngle"];
     
     if ([keysThatNeedDisplay containsObject:key]) {
         return YES;
@@ -86,7 +85,7 @@
 }
 
 -(id<CAAction>)actionForKey:(NSString *)event {
-	if ([RingFillShapeLayer needsDisplayForKey:event] && shouldAnimate) {
+	if ([RingFillShapeLayer needsDisplayForKey:event] && self.shouldAnimate) {
 		return [self makeAnimationForKey:event];
 	}
 	
@@ -99,13 +98,12 @@
 	anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
 	anim.duration = .5;
     
-    anim.delegate = animDelegate;
+    anim.delegate = self.animDelegate;
     
 	return anim;
 }
 
 - (void) drawInContext:(CGContextRef)ctx {
-        
     UIGraphicsPushContext(ctx);
     
     float beginAngle = DEGREES_TO_RADIANS(-90);
@@ -122,21 +120,17 @@
     
     UIBezierPath *ringPath = [UIBezierPath bezierPathWithArcCenter:center radius:self.outerRadius startAngle:0 endAngle:M_PI*2 clockwise:YES];
     
-    
     // DRAW THE LAYERS
-    [ringFillColor setFill];
+    [self.ringFillColor setFill];
     if (self.startAngle != self.endAngle && fabs(self.startAngle-self.endAngle) < 6.261)
         [circlePath fill];
     
-    [handleColor setStroke];
+    [self.handleColor setStroke];
     handlePath.lineWidth = 2.0;
     [handlePath stroke];
     
-    [ringStrokeColor setStroke];
+    [self.ringStrokeColor setStroke];
     [ringPath stroke];
-    
-    // testing
-    
 }
 
 #pragma mark - utilities
@@ -152,7 +146,5 @@
 CGPoint CGPointAddPoint(CGPoint p1, CGPoint p2) {
     return CGPointMake(p1.x+p2.x, p1.y+p2.y);
 }
-
-
 
 @end

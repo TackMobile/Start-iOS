@@ -8,8 +8,13 @@
 
 #import "TimerView.h"
 
+@interface TimerView()
+
+@property (nonatomic, strong) UILabel *timerLabel;
+
+@end
+
 @implementation TimerView
-@synthesize timerLabel;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -17,18 +22,17 @@
     if (self) {
         CGRect labelRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
         
-        timerLabel = [[UILabel alloc] initWithFrame:labelRect];
+        _timerLabel = [[UILabel alloc] initWithFrame:labelRect];
         
-        [self addSubview:timerLabel];
+        [self addSubview:_timerLabel];
         
         UIFont *timerFont = [UIFont fontWithName:@"Roboto-Thin" size:80];
-        [timerLabel setTextAlignment:NSTextAlignmentCenter];
-        [timerLabel setTextColor:[UIColor whiteColor]];
-        [timerLabel setBackgroundColor:[UIColor clearColor]];
-        [timerLabel setFont:timerFont];
+        [_timerLabel setTextAlignment:NSTextAlignmentCenter];
+        [_timerLabel setTextColor:[UIColor whiteColor]];
+        [_timerLabel setBackgroundColor:[UIColor clearColor]];
+        [_timerLabel setFont:timerFont];
         
-        [timerLabel setText:@"00:00:00"];
-        
+        [_timerLabel setText:@"00:00:00"];
     }
     return self;
 }
@@ -40,7 +44,7 @@
     int minutes = secRemaining / 60 - hours * 60;
     int seconds = secRemaining - minutes * 60 - hours * 3600;
     
-    [timerLabel setText:[NSString stringWithFormat:@"%02i:%02i:%02i", hours, minutes, seconds]];
+    self.timerLabel.text = [NSString stringWithFormat:@"%02i:%02i:%02i", hours, minutes, seconds];
 }
 
 @end

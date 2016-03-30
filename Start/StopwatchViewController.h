@@ -9,13 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "TimerView.h"
 
-@interface StopwatchViewController : UIViewController {
-}
-
-@property (strong, nonatomic)     TimerView *timerView;
-
-@property (nonatomic, strong) UILabel *pausedLabel;
-@property (nonatomic, strong) UILabel *timerLabel;
+@interface StopwatchViewController : UIViewController
 
 - (void) updateWithDate:(NSDate *)newDate;
 
