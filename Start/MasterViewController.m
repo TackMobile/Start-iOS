@@ -125,7 +125,7 @@
         if ([(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue]) {
             
             NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                      [NSNumber numberWithInt:alarmView.index], @"alarmIndex", nil];
+                                      [NSNumber numberWithInt:alarmView.alarmIndex], @"alarmIndex", nil];
 
             
             if (isActive && ([[alarmInfo objectForKey:@"songID"] intValue] > 6
@@ -212,7 +212,7 @@
 }
 
 - (void)addAlarmWithInfo:(NSDictionary *)alarmInfo switchTo:(BOOL)switchToAlarm {
-    currAlarmIndex = [self.alarms count];
+    currAlarmIndex = self.alarms.count;
     AlarmView *newAlarm = [[AlarmView alloc] initWithFrame:prevAlarmRect
                                                      index:currAlarmIndex
                                                   delegate:self
@@ -233,7 +233,7 @@
 // used when deleting an alarm
 -(void)updateAlarmIndexes {
     for (int i=[self.alarms count]-1; i>=0; i--)
-        [[self.alarms objectAtIndex:i] setIndex:i];
+        [[self.alarms objectAtIndex:i] setAlarmIndex:i];
 }
 
 #pragma mark - Touches
@@ -287,7 +287,7 @@
     float animOffset = (index-currAlarmIndex)*(asideOffset) - currOffset;
     
     for (AlarmView *alarmView in self.alarms) {
-        CGRect newAlarmRect = CGRectOffset(currAlarmRect, ((currAlarmIndex - alarmView.index)*(asideOffset) + currOffset) , 0);
+        CGRect newAlarmRect = CGRectOffset(currAlarmRect, ((currAlarmIndex - alarmView.alarmIndex)*(asideOffset) + currOffset) , 0);
         CGRect animateToRect = CGRectOffset(newAlarmRect, animOffset, 0);
         
         [alarmView setFrame:newAlarmRect];
@@ -347,7 +347,7 @@
     if (![alarmView canMove])
         return;
     
-    int alarmIndex = alarmView.index;
+    int alarmIndex = alarmView.alarmIndex;
     
     if (fabsf(xVel) > 15) {
         if (xVel < 0)
@@ -380,7 +380,7 @@
     
     // make selectalarmview float off with alarm
     float xOrigin = 0;
-    if (alarmView.index == self.alarms.count-1 && alarmRect.origin.x > 0) {
+    if (alarmView.alarmIndex == self.alarms.count-1 && alarmRect.origin.x > 0) {
         xOrigin = alarmRect.origin.x;
     }
     
@@ -397,7 +397,7 @@
 
 - (void)alarmView:(AlarmView *)alarmView stoppedDraggingWithX:(float)x {
 
-    int alarmIndex = alarmView.index;
+    int alarmIndex = alarmView.alarmIndex;
     
     if (fabsf(x) > currAlarmRect.size.width / 2) {
         if (x < 0){
@@ -436,7 +436,7 @@
     
     [self.alarms removeObject:alarmView];
     [alarmView setIsSet:NO];
-    [self.selectAlarmView deleteAlarm:alarmView.index];
+    [self.selectAlarmView deleteAlarm:alarmView.alarmIndex];
     [self updateAlarmIndexes];
     
     [UIView animateWithDuration:.15 animations:^{
@@ -453,7 +453,7 @@
 }
 
 - (void)alarmCountdownEnded:(AlarmView *)alarmView {
-    [self switchAlarmWithIndex:alarmView.index];
+    [self switchAlarmWithIndex:alarmView.alarmIndex];
     if ([[alarmView.alarmInfo objectForKey:@"songID"] intValue] > 6 ||
         [[alarmView.alarmInfo objectForKey:@"songID"] intValue] < 0 )
     [self.musicPlayer playSongWithID:[alarmView.alarmInfo objectForKey:@"songID"] vibrate:YES];

@@ -185,9 +185,7 @@
 - (void)willReloadData {
 }
 - (void)didReloadData {
-    if (needsQuickSelect) {
-        //NSLog(@"layouting. selectedindex:%i", selectedIndexPath.row);
-        
+    if (needsQuickSelect) {        
         [self quickSelectCell];
         needsQuickSelect = NO;
     }

@@ -52,7 +52,7 @@
                 if (alarm.isSet && floorf([[alarm getDate] timeIntervalSinceNow]) < .5) {
                     if (!alarm.countdownEnded) {
                         [alarm alarmCountdownEnded];
-                        [self.viewController switchAlarmWithIndex:alarm.index];
+                        [self.viewController switchAlarmWithIndex:alarm.alarmIndex];
                     }
                 }
             }

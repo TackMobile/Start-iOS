@@ -5,8 +5,6 @@
 //  Created by Nick Place on 6/15/12.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
-//#define NSLog TFLog
-//#define NSLog(__FORMAT__, ...) TFLog((@"%s [Line %d] " __FORMAT__), __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
@@ -47,9 +45,6 @@ enum AlarmViewShouldSet {
     AlarmViewShouldNone
 };
 
-/*NSString * const a;
-NSString * const kMyTagSecondtItemType;*/
-
 @interface AlarmView : UIView <SelectDurationViewDelegate, SelectSongViewDelegate, SelectActionViewDelegate> {
     CGRect selectedTimeRect;
     CGRect selectDurRect;
@@ -60,7 +55,6 @@ NSString * const kMyTagSecondtItemType;*/
     CGRect countdownRect;
     CGRect stopwatchRect;
     CGRect radialRect;
-//  CGRect bgImageRect;
     
     MusicManager *musicManager;
     
@@ -69,7 +63,6 @@ NSString * const kMyTagSecondtItemType;*/
     bool pickingSong;
     bool pickingAction;
     bool cancelTouch;
-    bool isSnoozing;
     
     bool hasLoaded;
     
@@ -91,13 +84,12 @@ extern const float Spacing;
 @property bool isStopwatchMode;
 @property bool isTimerMode;
 @property bool isSnoozing;
-@property int index;
+@property (nonatomic) int alarmIndex;
 
 @property (nonatomic, strong) NSMutableDictionary *alarmInfo;
 
 @property (nonatomic, strong) RadialGradientView *radialGradientView;
 
-//@property (nonatomic, strong) UIImageView *backgroundImage;
 @property (nonatomic, strong) UIImageView *patternOverlay;
 @property (nonatomic, strong) UIImageView *toolbarImage;
 @property (nonatomic, strong) UIImageView *selectAlarmBg;

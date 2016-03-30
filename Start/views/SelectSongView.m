@@ -54,7 +54,7 @@
                                 [UIImage imageNamed:@"tone-icon"], [UIImage imageNamed:@"song-icon"], nil];
         for (int i=1; i<4; i++) {
             if (i == 3 && [librarySongs count] == 0) {
-                //TFLog(@"there are no library songs loaded");
+                //Breaks if there are no library songs loaded
                 break;
             }
             
