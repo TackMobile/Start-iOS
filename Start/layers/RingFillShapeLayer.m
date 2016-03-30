@@ -18,6 +18,8 @@
 
 @implementation RingFillShapeLayer
 
+@dynamic innerRadius, outerRadius, startAngle, endAngle;
+
 - (id) init {
     if (self = [super init]) {
         _fillLayer = [[CAShapeLayer alloc] init];
@@ -40,10 +42,10 @@
     if (self = [super initWithLayer:layer]) {
         if ([layer isKindOfClass:[RingFillShapeLayer class]]) {
             RingFillShapeLayer *other = (RingFillShapeLayer *)layer;
-            _startAngle = other.startAngle;
-            _endAngle = other.endAngle;
-            _outerRadius = other.outerRadius;
-            _innerRadius = other.innerRadius;
+            self.startAngle = other.startAngle;
+            self.endAngle = other.endAngle;
+            self.outerRadius = other.outerRadius;
+            self.innerRadius = other.innerRadius;
             _ringFillColor = other.ringFillColor;
             _handleColor = other.handleColor;
             _ringStrokeColor = other.ringStrokeColor;
