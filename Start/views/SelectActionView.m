@@ -35,8 +35,6 @@
         [actionTableView setBackgroundColor:[UIColor clearColor]];
         
         [self addSubview:actionTableView];
-        
-        // TESTING
     }
     return self;
 }
@@ -76,7 +74,7 @@
 #pragma mark - Positioning
 
 - (void) actionSelectedAtIndexPath:(NSIndexPath *)indexPath {
-   // NSNumber *actionID = [NSNumber numberWithInt:indexPath.row];
+
     NSString *actionTitle = [(NSDictionary *)[actions objectAtIndex:indexPath.row] objectForKey:@"title"];
     
     if ([delegate respondsToSelector:@selector(actionSelected:)])

@@ -37,7 +37,7 @@ const float spacer = -2;
         
         [self addSubview:songLabel];
         [self addSubview:artistLabel];
-        
+        self.backgroundColor = [UIColor clearColor];
         [self layoutSubviews];
         
         // gestureRecognizer

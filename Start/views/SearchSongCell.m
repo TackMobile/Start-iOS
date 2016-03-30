@@ -40,7 +40,7 @@
         [self addSubview:searchImage];
         [self addSubview:searchDivider];
         [self addSubview:clearTextButton];
-        
+        self.backgroundColor = [UIColor clearColor];
         [clearTextButton setAlpha:0];
         
         // notifications
