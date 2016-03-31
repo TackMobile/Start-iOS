@@ -435,8 +435,8 @@
         NSMutableArray *applicableSongs = [[NSMutableArray alloc] init];
         
         for (MPMediaItem *mediaItem in librarySongs) {
-            if ([[mediaItem valueForKey:MPMediaItemPropertyTitle] rangeOfString:searchString].location != NSNotFound ||
-                [[mediaItem valueForKey:MPMediaItemPropertyArtist] rangeOfString:searchString].location != NSNotFound) {
+            if ([[mediaItem valueForKey:MPMediaItemPropertyTitle] rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound ||
+                [[mediaItem valueForKey:MPMediaItemPropertyArtist] rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound) {
                 [applicableSongs addObject:mediaItem];
             }
         }
