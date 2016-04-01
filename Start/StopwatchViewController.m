@@ -7,6 +7,7 @@
 //
 
 #import "StopwatchViewController.h"
+#import "LocalizedStrings.h"
 
 @interface StopwatchViewController ()
 
@@ -52,7 +53,7 @@
     [self.pausedLabel setFont:pauseFont];
     self.pausedLabel.alpha = 0;
     self.pausedLabel.numberOfLines = 0;
-    [self.pausedLabel setText:@"Paused.\nTap again to reset"];
+    self.pausedLabel.text = [LocalizedStrings timerPaused];
     
     // add them
     [self.view addSubview:_pausedLabel];

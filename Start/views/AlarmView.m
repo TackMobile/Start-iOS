@@ -7,6 +7,7 @@
 //
 
 #import "AlarmView.h"
+#import "LocalizedStrings.h"
 
 @implementation AlarmView
 
@@ -80,7 +81,7 @@ const float Spacing = 0.0f;
         _deleteLabel.alpha = 0;
         _deleteLabel.textAlignment = NSTextAlignmentCenter;
         _deleteLabel.numberOfLines = 0;
-        _deleteLabel.text = @"Pinch to Delete";
+        _deleteLabel.text = [LocalizedStrings pinchToDelete];
                 
         _patternOverlay.image = [UIImage imageNamed:@"grid"];
                 
