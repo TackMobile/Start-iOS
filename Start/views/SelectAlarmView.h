@@ -10,17 +10,18 @@
 
 @protocol SelectAlarmViewDelegate <NSObject>
 - (void) alarmAdded;
-- (void) switchAlarmWithIndex:(int)index;
+- (void) switchAlarmWithIndex:(NSInteger)index;
 @end
 
 @interface SelectAlarmView : UIView
 
 @property (nonatomic, strong) id<SelectAlarmViewDelegate> delegate;
 
-- (void) deleteAlarm:(int)index;
-- (void) makeAlarmActiveAtIndex:(int)index;
-- (void) makeAlarmSetAtIndex:(int)index percent:(float)percent;
+- (void) deleteAlarm:(NSInteger)index;
+- (void) makeAlarmActiveAtIndex:(NSInteger)index;
+- (void) makeAlarmSetAtIndex:(NSInteger)index percent:(float)percent;
 - (void) addAlarmAnimated:(bool)animated;
 - (id) initWithFrame:(CGRect)frame delegate:(id<SelectAlarmViewDelegate>)aDelegate;
+- (void)plusButtonTapped:(id)button;
 
 @end

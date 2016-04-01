@@ -133,9 +133,9 @@
         touchVel = CGSizeMake(parentTouchLoc.x-parentPrevTouchLoc.x, parentTouchLoc.y-parentPrevTouchLoc.y);
         
         if (draggingOrientation == SelectDurationDraggingNone) {
-            if (fabsf(touchVel.width) > fabsf(touchVel.height))
+            if (fabs(touchVel.width) > fabs(touchVel.height))
                 draggingOrientation = SelectDurationDraggingHoriz;
-            else if (fabsf(touchVel.height) > fabsf(touchVel.width))
+            else if (fabs(touchVel.height) > fabs(touchVel.width))
                 draggingOrientation = SelectDurationDraggingVert;
             else 
                 draggingOrientation = SelectDurationDraggingNone;
@@ -156,7 +156,6 @@
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    //_date = [self getDate];
     _secondsSinceMidnight = (int)[self getSecondsFromZero];
     changing = NO;
 
@@ -197,8 +196,7 @@
     outerStartAngle = 0;
     innerStartAngle = 0;
     
-    //disableUpdateAngles = YES;
-    
+
     // save the current inner handle positions
     float saveInnerEnd = innerFill.endAngle;
     float saveOuterEnd = outerFill.endAngle;
@@ -251,8 +249,6 @@
     else
         outerFill.startAngle = M_PI * 2;
     
-    //[self setSecondsFromZero:seconds];
-
     [self update];
     
     switchingModes = NO;
@@ -287,22 +283,6 @@
     outerFill.outerRadius = outerRadius;
 
 }
-/*
-- (void) animateCompressByRatio:(float)ratio {
-    innerFill.shouldAnimate = outerFill.shouldAnimate = YES;
-    
-    if (ratio == 0)
-        outerRadius = innerRadius = centerRadius;
-    else {
-        outerRadius = origOuterRadius;
-        innerRadius = origInnerRadius;
-    }
-    
-    [self updateLayersAnimated:YES];
-    
-    innerFill.shouldAnimate = outerFill.shouldAnimate = NO;
-
-}*/
 
 - (void) setStopwatchMode:(BOOL)on {
     isStopwatchMode = on;
@@ -313,19 +293,6 @@
     theme = newTheme;
     [self updateLayers];
 }
-/*
-- (void) updateAngles {
-    
-}
-
--(NSTimeInterval) getDuration {
-    int min = (int)roundf(outerAngle/(M_PI*2/60));
-    int hour = (int)roundf(innerAngle/(M_PI*2/24));
-    NSLog(@"%i", hour*3600 + min*60);
-    return hour*3600 + min*60;
-}
-*/
-
 
 - (void) updateTimerTick:(NSTimer *)timer {
     if (!switchingModes && handleSelected == SelectDurationNoHandle)
@@ -339,28 +306,13 @@
     
     NSDateComponents *dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[NSDate date]];
     
-    int nowMinute = dateComponents.minute;
-    int nowHour = dateComponents.hour;
+    NSInteger nowMinute = dateComponents.minute;
+    NSInteger nowHour = dateComponents.hour;
     
     if (isTimerMode) {
         if (isTiming) {
             // move handles closer to zero
             [self setSecondsFromZero:(int)[[NSDate dateWithTimeInterval:timerDuration sinceDate:_timerBeganDate] timeIntervalSinceNow]];
-            
-            /*dateComponents = [gregorian components:(NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:[_timerBeganDate dateByAddingTimeInterval:timerDuration]];
-            
-            int timerMinute = dateComponents.minute;
-            int timerHour = dateComponents.hour;
-            
-            float newInnerStartAngle = innerAngle - (timerHour - nowHour)*(M_PI*2)/24;
-            float newOuterStartAngle = outerAngle - (timerMinute - nowMinute)*(M_PI*2)/60;
-            
-            [self setSnappedInnerStartAngle:newInnerStartAngle];
-            [self setSnappedOuterStartAngle:newOuterStartAngle];*/
-        } else {
-            //[self setSnappedInnerStartAngle:0];
-            //[self setSnappedOuterStartAngle:0];
-            
         }
     } else {
         float newInnerStartAngle = nowHour * (M_PI*2)/24;
@@ -610,25 +562,6 @@
 }
 
 #pragma mark - Util
-- (void) fixAngles {
-    
-    /*
-    if ([self shouldFixAngle:innerStartAngle])
-        innerStartAngle = 0;
-    if ([self shouldFixAngle:outerStartAngle])
-        outerStartAngle = 0;
-    if ([self shouldFixAngle:innerAngle])
-        innerAngle = 0;
-    if ([self shouldFixAngle:outerAngle])
-        outerAngle = 0;
-    
-    // fix the rings
-    innerFill.shouldAnimate = outerFill.shouldAnimate = NO;
-    if ([self shouldFixAngle:innerFill.startAngle])
-        innerFill.startAngle = 0;
-    if ([self shouldFixAngle:outerFill.startAngle])
-        outerFill.startAngle = 0;*/
-}
 
 - (bool) shouldFixAngle:(float)angle {
     return (angle > 6.2 && angle < M_PI*2+.1);
@@ -666,9 +599,6 @@
         waitingForAnimToEnd = NO;
         switchingModes = NO;
     }
-    
-    if (flag && !switchingModes)
-        [self fixAngles];
 }
 
 
@@ -754,9 +684,7 @@
 }
 
 #pragma mark - cg functions
-/*CGPoint CGPointAddPoint(CGPoint p1, CGPoint p2) {
-    return CGPointMake(p1.x+p2.x, p1.y+p2.y);
-}*/
+
 CGPoint CGRectGetCenter(CGRect rect) {
     return CGPointMake(rect.origin.x + rect.size.width/2, rect.origin.y + rect.size.height/2);
 }

@@ -31,7 +31,7 @@
 -(void) alarmViewOpeningMenuWithPercent:(float)percent;
 -(void) alarmViewClosingMenuWithPercent:(float)percent;
 
--(void) durationViewWithIndex:(int)index draggedWithPercent:(float)percent;
+-(void) durationViewWithIndex:(NSInteger)index draggedWithPercent:(float)percent;
 
 -(bool)alarmViewPinched:(AlarmView *)alarmView;
 -(void)alarmViewUpdated;
@@ -84,7 +84,7 @@ extern const float Spacing;
 @property bool isStopwatchMode;
 @property bool isTimerMode;
 @property bool isSnoozing;
-@property (nonatomic) int alarmIndex;
+@property (nonatomic) NSInteger alarmIndex;
 
 @property (nonatomic, strong) NSMutableDictionary *alarmInfo;
 
@@ -110,7 +110,7 @@ extern const float Spacing;
 - (void) viewWillAppear;
 - (bool) canMove;
 - (void) alarmCountdownEnded;
-- (id) initWithFrame:(CGRect)frame index:(int)aIndex delegate:(id<AlarmViewDelegate>)aDelegate alarmInfo:(NSDictionary *)theAlarmInfo;
+- (id) initWithFrame:(CGRect)frame index:(NSInteger)aIndex delegate:(id<AlarmViewDelegate>)aDelegate alarmInfo:(NSDictionary *)theAlarmInfo;
 - (NSDate *)getDate;
 
 - (bool) countdownEnded;

@@ -25,14 +25,13 @@ enum SwitchAlarmDirection {
     CGRect currAlarmRect;
     float asideOffset;
     
-    int currAlarmIndex;
-    
     int shouldSwitch;
     
     NSArray *userAlarms;
 }
 
 @property (nonatomic, strong) NSMutableArray *alarms;
+@property (nonatomic) NSInteger currAlarmIndex;
 
 - (void) saveAlarms;
 - (void) scheduleLocalNotificationsForActiveState:(bool)isActive;

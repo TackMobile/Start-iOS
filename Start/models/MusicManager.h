@@ -7,7 +7,6 @@
 //
 #import <Foundation/Foundation.h>
 #import <MediaPlayer/MediaPlayer.h>
-#import "UIImage+StackBlur.h"
 #import "PListModel.h"
 
 @class PListModel;

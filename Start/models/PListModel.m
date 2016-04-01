@@ -68,19 +68,13 @@
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
         NSArray* plistArray = [[NSArray alloc] initWithContentsOfFile:filePath];
         return plistArray;
-    } else {
-        NSLog(@"PLIST NOT FOUND");
     }
     return nil;
 }
 -(NSArray *)saveData:(NSArray *)data toPList:(int)pList {
-    NSLog(@"data: %@", data);
-    
     NSString *filePath = [self filePathForPList:pList];
     if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
-        BOOL result = [data writeToFile:filePath atomically:NO];
-        if (!result)
-            NSLog(@"ERROR SAVING DATA");
+        [data writeToFile:filePath atomically:NO];
     }
     return [self getPList:pList];
 }

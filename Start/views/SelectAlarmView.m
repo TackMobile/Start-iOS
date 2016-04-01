@@ -70,7 +70,7 @@ const float setAlarmY = 15;
     }
 }
 
-- (void)deleteAlarm:(int)index {
+- (void)deleteAlarm:(NSInteger)index {
     self.numAlarms--;
     [self animateRemoveAlarmAtIndex:self.numAlarms - index];
     return;
@@ -94,16 +94,16 @@ const float setAlarmY = 15;
     }
 }
 
-- (void)makeAlarmActiveAtIndex:(int)index {
-    int buttonIndex = self.numAlarms - 1 - index;
+- (void)makeAlarmActiveAtIndex:(NSInteger)index {
+    NSInteger buttonIndex = self.numAlarms - 1 - index;
     for (UIView *alarmButton in self.alarmButtons) {
         [alarmButton setAlpha:.7];
     }
     [[self.alarmButtons objectAtIndex:buttonIndex] setAlpha:1];
 }
 
-- (void)makeAlarmSetAtIndex:(int)index percent:(float)percent {
-    int buttonIndex = self.numAlarms - 1 - index;
+- (void)makeAlarmSetAtIndex:(NSInteger)index percent:(float)percent {
+    NSInteger buttonIndex = self.numAlarms - 1 - index;
     UIView *alarmButton = [self.alarmButtons objectAtIndex:buttonIndex];
     CGRect alarmButtonSetRect = CGRectMake(alarmButton.frame.origin.x,
                                            self.restedY - (percent * setAlarmY),
@@ -127,11 +127,11 @@ const float setAlarmY = 15;
     }];
 }
 
-- (void)animateRemoveAlarmAtIndex:(int)index {
+- (void)animateRemoveAlarmAtIndex:(NSInteger)index {
     float buttonWidth = (self.alarmContainer.frame.size.width - ALARM_SPACING*self.numAlarms) / self.numAlarms;
 
     [UIView animateWithDuration:.1 animations:^{
-        for (int i=self.alarmButtons.count-1; i>=0; i--) { // faster than iterating upwards
+        for (NSInteger i=self.alarmButtons.count-1; i>=0; i--) { // faster than iterating upwards
             UIView *alarmButton = [self.alarmButtons objectAtIndex:i];
             CGRect newButtonFrame;
             
@@ -146,7 +146,7 @@ const float setAlarmY = 15;
         }
     } completion:^(BOOL finished) {
         [self.alarmButtons removeObjectAtIndex:index];
-        int switchIndex = index==0?0:index-1;
+        NSInteger switchIndex = index==0?0:index-1;
         if ([self.delegate respondsToSelector:@selector(switchAlarmWithIndex:)])
             [self.delegate switchAlarmWithIndex:self.numAlarms - 1 - switchIndex];
     }];
@@ -172,7 +172,7 @@ const float setAlarmY = 15;
 - (void) arrangeButtons {
     float buttonWidth = (self.alarmContainer.frame.size.width - ALARM_SPACING*self.numAlarms) / self.numAlarms;
     
-    for (int i=self.alarmButtons.count-1; i>=0; i--) { // faster than iterating upwards
+    for (NSInteger i=self.alarmButtons.count-1; i>=0; i--) { // faster than iterating upwards
         UIView *alarmButton = [self.alarmButtons objectAtIndex:i];
         CGRect newButtonFrame = CGRectMake((buttonWidth+ALARM_SPACING)*i, alarmButton.frame.origin.y, buttonWidth, alarmButton.frame.size.height);
         [[self.alarmButtons objectAtIndex:i] setFrame:newButtonFrame];
