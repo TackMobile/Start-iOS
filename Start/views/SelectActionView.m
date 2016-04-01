@@ -8,9 +8,11 @@
 
 #import "SelectActionView.h"
 
+static NSString *const NormalActionCell = @"NormalActionCell";
+static CGFloat const ActionTableViewRowHeight = 50.0f;
+
 @implementation SelectActionView
 @synthesize delegate;
-@synthesize actions, actionTableView;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -26,28 +28,28 @@
         CGRect screenBounds = [[UIScreen mainScreen] applicationFrame];
         CGRect actionTableRect = CGRectMake(0, 0, self.frame.size.width, screenBounds.size.height);
         
-        actionTableView = [[NPTableView alloc] initWithFrame:actionTableRect style:UITableViewStylePlain];
-        [actionTableView setDelegate:self];
-        [actionTableView setDataSource:self];
-        [actionTableView setUserInteractionEnabled:NO];
-        [actionTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-        [actionTableView setRowHeight:50];
-        [actionTableView setBackgroundColor:[UIColor clearColor]];
+        _actionTableView = [[NPTableView alloc] initWithFrame:actionTableRect style:UITableViewStylePlain];
+        _actionTableView.delegate = self;
+        _actionTableView.dataSource = self;
+        _actionTableView.userInteractionEnabled = NO;
+        _actionTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _actionTableView.rowHeight = ActionTableViewRowHeight;
+        _actionTableView.backgroundColor = [UIColor clearColor];
         
-        [self addSubview:actionTableView];
+        [self addSubview:_actionTableView];
     }
     return self;
 }
 
 - (id) initWithFrame:(CGRect)frame delegate:(id<SelectActionViewDelegate>)aDelegate actions:(NSArray *)theActions {
-    actions = theActions;
+    _actions = theActions;
     delegate = aDelegate;
     return [self initWithFrame:frame];
 }
 
 - (void) selectActionWithID:(NSNumber *)aID {
     int actionID = [aID intValue];
-    if (actionID > [actions count]-1) // fix for deleting apps
+    if (actionID > [self.actions count]-1) // fix for deleting apps
         actionID=0;
     selectedIndexPath = [NSIndexPath indexPathForRow:actionID inSection:0];
     needsQuickSelect = YES;
@@ -60,30 +62,30 @@
 }
 
 - (int) actionIDWithTitle:(NSString *)searchTitle {
-    for (int i=[actions count]-1; i>-1; i--) {
-        if ([[[actions objectAtIndex:i] objectForKey:@"title"] isEqualToString:searchTitle])
+    for (int i=self.actions.count-1; i>-1; i--) {
+        if ([[[self.actions objectAtIndex:i] objectForKey:@"title"] isEqualToString:searchTitle])
             return i;
     }
     return -1;
 }
 
 - (NSString *)actionTitleWithID:(int)theID {
-    return [(NSDictionary *)[actions objectAtIndex:theID] objectForKey:@"title"];
+    return [(NSDictionary *)self.actions[theID] objectForKey:@"title"];
 }
 
 #pragma mark - Positioning
 
 - (void) actionSelectedAtIndexPath:(NSIndexPath *)indexPath {
 
-    NSString *actionTitle = [(NSDictionary *)[actions objectAtIndex:indexPath.row] objectForKey:@"title"];
+    NSString *actionTitle = [(NSDictionary *)self.actions[indexPath.row] objectForKey:@"title"];
     
     if ([delegate respondsToSelector:@selector(actionSelected:)])
         [delegate actionSelected:actionTitle];
     
-    [actionTableView setUserInteractionEnabled:NO];
+    self.actionTableView.userInteractionEnabled = NO;
     
     // hide cells above and below
-    ActionCell *showCell = (ActionCell *)[actionTableView cellForRowAtIndexPath:selectedIndexPath];
+    ActionCell *showCell = (ActionCell *)[self.actionTableView cellForRowAtIndexPath:selectedIndexPath];
     [UIView animateWithDuration:.2 animations:^{
         for (UITableViewCell *visibleCell in actionCells)
             [visibleCell setAlpha:(visibleCell == showCell)?1:0];
@@ -94,7 +96,7 @@
 - (void) viewTapped {
     if ([delegate respondsToSelector:@selector(expandSelectActionView)])
         if ([delegate expandSelectActionView]) {
-            [actionTableView setUserInteractionEnabled:YES];
+            self.actionTableView.userInteractionEnabled = YES;
             
             // show surrounding cells
             [UIView animateWithDuration:.2 animations:^{
@@ -107,7 +109,7 @@
 }
 
 - (void) quickSelectCell {
-    [self tableView:actionTableView didSelectRowAtIndexPath:selectedIndexPath];
+    [self tableView:self.actionTableView didSelectRowAtIndexPath:selectedIndexPath];
 }
 
 #pragma mark - Touches
@@ -120,12 +122,10 @@
 
 #pragma mark - UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [actions count];
+    return self.actions.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {    
-    static NSString *NormalActionCell = @"NormalActionCell";
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ActionCell *cell = (ActionCell *)[tableView dequeueReusableCellWithIdentifier:NormalActionCell];
     if (cell == nil) {
         cell = [[ActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NormalActionCell];
@@ -134,12 +134,9 @@
         [actionCells addObject:cell];
     }
     
-    NSDictionary *action = [actions objectAtIndex:indexPath.row];
+    NSDictionary *action = self.actions[indexPath.row];
     cell.actionTitle.text = [action objectForKey:@"title"];
     [cell.icon setImage:[UIImage imageNamed:[action objectForKey:@"iconFilename"]]];
-    
-    //NSLog(@"getting cell index:%i. selectedindex:%i", indexPath.row, selectedIndexPath.row);
-    
     [cell setAlpha:1];
     [cell.actionTitle setAlpha:1];
     if (indexPath.row == selectedIndexPath.row-1 || indexPath.row == selectedIndexPath.row+1)
@@ -175,7 +172,7 @@
         [tableView setContentSize:CGSizeMake(tableView.contentSize.width, maxBottom)];
     
     selectedIndexPath = indexPath;
-    [actionTableView scrollRectToVisible:contentRect animated:YES];
+    [self.actionTableView scrollRectToVisible:contentRect animated:YES];
     [self actionSelectedAtIndexPath:indexPath];
 }
 

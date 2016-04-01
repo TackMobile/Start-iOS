@@ -7,11 +7,40 @@
 //
 
 #import "SelectSongView.h"
+#import "LeftHeaderView.h"
+#import "ReturnButtonView.h"
+
+typedef NS_ENUM(NSInteger, NonSearchTableSection) {
+    NonSearchSectionSearch,
+    NonSearchSectionNoSound,
+    NonSearchSectionPresetSongs,
+    NonSearchSectionLibrarySongs,
+    
+    NonSearchSectionCount,
+};
+
+typedef NS_ENUM(NSInteger, SearchingTableSection) {
+    SearchingSectionSearch,
+    SearchingSectionLibrarySongs,
+    
+    SearchingSectionCount,
+};
+
+static CGFloat const ShorterRowHeight = 60.0f;
+static CGFloat const TallerRowHeight = 70.0f;
+
+@interface SelectSongView()
+
+@property (nonatomic, strong) NSMutableArray *headerViews;
+@property (nonatomic, strong) NSArray *librarySongs;
+@property (nonatomic, strong) NSArray *searchedSongs;
+@property (nonatomic, strong) NSArray *presetSongs;
+@property (nonatomic) CGRect compressedFrame;
+@property (nonatomic, strong) NSIndexPath *selectedIndexPath;
+
+@end
 
 @implementation SelectSongView
-@synthesize delegate;
-@synthesize musicManager;
-@synthesize songTableView, songDurationIndicator, cell, showCell;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -19,52 +48,52 @@
     if (self) {
         [self setClipsToBounds:YES];
 
-        compressedFrame = frame;
-        musicManager = [[MusicManager alloc] init];
-        librarySongs = [musicManager getLibrarySongs];
-        isSearching = NO;
-        artworkPresent = NO;
-        headerViews = [[NSMutableArray alloc] init];
-        selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];
+        _compressedFrame = frame;
+        _musicManager = [[MusicManager alloc] init];
+        _librarySongs = [_musicManager getLibrarySongs];
+        _isSearching = NO;
+        _artworkPresent = NO;
+        _headerViews = [[NSMutableArray alloc] init];
+        _selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];
         
         // views
         CGRect screenBounds = [[UIScreen mainScreen] applicationFrame];
         CGRect songTableRect = CGRectMake(0, 0, screenBounds.size.width, screenBounds.size.height);
         CGRect songDurIndRect = CGRectMake(0, 0, 0, 2);
         
-        songTableView = [[UITableView alloc] initWithFrame:songTableRect style:UITableViewStylePlain];
-        songDurationIndicator = [[UIView alloc] initWithFrame:songDurIndRect];
+        _songTableView = [[UITableView alloc] initWithFrame:songTableRect style:UITableViewStylePlain];
+        _songDurationIndicator = [[UIView alloc] initWithFrame:songDurIndRect];
         
-        [self addSubview:songTableView];
-        [self addSubview:songDurationIndicator];
+        [self addSubview:_songTableView];
+        [self addSubview:_songDurationIndicator];
         
-        [songTableView setUserInteractionEnabled:NO];
-        [songTableView setDelegate:self];
-        [songTableView setDataSource:self];
-        [songTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-        [songTableView setRowHeight:70];
-        [songTableView setBackgroundColor:[UIColor clearColor]];
+        _songTableView.userInteractionEnabled = NO;
+        _songTableView.delegate = self;
+        _songTableView.dataSource = self;
+        _songTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        _songTableView.rowHeight = TallerRowHeight;
+        _songTableView.backgroundColor = [UIColor clearColor];
 
-        [songTableView reloadData];
+        [_songTableView reloadData];
         
-        [songDurationIndicator setBackgroundColor:[UIColor whiteColor]];
+        _songDurationIndicator.backgroundColor = [UIColor whiteColor];
         
         // set up the headers
         NSArray *headerIcons = [NSArray arrayWithObjects:[UIImage imageNamed:@"no-sound-icon"],
                                 [UIImage imageNamed:@"tone-icon"], [UIImage imageNamed:@"song-icon"], nil];
         for (int i=1; i<4; i++) {
-            if (i == 3 && [librarySongs count] == 0) {
+            if (i == 3 && _librarySongs.count == 0) {
                 //Breaks if there are no library songs loaded
                 break;
             }
             
             UIImage *icon = [headerIcons objectAtIndex:i-1];
             NSIndexPath *cellIndexPath = [NSIndexPath indexPathForRow:0 inSection:i];
-            NSIndexPath *lastCellPath = [NSIndexPath indexPathForRow:[songTableView numberOfRowsInSection:i]-1 inSection:i];
+            NSIndexPath *lastCellPath = [NSIndexPath indexPathForRow:[_songTableView numberOfRowsInSection:i]-1 inSection:i];
             
             
-            CGRect cellRect = [songTableView rectForRowAtIndexPath:cellIndexPath];
-            CGRect lastRect = [songTableView rectForRowAtIndexPath:lastCellPath];
+            CGRect cellRect = [_songTableView rectForRowAtIndexPath:cellIndexPath];
+            CGRect lastRect = [_songTableView rectForRowAtIndexPath:lastCellPath];
             
             LeftHeaderView *headerView = [[LeftHeaderView alloc] initWithCellRect:cellRect sectionHeight:lastRect.origin.y+lastRect.size.height-cellRect.origin.y];
             
@@ -83,22 +112,21 @@
             [headerView setAlpha:0];
             
             [headerView.icon setImage:icon];
-            [headerViews addObject:headerView];
-            [songTableView addSubview:headerView];
+            [_headerViews addObject:headerView];
+            [_songTableView addSubview:headerView];
         }
         
         // add the return button (it is invisible and stays on the right margin)
-        ReturnButtonView *returnButton = [[ReturnButtonView alloc] initWithCellRect:[songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]] sectionHeight:100000];
-        [returnButton.button addTarget:self action:@selector(returnButtonTapped:) forControlEvents:UIControlEventTouchDown];
-        [songTableView addSubview:returnButton];
-        [headerViews addObject:returnButton];
+        ReturnButtonView *returnButton = [[ReturnButtonView alloc] initWithCellRect:[_songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:1]]
+                                                                      sectionHeight:100000];
+        [returnButton.button addTarget:self
+                                action:@selector(returnButtonTapped:)
+                      forControlEvents:UIControlEventTouchDown];
+        [_songTableView addSubview:returnButton];
+        [_headerViews addObject:returnButton];
         
         // scroll away from search
-        [songTableView setContentOffset:CGPointMake(0, 67)];
-        
-        /* initialize the musicplayer
-        musicPlayer = [[MusicPlayer alloc] init];
-        [musicPlayer addTargetForSampling:self selector:@selector(songPlayingTick:)];*/
+        [_songTableView setContentOffset:CGPointMake(0, 67)];
         
         // add the fade on the right
         float fadeXPos = 0.74f;
@@ -118,13 +146,13 @@
         
         [gradient setColors:gradientColors];
         [gradient setLocations:gradientLocations];
-        [gradient setFrame:CGRectMake(0, 0, screenBounds.size.width, songTableView.contentSize.height)];
+        [gradient setFrame:CGRectMake(0, 0, screenBounds.size.width, _songTableView.contentSize.height)];
         [gradient setStartPoint:CGPointMake(0, .5)]; // middle left
         [gradient setEndPoint:CGPointMake(1, .5)]; // middle right
         [self.layer setMask:gradient];
         [self.layer setMasksToBounds:YES];
         
-        float searchHeight = [songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].size.height;
+        float searchHeight = [_songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].size.height;
         
         CALayer *solidLayer = [CALayer layer];
         solidLayer.backgroundColor = [[UIColor whiteColor] CGColor];
@@ -132,8 +160,8 @@
         
         
         [gradient addSublayer:solidLayer];
-        [songTableView.layer setMask:gradient];
-        [songTableView.layer setMasksToBounds:YES];
+        [_songTableView.layer setMask:gradient];
+        [_songTableView.layer setMasksToBounds:YES];
                 
     }
     return self;
@@ -142,8 +170,8 @@
 
 
 - (id) initWithFrame:(CGRect)frame delegate:(id<SelectSongViewDelegate>)aDelegate presetSongs:(NSArray *)thePresetSongs {
-    presetSongs = thePresetSongs;
-    delegate = aDelegate;
+    _presetSongs = thePresetSongs;
+    _delegate = aDelegate;
     return [self initWithFrame:frame];
 }
 -(void) returnButtonTapped:(id)button {
@@ -151,16 +179,17 @@
 }
 
 #pragma mark - Positioning
+
 - (void) viewTapped {
-    if ([delegate respondsToSelector:@selector(expandSelectSongView)])
-        if ([delegate expandSelectSongView]) {
-            [songTableView setUserInteractionEnabled:YES];
+    if ([self.delegate respondsToSelector:@selector(expandSelectSongView)])
+        if ([self.delegate expandSelectSongView]) {
+            [self.songTableView setUserInteractionEnabled:YES];
             
             // show surrounding cells
             [UIView animateWithDuration:.2 animations:^{
-                for (UITableViewCell *visibleCell in [songTableView visibleCells])
+                for (UITableViewCell *visibleCell in [self.songTableView visibleCells])
                     [visibleCell setAlpha:1];
-                for (UIView *headerView in headerViews)
+                for (UIView *headerView in self.headerViews)
                     [headerView setAlpha:1];
             }];
             
@@ -168,10 +197,10 @@
 }
 
 - (void) songSelected:(NSIndexPath *)indexPath {
-    if (indexPath != selectedIndexPath 
-        || !artworkPresent) {
+    if (indexPath != self.selectedIndexPath
+        || !self.artworkPresent) {
         
-        selectedIndexPath = indexPath;
+        self.selectedIndexPath = indexPath;
         
         NSNumber *songID = [[NSNumber alloc] init];
         UIImage *artwork = nil;
@@ -186,35 +215,31 @@
             songID = [NSNumber numberWithInt:indexPath.row];
             themeID = [NSNumber numberWithInt:indexPath.row];
         } else if (indexPath.section == 3) {
-            songID = [(MPMediaItem *)[librarySongs objectAtIndex:indexPath.row] valueForProperty:MPMediaItemPropertyPersistentID];
-            themeID = [NSNumber numberWithInt:6];
-            //int rand = arc4random() % 5;
-            //themeID = [NSNumber numberWithInt:rand]; // random theme
-            //themeID = [NSNumber numberWithInt:-1];
-            //artwork = [musicManager getBackgroundImageForSongID:songID];
+            songID = [(MPMediaItem *)self.librarySongs[indexPath.row] valueForProperty:MPMediaItemPropertyPersistentID];
+            themeID = @6;
         }
         
-        if ([delegate respondsToSelector:@selector(songSelected:withArtwork:theme:)]) {
-            artworkPresent = YES;
+        if ([self.delegate respondsToSelector:@selector(songSelected:withArtwork:theme:)]) {
+            self.artworkPresent = YES;
             // testing
-            [delegate songSelected:songID withArtwork:artwork theme:themeID];
+            [self.delegate songSelected:songID withArtwork:artwork theme:themeID];
         }
     }
 }
 
 - (void) quickSelectCell {
-    if (isSearching) {
+    if (self.isSearching) {
         [self endSearch];
     }
-    [self tableView:songTableView didSelectRowAtIndexPath:selectedIndexPath];
+    [self tableView:self.songTableView didSelectRowAtIndexPath:self.selectedIndexPath];
 }
 
 - (void) selectCellWithID:(NSNumber *)cellNumID {
-    [songTableView reloadData];
+    [self.songTableView reloadData];
     if ([cellNumID isEqualToNumber:[NSNumber numberWithInt:-1]])
-        selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];// No song
+        self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];// No song
     else {
-        selectedIndexPath = [self songIndexPathFromID:cellNumID];
+        self.selectedIndexPath = [self songIndexPathFromID:cellNumID];
     }
     [self quickSelectCell];
 
@@ -229,28 +254,29 @@
 }
 
 #pragma mark - UITableViewDataSource
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    if (isSearching) {
+    if (self.isSearching) {
         switch (section) {
-            case 0:
+            case SearchingSectionSearch:
                 return 1;
                 break;
-            case 1:
-                return [searchedSongs count];
+            case SearchingSectionLibrarySongs:
+                return self.searchedSongs.count;
                 break;
         }
     } else {
         switch (section) {
-            case 0:
+            case NonSearchSectionSearch:
                 return 1;
                 break;
-            case 1:
+            case NonSearchSectionNoSound:
                 return 1;
-            case 2:
-                return [presetSongs count];
+            case NonSearchSectionPresetSongs:
+                return self.presetSongs.count;
                 break;
-            case 3:
-                return [librarySongs count];
+            case NonSearchSectionLibrarySongs:
+                return self.librarySongs.count;
                 break;
         }
     }
@@ -270,22 +296,22 @@
         return cells;
     }
     
-    cell = (SongCell *)[tableView dequeueReusableCellWithIdentifier:NormalSongCell];
-    if (cell == nil) {
-        cell = [[SongCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:NormalSongCell];
-        [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-        [cell setDelegate:self];
+    self.cell = (SongCell *)[tableView dequeueReusableCellWithIdentifier:NormalSongCell];
+    if (self.cell == nil) {
+        self.cell = [[SongCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:NormalSongCell];
+        [self.cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+        [self.cell setDelegate:self];
     }
-    
+
     NSString *songTitle;
     NSString *songArtist;
     NSNumber *persistentID = [NSNumber numberWithInt:-1];
     MPMediaItem *cellSong;
     
-    if (isSearching) {
+    if (self.isSearching) {
         switch (indexPath.section) {
-            case 1:
-                cellSong = [searchedSongs objectAtIndex:indexPath.row];
+            case SearchingSectionLibrarySongs:
+                cellSong = self.searchedSongs[indexPath.row];
                 songTitle = [cellSong valueForProperty:MPMediaItemPropertyTitle];
                 songArtist = [cellSong valueForProperty:MPMediaItemPropertyArtist];
                 persistentID = [cellSong valueForProperty:MPMediaItemPropertyPersistentID];
@@ -293,17 +319,17 @@
         }
     } else {
         switch (indexPath.section) {
-            case 1:
+            case NonSearchSectionNoSound:
                 songTitle = @"No Sound";
                 songArtist = @"Tap to select. Hold to preview.";
                 break;
-            case 2:
-                songTitle = [[presetSongs objectAtIndex:indexPath.row] objectForKey:@"title"];
-                songArtist = [[presetSongs objectAtIndex:indexPath.row] objectForKey:@"artist"];
+            case NonSearchSectionPresetSongs:
+                songTitle = [self.presetSongs[indexPath.row] objectForKey:@"title"];
+                songArtist = [self.presetSongs[indexPath.row] objectForKey:@"artist"];
                 persistentID = [NSNumber numberWithInt:indexPath.row];
                 break;
-            case 3:
-                cellSong = [librarySongs objectAtIndex:indexPath.row];
+            case NonSearchSectionLibrarySongs:
+                cellSong = self.librarySongs[indexPath.row];
                 songTitle = [cellSong valueForProperty:MPMediaItemPropertyTitle];
                 songArtist = [cellSong valueForProperty:MPMediaItemPropertyArtist];
                 persistentID = [cellSong valueForProperty:MPMediaItemPropertyPersistentID];
@@ -311,51 +337,57 @@
         }
     }
     
-    cell.songLabel.text = songTitle;
-    cell.artistLabel.text = songArtist;
-    cell.persistentID = persistentID;
-    [cell setAlpha:1];
-    return cell;
+    self.cell.songLabel.text = songTitle;
+    self.cell.artistLabel.text = songArtist;
+    self.cell.persistentID = persistentID;
+    [self.cell setAlpha:1];
+    return self.cell;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if (isSearching)
-        return 2;
-    if ([librarySongs count] == 0)
+    if (self.isSearching) {
+        return SearchingSectionCount;
+    }
+    if (self.librarySongs.count == 0) {
         return 3;
-    return 4;
+    } else {
+        return NonSearchSectionCount;
+    }
 }
-
 
 #pragma mark - UITableViewDelegate
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (isSearching)
-        return tableView.rowHeight;
+    if (self.isSearching) {
+        return TallerRowHeight;
+    }
     
-    if (indexPath.section == 1) // same height as other cells so the icon from left header is centered with the text from this row
-        return 60;
-    if (indexPath.section == 2) // presetsong
-        return ([[[presetSongs objectAtIndex:indexPath.row] objectForKey:@"artist"] isEqualToString:@""])
-        ?60:tableView.rowHeight;
-    
-    return tableView.rowHeight;
+    if (indexPath.section == NonSearchSectionNoSound) { // same height as other cells so the icon from left header is centered with the text from this row
+        return ShorterRowHeight;
+    }
+    if (indexPath.section == NonSearchSectionPresetSongs) {
+        return ([[self.presetSongs[indexPath.row] objectForKey:@"artist"] isEqualToString:@""])
+        ?ShorterRowHeight:TallerRowHeight;
+    }
+    return TallerRowHeight;
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 0 && indexPath.row == 0)
+    if (indexPath.section == 0 && indexPath.row == 0) {
         return;
+    }
     
-    if (isSearching) {        
-        SongCell *selectedCell = (SongCell *)[songTableView cellForRowAtIndexPath:indexPath];
+    if (self.isSearching) {
+        SongCell *selectedCell = (SongCell *)[self.songTableView cellForRowAtIndexPath:indexPath];
         indexPath = [self songIndexPathFromID:selectedCell.persistentID];
         
         [self endSearch];
     }
-    NSLog(@"indexpath: %i, %i", indexPath.section, indexPath.row);
     CGRect cellRect = [tableView rectForRowAtIndexPath:indexPath];
     CGRect bottomRect = [tableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:[tableView numberOfRowsInSection:[tableView numberOfSections]-1]-1 inSection:[tableView numberOfSections]-1]];
     
     /* center the cell*/
-    float centerOffset = (compressedFrame.size.height-cellRect.size.height)/2;
+    float centerOffset = (self.compressedFrame.size.height-cellRect.size.height)/2;
     CGRect contentRect = CGRectMake(0, cellRect.origin.y-centerOffset, tableView.frame.size.width, tableView.frame.size.height);
     
     // extend rect
@@ -369,24 +401,22 @@
     [tableView scrollRectToVisible:contentRect animated:YES];
     
     // animation
-    if ([delegate respondsToSelector:@selector(compressSelectSong)])
-        [delegate compressSelectSong];
+    if ([self.delegate respondsToSelector:@selector(compressSelectSong)])
+        [self.delegate compressSelectSong];
     
-    [songTableView setUserInteractionEnabled:NO];
+    [self.songTableView setUserInteractionEnabled:NO];
     
     // hide cells above and below
-    showCell = (SongCell *)[songTableView cellForRowAtIndexPath:indexPath];
+    self.showCell = (SongCell *)[self.songTableView cellForRowAtIndexPath:indexPath];
     [UIView animateWithDuration:.2 animations:^{
-        for (UITableViewCell *visibleCell in [songTableView visibleCells])
-            [visibleCell setAlpha:(visibleCell == showCell)?1:0];
-        for (UIView *headerView in headerViews)
+        for (UITableViewCell *visibleCell in [self.songTableView visibleCells])
+            [visibleCell setAlpha:(visibleCell == self.showCell)?1:0];
+        for (UIView *headerView in self.headerViews)
             [headerView setAlpha:0];
     }];
     
     // asynch
     [self performSelectorInBackground:@selector(songSelected:) withObject:indexPath];
-    
-    
 }
 
 - (NSIndexPath *)songIndexPathFromID:(NSNumber *)pID {
@@ -394,8 +424,8 @@
         return [NSIndexPath indexPathForRow:[pID intValue] inSection:2];
     } else {
         int row = 0;
-        for (int i=0; i<[librarySongs count]; i++) {
-            MPMediaItem *mediaItem = [librarySongs objectAtIndex:i];
+        for (int i=0; i<self.librarySongs.count; i++) {
+            MPMediaItem *mediaItem = self.librarySongs[i];
             if ([pID intValue] == [[mediaItem valueForKey:MPMediaItemPropertyPersistentID] intValue]) {
                 row = i;
                 break;
@@ -406,16 +436,16 @@
 }
 #pragma mark - scrollViewDelegate
 - (void) scrollViewWillBeginDragging:(UIScrollView *)scrollView {
-    SearchSongCell *searchCell = (SearchSongCell *)[songTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    SearchSongCell *searchCell = (SearchSongCell *)[self.songTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     [searchCell.textField resignFirstResponder];
 }
 
 - (void) scrollViewDidScroll:(UIScrollView *)scrollView {
-    for (LeftHeaderView *headerView in headerViews)
+    for (LeftHeaderView *headerView in self.headerViews)
         [headerView updateWithContentOffset:scrollView.contentOffset.y];
     
     // move the fade out of way of the search divider
-    float searchHeight = [songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].size.height;
+    float searchHeight = [self.songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].size.height;
     CGRect maskFrame = self.layer.mask.frame;
     if (scrollView.contentOffset.y <= searchHeight){
         maskFrame.origin.x = scrollView.contentOffset.y;
@@ -427,49 +457,51 @@
 }
 
 #pragma mark - searchSongCell delegate
--(void) textChanged:(UITextField *)textField {
+
+-(void)textChanged:(UITextField *)textField {
     NSString *searchString = textField.text;
     if ([searchString isEqualToString:@""]) {
-        searchedSongs = librarySongs;
+        self.searchedSongs = self.librarySongs;
     } else {
         NSMutableArray *applicableSongs = [[NSMutableArray alloc] init];
         
-        for (MPMediaItem *mediaItem in librarySongs) {
+        for (MPMediaItem *mediaItem in self.librarySongs) {
             if ([[mediaItem valueForKey:MPMediaItemPropertyTitle] rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound ||
                 [[mediaItem valueForKey:MPMediaItemPropertyArtist] rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound) {
                 [applicableSongs addObject:mediaItem];
             }
         }
-        searchedSongs = applicableSongs;
+        self.searchedSongs = applicableSongs;
     }
     
-    [songTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+    [self.songTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
 }
 -(void) textCleared:(UITextField *)textField {
-    searchedSongs = librarySongs;
+    self.searchedSongs = self.librarySongs;
     
-    [songTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
+    [self.songTableView reloadSections:[NSIndexSet indexSetWithIndex:1] withRowAnimation:UITableViewRowAnimationFade];
 }
 -(void) didBeginSearching {
-    searchedSongs = librarySongs;
-    if (!isSearching) {
-        isSearching = YES;
+    self.searchedSongs = self.librarySongs;
+    if (!self.isSearching) {
+        self.isSearching = YES;
         
-        [songTableView beginUpdates];
-        
-        [songTableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSRangeFromString(@"{location=1;length=2}")] withRowAnimation:UITableViewRowAnimationFade];
-        [songTableView endUpdates];
+        //Hides No Sounds and Present Songs Sections, and only searches user's music
+        [self.songTableView beginUpdates];
+        [self.songTableView deleteSections:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(1, 2)] withRowAnimation:UITableViewRowAnimationFade];
+        [self.songTableView endUpdates];
     }
     
     // update the headers
-    LeftHeaderView *songHeader = [headerViews objectAtIndex:2];
-    CGRect sRect = [songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    LeftHeaderView *songHeader = self.headerViews[2];
+    CGRect sRect = [self.songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     CGRect firstRect= CGRectOffset(sRect, 0, sRect.size.height);
     [songHeader updateCellRect:firstRect];
     [songHeader updateWithContentOffset:0];
     for (int i=0; i<2; i++)
-        [[headerViews objectAtIndex:i] setAlpha:0];
+        [self.headerViews[i] setAlpha:0];
 }
+
 -(void) didEndSearchingWithText:(NSString *)text {
     if ([text isEqualToString:@""] || [text isEqualToString:@"Search"]) {
         [self endSearch];
@@ -477,34 +509,35 @@
 }
 
 - (bool) shouldBeginSearching {
-    if ([librarySongs count] > 0)
+    if (self.librarySongs.count > 0){
         return YES;
+    }
     return NO;
 }
 
 - (void) endSearch {
     // resign keyboard
-    isSearching = NO;
-    SearchSongCell *searchCell = (SearchSongCell *)[songTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
+    self.isSearching = NO;
+    SearchSongCell *searchCell = (SearchSongCell *)[self.songTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     [searchCell.textField resignFirstResponder];
-    [searchCell.textField setText:@""];
-    [songTableView reloadData];
+    searchCell.textField.text = @"";
+    [self.songTableView reloadData];
     
     // update the headers
-    LeftHeaderView *songHeader = [headerViews objectAtIndex:2];
-    [songHeader updateCellRect:[songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]]];
+    LeftHeaderView *songHeader = self.headerViews[2];
+    [songHeader updateCellRect:[self.songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:3]]];
     [songHeader updateWithContentOffset:0];
     for (int i=0; i<2; i++)
-        [[headerViews objectAtIndex:i] setAlpha:1];
+        [self.headerViews[i] setAlpha:1];
 }
 
 #pragma mark - songCellDelegate
 -(void)sampleSongWithID:(NSNumber *)songID {
-    MusicPlayer *musicPlayer = [delegate getDelegateMusicPlayer];
+    MusicPlayer *musicPlayer = [self.delegate getDelegateMusicPlayer];
     [musicPlayer playSongWithID:songID vibrate:NO];
 }
 -(void)stopSamplingSong {
-    [[delegate getDelegateMusicPlayer] stop];
+    [[self.delegate getDelegateMusicPlayer] stop];
 }
 
 -(void)songPlayingTick:(MusicPlayer *)aMusicPlayer {
@@ -514,7 +547,7 @@
         durationWidth = 1.0f;
     CGRect durRect = CGRectMake(0.0f, 0.0f, durationWidth, 2.0f);
     
-    [songDurationIndicator setFrame:durRect];
+    [self.songDurationIndicator setFrame:durRect];
     
 }
 
