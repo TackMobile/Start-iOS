@@ -7,6 +7,7 @@
 //
 
 #import "MusicManager.h"
+#import "UIImage+StackBlur.h"
 
 @implementation MusicManager
 
@@ -21,9 +22,6 @@
 #pragma mark - themes
 
 - (NSDictionary *)getThemeForSongID:(NSNumber *)songID {
-    NSLog(@"getthemeforsongid songid%@", songID);
-    /*NSArray *themes = [pListModel getThemes];
-    NSMutableDictionary *theme = [[NSMutableDictionary alloc] initWithDictionary:[self formatTheme:[themes objectAtIndex:0]]];*/
     UIImage *bgImage = [self getBackgroundImageForSongID:songID];
     NSArray *randColors = [bgImage randColors];
     
@@ -121,31 +119,13 @@
     else
         return [self getRandomImage];
     
-    //float bgImageWidth = 520;
     
     // get the madia artwork
-    //MPMediaItemArtwork *mediaArtwork = [song valueForProperty:MPMediaItemPropertyArtwork];
-    UIImage *mediaArtworkImage;
-    // get random image if media has no artwork
-   // if (CGSizeEqualToSize(CGSizeMake(0, 0), mediaArtwork.bounds.size)) {
-        mediaArtworkImage = [self getRandomImage];
-    /*} else {
-        mediaArtworkImage = [mediaArtwork imageWithSize:CGSizeMake(bgImageWidth, 
-                                                                   (mediaArtwork.bounds.size.width/bgImageWidth)*mediaArtwork.bounds.size.height)];
-        // convert to correct colorspace
-        if (CGImageGetColorSpace(mediaArtworkImage.CGImage) != CGColorSpaceCreateDeviceRGB())
-            mediaArtworkImage = [mediaArtworkImage normalize];
-        
-        // blur image
-        mediaArtworkImage = [mediaArtworkImage stackBlur:5];
-    }*/
-    
+    UIImage *mediaArtworkImage = [self getRandomImage];
     return mediaArtworkImage;
 }
 
 - (UIImage *) getRandomImage {
-    // testing
-    NSLog(@"get random image");
     return [UIImage imageNamed:@"chamaeleon.png"];
 }
 @end

@@ -10,12 +10,10 @@
 
 @class MasterViewController;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate> {
-    unsigned int bgTask;
-}
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
+@property (nonatomic) NSUInteger bgTask;
 @property (strong, nonatomic) UIWindow *window;
-
 @property (strong, nonatomic) MasterViewController *viewController;
 
 @end

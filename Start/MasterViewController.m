@@ -30,7 +30,7 @@
 	self.alarms = [[NSMutableArray alloc] init];
     
     // get the saved alarm index
-    currAlarmIndex = 1;
+    self.currAlarmIndex = 1;
     int savedCurrIndex = 1;
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currAlarmIndex"]) {
         savedCurrIndex = [[[NSUserDefaults standardUserDefaults] objectForKey:@"currAlarmIndex"] intValue];
@@ -81,10 +81,7 @@
 }
 
 - (void)plusButtonTappedForFirstVisit{ //if it's the first visit, when the user presses the plus button, switchAlarmWithIndex is called and the first alarm appears on screen
-    [self switchAlarmWithIndex:currAlarmIndex - 1];
-    [self.addButton removeTarget:self
-                          action:@selector(test)
-                forControlEvents:UIControlEventTouchUpInside]; //remove this as the selector for the plus button
+    [self switchAlarmWithIndex:self.currAlarmIndex - 1];
     [self.addButton addTarget:self.selectAlarmView
                        action:@selector(plusButtonTapped:)
              forControlEvents:UIControlEventTouchUpInside]; //add this selector for the plus button so when user presses it adds new alarms
@@ -109,7 +106,7 @@
     for (AlarmView *alarm in self.alarms)
         [alarmsData addObject:[NSDictionary dictionaryWithDictionary:alarm.alarmInfo]];
     [self.pListModel saveAlarms:alarmsData];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:currAlarmIndex]
+    [[NSUserDefaults standardUserDefaults] setObject:@(self.currAlarmIndex)
                                               forKey:@"currAlarmIndex"];
 }
 
@@ -125,7 +122,7 @@
         if ([(NSNumber *)[alarmInfo objectForKey:@"isSet"] boolValue]) {
             
             NSDictionary *userInfo = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                      [NSNumber numberWithInt:alarmView.alarmIndex], @"alarmIndex", nil];
+                                      @(alarmView.alarmIndex), @"alarmIndex", nil];
 
             
             if (isActive && ([[alarmInfo objectForKey:@"songID"] intValue] > 6
@@ -212,15 +209,15 @@
 }
 
 - (void)addAlarmWithInfo:(NSDictionary *)alarmInfo switchTo:(BOOL)switchToAlarm {
-    currAlarmIndex = self.alarms.count;
+    self.currAlarmIndex = self.alarms.count;
     AlarmView *newAlarm = [[AlarmView alloc] initWithFrame:prevAlarmRect
-                                                     index:currAlarmIndex
+                                                     index:self.currAlarmIndex
                                                   delegate:self
                                                  alarmInfo:alarmInfo];
     [self.alarms addObject:newAlarm];
     [self.view insertSubview:newAlarm atIndex:1];
     if (switchToAlarm) {
-        [self switchAlarmWithIndex:currAlarmIndex];
+        [self switchAlarmWithIndex:self.currAlarmIndex];
     }
     [newAlarm viewWillAppear];
 }
@@ -232,14 +229,14 @@
 
 // used when deleting an alarm
 -(void)updateAlarmIndexes {
-    for (int i=[self.alarms count]-1; i>=0; i--)
+    for (NSInteger i=self.alarms.count-1; i>=0; i--)
         [[self.alarms objectAtIndex:i] setAlarmIndex:i];
 }
 
 #pragma mark - Touches
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    if (currAlarmIndex < [self.alarms count])
+    if (self.currAlarmIndex < self.alarms.count)
         return;
     
     UITouch *touch = [touches anyObject];
@@ -247,7 +244,7 @@
     CGPoint prevLoc = [touch previousLocationInView:self.view];
     CGSize velocity = CGSizeMake(loc.x-prevLoc.x, loc.y-prevLoc.y);
     if (velocity.width < -10)
-        [self switchAlarmWithIndex:[self.alarms count]-1];
+        [self switchAlarmWithIndex:self.alarms.count-1];
 }
 
 #pragma mark - SettingsViewDelegate
@@ -268,15 +265,15 @@
 
 #pragma mark - Positioning & SelectAlarmViewDelegate
 
-- (void)switchAlarmWithIndex:(int)index {
+- (void)switchAlarmWithIndex:(NSInteger)index {
     shouldSwitch = SwitchAlarmNone;
         
     if (index < 0 || index > [self.alarms count])
-        index = currAlarmIndex;
+        index = self.currAlarmIndex;
     
     float currOffset;
-    if (currAlarmIndex < self.alarms.count) {
-        AlarmView *currAlarm = self.alarms[currAlarmIndex];
+    if (self.currAlarmIndex < self.alarms.count) {
+        AlarmView *currAlarm = self.alarms[self.currAlarmIndex];
         currOffset = currAlarm.frame.origin.x + Spacing;
     } else {
         currOffset = 0;
@@ -284,10 +281,10 @@
     
     float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
 
-    float animOffset = (index-currAlarmIndex)*(asideOffset) - currOffset;
+    float animOffset = (index-self.currAlarmIndex)*(asideOffset) - currOffset;
     
     for (AlarmView *alarmView in self.alarms) {
-        CGRect newAlarmRect = CGRectOffset(currAlarmRect, ((currAlarmIndex - alarmView.alarmIndex)*(asideOffset) + currOffset) , 0);
+        CGRect newAlarmRect = CGRectOffset(currAlarmRect, ((self.currAlarmIndex - alarmView.alarmIndex)*(asideOffset) + currOffset) , 0);
         CGRect animateToRect = CGRectOffset(newAlarmRect, animOffset, 0);
         
         [alarmView setFrame:newAlarmRect];
@@ -296,12 +293,12 @@
         [alarmView shiftedFromActiveByPercent:(newAlarmRect.origin.x+Spacing)/screenWidth];
     }
     
-    currAlarmIndex = index;
-    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:currAlarmIndex] forKey:@"currAlarmIndex"];
+    self.currAlarmIndex = index;
+    [[NSUserDefaults standardUserDefaults] setObject:@(self.currAlarmIndex) forKey:@"currAlarmIndex"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     if (index < self.alarms.count) {
-        [self.selectAlarmView makeAlarmActiveAtIndex:currAlarmIndex];
+        [self.selectAlarmView makeAlarmActiveAtIndex:self.currAlarmIndex];
     }
     [self animateAlarmsToNewRect];
     [self saveAlarms];
@@ -311,7 +308,7 @@
     float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
     
     CGRect footerRect;
-    if (currAlarmIndex == [self.alarms count]) {
+    if (self.currAlarmIndex == [self.alarms count]) {
         footerRect = CGRectMake([(AlarmView *)self.alarms[self.alarms.count-1] newRect].origin.x,
                                self.selectAlarmView.frame.origin.y,
                                self.selectAlarmView.frame.size.width,
@@ -347,7 +344,7 @@
     if (![alarmView canMove])
         return;
     
-    int alarmIndex = alarmView.alarmIndex;
+    NSInteger alarmIndex = alarmView.alarmIndex;
     
     if (fabsf(xVel) > 15) {
         if (xVel < 0)
@@ -360,8 +357,8 @@
 
     CGRect alarmRect = CGRectOffset(alarmView.frame, xVel, 0);
     // reduce vel if on edges
-    if ((alarmRect.origin.x > 0 && currAlarmIndex==-1) 
-        || (alarmRect.origin.x < 0 && currAlarmIndex == 0))
+    if ((alarmRect.origin.x > 0 && self.currAlarmIndex==-1)
+        || (alarmRect.origin.x < 0 && self.currAlarmIndex == 0))
         alarmRect = CGRectOffset(alarmRect, -xVel, 0);
     
     CGRect leftAlarmRect = CGRectOffset(alarmRect, -asideOffset, 0);
@@ -397,7 +394,7 @@
 
 - (void)alarmView:(AlarmView *)alarmView stoppedDraggingWithX:(float)x {
 
-    int alarmIndex = alarmView.alarmIndex;
+    NSInteger alarmIndex = alarmView.alarmIndex;
     
     if (fabsf(x) > currAlarmRect.size.width / 2) {
         if (x < 0){
@@ -411,11 +408,11 @@
         [self switchAlarmWithIndex:alarmIndex + shouldSwitch];
     } else {
         
-        [self switchAlarmWithIndex:currAlarmIndex];
+        [self switchAlarmWithIndex:self.currAlarmIndex];
     }
 }
 
-- (void)durationViewWithIndex:(int)index draggedWithPercent:(float)percent {
+- (void)durationViewWithIndex:(NSInteger)index draggedWithPercent:(float)percent {
     [self.selectAlarmView makeAlarmSetAtIndex:index percent:percent];
 }
 

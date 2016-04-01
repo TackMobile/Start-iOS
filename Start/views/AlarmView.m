@@ -122,7 +122,7 @@ const float Spacing = 0.0f;
     return self;
 }
 
-- (id) initWithFrame:(CGRect)frame index:(int)aIndex delegate:(id<AlarmViewDelegate>)aDelegate alarmInfo:(NSDictionary *)theAlarmInfo {
+- (id) initWithFrame:(CGRect)frame index:(NSInteger)aIndex delegate:(id<AlarmViewDelegate>)aDelegate alarmInfo:(NSDictionary *)theAlarmInfo {
     _alarmIndex = aIndex;
     _delegate = aDelegate;
 
@@ -378,7 +378,7 @@ const float Spacing = 0.0f;
     
     // check if dragging between alarms
     if (pickingSong || pickingAction) {
-        if (fabsf(touchVel.width) > 15) {
+        if (fabs(touchVel.width) > 15) {
             if (touchVel.width < 0 && pickingSong) {
                 [self.selectSongView quickSelectCell];
             } else {
@@ -389,7 +389,7 @@ const float Spacing = 0.0f;
                 [self.selectDurationView setDraggingOrientation:SelectDurationDraggingCancel];
         }
     }
-    if (fabsf(touchVel.width) > fabsf(touchVel.height) && !cancelTouch)
+    if (fabs(touchVel.width) > fabs(touchVel.height) && !cancelTouch)
         if ([self.delegate respondsToSelector:@selector(alarmView:draggedWithXVel:)])
             [self.delegate alarmView:self draggedWithXVel:touchVel.width];
 }
@@ -1019,7 +1019,7 @@ const float Spacing = 0.0f;
                 self.isSnoozing = NO;
             }
             self.countdownEnded = NO;
-            NSURL *openURL = [NSURL URLWithString:[[self.selectActionView.actions objectAtIndex:[self.selectActionView actionIDWithTitle: [self.alarmInfo objectForKey:@"actionTitle"] ]] objectForKey:@"url"]]; //gets URL of selected action from alarmInfo dictionary.
+            NSURL *openURL = [NSURL URLWithString:[[self.selectActionView.actions objectAtIndex:[self.selectActionView actionIDWithTitle:self.alarmInfo[@"actionTitle"]]] objectForKey:@"url"]]; //gets URL of selected action from alarmInfo dictionary.
             [self.selectDurationView setSecondsFromZeroWithNumber:[NSNumber numberWithInt:[self getSecondsFromMidnight]]];
             [[self.delegate getMusicPlayer] stop];
             [[UIApplication sharedApplication] openURL:openURL]; //opens the url
@@ -1172,7 +1172,7 @@ CGPoint CGRectCenter(CGRect rect) {
     NSDateComponents *dateComponents = [gregorian components:(NSYearCalendarUnit | NSMonthCalendarUnit | NSDayCalendarUnit | NSHourCalendarUnit  | NSMinuteCalendarUnit | NSSecondCalendarUnit) fromDate:(NSDate *)date];
     
     
-    NSNumber *secondsSinceMidnight = [NSNumber numberWithInt:dateComponents.minute*60 + dateComponents.hour*3600];
+    NSNumber *secondsSinceMidnight = @(dateComponents.minute*60 + dateComponents.hour*3600);
     return secondsSinceMidnight;
 }
 

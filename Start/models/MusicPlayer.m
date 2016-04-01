@@ -24,25 +24,19 @@
         
         NSError *setCategoryError = nil;
         BOOL success = [audioSession setCategory:AVAudioSessionCategoryPlayback withOptions:AVAudioSessionCategoryOptionMixWithOthers error:&setCategoryError];
-        if (!success) { NSLog(@"%@", setCategoryError); }
         
         NSError *activationError = nil;
         success = [audioSession setActive:YES error:&activationError];
-        if (!success) { NSLog(@"%@", activationError); }
         
         [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     }
     return self;
 }
 
-- (void) playSongWithID:(NSNumber *)songID vibrate:(bool)vibrate {    
-    NSLog(@"song ID: %i", [ songID intValue]);
+- (void) playSongWithID:(NSNumber *)songID vibrate:(bool)vibrate {
     stopped = NO;
-    
-    if ([songID intValue] == -1) {
-        NSLog(@"n-1");
-    //do nothing, play nothing
-    }else if ([songID intValue] >= 0 && [songID intValue] < 6) { //default tones
+
+    if ([songID intValue] >= 0 && [songID intValue] < 6) { //default tones
         
         if (!audioLibrary) {
             pListModel  = [[PListModel alloc] init];
@@ -50,14 +44,10 @@
         }
         NSString *wavName = [[audioLibrary objectAtIndex:[songID intValue]] objectForKey:@"filename"];
         // play audioloop
-        NSLog(@"%@ wavName", wavName);
         NSString *playerPath = [[NSBundle mainBundle] pathForResource:wavName ofType:@"wav"];
         [self playAudioWithPath:playerPath volume:.6];
         
     } else {
-        //if ([audioPlayer isPlaying])
-        //    [audioPlayer stop];
-        
         if (!library) {
             // get music library 
             MPMediaQuery *songQuery = [[MPMediaQuery alloc] init];
@@ -75,17 +65,13 @@
     }
     shouldVibrate = vibrate;
     [self beginTick];
-
 }
 
 - (void) playAudioWithPath:(NSString *)path volume:(float)volume { 
     NSError *setURLError = nil;
     
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&setURLError];
-    if (setURLError)
-        NSLog(@"%@", setURLError);
 
-    
     [self.audioPlayer setVolume:volume];
     [self.audioPlayer setNumberOfLoops:-1];
     [self.audioPlayer play];
@@ -93,11 +79,6 @@
     NSError *catError = nil;
 
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&catError];
-    if (catError)
-        NSLog(@"%@", catError);
-    
-    if (![self.audioPlayer play])
-        NSLog(@"could not play");
 }
 
 - (void) stop {
@@ -147,8 +128,9 @@
     }
     
     if (playPercent >= 0.0f)
-        if ([samplingTarget respondsToSelector:samplingSelector])
+        if ([samplingTarget respondsToSelector:samplingSelector]) {
             [samplingTarget performSelector:samplingSelector withObject:self];
+        }
 }
 
 - (void) vibratingTick:(NSTimer *)timer {

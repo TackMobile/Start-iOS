@@ -212,8 +212,8 @@ static CGFloat const TallerRowHeight = 70.0f;
             int rand = arc4random() % 5;
             themeID = [NSNumber numberWithInt:rand]; // random theme
         } else if (indexPath.section == 2) { // preset
-            songID = [NSNumber numberWithInt:indexPath.row];
-            themeID = [NSNumber numberWithInt:indexPath.row];
+            songID = @(indexPath.row);
+            themeID = @(indexPath.row);
         } else if (indexPath.section == 3) {
             songID = [(MPMediaItem *)self.librarySongs[indexPath.row] valueForProperty:MPMediaItemPropertyPersistentID];
             themeID = @6;
@@ -326,7 +326,7 @@ static CGFloat const TallerRowHeight = 70.0f;
             case NonSearchSectionPresetSongs:
                 songTitle = [self.presetSongs[indexPath.row] objectForKey:@"title"];
                 songArtist = [self.presetSongs[indexPath.row] objectForKey:@"artist"];
-                persistentID = [NSNumber numberWithInt:indexPath.row];
+                persistentID = @(indexPath.row);
                 break;
             case NonSearchSectionLibrarySongs:
                 cellSong = self.librarySongs[indexPath.row];

@@ -13,8 +13,5 @@
 
 
 @interface UIImage (StackBlur) 
-- (UIImage*) stackBlur:(NSUInteger)radius;
-- (UIImage*) normalize;
-
 - (NSArray *) randColors;
 @end

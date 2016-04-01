@@ -58,11 +58,11 @@ static CGFloat const ActionTableViewRowHeight = 50.0f;
 - (void) selectActionWithTitle:(NSString *)searchTitle {
     if (searchTitle == nil)
         [self selectActionWithID:0];
-    [self selectActionWithID:[NSNumber numberWithInt:[self actionIDWithTitle:searchTitle]]];
+    [self selectActionWithID:@([self actionIDWithTitle:searchTitle])];
 }
 
-- (int) actionIDWithTitle:(NSString *)searchTitle {
-    for (int i=self.actions.count-1; i>-1; i--) {
+- (NSInteger) actionIDWithTitle:(NSString *)searchTitle {
+    for (NSInteger i=self.actions.count-1; i>-1; i--) {
         if ([[[self.actions objectAtIndex:i] objectForKey:@"title"] isEqualToString:searchTitle])
             return i;
     }
