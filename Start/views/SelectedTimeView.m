@@ -79,21 +79,31 @@
 
 - (void) layoutSubviews {
     [super layoutSubviews];
-    CGSize timeLabelSize = [[timeLabel text] sizeWithFont:[timeLabel font]];
-    CGSize mdLabelSize = [[meridiemLabel text] sizeWithFont:[meridiemLabel font]];
-    CGSize snoozeLabelSize = [[snoozeLabel text] sizeWithFont:[snoozeLabel font] constrainedToSize:CGSizeMake(self.frame.size.width, self.frame.size.height)];
+    CGSize timeLabelSize = [timeLabel.text sizeWithAttributes:@{NSFontAttributeName: timeLabel.font}];
+    CGSize mdLabelSize = [meridiemLabel.text sizeWithAttributes:@{NSFontAttributeName: meridiemLabel.font}];
+    CGRect rect = [snoozeLabel.text boundingRectWithSize:CGSizeMake(self.frame.size.width, self.frame.size.height)
+                                                 options:NSStringDrawingUsesLineFragmentOrigin
+                                              attributes:@{NSFontAttributeName: snoozeLabel.font}
+                                                 context:nil];
+    CGSize snoozeLabelSize = rect.size;
     
-    
-    CGRect timeLabelRect;
-        timeLabelRect = CGRectMake((self.frame.size.width - timeLabelSize.width)/2, (self.frame.size.height-timeLabelSize.height)/2, timeLabelSize.width, timeLabelSize.height);
+    CGRect timeLabelRect = CGRectMake((self.frame.size.width - timeLabelSize.width)/2,
+                                      (self.frame.size.height - timeLabelSize.height)/2,
+                                      timeLabelSize.width,
+                                      timeLabelSize.height);
 
 
-    CGRect meridiemLabelRect = CGRectMake((self.frame.size.width - mdLabelSize.width)/2, timeLabelRect.origin.y+timeLabelSize.height-7, mdLabelSize.width, mdLabelSize.height);
-    CGRect snoozeLabelRect = CGRectMake((self.frame.size.width-snoozeLabelSize.width)/2, (self.frame.size.height - snoozeLabelSize.height)/2, snoozeLabelSize.width, snoozeLabelSize.height);
-    
-    [timeLabel setFrame:timeLabelRect];
-    [meridiemLabel setFrame:meridiemLabelRect];
-    [snoozeLabel setFrame:snoozeLabelRect];
+    CGRect meridiemLabelRect = CGRectMake((self.frame.size.width - mdLabelSize.width)/2,
+                                          timeLabelRect.origin.y+timeLabelSize.height-7,
+                                          mdLabelSize.width,
+                                          mdLabelSize.height);
+    CGRect snoozeLabelRect = CGRectMake((self.frame.size.width-snoozeLabelSize.width)/2,
+                                        (self.frame.size.height - snoozeLabelSize.height)/2,
+                                        snoozeLabelSize.width,
+                                        snoozeLabelSize.height);
+    timeLabel.frame = timeLabelRect;
+    meridiemLabel.frame = meridiemLabelRect;
+    snoozeLabel.frame = snoozeLabelRect;
 }
 
 #pragma mark - Drawing
@@ -145,11 +155,14 @@
 
     // format & save the date
     date = newDate;
-
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setLocale:[NSLocale currentLocale]];
-    [dateFormatter setDateStyle:NSDateFormatterNoStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    static NSDateFormatter *dateFormatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dateFormatter = [NSDateFormatter new];
+        dateFormatter.locale = [NSLocale currentLocale];
+        dateFormatter.dateStyle = NSDateFormatterNoStyle;
+        dateFormatter.timeStyle = NSDateFormatterShortStyle;
+    });
     NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
     NSRange amRange = [dateString rangeOfString:[dateFormatter AMSymbol]];
     NSRange pmRange = [dateString rangeOfString:[dateFormatter PMSymbol]];
@@ -178,10 +191,10 @@
     
     // change the partIndicator
     [dateFormatter setDateFormat:hourFormat];
-    CGSize hourSize = [[dateFormatter stringFromDate:date] sizeWithFont:[timeLabel font]];
-    CGSize colonSize = [@":" sizeWithFont:[timeLabel font]];
+    CGSize hourSize = [[dateFormatter stringFromDate:date] sizeWithAttributes:@{NSFontAttributeName: timeLabel.font}];
+    CGSize colonSize = [@":" sizeWithAttributes:@{NSFontAttributeName: timeLabel.font}];
     [dateFormatter setDateFormat:@"mm"];
-    CGSize minSize = [[dateFormatter stringFromDate:date] sizeWithFont:[timeLabel font]];
+    CGSize minSize = [[dateFormatter stringFromDate:date] sizeWithAttributes:@{NSFontAttributeName: timeLabel.font}];
     
     float indicatorXOffset = 0;
     float indicatorWidth = 0;
@@ -216,9 +229,9 @@
     [self layoutSubviews];
     
     // change the partIndicator
-    CGSize hourSize = [[NSString stringWithFormat:@"%02d", hours] sizeWithFont:[timeLabel font]];
-    CGSize colonSize = [@":" sizeWithFont:[timeLabel font]];
-    CGSize minSize = [[NSString stringWithFormat:@"%02d", minutes] sizeWithFont:[timeLabel font]];
+    CGSize hourSize = [[NSString stringWithFormat:@"%02d", hours] sizeWithAttributes:@{NSFontAttributeName: timeLabel.font}];
+    CGSize colonSize = [@":" sizeWithAttributes:@{NSFontAttributeName: timeLabel.font}];
+    CGSize minSize = [[NSString stringWithFormat:@"%02d", minutes] sizeWithAttributes:@{NSFontAttributeName: timeLabel.font}];
     
     float indicatorXOffset = 0;
     float indicatorWidth = 0;

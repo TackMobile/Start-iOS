@@ -53,10 +53,13 @@ const float spacer = -2;
     
     float cellHeight = self.frame.size.height;
     float cellWidth = self.frame.size.width;
-    CGSize songSize = [[songLabel text] sizeWithFont:[songLabel font]];
-    CGSize artistSize = [[artistLabel text] sizeWithFont:[artistLabel font]  
-                                       constrainedToSize:CGSizeMake(245, cellHeight/2) lineBreakMode:NSLineBreakByCharWrapping];
-    
+    CGSize songSize = [songLabel.text sizeWithAttributes:@{NSFontAttributeName : songLabel.font}];
+    CGRect rect = [artistLabel.text boundingRectWithSize:CGSizeMake(245, cellHeight/2)
+                                                 options:NSStringDrawingUsesLineFragmentOrigin
+                                              attributes:@{NSFontAttributeName: artistLabel.font}
+                                                 context:nil];
+    CGSize artistSize = rect.size;
+
     float topSpacer = (cellHeight - (songSize.height + spacer + artistSize.height))/2;
     
     CGRect songRect = CGRectMake(indent, topSpacer, cellWidth-indent, songSize.height);

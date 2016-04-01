@@ -12,8 +12,6 @@
 #import "MusicPlayer.h"
 #import "SongCell.h"
 #import "SearchSongCell.h"
-#import "LeftHeaderView.h"
-#import "ReturnButtonView.h"
 
 @protocol SelectSongViewDelegate <NSObject>
 -(BOOL) expandSelectSongView;
@@ -23,19 +21,12 @@
 
 @end
 
-@interface SelectSongView : UIView <UITableViewDataSource, UITableViewDelegate, SearchSongCellDelegate, SongCellDelegate, UIAlertViewDelegate> {
-    bool isOpen;
-    bool isSearching;
-    bool artworkPresent;
-    NSIndexPath *selectedIndexPath;
+@interface SelectSongView : UIView <UITableViewDataSource, UITableViewDelegate, SearchSongCellDelegate, SongCellDelegate, UIAlertViewDelegate>
 
-    CGRect compressedFrame;
-    NSArray *librarySongs;
-    NSArray *searchedSongs;
-    NSArray *presetSongs;
-    
-    NSMutableArray *headerViews;
-}
+@property (nonatomic) BOOL isOpen;
+@property (nonatomic) BOOL isSearching;
+@property (nonatomic) BOOL artworkPresent;
+
 @property (nonatomic, strong) id<SelectSongViewDelegate> delegate;
 @property (nonatomic, strong) MusicManager *musicManager;
 
@@ -48,4 +39,5 @@
 - (void) selectCellWithID:(NSNumber *)cellNumID ;
 - (void)songPlayingTick:(MusicPlayer *)aMusicPlayer;
 - (id) initWithFrame:(CGRect)frame delegate:(id<SelectSongViewDelegate>)aDelegate presetSongs:(NSArray *)thePresetSongs;
+
 @end
