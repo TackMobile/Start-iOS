@@ -8,6 +8,7 @@
 
 #import "MasterViewController.h"
 #import "MusicPlayer.h"
+#import "LocalizedStrings.h"
 
 typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
     SwitchAlarmNext = -1,
@@ -183,9 +184,9 @@ typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
                     }
                     
                     if (alarmView.isTimerMode)
-                        notif.alertBody = @"Timer Finished";
+                        notif.alertBody = [LocalizedStrings timerFinished];
                     else
-                        notif.alertBody = @"Alarm Triggered";
+                        notif.alertBody = [LocalizedStrings alarmTriggered];
                     
                     [[UIApplication sharedApplication] scheduleLocalNotification:notif];
                     

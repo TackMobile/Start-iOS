@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C4CF3AD1CAF2CA8003A2F27 /* LocalizedStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4CF3AC1CAF2CA8003A2F27 /* LocalizedStrings.m */; };
 		961FC3C116667EEA0078219B /* tweetbot-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 961FC3BF16667EEA0078219B /* tweetbot-icon.png */; };
 		961FC3C216667EEA0078219B /* tweetbot-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 961FC3C016667EEA0078219B /* tweetbot-icon@2x.png */; };
 		965179D0166D3079004A18A1 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 965179CF166D3079004A18A1 /* Icon-72.png */; };
@@ -173,6 +174,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8C4CF3AB1CAF2CA8003A2F27 /* LocalizedStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalizedStrings.h; path = Utilities/LocalizedStrings.h; sourceTree = "<group>"; };
+		8C4CF3AC1CAF2CA8003A2F27 /* LocalizedStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalizedStrings.m; path = Utilities/LocalizedStrings.m; sourceTree = "<group>"; };
 		961FC3BF16667EEA0078219B /* tweetbot-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweetbot-icon.png"; sourceTree = "<group>"; };
 		961FC3C016667EEA0078219B /* tweetbot-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweetbot-icon@2x.png"; sourceTree = "<group>"; };
 		965179CF166D3079004A18A1 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
@@ -385,6 +388,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8C4CF3AA1CAF2BFC003A2F27 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				8C4CF3AB1CAF2CA8003A2F27 /* LocalizedStrings.h */,
+				8C4CF3AC1CAF2CA8003A2F27 /* LocalizedStrings.m */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		F31670F715A24F8C00725274 /* icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -647,6 +659,7 @@
 				F383C198158B85E400B91F31 /* Controllers */,
 				F383C199158B870400B91F31 /* Views */,
 				F383C1B0158B8E4200B91F31 /* Models */,
+				8C4CF3AA1CAF2BFC003A2F27 /* Utilities */,
 				F33F641B15951ED6000372AE /* Libs */,
 				F3F825C61598E56E0017B752 /* resources */,
 				F383C17E158B851200B91F31 /* Supporting Files */,
@@ -979,6 +992,7 @@
 				F327EC9715938906008B962F /* MusicManager.m in Sources */,
 				F33F641E15951F10000372AE /* UIImage+StackBlur.m in Sources */,
 				F36DA99A1598EF0C003A4F3C /* SongCell.m in Sources */,
+				8C4CF3AD1CAF2CA8003A2F27 /* LocalizedStrings.m in Sources */,
 				F36DA99E1598F855003A4F3C /* ActionCell.m in Sources */,
 				F36DA9A315993BBF003A4F3C /* SelectDurationView.m in Sources */,
 				F31670E515A1109200725274 /* SearchSongCell.m in Sources */,
