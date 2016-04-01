@@ -8,16 +8,23 @@
 
 #import "MusicPlayer.h"
 
+@interface MusicPlayer()
+
+@property (nonatomic, strong) NSArray *library;
+@property (nonatomic, strong) MPMusicPlayerController *musicPlayer;
+@property (nonatomic, strong) AVAudioPlayer *audioPlayer;
+@property (nonatomic, strong) MPMediaItemCollection *userMediaItemCollection;
+
+@end
+
 @implementation MusicPlayer
-@synthesize musicPlayer, audioPlayer, userMediaItemCollection;
-@synthesize playPercent;
 
 -(id) init {
     self = [super init];
     if (self) {
-        playPercent = 0.0f;
+        _playPercent = 0.0f;
         stopped = YES;
-        musicPlayer = [[MPMusicPlayerController alloc] init];
+        _musicPlayer = [[MPMusicPlayerController alloc] init];
         
         // Begin Audio Session (SILENT)
         audioSession = [AVAudioSession sharedInstance];
@@ -36,27 +43,27 @@
 - (void) playSongWithID:(NSNumber *)songID vibrate:(bool)vibrate {
     stopped = NO;
 
-    if ([songID intValue] >= 0 && [songID intValue] < 6) { //default tones
+    if (songID.intValue >= 0 && songID.intValue < 6) { //default tones
         
         if (!audioLibrary) {
             pListModel  = [[PListModel alloc] init];
             audioLibrary = [pListModel getPresetSongs];
         }
-        NSString *wavName = [[audioLibrary objectAtIndex:[songID intValue]] objectForKey:@"filename"];
+        NSString *wavName = [audioLibrary[songID.intValue] objectForKey:@"filename"];
         // play audioloop
         NSString *playerPath = [[NSBundle mainBundle] pathForResource:wavName ofType:@"wav"];
         [self playAudioWithPath:playerPath volume:.6];
         
     } else {
-        if (!library) {
+        if (!self.library) {
             // get music library 
             MPMediaQuery *songQuery = [[MPMediaQuery alloc] init];
-            library = [songQuery items];
+            self.library = [songQuery items];
         }
         
         MPMediaItemCollection *playCollection;
-        for (MPMediaItem *mediaItem in library) {
-            if ([[mediaItem valueForKey:MPMediaItemPropertyPersistentID] intValue] == [songID intValue]) {
+        for (MPMediaItem *mediaItem in self.library) {
+            if ([[mediaItem valueForKey:MPMediaItemPropertyPersistentID] intValue] == songID.intValue) {
                 playCollection = [[MPMediaItemCollection alloc] initWithItems:[[NSArray alloc] initWithObjects:mediaItem, nil]];
                 break;
             }
@@ -82,10 +89,10 @@
 }
 
 - (void) stop {
-    if (musicPlayer && musicPlayer.playbackState == MPMusicPlaybackStatePlaying)
-        [musicPlayer stop];
-    if (audioPlayer && audioPlayer.isPlaying) {
-        [audioPlayer stop];
+    if (self.musicPlayer && self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying)
+        [self.musicPlayer stop];
+    if (self.audioPlayer && self.audioPlayer.isPlaying) {
+        [self.audioPlayer stop];
     }
     stopped = YES;
     shouldVibrate = NO;
@@ -93,14 +100,14 @@
 }
 
 -  (void) updatePlayerQueueWithMediaCollection: (MPMediaItemCollection *) mediaItemCollection {
-    [musicPlayer stop];
+    [self.musicPlayer stop];
 	// Configure the music player, but only if the user chose at least one song to play
 	if (mediaItemCollection) {
         // apply the new media item collection as a playback queue for the music player
         [self setUserMediaItemCollection: mediaItemCollection];
-        [musicPlayer setQueueWithItemCollection: userMediaItemCollection];
+        [self.musicPlayer setQueueWithItemCollection: self.userMediaItemCollection];
 	}
-    [musicPlayer play];
+    [self.musicPlayer play];
     [self beginTick];
 }
 
@@ -117,17 +124,17 @@
 
 - (void) songPlayingTick:(NSTimer *)timer {
     
-    if ([audioPlayer isPlaying])
-        playPercent = audioPlayer.currentTime / audioPlayer.duration;
-    else if (musicPlayer.playbackState == MPMusicPlaybackStatePlaying)
-        playPercent = musicPlayer.currentPlaybackTime / [(NSNumber *)[musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration] doubleValue];
+    if ([self.audioPlayer isPlaying])
+        self.playPercent = self.audioPlayer.currentTime / self.audioPlayer.duration;
+    else if (self.musicPlayer.playbackState == MPMusicPlaybackStatePlaying)
+        self.playPercent = self.musicPlayer.currentPlaybackTime / [(NSNumber *)[self.musicPlayer.nowPlayingItem valueForKey:MPMediaItemPropertyPlaybackDuration] doubleValue];
     
     if (stopped) {
         [timer invalidate];
-        playPercent = 0.0f;
+        self.playPercent = 0.0f;
     }
     
-    if (playPercent >= 0.0f)
+    if (self.playPercent >= 0.0f)
         if ([samplingTarget respondsToSelector:samplingSelector]) {
             [samplingTarget performSelector:samplingSelector withObject:self];
         }

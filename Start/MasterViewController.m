@@ -9,8 +9,20 @@
 #import "MasterViewController.h"
 #import "MusicPlayer.h"
 
+typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
+    SwitchAlarmNext = -1,
+    SwitchAlarmNone,
+    SwitchAlarmPrev
+};
+
 @interface MasterViewController ()
 
+@property (nonatomic, strong) NSArray *userAlarms;
+@property (nonatomic) float asideOffset;
+@property (nonatomic) SwitchAlarmDirection shouldSwitch;
+@property (nonatomic) CGRect prevAlarmRect;
+@property (nonatomic) CGRect currAlarmRect;
+@property (nonatomic) NSInteger currAlarmIndex;
 @property (nonatomic, strong) SettingsView *settingsView;
 @property (nonatomic, strong) MusicPlayer *musicPlayer;
 @property (nonatomic, strong) SelectAlarmView *selectAlarmView;
@@ -35,7 +47,7 @@
     if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currAlarmIndex"]) {
         savedCurrIndex = [[[NSUserDefaults standardUserDefaults] objectForKey:@"currAlarmIndex"] intValue];
     }
-    shouldSwitch = SwitchAlarmNone;
+    _shouldSwitch = SwitchAlarmNone;
     self.pListModel = [[PListModel alloc] init];
     // views
     CGSize plusSize = CGSizeMake(38, 38);
@@ -46,12 +58,12 @@
                                  plusSize.width, plusSize.height);
 
 
-    currAlarmRect = CGRectMake(-Spacing, 0, frameRect.size.width+(Spacing*2), frameRect.size.height);
-    prevAlarmRect = CGRectOffset(currAlarmRect, -frameRect.size.width-Spacing, 0);
-    asideOffset = frameRect.size.width+Spacing;
+    _currAlarmRect = CGRectMake(-Spacing, 0, frameRect.size.width+(Spacing*2), frameRect.size.height);
+    _prevAlarmRect = CGRectOffset(_currAlarmRect, -frameRect.size.width-Spacing, 0);
+    _asideOffset = frameRect.size.width+Spacing;
     
     // get the user alarms first so that we know wether to hide the plus button or not
-    userAlarms = [self.pListModel getAlarms];
+    _userAlarms = [self.pListModel getAlarms];
 
     self.selectAlarmView = [[SelectAlarmView alloc] initWithFrame:selectAlarmRect delegate:self];
     self.musicPlayer = [[MusicPlayer alloc] init];
@@ -66,8 +78,8 @@
     
     [self.addButton setBackgroundImage:[UIImage imageNamed:@"plusButton"] forState:UIControlStateNormal];
     // init the alams that were stored
-    if ([userAlarms count]>0) {
-        for (NSDictionary *alarmInfo in userAlarms) {
+    if ([_userAlarms count]>0) {
+        for (NSDictionary *alarmInfo in _userAlarms) {
             [self.selectAlarmView addAlarmAnimated:NO];
             [self addAlarmWithInfo:alarmInfo switchTo:NO];
         }
@@ -197,9 +209,9 @@
     [[UIApplication sharedApplication] cancelAllLocalNotifications]; //removes all the notifications from the notificaiton center
     AlarmView *alarmView;
     int indexOfTrippedAlarm = -1;
-    userAlarms = [self.pListModel getAlarms];
-    if ([userAlarms count]>0) { //tries to find out which of the saved alarms just went off
-        for (NSDictionary *alarmInfo in userAlarms) {
+    self.userAlarms = [self.pListModel getAlarms];
+    if (self.userAlarms.count>0) { //tries to find out which of the saved alarms just went off
+        for (NSDictionary *alarmInfo in self.userAlarms) {
             indexOfTrippedAlarm++;
             if (floorf([[alarmView getDate] timeIntervalSinceNow] < 0) || floorf([[alarmInfo objectForKey:@"snoozeAlarm"] timeIntervalSinceNow] < 0)) {
                 alarmView = [self.alarms objectAtIndex:indexOfTrippedAlarm]; //saves that instance as alarmView
@@ -210,7 +222,7 @@
 
 - (void)addAlarmWithInfo:(NSDictionary *)alarmInfo switchTo:(BOOL)switchToAlarm {
     self.currAlarmIndex = self.alarms.count;
-    AlarmView *newAlarm = [[AlarmView alloc] initWithFrame:prevAlarmRect
+    AlarmView *newAlarm = [[AlarmView alloc] initWithFrame:self.prevAlarmRect
                                                      index:self.currAlarmIndex
                                                   delegate:self
                                                  alarmInfo:alarmInfo];
@@ -250,7 +262,7 @@
 #pragma mark - SettingsViewDelegate
 
 - (void)hidePlus {
-    if ([userAlarms count] == 0) {
+    if (self.userAlarms.count == 0) {
         [UIView animateWithDuration:.2 animations:^{
             self.addButton.alpha = 0;
         }];
@@ -266,7 +278,7 @@
 #pragma mark - Positioning & SelectAlarmViewDelegate
 
 - (void)switchAlarmWithIndex:(NSInteger)index {
-    shouldSwitch = SwitchAlarmNone;
+    self.shouldSwitch = SwitchAlarmNone;
         
     if (index < 0 || index > [self.alarms count])
         index = self.currAlarmIndex;
@@ -281,10 +293,10 @@
     
     float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
 
-    float animOffset = (index-self.currAlarmIndex)*(asideOffset) - currOffset;
+    float animOffset = (index-self.currAlarmIndex)*(self.asideOffset) - currOffset;
     
     for (AlarmView *alarmView in self.alarms) {
-        CGRect newAlarmRect = CGRectOffset(currAlarmRect, ((self.currAlarmIndex - alarmView.alarmIndex)*(asideOffset) + currOffset) , 0);
+        CGRect newAlarmRect = CGRectOffset(self.currAlarmRect, ((self.currAlarmIndex - alarmView.alarmIndex)*(self.asideOffset) + currOffset) , 0);
         CGRect animateToRect = CGRectOffset(newAlarmRect, animOffset, 0);
         
         [alarmView setFrame:newAlarmRect];
@@ -308,7 +320,7 @@
     float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
     
     CGRect footerRect;
-    if (self.currAlarmIndex == [self.alarms count]) {
+    if (self.currAlarmIndex == self.alarms.count) {
         footerRect = CGRectMake([(AlarmView *)self.alarms[self.alarms.count-1] newRect].origin.x,
                                self.selectAlarmView.frame.origin.y,
                                self.selectAlarmView.frame.size.width,
@@ -348,11 +360,11 @@
     
     if (fabsf(xVel) > 15) {
         if (xVel < 0)
-            shouldSwitch = SwitchAlarmNext;
+            self.shouldSwitch = SwitchAlarmNext;
         else 
-            shouldSwitch = SwitchAlarmPrev;
-    } else if ((xVel < 0 && shouldSwitch == SwitchAlarmPrev) || (xVel > 0 && shouldSwitch == SwitchAlarmNext)) {
-            shouldSwitch = SwitchAlarmNone;
+            self.shouldSwitch = SwitchAlarmPrev;
+    } else if ((xVel < 0 && self.shouldSwitch == SwitchAlarmPrev) || (xVel > 0 && self.shouldSwitch == SwitchAlarmNext)) {
+            self.shouldSwitch = SwitchAlarmNone;
     }
 
     CGRect alarmRect = CGRectOffset(alarmView.frame, xVel, 0);
@@ -361,8 +373,8 @@
         || (alarmRect.origin.x < 0 && self.currAlarmIndex == 0))
         alarmRect = CGRectOffset(alarmRect, -xVel, 0);
     
-    CGRect leftAlarmRect = CGRectOffset(alarmRect, -asideOffset, 0);
-    CGRect rightAlarmRect = CGRectOffset(alarmRect, asideOffset, 0);
+    CGRect leftAlarmRect = CGRectOffset(alarmRect, -self.asideOffset, 0);
+    CGRect rightAlarmRect = CGRectOffset(alarmRect, self.asideOffset, 0);
     
     float screenWidth = [[UIScreen mainScreen] applicationFrame].size.width;
     
@@ -396,16 +408,15 @@
 
     NSInteger alarmIndex = alarmView.alarmIndex;
     
-    if (fabsf(x) > currAlarmRect.size.width / 2) {
+    if (fabsf(x) > self.currAlarmRect.size.width / 2) {
         if (x < 0){
-            
-            [self switchAlarmWithIndex:alarmIndex-1];}
-        else{
-            
-            [self switchAlarmWithIndex:alarmIndex+1];}
-    } else if (shouldSwitch != SwitchAlarmNone) {
+            [self switchAlarmWithIndex:alarmIndex-1];
+        } else{
+            [self switchAlarmWithIndex:alarmIndex+1];
+        }
+    } else if (self.shouldSwitch != SwitchAlarmNone) {
         
-        [self switchAlarmWithIndex:alarmIndex + shouldSwitch];
+        [self switchAlarmWithIndex:alarmIndex + self.shouldSwitch];
     } else {
         
         [self switchAlarmWithIndex:self.currAlarmIndex];

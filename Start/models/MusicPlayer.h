@@ -7,15 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <MediaPlayer/MediaPlayer.h>
 #import <AVFoundation/AVAudioPlayer.h>
 #import <AudioToolbox/AudioServices.h>
 #import <AVFoundation/AVAudioSession.h>
 #import "PListModel.h"
 
-@interface MusicPlayer : NSObject <AVAudioPlayerDelegate> {
-    NSArray *library;
-    
+@interface MusicPlayer : NSObject <AVAudioPlayerDelegate> {    
     id samplingTarget;
     SEL samplingSelector;
     
@@ -30,14 +27,10 @@
     NSTimer *vibratingTimer;
 }
 
-@property (nonatomic, strong) MPMusicPlayerController *musicPlayer;
-@property (nonatomic, strong) AVAudioPlayer *audioPlayer;
-@property (nonatomic, strong) MPMediaItemCollection *userMediaItemCollection;
-
 - (void) playSongWithID:(NSNumber *)songID vibrate:(bool)vibrate ;
 - (void) stop;
 
-@property double playPercent;
+@property (nonatomic) double playPercent;
 - (void) addTargetForSampling:(id)aTarget selector:(SEL)aSelector;
 
 @end
