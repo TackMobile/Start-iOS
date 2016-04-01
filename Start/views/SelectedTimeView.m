@@ -145,11 +145,14 @@
 
     // format & save the date
     date = newDate;
-
-    NSDateFormatter *dateFormatter = [NSDateFormatter new];
-    [dateFormatter setLocale:[NSLocale currentLocale]];
-    [dateFormatter setDateStyle:NSDateFormatterNoStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+    static NSDateFormatter *dateFormatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dateFormatter = [NSDateFormatter new];
+        dateFormatter.locale = [NSLocale currentLocale];
+        dateFormatter.dateStyle = NSDateFormatterNoStyle;
+        dateFormatter.timeStyle = NSDateFormatterShortStyle;
+    });
     NSString *dateString = [dateFormatter stringFromDate:[NSDate date]];
     NSRange amRange = [dateString rangeOfString:[dateFormatter AMSymbol]];
     NSRange pmRange = [dateString rangeOfString:[dateFormatter PMSymbol]];
