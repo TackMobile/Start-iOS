@@ -14,37 +14,15 @@
 #import "MusicPlayer.h"
 #import "SettingsView.h"
 
-enum SwitchAlarmDirection {
-    SwitchAlarmNext = -1,
-    SwitchAlarmNone,
-    SwitchAlarmPrev
-};
-
-@interface MasterViewController : UIViewController <SelectAlarmViewDelegate, AlarmViewDelegate, AVAudioPlayerDelegate, SettingsViewDelegate> {
-    CGRect prevAlarmRect;
-    CGRect currAlarmRect;
-    float asideOffset;
-    
-    int shouldSwitch;
-    
-    NSArray *userAlarms;
-}
+@interface MasterViewController : UIViewController <SelectAlarmViewDelegate, AlarmViewDelegate, AVAudioPlayerDelegate, SettingsViewDelegate>
 
 @property (nonatomic, strong) NSMutableArray *alarms;
-@property (nonatomic) NSInteger currAlarmIndex;
 
 - (void) saveAlarms;
 - (void) scheduleLocalNotificationsForActiveState:(bool)isActive;
 - (void) respondedToLocalNot;
 
-- (void) hidePlus;
-- (void) showPlus;
-
-
 - (void) alarmAdded;
-- (void) updateAlarmViews:(NSTimer *)timer;
 - (void) songPlayingTick:(NSTimer *)timer;
-- (void) alarmView:(AlarmView *)alarmView draggedWithXVel:(float)xVel;
-- (void) alarmView:(AlarmView *)alarmView stoppedDraggingWithX:(float)x;
 
 @end
