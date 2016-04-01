@@ -83,7 +83,7 @@ const float optionHeight = 40;
             introLabel.font = introFonts;
             introLabel.backgroundColor = backgroundColor;
             
-            CGSize labelSize = [[introLabel text] sizeWithFont:[introLabel font]];
+            CGSize labelSize = [introLabel.text sizeWithAttributes:@{NSFontAttributeName: introLabel.font}];
             CGSize iconSize = introIconView.frame.size;
             
             CGRect labelRect = (CGRect){
@@ -112,7 +112,7 @@ const float optionHeight = 40;
         tackLabel.font = [UIFont fontWithName:introFonts.fontName size:15];
         tackLabel.textColor= introColor;
         tackLabel.backgroundColor = backgroundColor;
-        CGSize tackSize = [[tackLabel text] sizeWithFont:[tackLabel font]];
+        CGSize tackSize = [tackLabel.text sizeWithAttributes:@{NSFontAttributeName: tackLabel.font}];
         
         tackLabel.frame = (CGRect){{tackLogo.frame.origin.x - (tackSize.width + 8),
             (tackLogo.frame.origin.y+tackLogo.frame.size.height/2) - tackSize.height/2 + 3},
@@ -221,8 +221,8 @@ const float optionHeight = 40;
     }
 
     
-    CGSize copyTextSize = [[copyText text] sizeWithFont:[copyText font]];
-    CGSize versionTextSize = [[versionText text] sizeWithFont:[versionText font]];
+    CGSize copyTextSize = [copyText.text sizeWithAttributes:@{NSFontAttributeName: copyText.font}];
+    CGSize versionTextSize = [versionText.text sizeWithAttributes:@{NSFontAttributeName: versionText.font}];
     
     CGRect bgRect = CGRectMake(0, frameSize.height - bgImage.frame.size.height, frameSize.width, bgImage.frame.size.height);
     

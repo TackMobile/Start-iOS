@@ -37,7 +37,7 @@ static CGFloat const ActionFontSize = 30.0f;
     [self.icon sizeToFit];
     
     float height = self.frame.size.height;
-    CGSize titleSize = [[self.actionTitle text] sizeWithFont:[self.actionTitle font]];
+    CGSize titleSize = [self.actionTitle.text sizeWithAttributes:@{NSFontAttributeName: self.actionTitle.font}];
     CGSize iconSize = self.icon.image.size;
     
     CGRect iconRect = CGRectMake(0, (height-iconSize.height)/2, iconSize.width, iconSize.height);

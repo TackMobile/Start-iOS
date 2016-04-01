@@ -8,6 +8,8 @@
 
 #import "SearchSongCell.h"
 
+static NSString *const SearchTextFieldPlaceHolder = @"Search";
+
 @implementation SearchSongCell
 @synthesize delegate, textField, searchImage, clearTextButton, searchDivider;
 
@@ -28,7 +30,7 @@
         [clearTextButton setImage:[UIImage imageNamed:@"clear-icon"] forState:UIControlStateNormal];
         [textField setDelegate:self];
         [textField setFont:textFieldFont];
-        [textField setText:@"Search"];
+        textField.text = SearchTextFieldPlaceHolder;
         [textField setTextColor:[UIColor whiteColor]];
         [textField setAutocorrectionType:UITextAutocorrectionTypeNo];
         [textField setReturnKeyType:UIReturnKeyDone];
@@ -73,7 +75,7 @@
 - (void) layoutSubviews {
     [super layoutSubviews];
         
-    CGSize textFieldSize = [@"Search" sizeWithFont:[textField font]];
+    CGSize textFieldSize = [SearchTextFieldPlaceHolder sizeWithAttributes:@{NSFontAttributeName: textField.font}];
     CGSize imageSize = searchImage.frame.size;
     
     CGRect imageRect = CGRectMake(7, (self.frame.size.height-imageSize.height)/2 -3, imageSize.width, imageSize.height);
@@ -106,7 +108,7 @@
         [alertDelTimer setFireDate:[NSDate dateWithTimeInterval:.7 sinceDate:[NSDate date]]];
 }
 -(void) textFieldDidBeginEditing:(UITextField *)aTextField {
-    if ([textField.text isEqualToString:@"Search"])
+    if ([textField.text isEqualToString:SearchTextFieldPlaceHolder])
         [textField setText:@""];
     
     isEditing = YES;
@@ -118,7 +120,7 @@
 -(void) textFieldDidEndEditing:(UITextField *)aTextField {
     isEditing = NO;
     if ([textField.text isEqualToString:@""]) {
-        [textField setText:@"Search"];
+        textField.text = SearchTextFieldPlaceHolder;
         [clearTextButton setAlpha:0];
         if ([delegate respondsToSelector:@selector(didEndSearchingWithText:)])
             [delegate didEndSearchingWithText:[aTextField text]];
