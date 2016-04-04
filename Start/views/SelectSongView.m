@@ -206,7 +206,7 @@ static CGFloat const TallerRowHeight = 70.0f;
         
         NSNumber *songID = [[NSNumber alloc] init];
         UIImage *artwork = nil;
-        //testing
+
         NSNumber *themeID = [NSNumber numberWithInt:0];
         
         if (indexPath.section == 1) { // none

@@ -13,6 +13,7 @@
 const struct CellIdentifierString CellIdentifierString = {
     .normalSongCell = @"NormalSongCell",
     .searchCell = @"SearchCell",
+    .normalActionCell = @"NormalActionCell",
 };
 
 const struct PresetSongsKey PresetSongsKey = {
@@ -32,5 +33,7 @@ const struct StartUserDefaultKey StartUserDefaultKey = {
     .currentAlarmIndex = @"currAlarmIndex",
     .alarms = @"alarms",
 };
+
+NSString *const TackMobileURL = @"http://tackmobile.com/";
 
 @end

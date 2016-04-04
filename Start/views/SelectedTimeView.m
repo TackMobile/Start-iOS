@@ -27,45 +27,42 @@
         UIFont *snoozeLabelFont = [UIFont fontWithName:StartFontName.robotoThin size:30];
         UIFont *toastFont = [UIFont fontWithName:StartFontName.robotoThin size:18];
 
-        
         toast = [[UILabel alloc] initWithFrame:(CGRect){(CGPoint){0,0}, {self.frame.size.width, 55}}];
-        timeLabel = [[UILabel alloc] init];
-        meridiemLabel = [[UILabel alloc] init];
-        snoozeLabel = [[UILabel alloc] init];
-        editingPartIndicator = [[UIView alloc] init];
+        timeLabel = [UILabel new];
+        meridiemLabel = [UILabel new];
+        snoozeLabel = [UILabel new];
+        timerModeLabel = [UILabel new];
+        editingPartIndicator = [UIView new];
         
-        [timeLabel setTextAlignment:NSTextAlignmentCenter];
-        [timeLabel setTextColor:[UIColor whiteColor]];
-        [timeLabel setBackgroundColor:[UIColor clearColor]];
+        NSArray *views = @[
+                           toast,
+                           timeLabel,
+                           timerModeLabel,
+                           meridiemLabel,
+                           snoozeLabel,
+                           ];
+        for (UILabel *label in views) {
+            label.textAlignment = NSTextAlignmentCenter;
+            label.textColor = [UIColor whiteColor];
+            label.backgroundColor = [UIColor clearColor];
+        }
+        
         [timeLabel setFont:timeLabelFont];
         
-        [timerModeLabel setTextAlignment:NSTextAlignmentCenter];
-        [timerModeLabel setTextColor:[UIColor whiteColor]];
-        [timerModeLabel setBackgroundColor:[UIColor clearColor]];
         [timerModeLabel setFont:timeLabelFont];
         
-        [meridiemLabel setTextAlignment:NSTextAlignmentCenter];
-        [meridiemLabel setTextColor:[UIColor whiteColor]];
-        [meridiemLabel setBackgroundColor:[UIColor clearColor]];
         [meridiemLabel setFont:mdLabelFont];
         
-        [snoozeLabel setTextAlignment:NSTextAlignmentCenter];
-        [snoozeLabel setTextColor:[UIColor whiteColor]];
-        [snoozeLabel setBackgroundColor:[UIColor clearColor]];
         [snoozeLabel setLineBreakMode:NSLineBreakByCharWrapping];
         snoozeLabel.numberOfLines = 0;
         [snoozeLabel setAlpha:0];
         snoozeLabel.text = [LocalizedStrings tapToSnooze];
         [snoozeLabel setFont:snoozeLabelFont];
         
-        [toast setTextAlignment:NSTextAlignmentCenter];
-        [toast setTextColor:[UIColor whiteColor]];
-        [toast setBackgroundColor:[UIColor clearColor]];
         toast.text = [LocalizedStrings alarm];
         [toast setFont:toastFont];
                 
         [editingPartIndicator setBackgroundColor:[UIColor whiteColor]];
-        [toast setTextAlignment:NSTextAlignmentCenter];
         
         [self addSubview:timeLabel];
         [self addSubview:meridiemLabel];

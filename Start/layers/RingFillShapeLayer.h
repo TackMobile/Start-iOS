@@ -12,8 +12,6 @@
 @interface RingFillShapeLayer : CALayer 
 @property (nonatomic, strong) id animDelegate;
 
-@property (atomic, strong) NSString *ringName;
-
 @property (nonatomic) bool shouldAnimate;
 
 @property (nonatomic) CGFloat innerRadius;

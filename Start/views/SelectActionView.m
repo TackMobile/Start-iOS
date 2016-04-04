@@ -9,7 +9,6 @@
 #import "SelectActionView.h"
 #import "Constants.h"
 
-static NSString *const NormalActionCell = @"NormalActionCell";
 static CGFloat const ActionTableViewRowHeight = 50.0f;
 
 @implementation SelectActionView
@@ -127,9 +126,9 @@ static CGFloat const ActionTableViewRowHeight = 50.0f;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ActionCell *cell = (ActionCell *)[tableView dequeueReusableCellWithIdentifier:NormalActionCell];
+    ActionCell *cell = (ActionCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifierString.normalActionCell];
     if (cell == nil) {
-        cell = [[ActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:NormalActionCell];
+        cell = [[ActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifierString.normalActionCell];
         [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         // add to acitoncells array (for fading cells in/out
         [actionCells addObject:cell];
