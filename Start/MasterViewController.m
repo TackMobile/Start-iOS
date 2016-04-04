@@ -9,6 +9,7 @@
 #import "MasterViewController.h"
 #import "MusicPlayer.h"
 #import "LocalizedStrings.h"
+#import "Constants.h"
 
 typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
     SwitchAlarmNext = -1,
@@ -45,8 +46,8 @@ typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
     // get the saved alarm index
     self.currAlarmIndex = 1;
     int savedCurrIndex = 1;
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"currAlarmIndex"]) {
-        savedCurrIndex = [[[NSUserDefaults standardUserDefaults] objectForKey:@"currAlarmIndex"] intValue];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:StartUserDefaultKey.currentAlarmIndex]) {
+        savedCurrIndex = [[[NSUserDefaults standardUserDefaults] objectForKey:StartUserDefaultKey.currentAlarmIndex] intValue];
     }
     _shouldSwitch = SwitchAlarmNone;
     self.pListModel = [[PListModel alloc] init];
@@ -120,7 +121,7 @@ typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
         [alarmsData addObject:[NSDictionary dictionaryWithDictionary:alarm.alarmInfo]];
     [self.pListModel saveAlarms:alarmsData];
     [[NSUserDefaults standardUserDefaults] setObject:@(self.currAlarmIndex)
-                                              forKey:@"currAlarmIndex"];
+                                              forKey:StartUserDefaultKey.currentAlarmIndex];
 }
 
 - (void)updateAlarmViews:(NSTimer *)timer {
@@ -307,7 +308,7 @@ typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
     }
     
     self.currAlarmIndex = index;
-    [[NSUserDefaults standardUserDefaults] setObject:@(self.currAlarmIndex) forKey:@"currAlarmIndex"];
+    [[NSUserDefaults standardUserDefaults] setObject:@(self.currAlarmIndex) forKey:StartUserDefaultKey.currentAlarmIndex];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     if (index < self.alarms.count) {

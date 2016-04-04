@@ -385,54 +385,6 @@
     return [gregorian dateFromComponents:dateComponents];
 }
 
-
-
-/*
-- (void) setDuration:(NSTimeInterval)duration {
-    if (duration < 0.0)
-        duration = 0.0;
-    
-    int days = duration / (60 * 60 * 24);
-    duration -= days * (60 * 60 * 24);
-    int hours = duration / (60 * 60);
-    duration -= hours * (60 * 60);
-    int minutes = duration / 60;
-    
-    float oldInnerAngle = innerAngle;
-    float oldOuterAngle = outerAngle;
-    
-    float newInnerAngle = hours * (M_PI*2)/24;
-    float newOuterAngle = minutes * (M_PI*2)/60;
-        
-    [self setSnappedOuterAngle:newOuterAngle checkForNext:NO];
-    [self setSnappedInnerAngle:newInnerAngle];
-    
-    if (!switchingModes) {
-        outerFill.shouldAnimate = innerFill.shouldAnimate = NO;
-        outerFill.startAngle = innerFill.startAngle = 0;
-    }
-    
-    if ((oldInnerAngle != innerAngle) || (oldOuterAngle != outerAngle))
-        [self updateLayersAnimated:YES];
-}*/
-/*
--(void) setSecondsSinceMidnight:(NSNumber *)seconds {
-    _secondsSinceMidnight = [seconds intValue];
-    [self update];
-}*/
-/*
--(NSNumber *) getSecondsSinceMidnight {
-    int min = (int)roundf(outerAngle/(M_PI*2/60));
-    int hour = (int)roundf(innerAngle/(M_PI*2/24));
-    
-    return [NSNumber numberWithInt:min*60+hour*3600];
-}
--(void) addSeconds:(int)seconds {
-    int nowSeconds = [[self getSecondsSinceMidnight] intValue];
-    [self setSecondsSinceMidnight:[NSNumber numberWithInt:nowSeconds+seconds]];
-}*/
-
-
 #pragma mark - picker angles
 
 -(void) setSnappedOuterAngle:(float)angle checkForNext:(bool)shouldCheck {
@@ -445,39 +397,15 @@
     // make sure we are moving the correct handle
     if (handleSelected != SelectDurationNoHandle && shouldCheck) {
         if (prevOuterAngle > beforeLim && roundedAngle < afterLim) {
-            NSLog(@"next hour");
             outerAngle = prevOuterAngle = roundedAngle;
             [self addSeconds:3600];
-            /*outerAngle = prevOuterAngle = roundedAngle;
-            [self setSnappedInnerAngle:innerAngle +  (M_PI*2/60)];
-            [self updateLayersAnimated:YES];
-            return;*/
-            
-            /*outerAngle = prevOuterAngle = roundedAngle;
-            if (isTimerMode)
-                [self setDuration:[self getDuration]+3600];
-            else
-                [self addSeconds:3600];
-            
-            return;*/
-
         } else if (roundedAngle > beforeLim && prevOuterAngle < afterLim) {
             
             // make sure that we cant go into negative seconds
             if (!isTimerMode || innerAngle > 0) {
-                NSLog(@"previous hour");
                 outerAngle = prevOuterAngle = roundedAngle;
                 [self addSeconds:-3600];
-                /*outerAngle = prevOuterAngle = roundedAngle;
-                if (isTimerMode)
-                    [self setDuration:[self getDuration]-3600];
-                else
-                    [self addSeconds:-3600];*/
-                /*outerAngle = prevOuterAngle = roundedAngle;
-                [self setSnappedInnerAngle:innerAngle -  (M_PI*2/60)];
-                return;*/
             }
-
         }
     }
     
@@ -492,13 +420,6 @@
 -(void) setSnappedInnerAngle:(float)angle {
     // round the angle
     float roundedAngle = roundf(angle/(M_PI*2/24)) * (M_PI*2/24);
-    
-    
-    /*while (roundedAngle > M_PI * 2)
-        roundedAngle = roundedAngle - (M_PI * 2);
-    
-    while (roundedAngle < 0)
-        roundedAngle = roundedAngle + (M_PI * 2);*/
     
     innerAngle = roundedAngle;
     if (!disableUpdateAngles) {
@@ -525,9 +446,6 @@
     float roundedAngle = roundf(angle/(M_PI*2/60)) * (M_PI*2/60);
     outerStartAngle = roundedAngle;
     if (!disableUpdateAngles) {
-        //outerFill.shouldAnimate = NO;
-        //outerFill.startAngle = [self shouldFixAngle:outerFill.startAngle]?0:outerFill.startAngle;
-        
         outerFill.shouldAnimate = YES;
         outerFill.startAngle = outerStartAngle;
     }
@@ -537,10 +455,7 @@
     float roundedAngle = roundf(angle/(M_PI*2/24)) * (M_PI*2/24);
     innerStartAngle = roundedAngle;
     
-    if (!disableUpdateAngles) {
-        //innerFill.shouldAnimate = NO;
-        //innerFill.startAngle = [self shouldFixAngle:innerFill.startAngle]?0:innerFill.startAngle;
-        
+    if (!disableUpdateAngles) {        
         innerFill.shouldAnimate = YES;
         innerFill.startAngle = innerStartAngle;
     }
@@ -578,7 +493,6 @@
     
     // check if angle is M_PI*2
     if (angle > 6.2 && angle < M_PI * 2) {
-        NSLog(@"Angle is %f. being brought to zero.", angle);
         angle = 0;
     }
     

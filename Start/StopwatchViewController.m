@@ -8,6 +8,7 @@
 
 #import "StopwatchViewController.h"
 #import "LocalizedStrings.h"
+#import "Constants.h"
 
 @interface StopwatchViewController ()
 
@@ -36,7 +37,7 @@
 
     self.timerLabel.frame = timerLabelRect;
         
-    UIFont *timerFont = [UIFont fontWithName:@"Roboto-Thin" size:80];
+    UIFont *timerFont = [UIFont fontWithName:StartFontName.robotoThin size:80];
     [self.timerLabel setTextAlignment:NSTextAlignmentCenter];
     [self.timerLabel setTextColor:[UIColor whiteColor]];
     [self.timerLabel setBackgroundColor:[UIColor clearColor]];
@@ -46,7 +47,7 @@
     
     // paused label
     self.pausedLabel.frame = pauseLabelRect;
-    UIFont *pauseFont = [UIFont fontWithName:@"Roboto-Thin" size:25];
+    UIFont *pauseFont = [UIFont fontWithName:StartFontName.robotoThin size:25];
     [self.pausedLabel setTextAlignment:NSTextAlignmentCenter];
     [self.pausedLabel setTextColor:[UIColor whiteColor]];
     [self.pausedLabel setBackgroundColor:[UIColor clearColor]];

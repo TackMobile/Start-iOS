@@ -7,6 +7,7 @@
 //
 
 #import "ActionCell.h"
+#import "Constants.h"
 
 @implementation ActionCell
 
@@ -19,7 +20,7 @@ static CGFloat const ActionFontSize = 30.0f;
     if (self) {
         _actionTitle = [[UILabel alloc] init];
         _icon = [[UIImageView alloc] init];
-        UIFont *actionLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:ActionFontSize];
+        UIFont *actionLabelFont = [UIFont fontWithName:StartFontName.robotoThin size:ActionFontSize];
         
         _actionTitle.font = actionLabelFont;
         _actionTitle.textColor = [UIColor whiteColor];

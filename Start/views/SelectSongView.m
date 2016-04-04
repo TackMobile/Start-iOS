@@ -9,6 +9,8 @@
 #import "SelectSongView.h"
 #import "LeftHeaderView.h"
 #import "ReturnButtonView.h"
+#import "LocalizedStrings.h"
+#import "Constants.h"
 
 typedef NS_ENUM(NSInteger, NonSearchTableSection) {
     NonSearchSectionSearch,
@@ -283,22 +285,19 @@ static CGFloat const TallerRowHeight = 70.0f;
     return 0;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {    
-    static NSString *NormalSongCell = @"NormalSongCell";
-    static NSString *SearchCell = @"SearchCell";
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
-        SearchSongCell *cells = (SearchSongCell *)[tableView dequeueReusableCellWithIdentifier:SearchCell];
+        SearchSongCell *cells = (SearchSongCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifierString.searchCell];
         if (cells == nil) {
-            cells = [[SearchSongCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:SearchCell delegate:self];
+            cells = [[SearchSongCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifierString.searchCell delegate:self];
             [cells setSelectionStyle:UITableViewCellSelectionStyleNone];
         }
         return cells;
     }
     
-    self.cell = (SongCell *)[tableView dequeueReusableCellWithIdentifier:NormalSongCell];
+    self.cell = (SongCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifierString.normalSongCell];
     if (self.cell == nil) {
-        self.cell = [[SongCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:NormalSongCell];
+        self.cell = [[SongCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifierString.normalSongCell];
         [self.cell setSelectionStyle:UITableViewCellSelectionStyleNone];
         [self.cell setDelegate:self];
     }
@@ -320,12 +319,12 @@ static CGFloat const TallerRowHeight = 70.0f;
     } else {
         switch (indexPath.section) {
             case NonSearchSectionNoSound:
-                songTitle = @"No Sound";
-                songArtist = @"Tap to select. Hold to preview.";
+                songTitle = [LocalizedStrings noSound];
+                songArtist = [LocalizedStrings tapToSelectOrPreview];
                 break;
             case NonSearchSectionPresetSongs:
-                songTitle = [self.presetSongs[indexPath.row] objectForKey:@"title"];
-                songArtist = [self.presetSongs[indexPath.row] objectForKey:@"artist"];
+                songTitle = [self.presetSongs[indexPath.row] objectForKey:PresetSongsKey.title];
+                songArtist = [self.presetSongs[indexPath.row] objectForKey:PresetSongsKey.artist];
                 persistentID = @(indexPath.row);
                 break;
             case NonSearchSectionLibrarySongs:
@@ -366,7 +365,7 @@ static CGFloat const TallerRowHeight = 70.0f;
         return ShorterRowHeight;
     }
     if (indexPath.section == NonSearchSectionPresetSongs) {
-        return ([[self.presetSongs[indexPath.row] objectForKey:@"artist"] isEqualToString:@""])
+        return ([[self.presetSongs[indexPath.row] objectForKey:PresetSongsKey.artist] isEqualToString:@""])
         ?ShorterRowHeight:TallerRowHeight;
     }
     return TallerRowHeight;
@@ -503,7 +502,7 @@ static CGFloat const TallerRowHeight = 70.0f;
 }
 
 -(void) didEndSearchingWithText:(NSString *)text {
-    if ([text isEqualToString:@""] || [text isEqualToString:@"Search"]) {
+    if ([text isEqualToString:@""] || [text isEqualToString:[LocalizedStrings search]]) {
         [self endSearch];
     }
 }

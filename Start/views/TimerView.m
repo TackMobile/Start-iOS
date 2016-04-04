@@ -7,6 +7,7 @@
 //
 
 #import "TimerView.h"
+#import "Constants.h"
 
 @interface TimerView()
 
@@ -26,7 +27,7 @@
         
         [self addSubview:_timerLabel];
         
-        UIFont *timerFont = [UIFont fontWithName:@"Roboto-Thin" size:80];
+        UIFont *timerFont = [UIFont fontWithName:StartFontName.robotoThin size:80];
         [_timerLabel setTextAlignment:NSTextAlignmentCenter];
         [_timerLabel setTextColor:[UIColor whiteColor]];
         [_timerLabel setBackgroundColor:[UIColor clearColor]];
