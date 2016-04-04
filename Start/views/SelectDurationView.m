@@ -61,8 +61,6 @@
         
         // update date timer
         [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(updateTimerTick:) userInfo:nil repeats:YES];
-        //[self update]; //testing
-        
     }
     return self;
 }
@@ -227,9 +225,6 @@
 - (void) exitTimerModeWithSeconds:(int)seconds {
     switchingModes = YES;
     isTimerMode = NO;
-    
-    //float saveInnerStart = innerFill.startAngle;
-    //float saveOuterStart = outerFill.startAngle;
 
     disableUpdateAngles = YES;
     [self update];
@@ -286,8 +281,6 @@
 
 - (void) setStopwatchMode:(BOOL)on {
     isStopwatchMode = on;
-    //[self compressByRatio:isStopwatchMode?0:1];
-    //[self updateLayersAnimated:YES];
 }
 - (void) updateTheme:(NSDictionary *)newTheme {
     theme = newTheme;
@@ -321,7 +314,6 @@
         [self setSnappedInnerStartAngle:newInnerStartAngle];
         [self setSnappedOuterStartAngle:newOuterStartAngle];
     }
-    
 }
 
 - (void) setSecondsFromZeroWithNumber:(NSNumber *)seconds {
@@ -535,9 +527,6 @@
 - (void) initializeLayers {
     innerFill = [[RingFillShapeLayer alloc] init];
     outerFill = [[RingFillShapeLayer alloc] init];
-    
-    outerFill.ringName = @"OUTER FILL";
-    innerFill.ringName = @"INNER FILL";
     
     innerFill.animDelegate = self;
     outerFill.animDelegate = self;

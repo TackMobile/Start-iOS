@@ -30,7 +30,6 @@
         
         shouldFlash = NO;
         
-        // testing
         [countdownLabel setText:@"00:00:00"];
      }
     return self;

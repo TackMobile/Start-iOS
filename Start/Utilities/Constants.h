@@ -11,6 +11,7 @@
 FOUNDATION_EXPORT const struct CellIdentifierString {
     __unsafe_unretained NSString *normalSongCell;
     __unsafe_unretained NSString *searchCell;
+    __unsafe_unretained NSString *normalActionCell;
 } CellIdentifierString;
 
 FOUNDATION_EXPORT const struct PresetSongsKey {
@@ -30,6 +31,8 @@ FOUNDATION_EXPORT const struct StartUserDefaultKey {
     __unsafe_unretained NSString *currentAlarmIndex;
     __unsafe_unretained NSString *alarms;
 } StartUserDefaultKey;
+
+FOUNDATION_EXPORT NSString *const TackMobileURL;
 
 @interface Constants : NSObject
 

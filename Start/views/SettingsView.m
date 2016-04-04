@@ -284,7 +284,7 @@ const float optionHeight = 40;
 }
 
 -(void)tackTapped:(id)button {
-    NSURL* tackURL = [NSURL URLWithString:@"http://tackmobile.com/"];
+    NSURL* tackURL = [NSURL URLWithString:TackMobileURL];
     if ([[UIApplication sharedApplication] canOpenURL:tackURL])
         [[UIApplication sharedApplication] openURL:tackURL];
 }
