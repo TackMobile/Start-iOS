@@ -7,6 +7,8 @@
 //
 
 #import "SelectedTimeView.h"
+#import "Constants.h"
+#import "LocalizedStrings.h"
 
 @implementation SelectedTimeView
 @synthesize editingPart, date, editingPartIndicator;
@@ -20,10 +22,10 @@
         date = [[NSDate alloc] init];
         
         // Views
-        UIFont *timeLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:50];
-        UIFont *mdLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:26];
-        UIFont *snoozeLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:30];
-        UIFont *toastFont = [UIFont fontWithName:@"Roboto-Thin" size:18];
+        UIFont *timeLabelFont = [UIFont fontWithName:StartFontName.robotoThin size:50];
+        UIFont *mdLabelFont = [UIFont fontWithName:StartFontName.robotoThin size:26];
+        UIFont *snoozeLabelFont = [UIFont fontWithName:StartFontName.robotoThin size:30];
+        UIFont *toastFont = [UIFont fontWithName:StartFontName.robotoThin size:18];
 
         
         toast = [[UILabel alloc] initWithFrame:(CGRect){(CGPoint){0,0}, {self.frame.size.width, 55}}];
@@ -53,13 +55,13 @@
         [snoozeLabel setLineBreakMode:NSLineBreakByCharWrapping];
         snoozeLabel.numberOfLines = 0;
         [snoozeLabel setAlpha:0];
-        [snoozeLabel setText:@"TAP TO SNOOZE"];
+        snoozeLabel.text = [LocalizedStrings tapToSnooze];
         [snoozeLabel setFont:snoozeLabelFont];
         
         [toast setTextAlignment:NSTextAlignmentCenter];
         [toast setTextColor:[UIColor whiteColor]];
         [toast setBackgroundColor:[UIColor clearColor]];
-        [toast setText:@"ALARM"];
+        toast.text = [LocalizedStrings alarm];
         [toast setFont:toastFont];
                 
         [editingPartIndicator setBackgroundColor:[UIColor whiteColor]];
@@ -72,7 +74,6 @@
         [self addSubview:toast];
         
         [self layoutSubviews];
-        // TESTING
     }
     return self;
 }
@@ -119,13 +120,13 @@
     timerMode = YES;
     [meridiemLabel removeFromSuperview];
     
-    [self setTitleWithText:@"TIMER"];
+    [self setTitleWithText:[LocalizedStrings timer]];
 }
 - (void) enterAlarmMode {
     timerMode = NO;
     [self addSubview:meridiemLabel];
     
-    [self setTitleWithText:@"ALARM"];
+    [self setTitleWithText:[LocalizedStrings alarm]];
 }
 
 - (void) setTitleWithText:(NSString *)text {

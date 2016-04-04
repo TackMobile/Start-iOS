@@ -7,6 +7,7 @@
 //
 
 #import "SelectActionView.h"
+#import "Constants.h"
 
 static NSString *const NormalActionCell = @"NormalActionCell";
 static CGFloat const ActionTableViewRowHeight = 50.0f;
@@ -63,21 +64,21 @@ static CGFloat const ActionTableViewRowHeight = 50.0f;
 
 - (NSInteger) actionIDWithTitle:(NSString *)searchTitle {
     for (NSInteger i=self.actions.count-1; i>-1; i--) {
-        if ([[[self.actions objectAtIndex:i] objectForKey:@"title"] isEqualToString:searchTitle])
+        if ([[[self.actions objectAtIndex:i] objectForKey:PresetSongsKey.title] isEqualToString:searchTitle])
             return i;
     }
     return -1;
 }
 
 - (NSString *)actionTitleWithID:(int)theID {
-    return [(NSDictionary *)self.actions[theID] objectForKey:@"title"];
+    return [(NSDictionary *)self.actions[theID] objectForKey:PresetSongsKey.title];
 }
 
 #pragma mark - Positioning
 
 - (void) actionSelectedAtIndexPath:(NSIndexPath *)indexPath {
 
-    NSString *actionTitle = [(NSDictionary *)self.actions[indexPath.row] objectForKey:@"title"];
+    NSString *actionTitle = [(NSDictionary *)self.actions[indexPath.row] objectForKey:PresetSongsKey.title];
     
     if ([delegate respondsToSelector:@selector(actionSelected:)])
         [delegate actionSelected:actionTitle];
@@ -135,7 +136,7 @@ static CGFloat const ActionTableViewRowHeight = 50.0f;
     }
     
     NSDictionary *action = self.actions[indexPath.row];
-    cell.actionTitle.text = [action objectForKey:@"title"];
+    cell.actionTitle.text = [action objectForKey:PresetSongsKey.title];
     [cell.icon setImage:[UIImage imageNamed:[action objectForKey:@"iconFilename"]]];
     [cell setAlpha:1];
     [cell.actionTitle setAlpha:1];

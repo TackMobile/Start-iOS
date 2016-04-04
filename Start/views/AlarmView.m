@@ -8,6 +8,7 @@
 
 #import "AlarmView.h"
 #import "LocalizedStrings.h"
+#import "Constants.h"
 
 @implementation AlarmView
 
@@ -75,7 +76,7 @@ const float Spacing = 0.0f;
         [self addSubview:_selectedTimeView];
         [self addSubview:_deleteLabel];
         
-        _deleteLabel.font = [UIFont fontWithName:@"Roboto" size:30];
+        _deleteLabel.font = [UIFont fontWithName:StartFontName.roboto size:30];
         _deleteLabel.backgroundColor = [UIColor clearColor];
         _deleteLabel.textColor = [UIColor whiteColor];
         _deleteLabel.alpha = 0;
@@ -880,7 +881,7 @@ const float Spacing = 0.0f;
         if (!self.isTimerMode) {
             self.countdownEnded = NO;
             self.isSnoozing = YES;
-            NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"] intValue] * 60.0f; // get the snooze duration from preferences
+            NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:StartUserDefaultKey.snoozeTime] intValue] * 60.0f; // get the snooze duration from preferences
             NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
             [self.alarmInfo setObject:snoozeDate forKey:@"snoozeAlarm"]; // set an alarm for a time in the future
             [selectDuration setSecondsFromZeroWithNumber:[self secondsSinceMidnightWithDate:snoozeDate]];

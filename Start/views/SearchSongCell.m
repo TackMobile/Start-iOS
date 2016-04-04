@@ -7,8 +7,8 @@
 //
 
 #import "SearchSongCell.h"
-
-static NSString *const SearchTextFieldPlaceHolder = @"Search";
+#import "LocalizedStrings.h"
+#import "Constants.h"
 
 @implementation SearchSongCell
 @synthesize delegate, textField, searchImage, clearTextButton, searchDivider;
@@ -19,7 +19,7 @@ static NSString *const SearchTextFieldPlaceHolder = @"Search";
     if (self) {
         isEditing = NO;
         
-        UIFont *textFieldFont = [UIFont fontWithName:@"Roboto-Thin" size:30];
+        UIFont *textFieldFont = [UIFont fontWithName:StartFontName.robotoThin size:30];
         CGRect clearTextRect = CGRectMake(0, 0, 20, 20);
         
         textField = [[UITextField alloc] init];
@@ -30,7 +30,7 @@ static NSString *const SearchTextFieldPlaceHolder = @"Search";
         [clearTextButton setImage:[UIImage imageNamed:@"clear-icon"] forState:UIControlStateNormal];
         [textField setDelegate:self];
         [textField setFont:textFieldFont];
-        textField.text = SearchTextFieldPlaceHolder;
+        textField.text = [LocalizedStrings search];
         [textField setTextColor:[UIColor whiteColor]];
         [textField setAutocorrectionType:UITextAutocorrectionTypeNo];
         [textField setReturnKeyType:UIReturnKeyDone];
@@ -75,7 +75,7 @@ static NSString *const SearchTextFieldPlaceHolder = @"Search";
 - (void) layoutSubviews {
     [super layoutSubviews];
         
-    CGSize textFieldSize = [SearchTextFieldPlaceHolder sizeWithAttributes:@{NSFontAttributeName: textField.font}];
+    CGSize textFieldSize = [[LocalizedStrings search] sizeWithAttributes:@{NSFontAttributeName: textField.font}];
     CGSize imageSize = searchImage.frame.size;
     
     CGRect imageRect = CGRectMake(7, (self.frame.size.height-imageSize.height)/2 -3, imageSize.width, imageSize.height);
@@ -108,7 +108,7 @@ static NSString *const SearchTextFieldPlaceHolder = @"Search";
         [alertDelTimer setFireDate:[NSDate dateWithTimeInterval:.7 sinceDate:[NSDate date]]];
 }
 -(void) textFieldDidBeginEditing:(UITextField *)aTextField {
-    if ([textField.text isEqualToString:SearchTextFieldPlaceHolder])
+    if ([textField.text isEqualToString:[LocalizedStrings search]])
         [textField setText:@""];
     
     isEditing = YES;
@@ -120,26 +120,20 @@ static NSString *const SearchTextFieldPlaceHolder = @"Search";
 -(void) textFieldDidEndEditing:(UITextField *)aTextField {
     isEditing = NO;
     if ([textField.text isEqualToString:@""]) {
-        textField.text = SearchTextFieldPlaceHolder;
+        textField.text = [LocalizedStrings search];
         [clearTextButton setAlpha:0];
-        if ([delegate respondsToSelector:@selector(didEndSearchingWithText:)])
+        if ([delegate respondsToSelector:@selector(didEndSearchingWithText:)]) {
             [delegate didEndSearchingWithText:[aTextField text]];
+        }
     }
 }
 -(BOOL) textFieldShouldReturn:(UITextField *)aTextField {
     [textField resignFirstResponder];
     [clearTextButton setAlpha:0];
-    if ([delegate respondsToSelector:@selector(didEndSearchingWithText:)])
+    if ([delegate respondsToSelector:@selector(didEndSearchingWithText:)]){
         [delegate didEndSearchingWithText:[aTextField text]];
+    }
     return YES;
-}
-
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
 }
 
 @end

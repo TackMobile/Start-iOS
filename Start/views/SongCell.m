@@ -7,6 +7,7 @@
 //
 
 #import "SongCell.h"
+#import "Constants.h"
 
 @implementation SongCell
 @synthesize artistLabel, songLabel, persistentID;
@@ -27,8 +28,8 @@ const float spacer = -2;
         artistLabel.lineBreakMode = NSLineBreakByCharWrapping;
         artistLabel.numberOfLines = 0;
         
-        UIFont *songLabelFont = [UIFont fontWithName:@"Roboto-Thin" size:30];
-        UIFont *artistLabelFont = [UIFont fontWithName:@"Roboto-Light" size:16];
+        UIFont *songLabelFont = [UIFont fontWithName:StartFontName.robotoThin size:30];
+        UIFont *artistLabelFont = [UIFont fontWithName:StartFontName.robotoLight size:16];
         
         [songLabel setFont:songLabelFont];      [songLabel setTextColor:[UIColor whiteColor]];
         [songLabel setBackgroundColor:[UIColor clearColor]];

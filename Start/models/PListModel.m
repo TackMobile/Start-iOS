@@ -7,6 +7,7 @@
 //
 
 #import "PListModel.h"
+#import "Constants.h"
 
 @implementation PListModel
 
@@ -22,11 +23,11 @@
 }
 
 -(NSArray *)getAlarms {
-    alarms = [[NSUserDefaults standardUserDefaults] objectForKey:@"alarms"];
+    alarms = [[NSUserDefaults standardUserDefaults] objectForKey:StartUserDefaultKey.alarms];
     return alarms;
 }
 -(NSArray *)saveAlarms:(NSArray *)alarmData {
-    [[NSUserDefaults standardUserDefaults] setObject:alarmData forKey:@"alarms"];
+    [[NSUserDefaults standardUserDefaults] setObject:alarmData forKey:StartUserDefaultKey.alarms];
     return [self getAlarms];
 }
 
@@ -55,8 +56,6 @@
         
         if (i==0 || [app canOpenURL:url])
             [newActions addObject:action];
-        
-        //[newActions addObject:action];
     }
     actions = newActions;
     

@@ -7,6 +7,8 @@
 //
 
 #import "SettingsView.h"
+#import "Constants.h"
+#import "LocalizedStrings.h"
 
 @implementation SettingsView
 @synthesize delegate;
@@ -37,27 +39,29 @@ const float optionHeight = 40;
         versionText = [UILabel new];
         timePicker = [[UIScrollView alloc] init];
         
-        UIFont *introFonts = [UIFont fontWithName:@"Roboto-Thin" size:20];
+        UIFont *introFonts = [UIFont fontWithName:StartFontName.robotoThin size:20];
         UIColor *introColor = [UIColor whiteColor];
         UIColor *backgroundColor = [UIColor clearColor];
         
-        labelCopy = [NSArray arrayWithObjects:
-                     @"Create a new space",
-                     @"Tap to switch alarm or timer",
-                     @"Set time, sound and action" ,
-                     @"Flick up to activate",
-                     @"Flick down for stopwatch",
-                     @"Pinch to delete",
-                     @"Keep open for music alarms", nil];
+        labelCopy = @[
+                     [LocalizedStrings createANewSpace],
+                     [LocalizedStrings tapToSwitch],
+                     [LocalizedStrings setTimeSoundAction],
+                     [LocalizedStrings flickUpToActivate],
+                     [LocalizedStrings flickDownStopwatch],
+                     [LocalizedStrings pinchToDelete],
+                     [LocalizedStrings keepOpenForMusic],
+                     ];
         
-        labelIcons = [NSArray arrayWithObjects:
+        labelIcons = @[
                       [UIImage imageNamed:@"create-icon"],
                       [UIImage imageNamed:@"tap-icon"],
                       [UIImage imageNamed:@"set-icon"],
                       [UIImage imageNamed:@"flick-up-icon"],
                       [UIImage imageNamed:@"flick-down-icon"],
                       [UIImage imageNamed:@"pinch-icon"],
-                      [UIImage imageNamed:@"song-icon"], nil];
+                      [UIImage imageNamed:@"song-icon"],
+                      ];
         
         float introSpacing = 47;
         float iconCenterX = 27;
@@ -108,7 +112,7 @@ const float optionHeight = 40;
         }
 
         tackLabel = [UILabel new];
-        tackLabel.text = @"Assembled by";
+        tackLabel.text = [LocalizedStrings assembledBy];
         tackLabel.font = [UIFont fontWithName:introFonts.fontName size:15];
         tackLabel.textColor= introColor;
         tackLabel.backgroundColor = backgroundColor;
@@ -153,8 +157,8 @@ const float optionHeight = 40;
                          [NSNumber numberWithInt:60], nil];
         
         // fonts
-        UIFont *lgRobotoFont = [UIFont fontWithName:@"Roboto-Thin" size:26];
-        UIFont *smlRobotoFont = [UIFont fontWithName:@"Roboto-Thin" size:17];
+        UIFont *lgRobotoFont = [UIFont fontWithName:StartFontName.robotoThin size:26];
+        UIFont *smlRobotoFont = [UIFont fontWithName:StartFontName.robotoThin size:17];
                 
         UIColor *textColor = [UIColor whiteColor];
         
@@ -163,10 +167,6 @@ const float optionHeight = 40;
         [versionText setFont:smlRobotoFont];
         [versionText setTextColor:[UIColor colorWithWhite:1 alpha:.8]];
         [versionText setBackgroundColor:[UIColor clearColor]];
-    
-        
-        //[tackCopy setFont:smlRobotoFont];[tackCopy setTextColor:textColor];
-        //[tackCopy setBackgroundColor:[UIColor clearColor]];
         
         // time picker
         [timePicker setDecelerationRate:UIScrollViewDecelerationRateFast];
@@ -184,11 +184,11 @@ const float optionHeight = 40;
         }
   
         // is it already set?
-        if (![[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"]) {
-            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:10] forKey:@"snoozeTime"];
+        if (![[NSUserDefaults standardUserDefaults] objectForKey:StartUserDefaultKey.snoozeTime]) {
+            [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:10] forKey:StartUserDefaultKey.snoozeTime];
             selectedIndex = 0;
         } else {
-            NSNumber *savedSnooze = [[NSUserDefaults standardUserDefaults] objectForKey:@"snoozeTime"];
+            NSNumber *savedSnooze = [[NSUserDefaults standardUserDefaults] objectForKey:StartUserDefaultKey.snoozeTime];
             for (int i=0; i<[snoozeOptions count]; i++) {
                 if ([[snoozeOptions objectAtIndex:i] isEqualToNumber:savedSnooze]) {
                     selectedIndex = i;
@@ -239,7 +239,6 @@ const float optionHeight = 40;
                                       1);
     CGRect introRect= CGRectMake(underlineRect.origin.x, underlineRect.origin.y + 50, 
                                  introSize.width, introSize.height);
-    NSLog(@"x, y, %f %f", underlineRect.origin.x, underlineRect.origin.y + 50);
     CGRect scrollRect = CGRectMake(frameSize.width-180, 0, 180,
                                    frameSize.height);
     
@@ -297,7 +296,7 @@ const float optionHeight = 40;
         [instructionsView setFrame:CGRectOffset(instructionsView.frame, -30, 0)];
         instructionsView.alpha = 1;
     }];
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"seenIntro"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:StartUserDefaultKey.seenIntro];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     if ([delegate respondsToSelector:@selector(showPlus)]) {
@@ -308,7 +307,6 @@ const float optionHeight = 40;
 -(void) navigatingAway {
     pickingSnooze= NO;
     [self animateTimePicker];
-    NSLog(@"navigatingaway");
 }
 
 #pragma mark - touches
@@ -327,14 +325,6 @@ const float optionHeight = 40;
         [self animateTimePicker];
     }
 }
-/*save    if (![[textField text] isEqualToString:@""]) {
-        NSNumber *snoozeDur = [NSNumber numberWithInt:[[textField text] intValue]];
-        [[NSUserDefaults standardUserDefaults] setObject:snoozeDur forKey:@"snoozeTime"];
-        [textField resignFirstResponder];
-        return YES;
-    }
-    return NO;
-}*/
 
 #pragma mark - scrollview delegate
 
@@ -349,7 +339,6 @@ const float optionHeight = 40;
     
     float roundedOffset = (newIndex * optionHeight) - scrollView.contentInset.top;
     targetContentOffset->y = roundedOffset;
-    NSLog(@"%f", targetContentOffset->y);
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -361,7 +350,7 @@ const float optionHeight = 40;
     if (!pickingSnooze) {
         // save snooze time
         [[NSUserDefaults standardUserDefaults] setValue:[snoozeOptions objectAtIndex:selectedIndex]
-                                                 forKey:@"snoozeTime"];
+                                                 forKey:StartUserDefaultKey.snoozeTime];
         
         float roundedOffset = (selectedIndex * optionHeight) - timePicker.contentInset.top;
         [timePicker setUserInteractionEnabled:NO];
