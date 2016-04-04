@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8C4CF3AD1CAF2CA8003A2F27 /* LocalizedStrings.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C4CF3AC1CAF2CA8003A2F27 /* LocalizedStrings.m */; };
+		8C8B5E451CB2D94A0027D3F5 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C8B5E441CB2D94A0027D3F5 /* Constants.m */; };
 		961FC3C116667EEA0078219B /* tweetbot-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 961FC3BF16667EEA0078219B /* tweetbot-icon.png */; };
 		961FC3C216667EEA0078219B /* tweetbot-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 961FC3C016667EEA0078219B /* tweetbot-icon@2x.png */; };
 		965179D0166D3079004A18A1 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 965179CF166D3079004A18A1 /* Icon-72.png */; };
@@ -176,6 +177,8 @@
 /* Begin PBXFileReference section */
 		8C4CF3AB1CAF2CA8003A2F27 /* LocalizedStrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LocalizedStrings.h; path = Utilities/LocalizedStrings.h; sourceTree = "<group>"; };
 		8C4CF3AC1CAF2CA8003A2F27 /* LocalizedStrings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LocalizedStrings.m; path = Utilities/LocalizedStrings.m; sourceTree = "<group>"; };
+		8C8B5E431CB2D94A0027D3F5 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Constants.h; path = Utilities/Constants.h; sourceTree = "<group>"; };
+		8C8B5E441CB2D94A0027D3F5 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Constants.m; path = Utilities/Constants.m; sourceTree = "<group>"; };
 		961FC3BF16667EEA0078219B /* tweetbot-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweetbot-icon.png"; sourceTree = "<group>"; };
 		961FC3C016667EEA0078219B /* tweetbot-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tweetbot-icon@2x.png"; sourceTree = "<group>"; };
 		965179CF166D3079004A18A1 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
@@ -393,6 +396,8 @@
 			children = (
 				8C4CF3AB1CAF2CA8003A2F27 /* LocalizedStrings.h */,
 				8C4CF3AC1CAF2CA8003A2F27 /* LocalizedStrings.m */,
+				8C8B5E431CB2D94A0027D3F5 /* Constants.h */,
+				8C8B5E441CB2D94A0027D3F5 /* Constants.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -1008,6 +1013,7 @@
 				F3AE566D16151F2700266DAD /* SelectSongView.m in Sources */,
 				F37E556C1680FB3D002FB2EB /* StopwatchViewController.m in Sources */,
 				F3292F46168C038B003D5F9A /* RingFillShapeLayer.m in Sources */,
+				8C8B5E451CB2D94A0027D3F5 /* Constants.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
