@@ -8,7 +8,10 @@ Start is a simple, gesture-driven alarm, timer and stopwatch. Create up to six f
 * Pinch to delete an alarm.
 * Have another app you would like to have added to the list of actions? Email start@tackmobile.com.
 
-Please note after setting the time for each alarm, you must activate each desired alarm by flicking up.
+Please note after setting the time for each alarm, you must activate each desired alarm by flicking up.  
+
 ![](start.png)
+
 ![](startscreen.png)
-![](settingscreen.png)
+
+![](settingsscreen.png)
