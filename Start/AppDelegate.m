@@ -10,12 +10,28 @@
 
 #import "MasterViewController.h"
 
+#define IS_OS_5_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 5.0)
+#define IS_OS_6_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 6.0)
+#define IS_OS_7_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0)
+#define IS_OS_8_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0)
+#define IS_OS_9_OR_LATER    ([[[UIDevice currentDevice] systemVersion] floatValue] >= 9.0)
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{    
+{
+  
+  if (IS_OS_7_OR_LATER) {
+    CGRect mainScreen = [[UIScreen mainScreen] bounds];
+    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
+    self.window = [[UIWindow alloc] initWithFrame:CGRectMake(0, statusBarFrame.size.height, mainScreen.size.width, mainScreen.size.height)];
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+  } else {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+  }
+  
     self.viewController = [[MasterViewController alloc] initWithNibName:@"ViewController_iPhone" bundle:nil];
+//  self.viewController = [MasterViewController getControllerFromStoryboard];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
 
