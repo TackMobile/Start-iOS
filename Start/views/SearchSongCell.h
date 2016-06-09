@@ -10,18 +10,17 @@
 #import <QuartzCore/QuartzCore.h>
 
 @protocol SearchSongCellDelegate <NSObject>
--(void) textChanged:(UITextField *)textField;
--(void) textCleared:(UITextField *)textField;
--(bool) shouldBeginSearching;
--(void) didBeginSearching;
--(void) didEndSearchingWithText:(NSString*)text;
+- (void)textChanged:(UITextField *)textField;
+- (void)textCleared:(UITextField *)textField;
+- (bool)shouldBeginSearching;
+- (void)didBeginSearching;
+- (void)didEndSearchingWithText:(NSString*)text;
 
 @end
 
 @interface SearchSongCell : UITableViewCell <UITextFieldDelegate> {
-    NSTimer *alertDelTimer;
-    
-    bool isEditing;
+  NSTimer *alertDelTimer;
+  bool isEditing;
 }
 
 @property (nonatomic, strong) UITextField *textField;
@@ -31,7 +30,6 @@
 
 @property (nonatomic, strong) id<SearchSongCellDelegate> delegate;
 
-
--(void) alertDelegateChangedText:(NSTimer*)timer;
+- (void)alertDelegateChangedText:(NSTimer*)timer;
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier delegate:(id<SearchSongCellDelegate>)aDelegate;
 @end

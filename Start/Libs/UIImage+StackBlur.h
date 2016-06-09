@@ -11,7 +11,8 @@
 
 #import <Foundation/Foundation.h>
 
+@interface UIImage (StackBlur)
 
-@interface UIImage (StackBlur) 
-- (NSArray *) randColors;
+- (NSArray *)randColors;
+
 @end

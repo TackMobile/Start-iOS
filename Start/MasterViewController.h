@@ -18,11 +18,11 @@
 
 @property (nonatomic, strong) NSMutableArray *alarms;
 
-- (void) saveAlarms;
-- (void) scheduleLocalNotificationsForActiveState:(bool)isActive;
-- (void) respondedToLocalNot;
+- (void)saveAlarms;
+- (void)scheduleLocalNotificationsForActiveState:(bool)isActive;
+- (void)respondedToLocalNot;
 
-- (void) alarmAdded;
-- (void) songPlayingTick:(NSTimer *)timer;
+- (void)alarmAdded;
+- (void)songPlayingTick:(NSTimer *)timer;
 
 @end

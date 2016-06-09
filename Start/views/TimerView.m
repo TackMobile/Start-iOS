@@ -17,8 +17,7 @@
 
 @implementation TimerView
 
-- (id)initWithFrame:(CGRect)frame
-{
+- (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
         CGRect labelRect = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
@@ -38,13 +37,12 @@
     return self;
 }
 
-- (void) updateWithDate:(NSDate *)newDate {
-    //update the timer label
+- (void)updateWithDate:(NSDate *)newDate {
+    //Update the timer label
     int secRemaining = (int)floor([[NSDate date] timeIntervalSinceDate:newDate] + .5);
     int hours = secRemaining / 3600;
     int minutes = secRemaining / 60 - hours * 60;
     int seconds = secRemaining - minutes * 60 - hours * 3600;
-    
     self.timerLabel.text = [NSString stringWithFormat:@"%02i:%02i:%02i", hours, minutes, seconds];
 }
 

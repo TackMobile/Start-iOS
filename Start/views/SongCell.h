@@ -24,6 +24,6 @@
 @property (nonatomic, strong) UILabel *songLabel;
 @property (nonatomic, strong) UILabel *artistLabel;
 
--(void) longPress:(UIGestureRecognizer *)gestRecog;
+- (void)longPress:(UIGestureRecognizer *)gestRecog;
 
 @end

@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface CountdownView : UIView {
-    bool shouldFlash;
+  bool shouldFlash;
 }
 
 @property (nonatomic, strong) UILabel *countdownLabel;
 
-- (void) updateWithDate:(NSDate *)newDate;
+- (void)updateWithDate:(NSDate *)newDate;
 
 @end

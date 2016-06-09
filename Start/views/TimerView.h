@@ -10,6 +10,6 @@
 
 @interface TimerView : UIView
 
-- (void) updateWithDate:(NSDate *)newDate;
+- (void)updateWithDate:(NSDate *)newDate;
 
 @end

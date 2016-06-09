@@ -14,10 +14,10 @@
 #import "SearchSongCell.h"
 
 @protocol SelectSongViewDelegate <NSObject>
--(BOOL) expandSelectSongView;
--(void) songSelected:(NSNumber *)persistentMediaItemID withArtwork:(UIImage *)artwork theme:(NSNumber *)themeID;
--(void) compressSelectSong;
--(id) getDelegateMusicPlayer;
+- (BOOL)expandSelectSongView;
+- (void)songSelected:(NSNumber *)persistentMediaItemID withArtwork:(UIImage *)artwork theme:(NSNumber *)themeID;
+- (void)compressSelectSong;
+- (id)getDelegateMusicPlayer;
 
 @end
 
@@ -35,9 +35,9 @@
 
 @property (nonatomic, strong) SongCell *cell;
 @property (nonatomic, strong) SongCell *showCell;
-- (void) quickSelectCell;
-- (void) selectCellWithID:(NSNumber *)cellNumID ;
+- (void)quickSelectCell;
+- (void)selectCellWithID:(NSNumber *)cellNumID ;
 - (void)songPlayingTick:(MusicPlayer *)aMusicPlayer;
-- (id) initWithFrame:(CGRect)frame delegate:(id<SelectSongViewDelegate>)aDelegate presetSongs:(NSArray *)thePresetSongs;
+- (id)initWithFrame:(CGRect)frame delegate:(id<SelectSongViewDelegate>)aDelegate presetSongs:(NSArray *)thePresetSongs;
 
 @end

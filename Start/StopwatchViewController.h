@@ -11,6 +11,6 @@
 
 @interface StopwatchViewController : UIViewController
 
-- (void) updateWithDate:(NSDate *)newDate;
+- (void)updateWithDate:(NSDate *)newDate;
 
 @end

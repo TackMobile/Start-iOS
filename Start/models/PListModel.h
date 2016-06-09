@@ -10,31 +10,31 @@
 #import "MusicManager.h"
 
 enum PListFileNames {
-    PListAlarmsFile = 0,
-    PListPresetSongsFile,
-    PListThemesFile,
-    PListActionsFile
+  PListAlarmsFile = 0,
+  PListPresetSongsFile,
+  PListThemesFile,
+  PListActionsFile
 };
 
 @interface PListModel : NSObject {
-    NSArray *alarms;
-    NSArray *presetSongs;
-    NSArray *themes;
-    NSArray *actions;
+  NSArray *alarms;
+  NSArray *presetSongs;
+  NSArray *themes;
+  NSArray *actions;
 }
 
--(NSArray *)getAlarms;
--(NSArray *)saveAlarms:(NSArray *)alarmData;
+- (NSArray *)getAlarms;
+- (NSArray *)saveAlarms:(NSArray *)alarmData;
 
--(NSArray *)getPresetSongs;
+- (NSArray *)getPresetSongs;
 
--(NSArray *)getThemes;
+- (NSArray *)getThemes;
 
--(NSArray *)getActions;
+- (NSArray *)getActions;
 
--(NSArray *)getPList:(int)pList;
--(NSArray *)saveData:(NSArray *)data toPList:(int)pList;
+- (NSArray *)getPList:(int)pList;
+- (NSArray *)saveData:(NSArray *)data toPList:(int)pList;
 
--(id)init;
+- (id)init;
 
 @end

@@ -16,5 +16,6 @@
 
 - (id)initWithCellRect:(CGRect)aCellRect sectionHeight:(float)sHeight;
 
--(void) updateWithContentOffset:(float)cOffset;
+- (void)updateWithContentOffset:(float)cOffset;
+
 @end

@@ -9,8 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface LeftHeaderView : UIView {
-    float _topPadding;
-    float _sectionHeight;
+  float _topPadding;
+  float _sectionHeight;
 }
 
 @property (strong, nonatomic) UIImageView *icon;
@@ -20,7 +20,7 @@
 
 - (id)initWithCellRect:(CGRect)aCellRect sectionHeight:(float)sHeight;
 
--(void) updateWithContentOffset:(float)cOffset;
+- (void)updateWithContentOffset:(float)cOffset;
 - (void)updateCellRect:(CGRect)aCellRect;
 
 @end

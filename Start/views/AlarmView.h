@@ -26,12 +26,12 @@
 - (MusicPlayer *)getMusicPlayer;
 
 -(PListModel *)getPListModel;
--(void) alarmView:(AlarmView *)alarmView draggedWithXVel:(float)xVel;
--(void) alarmView:(AlarmView *)alarmView stoppedDraggingWithX:(float)x;
--(void) alarmViewOpeningMenuWithPercent:(float)percent;
--(void) alarmViewClosingMenuWithPercent:(float)percent;
+-(void)alarmView:(AlarmView *)alarmView draggedWithXVel:(float)xVel;
+-(void)alarmView:(AlarmView *)alarmView stoppedDraggingWithX:(float)x;
+-(void)alarmViewOpeningMenuWithPercent:(float)percent;
+-(void)alarmViewClosingMenuWithPercent:(float)percent;
 
--(void) durationViewWithIndex:(NSInteger)index draggedWithPercent:(float)percent;
+-(void)durationViewWithIndex:(NSInteger)index draggedWithPercent:(float)percent;
 
 -(bool)alarmViewPinched:(AlarmView *)alarmView;
 -(void)alarmViewUpdated;
@@ -39,39 +39,39 @@
 @end
 
 enum AlarmViewShouldSet {
-    AlarmViewShouldSet = 0,
-    AlarmViewShouldUnSet,
-    AlarmViewShouldStopwatch,
-    AlarmViewShouldNone
+  AlarmViewShouldSet = 0,
+  AlarmViewShouldUnSet,
+  AlarmViewShouldStopwatch,
+  AlarmViewShouldNone
 };
 
 @interface AlarmView : UIView <SelectDurationViewDelegate, SelectSongViewDelegate, SelectActionViewDelegate> {
-    CGRect selectedTimeRect;
-    CGRect selectDurRect;
-    CGRect selectSongRect;
-    CGRect selectActionRect;
-    CGRect alarmSetDurRect;
-    CGRect stopwatchModeDurRect;
-    CGRect countdownRect;
-    CGRect stopwatchRect;
-    CGRect radialRect;
-    
-    MusicManager *musicManager;
-    
-    int shouldSet;
-    
-    bool pickingSong;
-    bool pickingAction;
-    bool cancelTouch;
-    
-    bool hasLoaded;
-    
-    bool _countdownEnded;
-    
-    UIView *durationMaskView;
-    
-    CAGradientLayer *toolbarGradient;
-    
+  CGRect selectedTimeRect;
+  CGRect selectDurRect;
+  CGRect selectSongRect;
+  CGRect selectActionRect;
+  CGRect alarmSetDurRect;
+  CGRect stopwatchModeDurRect;
+  CGRect countdownRect;
+  CGRect stopwatchRect;
+  CGRect radialRect;
+  
+  MusicManager *musicManager;
+  
+  int shouldSet;
+  
+  bool pickingSong;
+  bool pickingAction;
+  bool cancelTouch;
+  
+  bool hasLoaded;
+  
+  bool _countdownEnded;
+  
+  UIView *durationMaskView;
+  
+  CAGradientLayer *toolbarGradient;
+  
 }
 extern const float Spacing;
 
@@ -104,16 +104,16 @@ extern const float Spacing;
 
 @property (nonatomic, strong) UILabel *deleteLabel;
 
-- (void) shiftedFromActiveByPercent:(float)percent;
-- (void) updateProperties;
+- (void)shiftedFromActiveByPercent:(float)percent;
+- (void)updateProperties;
 
-- (void) viewWillAppear;
-- (bool) canMove;
-- (void) alarmCountdownEnded;
-- (id) initWithFrame:(CGRect)frame index:(NSInteger)aIndex delegate:(id<AlarmViewDelegate>)aDelegate alarmInfo:(NSDictionary *)theAlarmInfo;
+- (void)viewWillAppear;
+- (bool)canMove;
+- (void)alarmCountdownEnded;
+- (id)initWithFrame:(CGRect)frame index:(NSInteger)aIndex delegate:(id<AlarmViewDelegate>)aDelegate alarmInfo:(NSDictionary *)theAlarmInfo;
 - (NSDate *)getDate;
 
-- (bool) countdownEnded;
-- (void) setCountdownEnded:(bool)newVal;
+- (bool)countdownEnded;
+- (void)setCountdownEnded:(bool)newVal;
 
 @end

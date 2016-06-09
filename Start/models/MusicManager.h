@@ -12,22 +12,22 @@
 @class PListModel;
 
 @interface MusicManager : NSObject {
-    NSArray *librarySongs;
-    PListModel *pListModel;
+  NSArray *librarySongs;
+  PListModel *pListModel;
 }
 
-- (NSArray *) getLibrarySongs;
+- (NSArray *)getLibrarySongs;
 
 - (NSDictionary *)getThemeForSongID:(NSNumber *)songID;
 - (NSDictionary *)getThemeWithID:(int)themeID;
 
-- (UIImage *) getBackgroundImageForSongID:(NSNumber *)songID;
+- (UIImage *)getBackgroundImageForSongID:(NSNumber *)songID;
 
 @end
 
-@interface UIColor (ColorWithHex) 
+@interface UIColor (ColorWithHex)
 
-+(UIColor*)colorWithHexValue:(uint)hexValue andAlpha:(float)alpha;
-+(UIColor*)colorWithHexString:(NSString *)hexString andAlpha:(float)alpha;
++ (UIColor*)colorWithHexValue:(uint)hexValue andAlpha:(float)alpha;
++ (UIColor*)colorWithHexString:(NSString *)hexString andAlpha:(float)alpha;
 
 @end

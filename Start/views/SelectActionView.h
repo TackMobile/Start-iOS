@@ -11,16 +11,16 @@
 #import "NPTableView.h"
 
 @protocol SelectActionViewDelegate <NSObject>
--(BOOL) expandSelectActionView;
--(void) actionSelected:(NSString *)actionTitle;
+-(BOOL)expandSelectActionView;
+-(void)actionSelected:(NSString *)actionTitle;
 @end
 
 @interface SelectActionView : UIView <UITableViewDataSource, UITableViewDelegate, NPTableViewDelegate> {
-    CGRect compressedFrame;
-    NSIndexPath *selectedIndexPath;
-    NSMutableArray *actionCells;
-    
-    bool needsQuickSelect;
+  CGRect compressedFrame;
+  NSIndexPath *selectedIndexPath;
+  NSMutableArray *actionCells;
+  
+  bool needsQuickSelect;
 }
 
 @property (nonatomic, strong) id<SelectActionViewDelegate> delegate;
@@ -28,11 +28,12 @@
 @property (nonatomic, strong) NSArray *actions;
 @property (nonatomic, strong) NPTableView *actionTableView;
 
-- (void) quickSelectCell;
-- (void) selectActionWithTitle:(NSString *)searchTitle;
+- (void)quickSelectCell;
+- (void)selectActionWithTitle:(NSString *)searchTitle;
 
-- (NSInteger) actionIDWithTitle:(NSString *)searchTitle;
+- (NSInteger)actionIDWithTitle:(NSString *)searchTitle;
 - (NSString *)actionTitleWithID:(int)theID;
 
-- (id) initWithFrame:(CGRect)frame delegate:(id<SelectActionViewDelegate>)aDelegate actions:(NSArray *)theActions;
+- (id)initWithFrame:(CGRect)frame delegate:(id<SelectActionViewDelegate>)aDelegate actions:(NSArray *)theActions;
+
 @end

@@ -5,19 +5,19 @@
 @dynamic delegate;
 
 - (void) reloadData {
-    [self.delegate willReloadData];
-    
-    [super reloadData];
-    
-    [self.delegate didReloadData];
+  [self.delegate willReloadData];
+  
+  [super reloadData];
+  
+  [self.delegate didReloadData];
 }
 
 - (void) layoutSubviews {
-    [self.delegate willLayoutSubviews];
-    
-    [super layoutSubviews];
-    
-    [self.delegate didLayoutSubviews];
+  [self.delegate willLayoutSubviews];
+  
+  [super layoutSubviews];
+  
+  [self.delegate didLayoutSubviews];
 }
 
 @end
