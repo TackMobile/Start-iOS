@@ -95,10 +95,7 @@
 #pragma mark - Textfield Delegate
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-  if ([delegate respondsToSelector:@selector(shouldBeginSearching)])
-  if ([delegate shouldBeginSearching])
-  return YES;
-  return NO;
+  return [delegate respondsToSelector:@selector(shouldBeginSearching)] && [delegate shouldBeginSearching];
 }
 
 - (void)textFieldDidChange:(NSDictionary *)userInfo {
@@ -106,21 +103,24 @@
     return;
   }
   
-  if (!alertDelTimer)
-  alertDelTimer = [NSTimer scheduledTimerWithTimeInterval:.7 target:self selector:@selector(alertDelegateChangedText:) userInfo:nil repeats:NO];
-  else
-  [alertDelTimer setFireDate:[NSDate dateWithTimeInterval:.7 sinceDate:[NSDate date]]];
+  if (!alertDelTimer) {
+    alertDelTimer = [NSTimer scheduledTimerWithTimeInterval:.7 target:self selector:@selector(alertDelegateChangedText:) userInfo:nil repeats:NO];
+  } else {
+    [alertDelTimer setFireDate:[NSDate dateWithTimeInterval:.7 sinceDate:[NSDate date]]];
+  }
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)aTextField {
-  if ([textField.text isEqualToString:[LocalizedStrings search]])
-  [textField setText:@""];
+  if ([textField.text isEqualToString:[LocalizedStrings search]]) {
+    [textField setText:@""];
+  }
   
   isEditing = YES;
   
   [clearTextButton setAlpha:1];
-  if ([delegate respondsToSelector:@selector(didBeginSearching)])
-  [delegate didBeginSearching];
+  if ([delegate respondsToSelector:@selector(didBeginSearching)]) {
+    [delegate didBeginSearching];
+  }
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)aTextField {

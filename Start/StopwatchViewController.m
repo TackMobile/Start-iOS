@@ -42,7 +42,6 @@
   [self.timerLabel setTextColor:[UIColor whiteColor]];
   [self.timerLabel setBackgroundColor:[UIColor clearColor]];
   [self.timerLabel setFont:timerFont];
-  
   [self.timerLabel setText:@"00:00:00"];
   
   // Paused label
@@ -61,8 +60,8 @@
   [self.view addSubview:_timerLabel];
 }
 
-- (void) updateWithDate:(NSDate *)newDate {
-  //Update the timer label
+- (void)updateWithDate:(NSDate *)newDate {
+  // Update the timer label
   int secRemaining = (int)floor([[NSDate date] timeIntervalSinceDate:newDate] + .5);
   int hours = secRemaining / 3600;
   int minutes = secRemaining / 60 - hours * 60;

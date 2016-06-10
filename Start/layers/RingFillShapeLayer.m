@@ -54,7 +54,7 @@
   return self;
 }
 
-#pragma mark - properties
+#pragma mark - Properties
 
 - (void)setValue:(id)value forKey:(NSString *)key animated:(bool)animated {
   self.shouldAnimate = animated;
@@ -62,18 +62,17 @@
   [self setValue:value forKey:key];
 }
 
-
-
 + (NSSet *)keyPathsForValuesAffectingContent {
   static NSSet *keys = nil;
   
-  if (!keys)
-  keys = [[NSSet alloc] initWithObjects:@"innerRadius", @"outerRadius", @"startAngle", @"endAngle", nil];
+  if (!keys) {
+    keys = [[NSSet alloc] initWithObjects:@"innerRadius", @"outerRadius", @"startAngle", @"endAngle", nil];
+  }
   
   return keys;
 }
 
-#pragma  mark - display
+#pragma  mark - Display
 
 + (BOOL)needsDisplayForKey:(NSString*)key {
   NSArray *keysThatNeedDisplay = @[@"innerRadius", @"outerRadius", @"startAngle", @"endAngle"];
@@ -130,7 +129,7 @@
   [ringPath stroke];
 }
 
-#pragma mark - utilities
+#pragma mark - Utilities
 
 - (CGPoint)vectorFromAngle:(float)angle distance:(float)distance origin:(CGPoint)origin {
   CGPoint vector;

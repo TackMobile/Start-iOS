@@ -36,12 +36,16 @@
 #pragma mark - Positioning
 
 - (void)updateWithContentOffset:(float)cOffset {
-  if (cOffset >= cellRect.origin.y &&
-      cellRect.origin.y+sectionHeight-self.frame.size.height > cOffset) { // make it sticky
+  if (cOffset >= cellRect.origin.y && cellRect.origin.y+sectionHeight-self.frame.size.height > cOffset) {
+    // Make it sticky
     self.frame = CGRectMake(245, cOffset, self.frame.size.width, self.frame.size.height);
-  } else if (cellRect.origin.y+sectionHeight-self.frame.size.height <= cOffset) { // scrolled past it
+    
+  } else if (cellRect.origin.y+sectionHeight-self.frame.size.height <= cOffset) {
+    // Scrolled past it
     self.frame = CGRectMake(245, cellRect.origin.y+sectionHeight-self.frame.size.height, self.frame.size.width, self.frame.size.height);
-  } else { // has not scrolled past yet
+    
+  } else {
+    // Has not scrolled past yet
     self.frame = CGRectMake(245, cellRect.origin.y, self.frame.size.width, self.frame.size.height);
   }
 }

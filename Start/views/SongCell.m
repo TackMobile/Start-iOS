@@ -54,10 +54,7 @@ const float spacer = -2;
   float cellHeight = self.frame.size.height;
   float cellWidth = self.frame.size.width;
   CGSize songSize = [songLabel.text sizeWithAttributes:@{NSFontAttributeName : songLabel.font}];
-  CGRect rect = [artistLabel.text boundingRectWithSize:CGSizeMake(245, cellHeight/2)
-                                               options:NSStringDrawingUsesLineFragmentOrigin
-                                            attributes:@{NSFontAttributeName: artistLabel.font}
-                                               context:nil];
+  CGRect rect = [artistLabel.text boundingRectWithSize:CGSizeMake(245, cellHeight/2) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: artistLabel.font} context:nil];
   CGSize artistSize = rect.size;
   
   float topSpacer = (cellHeight - (songSize.height + spacer + artistSize.height))/2;
@@ -78,12 +75,13 @@ const float spacer = -2;
 #pragma mark - Gestures
 
 - (void)longPress:(UIGestureRecognizer *)gestRecog {
-  if ([delegate respondsToSelector:@selector(sampleSongWithID:)] && [persistentID intValue] != -1 && gestRecog.state == UIGestureRecognizerStateBegan)
-  [delegate sampleSongWithID:persistentID];
+  if ([delegate respondsToSelector:@selector(sampleSongWithID:)] && [persistentID intValue] != -1 && gestRecog.state == UIGestureRecognizerStateBegan) {
+    [delegate sampleSongWithID:persistentID];
+  }
   
-  if (gestRecog.state == UIGestureRecognizerStateEnded || gestRecog.state == UIGestureRecognizerStateCancelled || gestRecog.state == UIGestureRecognizerStateFailed)
-  if ([delegate respondsToSelector:@selector(stopSamplingSong)])
-  [delegate stopSamplingSong];
+  if ((gestRecog.state == UIGestureRecognizerStateEnded || gestRecog.state == UIGestureRecognizerStateCancelled || gestRecog.state == UIGestureRecognizerStateFailed) && [delegate respondsToSelector:@selector(stopSamplingSong)]) {
+    [delegate stopSamplingSong];
+  }
 }
 
 @end

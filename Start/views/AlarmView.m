@@ -85,9 +85,8 @@ const float Spacing = 0.0f;
     
     _patternOverlay.image = [UIImage imageNamed:@"grid"];
     
-    // pinch to delete
-    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self
-                                                                                action:@selector(alarmPinched:)];
+    // Pinch to delete
+    UIPinchGestureRecognizer *pinch = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(alarmPinched:)];
     [self addGestureRecognizer:pinch];
     
     // initial properties
@@ -103,17 +102,11 @@ const float Spacing = 0.0f;
     _selectActionView.actionTableView.frame = selectActionTableViewRect;
     
     toolbarGradient = [CAGradientLayer layer];
-    NSArray *gradientColors = @[
-                                (id)[[UIColor clearColor] CGColor],
-                                (id)[[UIColor whiteColor] CGColor]
-                                ];
+    NSArray *gradientColors = @[ (id)[[UIColor clearColor] CGColor], (id)[[UIColor whiteColor] CGColor] ];
     
     float topFadeHeight = (toolBarRect.size.height-10)/self.frame.size.height;
     
-    NSArray *gradientLocations = @[
-                                   [NSNumber numberWithFloat:0.05f],
-                                   [NSNumber numberWithFloat:topFadeHeight]
-                                   ];
+    NSArray *gradientLocations = @[ [NSNumber numberWithFloat:0.05f], [NSNumber numberWithFloat:topFadeHeight] ];
     
     [toolbarGradient setColors:gradientColors];
     [toolbarGradient setLocations:gradientLocations];
@@ -185,10 +178,11 @@ const float Spacing = 0.0f;
     
     // dateAlarmPicked
     if (![self extendKey:@"dateAlarmPicked" fromDict:self.alarmInfo toDict:extendedInfoTemplate]) {
-      if ([self.alarmInfo objectForKey:@"dateSet"])
-      [extendedInfoTemplate setObject:[self.alarmInfo objectForKey:@"dateSet"] forKey:@"dateAlarmPicked"];
-      else
-      [extendedInfoTemplate setObject:[NSDate date] forKey:@"dateAlarmPicked"];
+      if ([self.alarmInfo objectForKey:@"dateSet"]) {
+        [extendedInfoTemplate setObject:[self.alarmInfo objectForKey:@"dateSet"] forKey:@"dateAlarmPicked"];
+      } else {
+        [extendedInfoTemplate setObject:[NSDate date] forKey:@"dateAlarmPicked"];
+      }
     }
     
     // stopwatchDateBegan
@@ -196,26 +190,25 @@ const float Spacing = 0.0f;
     
     // alarmDuration
     if (![self extendKey:@"alarmDuration" fromDict:self.alarmInfo toDict:extendedInfoTemplate]) {
-      // if we can't extend it, check for depreciated keys
+      // If we can't extend it, check for depreciated keys
       
-      float secondsSinceMidnight = -1; // get the old amount of secondsSinceMidnight
+      // Get the old amount of secondsSinceMidnight
+      float secondsSinceMidnight = -1;
       
-      if ([self.alarmInfo objectForKey:@"secondsSinceMidnight"]) // secondsSinceMidnight is depreciated
-      secondsSinceMidnight = [[self.alarmInfo objectForKey:@"secondsSinceMidnight"] floatValue];
-      else if ([self.alarmInfo objectForKey:@"date"])
-      secondsSinceMidnight = [[self secondsSinceMidnightWithDate:(NSDate *)[self.alarmInfo objectForKey:@"date"]] floatValue];
+      if ([self.alarmInfo objectForKey:@"secondsSinceMidnight"]) {
+        // SecondsSinceMidnight is depreciated
+        secondsSinceMidnight = [[self.alarmInfo objectForKey:@"secondsSinceMidnight"] floatValue];
+      } else if ([self.alarmInfo objectForKey:@"date"]) {
+        secondsSinceMidnight = [[self secondsSinceMidnightWithDate:(NSDate *)[self.alarmInfo objectForKey:@"date"]] floatValue];
+      }
       
-      // convert secondsSinceMidnight to a duration from the dateSet
+      // Convert secondsSinceMidnight to a duration from the dateSet
       float setSecondsSinceMidnight = [[self secondsSinceMidnightWithDate:[self.alarmInfo objectForKey:@"dateSet"]] floatValue];
       float alarmDuration;
       
-      if (setSecondsSinceMidnight > secondsSinceMidnight) {
-        alarmDuration = (secondsSinceMidnight + 24*60*60)-setSecondsSinceMidnight;
-      } else {
-        alarmDuration = secondsSinceMidnight-setSecondsSinceMidnight;
-      }
+      alarmDuration = setSecondsSinceMidnight > secondsSinceMidnight ? (secondsSinceMidnight + 24*60*60)-setSecondsSinceMidnight : secondsSinceMidnight-setSecondsSinceMidnight;
       
-      // save the new duration
+      // Save the new duration
       [extendedInfoTemplate setObject:[NSNumber numberWithFloat:alarmDuration] forKey:@"alarmDuration"];
     }
     
@@ -226,14 +219,14 @@ const float Spacing = 0.0f;
     
     // actionTitle
     if (![self extendKey:@"actionTitle" fromDict:self.alarmInfo toDict:extendedInfoTemplate]) {
-      // check for depreciated actionID
+      // Check for depreciated actionID
       if ([self.alarmInfo objectForKey:@"actionID"]) {
         int actionID = [[self.alarmInfo objectForKey:@"actionID"] intValue];
         [extendedInfoTemplate setObject:[self.selectActionView actionTitleWithID:actionID] forKey:@"actionTitle"];
       }
     }
     
-    // snooze (not in template because it is deleted upon being unset
+    // Snooze (not in template because it is deleted upon being unset
     if ([self extendKey:@"snoozeAlarm" fromDict:self.alarmInfo toDict:extendedInfoTemplate]) {
       self.isSnoozing = YES;
     }
@@ -241,18 +234,20 @@ const float Spacing = 0.0f;
     self.alarmInfo = extendedInfoTemplate;
   }
   
-  if ([self.alarmInfo objectForKey:@"snoozeAlarm"])
-  self.isSnoozing = YES;
+  if ([self.alarmInfo objectForKey:@"snoozeAlarm"]) {
+    self.isSnoozing = YES;
+  }
   
-  // update local variables and views
+  // Update local variables and views
   if ([[self.alarmInfo objectForKey:@"isSet"] boolValue])
   self.isSet = YES;
   
-  
   if ([[self.alarmInfo objectForKey:@"isTimerMode"] boolValue]) {
-    [self enterTimerMode]; // sets isTimerMode
-    if (self.isSet)
-    [self.selectDurationView beginTiming];
+    // Sets isTimerMode
+    [self enterTimerMode];
+    if (self.isSet) {
+      [self.selectDurationView beginTiming];
+    }
   } else {
     [self enterAlarmMode];
   }
@@ -292,8 +287,9 @@ const float Spacing = 0.0f;
   if (!self.countdownEnded && self.isSet) {
     self.countdownEnded = YES;
     [self.delegate alarmCountdownEnded:self];
-    if (!self.isTimerMode)
-    [self.selectedTimeView showSnooze];
+    if (!self.isTimerMode) {
+      [self.selectedTimeView showSnooze];
+    }
   }
 }
 
@@ -301,8 +297,9 @@ const float Spacing = 0.0f;
   if (!self.countdownEnded && self.isSet) {
     self.countdownEnded = YES;
     [self.delegate alarmCountdownEnded:self];
-    if (!self.isTimerMode)
-    [self.selectedTimeView showSnooze];
+    if (!self.isTimerMode) {
+      [self.selectedTimeView showSnooze];
+    }
   }
 }
 
@@ -310,26 +307,24 @@ const float Spacing = 0.0f;
   NSDate *theDate;
   if (self.isTimerMode) {
     if (self.isSet) {
-      // add timer duration to date set and get seconds since midnight
-      theDate = [[self.alarmInfo objectForKey:@"dateSet"]
-                 dateByAddingTimeInterval:[[self.alarmInfo objectForKey:@"timerDuration"] floatValue]];
+      // Add timer duration to date set and get seconds since midnight
+      theDate = [[self.alarmInfo objectForKey:@"dateSet"] dateByAddingTimeInterval:[[self.alarmInfo objectForKey:@"timerDuration"] floatValue]];
     } else {
-      theDate = [[NSDate date] dateByAddingTimeInterval:
-                 [[self.alarmInfo objectForKey:@"timerDuration"] floatValue]];
+      theDate = [[NSDate date] dateByAddingTimeInterval:[[self.alarmInfo objectForKey:@"timerDuration"] floatValue]];
     }
   } else {
     if (self.isSnoozing) {
       theDate = [self.alarmInfo objectForKey:@"snoozeAlarm"];
       
     } else {
-      theDate = [[self.alarmInfo objectForKey:@"dateAlarmPicked"]
-                 dateByAddingTimeInterval:[[self.alarmInfo objectForKey:@"alarmDuration"] floatValue]];
+      theDate = [[self.alarmInfo objectForKey:@"dateAlarmPicked"] dateByAddingTimeInterval:[[self.alarmInfo objectForKey:@"alarmDuration"] floatValue]];
     }
   }
   return theDate;
 }
 
-#pragma mark - functionality
+#pragma mark - Functionality
+
 - (void)enterTimerMode {
   self.isTimerMode = YES;
   [self.alarmInfo setObject:[NSNumber numberWithBool:YES] forKey:@"isTimerMode"];
@@ -363,6 +358,7 @@ const float Spacing = 0.0f;
 }
 
 #pragma mark - Touches
+
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
   UITouch *touch = [touches anyObject];
   
@@ -380,19 +376,21 @@ const float Spacing = 0.0f;
         [self.selectActionView quickSelectCell];
       }
       cancelTouch = YES;
-      if ([self.selectDurationView draggingOrientation] == SelectDurationDraggingHoriz)
-      [self.selectDurationView setDraggingOrientation:SelectDurationDraggingCancel];
+      if ([self.selectDurationView draggingOrientation] == SelectDurationDraggingHoriz) {
+        [self.selectDurationView setDraggingOrientation:SelectDurationDraggingCancel];
+      }
     }
   }
-  if (fabs(touchVel.width) > fabs(touchVel.height) && !cancelTouch)
-  if ([self.delegate respondsToSelector:@selector(alarmView:draggedWithXVel:)])
-  [self.delegate alarmView:self draggedWithXVel:touchVel.width];
+  if ((fabs(touchVel.width) > fabs(touchVel.height) && !cancelTouch) && [self.delegate respondsToSelector:@selector(alarmView:draggedWithXVel:)]) {
+    [self.delegate alarmView:self draggedWithXVel:touchVel.width];
+  }
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   cancelTouch = NO;
-  if ([self.delegate respondsToSelector:@selector(alarmView:stoppedDraggingWithX:)])
-  [self.delegate alarmView:self stoppedDraggingWithX:self.frame.origin.x];
+  if ([self.delegate respondsToSelector:@selector(alarmView:stoppedDraggingWithX:)]) {
+    [self.delegate alarmView:self stoppedDraggingWithX:self.frame.origin.x];
+  }
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -400,8 +398,9 @@ const float Spacing = 0.0f;
 }
 
 -(void)alarmPinched:(UIPinchGestureRecognizer *)pinchRecog {
-  if (![self canMove])
-  return;
+  if (![self canMove]) {
+    return;
+  }
   
   [self.selectDurationView touchesCancelled:nil withEvent:nil];
   if (pinchRecog.state == UIGestureRecognizerStateBegan) {
@@ -411,45 +410,54 @@ const float Spacing = 0.0f;
     
   } else if (pinchRecog.state == UIGestureRecognizerStateChanged) {
     [self.selectDurationView setAlpha:0];
-    if (pinchRecog.scale > 1)
-    pinchRecog.scale = 1;
+    if (pinchRecog.scale > 1) {
+      pinchRecog.scale = 1;
+    }
     float scale = .8 + .2 * (1-(3 * (1-pinchRecog.scale)));
     
-    if (self.isSet)
-    self.countdownView.alpha = scale;
+    if (self.isSet) {
+      self.countdownView.alpha = scale;
+    }
     
     self.selectDurationView.alpha = scale;
     self.selectedTimeView.alpha = scale;
     
-    if (!self.isStopwatchMode)
-    [self.selectDurationView compressByRatio:scale animated:NO];
+    if (!self.isStopwatchMode) {
+      [self.selectDurationView compressByRatio:scale animated:NO];
+    }
     
   } else if (pinchRecog.state == UIGestureRecognizerStateEnded) {
-    if (pinchRecog.scale < .7) {
-      if ([self.delegate respondsToSelector:@selector(alarmViewPinched:)] )
-      if ([self.delegate alarmViewPinched:self]) {
-        if (!self.isStopwatchMode)
+    if (pinchRecog.scale < .7 && [self.delegate respondsToSelector:@selector(alarmViewPinched:)] && [self.delegate alarmViewPinched:self]) {
+      if (!self.isStopwatchMode) {
         [self.selectDurationView compressByRatio:0 animated:YES];
-        return;
       }
+      return;
     }
+    
     if (!self.isStopwatchMode) {
       [self addSubview:self.selectSongView];
       [self addSubview:self.selectActionView];
     }
+    
     [self.deleteLabel setAlpha:0];
     [self.selectSongView setAlpha:1];
     [self.selectActionView setAlpha:1];
     
-    if (!self.isStopwatchMode)
-    [self.selectDurationView compressByRatio:1 animated:YES];
+    if (!self.isStopwatchMode) {
+      [self.selectDurationView compressByRatio:1 animated:YES];
+    }
     
     [UIView animateWithDuration:.2 animations:^{
       [self.selectDurationView setAlpha:1];
-      if (!self.isStopwatchMode)
-      [self.selectedTimeView setAlpha:1];
-      if (self.isSet)
-      self.countdownView.alpha = 1;
+      
+      if (!self.isStopwatchMode) {
+        [self.selectedTimeView setAlpha:1];
+      }
+      
+      if (self.isSet) {
+        self.countdownView.alpha = 1;
+      }
+      
     } completion:nil];
   }
 }
@@ -458,8 +466,9 @@ const float Spacing = 0.0f;
 
 // Parallax
 - (void)shiftedFromActiveByPercent:(float)percent {
-  if (pickingSong || pickingAction)
-  return;
+  if (pickingSong || pickingAction) {
+    return;
+  }
   
   float screenWidth = self.frame.size.width;
   
@@ -487,28 +496,32 @@ const float Spacing = 0.0f;
 
 - (void)menuOpenWithPercent:(float)percent {
   [self.radialGradientView setAlpha:1.0f-(.8/(1.0f/percent))];
-  if ([self.delegate respondsToSelector:@selector(alarmViewOpeningMenuWithPercent:)])
-  [self.delegate alarmViewOpeningMenuWithPercent:percent];
+  if ([self.delegate respondsToSelector:@selector(alarmViewOpeningMenuWithPercent:)]) {
+    [self.delegate alarmViewOpeningMenuWithPercent:percent];
+  }
 }
 
 - (void)menuCloseWithPercent:(float)percent {
-  if (percent==1)
-  [self.radialGradientView setAlpha:1];
-  else
-  [self.radialGradientView setAlpha:(.8/(1.0f/percent))];
+  [self.radialGradientView setAlpha:percent==1 ? 1 : (.8/(1.0f/percent))];
   
-  if ([self.delegate respondsToSelector:@selector(alarmViewClosingMenuWithPercent:)])
-  [self.delegate alarmViewClosingMenuWithPercent:percent];
+  if ([self.delegate respondsToSelector:@selector(alarmViewClosingMenuWithPercent:)]) {
+    [self.delegate alarmViewClosingMenuWithPercent:percent];
+  }
 }
 
 - (void)updateThemeWithArtwork:(UIImage *)artwork {
   int themeID = [(NSNumber *)[self.alarmInfo objectForKey:@"themeID"] intValue];
   
-  if (themeID == -1) // convert default theme to 0
-  themeID = 0; // future: rendomize theme
+  
+  if (themeID == -1) {
+    // Convert default theme to 0
+    // future TODO: rendomize theme
+    themeID = 0;
+  }
   
   NSDictionary *theme;
-  if (themeID < 7 && themeID > -1) { // preset theme
+  // Preset theme
+  if (themeID < 7 && themeID > -1) {
     theme = [musicManager getThemeWithID:themeID];
     artwork = [theme objectForKey:@"bgImg"];
     [self.radialGradientView setInnerColor:[theme objectForKey:@"bgInnerColor"] outerColor:[theme objectForKey:@"bgOuterColor"]];
@@ -548,7 +561,6 @@ const float Spacing = 0.0f;
     // Check to see if it will go off
     if (floorf([[self getDate] timeIntervalSinceNow]) < .5) {
       [self alarmCountdownEnded];
-      
     }
     [self.countdownView updateWithDate:[self getDate]];
     
@@ -557,8 +569,9 @@ const float Spacing = 0.0f;
     [self.countdownView updateWithDate:[NSDate date]];
   }
   
-  if (self.isStopwatchMode)
-  [self.stopwatchViewController updateWithDate:[self.alarmInfo objectForKey:@"stopwatchDateBegan"]];
+  if (self.isStopwatchMode) {
+    [self.stopwatchViewController updateWithDate:[self.alarmInfo objectForKey:@"stopwatchDateBegan"]];
+  }
 }
 
 - (CGRect)currRestedSelecDurRect {
@@ -597,8 +610,8 @@ const float Spacing = 0.0f;
 }
 
 - (BOOL)expandSelectSongView {
-  if (pickingAction || self.countdownEnded) //does not allow user to press and expand select sound view when the alarm is going off to prevent accidental touch when the user is trying to press snooze
-  {
+  if (pickingAction || self.countdownEnded) {
+    // Does not allow user to press and expand select sound view when the alarm is going off to prevent accidental touch when the user is trying to press snooze
     return NO;
   }
   
@@ -676,8 +689,8 @@ const float Spacing = 0.0f;
 
 #pragma mark - SelectActionViewDelegate
 - (BOOL)expandSelectActionView {
-  if (pickingAction || self.countdownEnded) //does not allow you to press and expand select action view while the alarm is going off to prevent accidental touches if the user is trying to press snooze
-  {
+  if (pickingAction || self.countdownEnded) {
+    // Does not allow you to press and expand select action view while the alarm is going off to prevent accidental touches if the user is trying to press snooze
     return NO;
   }
   pickingAction = YES;
@@ -727,8 +740,9 @@ const float Spacing = 0.0f;
     [self.selectDurationView setAlpha:1];
     
     [self.selectedTimeView setCenter:self.selectDurationView.center];
-    if (!self.isStopwatchMode)
-    [self.selectedTimeView setAlpha:1];
+    if (!self.isStopwatchMode) {
+      [self.selectedTimeView setAlpha:1];
+    }
     
     [self.selectSongView setFrame:selectSongRect];
     [self.selectSongView setAlpha:1];
@@ -744,7 +758,7 @@ const float Spacing = 0.0f;
 #pragma mark - SelectDurationViewDelegate
 
 - (void)durationDidChange:(SelectDurationView *)selectDuration {
-  // update selected time label
+  // Update selected time label
   if (!self.isTimerMode) {
     [self.selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
   } else {
@@ -756,8 +770,7 @@ const float Spacing = 0.0f;
   CGRect belowSelectedTimeRect;
   CGRect newSelectedTimeRect;
   
-  newSelectedTimeRect = (CGRect){ {self.selectedTimeView.frame.origin.x,
-    (selectDurRect.origin.y - self.selectedTimeView.frame.size.height)/2 +5}, self.selectedTimeView.frame.size};
+  newSelectedTimeRect = (CGRect){ {self.selectedTimeView.frame.origin.x, (selectDurRect.origin.y - self.selectedTimeView.frame.size.height)/2 +5}, self.selectedTimeView.frame.size};
   belowSelectedTimeRect = CGRectOffset(newSelectedTimeRect, 0, 15);
   
   if (self.isTimerMode) {
@@ -771,8 +784,11 @@ const float Spacing = 0.0f;
     [self.selectedTimeView setFrame:belowSelectedTimeRect];
     [UIView animateWithDuration:.07 animations:^{
       [self.selectedTimeView setFrame:newSelectedTimeRect];
-      if (!self.isStopwatchMode)
-      [self.selectedTimeView setAlpha:1];
+      
+      if (!self.isStopwatchMode) {
+        [self.selectedTimeView setAlpha:1];
+      }
+      
       if ([selectDuration handleSelected] != SelectDurationNoHandle) {
         [self.selectSongView setAlpha:.2];
         [self.selectActionView setAlpha:.2];
@@ -782,8 +798,7 @@ const float Spacing = 0.0f;
   }];
   
   if (self.isTimerMode) {
-    [self.selectedTimeView updateDuration:[selectDuration getSecondsFromZero]
-                                     part:selectDuration.handleSelected];
+    [self.selectedTimeView updateDuration:[selectDuration getSecondsFromZero] part:selectDuration.handleSelected];
   } else {
     [self.selectedTimeView updateDate:[selectDuration getDate] part:selectDuration.handleSelected];
   }
@@ -809,8 +824,7 @@ const float Spacing = 0.0f;
     // Create a duration value out of dateSet and secondsFromZero on the duration picker
     if (intervalSelected > nowSeconds) {
       duration = intervalSelected-nowSeconds;
-    }
-    else if (self.isSet) {
+    } else if (self.isSet) {
       duration = 0;
     } else {
       duration = (86400-nowSeconds)+intervalSelected;
@@ -847,28 +861,30 @@ const float Spacing = 0.0f;
     [self durationDidEndChanging:selectDuration];
   }];
   
-  if (!self.isTimerMode)
-  if ([self.delegate respondsToSelector:@selector(alarmViewUpdated)])
-  [self.delegate alarmViewUpdated];
+  if (!self.isTimerMode && [self.delegate respondsToSelector:@selector(alarmViewUpdated)]) {
+    [self.delegate alarmViewUpdated];
+  }
 }
 
 - (void)durationViewTapped:(SelectDurationView *)selectDuration {
   // If selecting song/action, compress the song
-  if (pickingSong)
-  [self.selectSongView quickSelectCell];
-  if (pickingAction)
-  [self.selectActionView quickSelectCell];
-  if (self.countdownEnded) {
-    if (!self.isTimerMode) {
-      self.countdownEnded = NO;
-      self.isSnoozing = YES;
-      NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:StartUserDefaultKey.snoozeTime] intValue] * 60.0f; // get the snooze duration from preferences
-      NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
-      [self.alarmInfo setObject:snoozeDate forKey:@"snoozeAlarm"]; // set an alarm for a time in the future
-      [selectDuration setSecondsFromZeroWithNumber:[self secondsSinceMidnightWithDate:snoozeDate]];
-      [self.selectedTimeView updateDate:snoozeDate part:SelectDurationNoHandle];
-      [[self.delegate getMusicPlayer] stop];
-    }
+  if (pickingSong) {
+    [self.selectSongView quickSelectCell];
+  }
+  
+  if (pickingAction) {
+    [self.selectActionView quickSelectCell];
+  }
+  
+  if (self.countdownEnded && !self.isTimerMode) {
+    self.countdownEnded = NO;
+    self.isSnoozing = YES;
+    NSTimeInterval snoozeTime = [[[NSUserDefaults standardUserDefaults] objectForKey:StartUserDefaultKey.snoozeTime] intValue] * 60.0f; // get the snooze duration from preferences
+    NSDate *snoozeDate = [[NSDate alloc] initWithTimeIntervalSinceNow:snoozeTime];
+    [self.alarmInfo setObject:snoozeDate forKey:@"snoozeAlarm"]; // set an alarm for a time in the future
+    [selectDuration setSecondsFromZeroWithNumber:[self secondsSinceMidnightWithDate:snoozeDate]];
+    [self.selectedTimeView updateDate:snoozeDate part:SelectDurationNoHandle];
+    [[self.delegate getMusicPlayer] stop];
   }
 }
 
@@ -882,58 +898,55 @@ const float Spacing = 0.0f;
 }
 
 - (BOOL)durationViewSwiped:(UISwipeGestureRecognizerDirection)direction {
-  if (pickingSong && direction == UISwipeGestureRecognizerDirectionLeft)
-  [self.selectSongView quickSelectCell];
-  else if (pickingAction && direction == UISwipeGestureRecognizerDirectionRight)
-  [self.selectActionView quickSelectCell];
-  else
-  return NO;
+  if (pickingSong && direction == UISwipeGestureRecognizerDirectionLeft) {
+    [self.selectSongView quickSelectCell];
+  } else if (pickingAction && direction == UISwipeGestureRecognizerDirectionRight) {
+    [self.selectActionView quickSelectCell];
+  } else {
+    return NO;
+  }
   return YES;
 }
 
 - (void)durationViewDraggedWithYVel:(float)yVel {
-  if (pickingSong || pickingAction)
-  return;
+  if (pickingSong || pickingAction) {
+    return;
+  }
   
   CGRect newDurRect;
   CGRect proposedFrame = CGRectOffset(self.selectDurationView.frame, 0, yVel);
   
   // Make the picker stop in the middle if it was in timer mode OR if it was set.
-  if ((proposedFrame.origin.y >= selectDurRect.origin.y && self.isSet) || (proposedFrame.origin.y <= selectDurRect.origin.y && self.isStopwatchMode))
-  newDurRect = selectDurRect;
+  if ((proposedFrame.origin.y >= selectDurRect.origin.y && self.isSet) || (proposedFrame.origin.y <= selectDurRect.origin.y && self.isStopwatchMode)) {
+    newDurRect = selectDurRect;
   
   // Can't go any lower than the stopwatch mode rect
-  else if (proposedFrame.origin.y >= stopwatchModeDurRect.origin.y)
-  newDurRect = stopwatchModeDurRect;
+  } else if (proposedFrame.origin.y >= stopwatchModeDurRect.origin.y) {
+    newDurRect = stopwatchModeDurRect;
   
   // Can't go any higher than the alarmSet rect
-  else if (proposedFrame.origin.y <= alarmSetDurRect.origin.y)
-  newDurRect = alarmSetDurRect;
+  } else if (proposedFrame.origin.y <= alarmSetDurRect.origin.y) {
+    newDurRect = alarmSetDurRect;
   
   // Can't go low if timer mode
-  else if (self.isSet && proposedFrame.origin.y >= selectDurRect.origin.y)
-  newDurRect = selectDurRect;
-  else
-  newDurRect = proposedFrame;
+  } else if (self.isSet && proposedFrame.origin.y >= selectDurRect.origin.y) {
+    newDurRect = selectDurRect;
   
-  // checking for a swipe
+  } else {
+    newDurRect = proposedFrame;
+  }
+  
+  // Checking for a swipe
   if (fabsf(yVel) > 15) {
     if (yVel < 0) {
-      if (self.isStopwatchMode){
-        shouldSet = AlarmViewShouldUnSet;
-      } else {
-        shouldSet = AlarmViewShouldSet;
-      }
+      shouldSet = self.isStopwatchMode ? AlarmViewShouldUnSet : AlarmViewShouldSet;
     } else {
-      if (self.isSet){
-        shouldSet = AlarmViewShouldUnSet;
-      } else if (!self.isTimerMode) {
-        shouldSet = AlarmViewShouldStopwatch;
-      }
+      shouldSet = self.isSet ? AlarmViewShouldUnSet : AlarmViewShouldStopwatch;
     }
     
-  } else if ((shouldSet == AlarmViewShouldSet && yVel > 0) || (shouldSet == AlarmViewShouldUnSet && yVel < 0) || (shouldSet == AlarmViewShouldStopwatch && yVel < 0))
-  shouldSet = AlarmViewShouldNone;
+  } else if ((shouldSet == AlarmViewShouldSet && yVel > 0) || (shouldSet == AlarmViewShouldUnSet && yVel < 0) || (shouldSet == AlarmViewShouldStopwatch && yVel < 0)) {
+    shouldSet = AlarmViewShouldNone;
+  }
   
   // Compress the durationSelector if duration selector is below original position
   if (newDurRect.origin.y > selectDurRect.origin.y) {
@@ -947,10 +960,13 @@ const float Spacing = 0.0f;
   // Keep the inner text centered with time picker
   [self.selectedTimeView setCenter:self.selectDurationView.center];
   
-  if (![[self subviews] containsObject:self.selectSongView])
-  [self addSubview:self.selectSongView];
-  if (![[self subviews] containsObject:self.selectActionView])
-  [self addSubview:self.selectActionView];
+  if (![[self subviews] containsObject:self.selectSongView]) {
+    [self addSubview:self.selectSongView];
+  }
+  
+  if (![[self subviews] containsObject:self.selectActionView]) {
+    [self addSubview:self.selectActionView];
+  }
   
   if ([self.delegate respondsToSelector:@selector(durationViewWithIndex:draggedWithPercent:)]) {
     float percentDragged = (self.selectDurationView.frame.origin.y - selectDurRect.origin.y) / 150;
@@ -1004,8 +1020,9 @@ const float Spacing = 0.0f;
       [self.selectDurationView setSecondsFromZeroWithNumber:[NSNumber numberWithInt:[self getSecondsFromMidnight]]];
       [[self.delegate getMusicPlayer] stop];
       [[UIApplication sharedApplication] openURL:openURL]; //opens the url
-      if (!self.isTimerMode)
-      [self.selectedTimeView updateDate:[self.selectDurationView getDate] part:self.selectDurationView.handleSelected];
+      if (!self.isTimerMode) {
+        [self.selectedTimeView updateDate:[self.selectDurationView getDate] part:self.selectDurationView.handleSelected];
+      }
     }
   } else if (shouldSet == AlarmViewShouldStopwatch
              || self.selectDurationView.frame.origin.y > (selectDurRect.origin.y + stopwatchModeDurRect.origin.y )/2) {
@@ -1088,10 +1105,13 @@ const float Spacing = 0.0f;
   float alpha2 = (self.isStopwatchMode)?0:1;
   
   if (alpha2 == 1 && !self.isTimerMode) {
-    if (![[self subviews] containsObject:self.selectSongView])
-    [self addSubview:self.selectSongView];
-    if (![[self subviews] containsObject:self.selectActionView])
-    [self addSubview:self.selectActionView];
+    if (![[self subviews] containsObject:self.selectSongView]) {
+      [self addSubview:self.selectSongView];
+    }
+    
+    if (![[self subviews] containsObject:self.selectActionView]) {
+      [self addSubview:self.selectActionView];
+    }
   }
   
   [UIView animateWithDuration:.2 animations:^{

@@ -126,20 +126,22 @@ const float setAlarmY = 15;
       UIView *alarmButton = [self.alarmButtons objectAtIndex:i];
       CGRect newButtonFrame;
       
-      if (i == index)
-      newButtonFrame = CGRectMake((buttonWidth+ALARM_SPACING)*i, alarmButton.frame.origin.y, 0, alarmButton.frame.size.height);
-      else if (i > index)
-      newButtonFrame = CGRectMake((buttonWidth+ALARM_SPACING)*(i-1), alarmButton.frame.origin.y, buttonWidth, alarmButton.frame.size.height);
-      else
-      newButtonFrame = CGRectMake((buttonWidth+ALARM_SPACING)*i, alarmButton.frame.origin.y, buttonWidth, alarmButton.frame.size.height);
+      if (i == index) {
+        newButtonFrame = CGRectMake((buttonWidth+ALARM_SPACING)*i, alarmButton.frame.origin.y, 0, alarmButton.frame.size.height);
+      } else if (i > index) {
+        newButtonFrame = CGRectMake((buttonWidth+ALARM_SPACING)*(i-1), alarmButton.frame.origin.y, buttonWidth, alarmButton.frame.size.height);
+      } else {
+        newButtonFrame = CGRectMake((buttonWidth+ALARM_SPACING)*i, alarmButton.frame.origin.y, buttonWidth, alarmButton.frame.size.height);
+      }
       
       [[self.alarmButtons objectAtIndex:i] setFrame:newButtonFrame];
     }
   } completion:^(BOOL finished) {
     [self.alarmButtons removeObjectAtIndex:index];
     NSInteger switchIndex = index==0?0:index-1;
-    if ([self.delegate respondsToSelector:@selector(switchAlarmWithIndex:)])
-    [self.delegate switchAlarmWithIndex:self.numAlarms - 1 - switchIndex];
+    if ([self.delegate respondsToSelector:@selector(switchAlarmWithIndex:)]) {
+      [self.delegate switchAlarmWithIndex:self.numAlarms - 1 - switchIndex];
+    }
   }];
 }
 

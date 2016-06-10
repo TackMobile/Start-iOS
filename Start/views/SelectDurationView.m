@@ -71,9 +71,7 @@
 
 #pragma mark - Touches
 - (bool)disabled {
-  if ([delegate respondsToSelector:@selector(shouldLockPicker)])
-  return [delegate shouldLockPicker];
-  return NO;
+  return [delegate respondsToSelector:@selector(shouldLockPicker)] && [delegate shouldLockPicker];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -104,8 +102,9 @@
     }
     changing = YES;
     
-    if ([delegate respondsToSelector:@selector(durationDidBeginChanging:)])
-    [delegate durationDidBeginChanging:self];
+    if ([delegate respondsToSelector:@selector(durationDidBeginChanging:)]) {
+      [delegate durationDidBeginChanging:self];
+    }
   }
 }
 
@@ -115,7 +114,8 @@
   CGPoint touchLoc = [touch locationInView:self];
   CGSize touchVel;
   
-  touchLoc = CGPointMake(touchLoc.x - center.x, touchLoc.y - center.y); // touch relative to center
+  // Touch relative to center
+  touchLoc = CGPointMake(touchLoc.x - center.x, touchLoc.y - center.y);
   float angleToTouch = [self angleFromVector:touchLoc];
   
   // Change angle of circles based handle selected
@@ -132,23 +132,23 @@
     touchVel = CGSizeMake(parentTouchLoc.x-parentPrevTouchLoc.x, parentTouchLoc.y-parentPrevTouchLoc.y);
     
     if (draggingOrientation == SelectDurationDraggingNone) {
-      if (fabs(touchVel.width) > fabs(touchVel.height))
-      draggingOrientation = SelectDurationDraggingHoriz;
-      else if (fabs(touchVel.height) > fabs(touchVel.width))
-      draggingOrientation = SelectDurationDraggingVert;
-      else
-      draggingOrientation = SelectDurationDraggingNone;
+      if (fabs(touchVel.width) > fabs(touchVel.height)) {
+        draggingOrientation = SelectDurationDraggingHoriz;
+      } else if (fabs(touchVel.height) > fabs(touchVel.width)) {
+        draggingOrientation = SelectDurationDraggingVert;
+      } else {
+        draggingOrientation = SelectDurationDraggingNone;
+      }
     }
     if (draggingOrientation == SelectDurationDraggingHoriz) {
       [(UIView *)delegate touchesMoved:touches withEvent:event];
-    } else if (draggingOrientation == SelectDurationDraggingVert) {
-      if ([delegate respondsToSelector:@selector(durationViewDraggedWithYVel:)])
+      
+    } else if (draggingOrientation == SelectDurationDraggingVert && [delegate respondsToSelector:@selector(durationViewDraggedWithYVel:)]) {
       [delegate durationViewDraggedWithYVel:touchVel.height];
     }
   }
   
-  if (handleSelected == SelectDurationOuterHandle || handleSelected == SelectDurationInnerHandle) {
-    if ([delegate respondsToSelector:@selector(durationDidChange:)])
+  if ((handleSelected == SelectDurationOuterHandle || handleSelected == SelectDurationInnerHandle) && [delegate respondsToSelector:@selector(durationDidChange:)]) {
     [delegate durationDidChange:self];
   }
 }
@@ -158,28 +158,29 @@
   changing = NO;
   
   if ([[touches anyObject] tapCount] > 0) {
-    if (handleSelected == SelectDurationCenterHandle)
-    if ([delegate respondsToSelector:@selector(durationViewCoreTapped:)])
-    [delegate durationViewCoreTapped:self];
+    if (handleSelected == SelectDurationCenterHandle && [delegate respondsToSelector:@selector(durationViewCoreTapped:)]) {
+      [delegate durationViewCoreTapped:self];
+    }
     
-    if ([delegate respondsToSelector:@selector(durationViewTapped:)])
-    [delegate durationViewTapped:self];
+    if ([delegate respondsToSelector:@selector(durationViewTapped:)]) {
+      [delegate durationViewTapped:self];
+    }
   }
   
-  if (draggingOrientation == SelectDurationDraggingHoriz || draggingOrientation == SelectDurationDraggingCancel)
-  [(UIView *)delegate touchesEnded:touches withEvent:event];
-  else if (draggingOrientation == SelectDurationDraggingVert)
-  if ([delegate respondsToSelector:@selector(durationViewStoppedDraggingWithY:)])
-  [delegate durationViewStoppedDraggingWithY:self.frame.origin.y];
+  if (draggingOrientation == SelectDurationDraggingHoriz || draggingOrientation == SelectDurationDraggingCancel) {
+    [(UIView *)delegate touchesEnded:touches withEvent:event];
+  } else if (draggingOrientation == SelectDurationDraggingVert && [delegate respondsToSelector:@selector(durationViewStoppedDraggingWithY:)]) {
+    [delegate durationViewStoppedDraggingWithY:self.frame.origin.y];
+  }
   
   if (handleSelected != SelectDurationNoHandle && handleSelected != SelectDurationCenterHandle) {
     handleSelected = SelectDurationNoHandle;
-    if ([delegate respondsToSelector:@selector(durationDidEndChanging:)])
-    [delegate durationDidEndChanging:self];
+    if ([delegate respondsToSelector:@selector(durationDidEndChanging:)]) {
+      [delegate durationDidEndChanging:self];
+    }
   } else {
     handleSelected = SelectDurationNoHandle;
   }
-  
   draggingOrientation = SelectDurationDraggingNone;
 }
 
@@ -203,16 +204,8 @@
   [self setSecondsFromZero:seconds];
   
   // Adjust for correct animation rotation
-  if (innerFill.startAngle > saveInnerEnd) {
-    innerStartAngle = M_PI * 2;
-  } else {
-    innerStartAngle = 0;
-  }
-  if (outerFill.startAngle > saveOuterEnd) {
-    outerStartAngle = M_PI * 2;
-  } else {
-    outerStartAngle = 0;
-  }
+  innerStartAngle = innerFill.startAngle > saveInnerEnd ? M_PI * 2 : 0;
+  outerStartAngle = outerFill.startAngle > saveOuterEnd ? M_PI * 2 : 0;
   
   innerFill.shouldAnimate = outerFill.shouldAnimate = YES;
   waitingForAnimToEnd = YES;
@@ -233,16 +226,9 @@
   [self setSecondsFromZero:seconds];
   
   innerFill.shouldAnimate = outerFill.shouldAnimate = NO;
+  innerFill.startAngle = innerStartAngle > innerAngle ? 0 : M_PI * 2;
   
-  if (innerStartAngle > innerAngle)
-  innerFill.startAngle = 0;
-  else
-  innerFill.startAngle = M_PI * 2;
-  
-  if (outerStartAngle > outerAngle)
-  outerFill.startAngle = 0;
-  else
-  outerFill.startAngle = M_PI * 2;
+  outerFill.startAngle = outerStartAngle > outerAngle ? 0 : M_PI * 2;
   
   [self update];
   
@@ -252,10 +238,7 @@
 - (void)beginTiming {
   timerDuration = [self getSecondsFromZero];
   
-  if ([delegate respondsToSelector:@selector(getDateBegan)])
-  _timerBeganDate = [delegate getDateBegan];
-  else
-  _timerBeganDate = [NSDate date];
+  _timerBeganDate = [delegate respondsToSelector:@selector(getDateBegan)] ? [delegate getDateBegan] : [NSDate date];
   
   isTiming = YES;
 }
@@ -290,8 +273,9 @@
 }
 
 - (void)updateTimerTick:(NSTimer *)timer {
-  if (!switchingModes && handleSelected == SelectDurationNoHandle)
-  [self update];
+  if (!switchingModes && handleSelected == SelectDurationNoHandle) {
+    [self update];
+  }
 }
 
 - (void)update {
@@ -328,10 +312,11 @@
   seconds = 86400+seconds;
   
   if (!isTiming) {
-    if (isTimerMode)
-    timerDuration = seconds;
-    else
-    _secondsSinceMidnight = seconds;
+    if (isTimerMode) {
+      timerDuration = seconds;
+    } else {
+      _secondsSinceMidnight = seconds;
+    }
   }
   
   int duration = seconds;
@@ -419,16 +404,10 @@
   if (!disableUpdateAngles) {
     if (innerFill.endAngle == 0 || [self shouldFixAngle:innerFill.endAngle]) {
       innerFill.shouldAnimate = NO;
-      if (innerAngle < M_PI)
-      innerFill.endAngle = 0;
-      else
-      innerFill.endAngle = M_PI * 2;
+      innerFill.endAngle = innerAngle < M_PI ? 0 : M_PI * 2;
     }
     if (!switchingModes && ( innerAngle == 0 || [self shouldFixAngle:innerAngle])) {
-      if (innerFill.endAngle < M_PI)
-      innerAngle = 0;
-      else
-      innerAngle = M_PI * 2;
+      innerAngle = innerFill.endAngle < M_PI ? 0 : M_PI * 2;
     }
     innerFill.shouldAnimate = (handleSelected == SelectDurationInnerHandle)?NO:YES;
     innerFill.endAngle = innerAngle;
@@ -459,10 +438,13 @@
   float leftAngle = angle - padding;
   float rightAngle = angle + padding;
   
-  if (leftAngle < 0)
-  leftAngle = leftAngle + M_PI * 2;
-  if (rightAngle > (M_PI * 2))
-  rightAngle = rightAngle - (M_PI * 2);
+  if (leftAngle < 0) {
+    leftAngle = leftAngle + M_PI * 2;
+  }
+  
+  if (rightAngle > (M_PI * 2)) {
+    rightAngle = rightAngle - (M_PI * 2);
+  }
   
   return ((touchAngle >= leftAngle && touchAngle <= leftAngle + 2*padding) || (touchAngle <= rightAngle && touchAngle >= rightAngle- 2*padding));
 }

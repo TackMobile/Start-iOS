@@ -176,21 +176,21 @@ typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
             break;
           }
           
-          if (alarmView.isTimerMode)
-          notif.alertBody = [LocalizedStrings timerFinished];
-          else
-          notif.alertBody = [LocalizedStrings alarmTriggered];
+          if (alarmView.isTimerMode) {
+            notif.alertBody = [LocalizedStrings timerFinished];
+          } else {
+            notif.alertBody = [LocalizedStrings alarmTriggered];
+          }
           
           [[UIApplication sharedApplication] scheduleLocalNotification:notif];
           
-          // decide the duration of the notif
+          // Decide the duration of the notif
           NSString *resName = [[notif.soundName componentsSeparatedByString:@"."] objectAtIndex:0];
           NSError *setURLError;
           NSString *playerPath = [[NSBundle mainBundle] pathForResource:resName ofType:@"wav"];
-          AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:playerPath]
-                                                                              error:&setURLError];
+          AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:playerPath] error:&setURLError];
           
-          // advance the date and decriment the count
+          // Advance the date and decriment the count
           fireDate = [fireDate dateByAddingTimeInterval:audioPlayer.duration];
           notifCount--;
         }
@@ -216,10 +216,7 @@ typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
 
 - (void)addAlarmWithInfo:(NSDictionary *)alarmInfo switchTo:(BOOL)switchToAlarm {
   self.currAlarmIndex = self.alarms.count;
-  AlarmView *newAlarm = [[AlarmView alloc] initWithFrame:self.prevAlarmRect
-                                                   index:self.currAlarmIndex
-                                                delegate:self
-                                               alarmInfo:alarmInfo];
+  AlarmView *newAlarm = [[AlarmView alloc] initWithFrame:self.prevAlarmRect index:self.currAlarmIndex delegate:self alarmInfo:alarmInfo];
   [self.alarms addObject:newAlarm];
   [self.view insertSubview:newAlarm atIndex:1];
   if (switchToAlarm) {
@@ -232,7 +229,7 @@ typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
   return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-// used when deleting an alarm
+// Used when deleting an alarm
 - (void)updateAlarmIndexes {
   for (NSInteger i=self.alarms.count-1; i>=0; i--)
   [[self.alarms objectAtIndex:i] setAlarmIndex:i];
@@ -241,15 +238,17 @@ typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
 #pragma mark - Touches
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-  if (self.currAlarmIndex < self.alarms.count)
-  return;
+  if (self.currAlarmIndex < self.alarms.count) {
+    return;
+  }
   
   UITouch *touch = [touches anyObject];
   CGPoint loc = [touch locationInView:self.view];
   CGPoint prevLoc = [touch previousLocationInView:self.view];
   CGSize velocity = CGSizeMake(loc.x-prevLoc.x, loc.y-prevLoc.y);
-  if (velocity.width < -10)
-  [self switchAlarmWithIndex:self.alarms.count-1];
+  if (velocity.width < -10) {
+    [self switchAlarmWithIndex:self.alarms.count-1];
+  }
 }
 
 #pragma mark - SettingsViewDelegate
@@ -273,8 +272,9 @@ typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
 - (void)switchAlarmWithIndex:(NSInteger)index {
   self.shouldSwitch = SwitchAlarmNone;
   
-  if (index < 0 || index > [self.alarms count])
-  index = self.currAlarmIndex;
+  if (index < 0 || index > [self.alarms count]) {
+    index = self.currAlarmIndex;
+  }
   
   float currOffset;
   if (self.currAlarmIndex < self.alarms.count) {
@@ -314,16 +314,10 @@ typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
   
   CGRect footerRect;
   if (self.currAlarmIndex == self.alarms.count) {
-    footerRect = CGRectMake([(AlarmView *)self.alarms[self.alarms.count-1] newRect].origin.x,
-                            self.selectAlarmView.frame.origin.y,
-                            self.selectAlarmView.frame.size.width,
-                            self.selectAlarmView.frame.size.height);
+    footerRect = CGRectMake([(AlarmView *)self.alarms[self.alarms.count-1] newRect].origin.x, self.selectAlarmView.frame.origin.y, self.selectAlarmView.frame.size.width, self.selectAlarmView.frame.size.height);
     
   } else {
-    footerRect = CGRectMake(0,
-                            self.selectAlarmView.frame.origin.y,
-                            self.selectAlarmView.frame.size.width,
-                            self.selectAlarmView.frame.size.height);
+    footerRect = CGRectMake(0, self.selectAlarmView.frame.origin.y, self.selectAlarmView.frame.size.width,self.selectAlarmView.frame.size.height);
     
   }
   [UIView animateWithDuration:.15 animations:^{
@@ -346,25 +340,25 @@ typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
 }
 
 - (void)alarmView:(AlarmView *)alarmView draggedWithXVel:(float)xVel {
-  if (![alarmView canMove])
-  return;
+  if (![alarmView canMove]) {
+    return;
+  }
   
   NSInteger alarmIndex = alarmView.alarmIndex;
   
   if (fabsf(xVel) > 15) {
-    if (xVel < 0)
-    self.shouldSwitch = SwitchAlarmNext;
-    else
-    self.shouldSwitch = SwitchAlarmPrev;
+    self.shouldSwitch = xVel < 0 ? SwitchAlarmNext : SwitchAlarmPrev;
+    
   } else if ((xVel < 0 && self.shouldSwitch == SwitchAlarmPrev) || (xVel > 0 && self.shouldSwitch == SwitchAlarmNext)) {
     self.shouldSwitch = SwitchAlarmNone;
   }
   
   CGRect alarmRect = CGRectOffset(alarmView.frame, xVel, 0);
-  // reduce vel if on edges
-  if ((alarmRect.origin.x > 0 && self.currAlarmIndex==-1)
-      || (alarmRect.origin.x < 0 && self.currAlarmIndex == 0))
-  alarmRect = CGRectOffset(alarmRect, -xVel, 0);
+  
+  // Reduce vel if on edges
+  if ((alarmRect.origin.x > 0 && self.currAlarmIndex==-1) || (alarmRect.origin.x < 0 && self.currAlarmIndex == 0)) {
+    alarmRect = CGRectOffset(alarmRect, -xVel, 0);
+  }
   
   CGRect leftAlarmRect = CGRectOffset(alarmRect, -self.asideOffset, 0);
   CGRect rightAlarmRect = CGRectOffset(alarmRect, self.asideOffset, 0);
@@ -386,12 +380,8 @@ typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
     xOrigin = alarmRect.origin.x;
   }
   
-  CGRect footerRect = CGRectMake(xOrigin,
-                                 self.selectAlarmView.frame.origin.y,
-                                 self.selectAlarmView.frame.size.width,
-                                 self.selectAlarmView.frame.size.height);
+  CGRect footerRect = CGRectMake(xOrigin, self.selectAlarmView.frame.origin.y, self.selectAlarmView.frame.size.width, self.selectAlarmView.frame.size.height);
   self.selectAlarmView.frame = footerRect;
-  
   
   alarmView.frame = alarmRect;
   [alarmView shiftedFromActiveByPercent:(alarmRect.origin.x+Spacing)/screenWidth];
@@ -402,16 +392,11 @@ typedef NS_ENUM (NSInteger, SwitchAlarmDirection) {
   NSInteger alarmIndex = alarmView.alarmIndex;
   
   if (fabsf(x) > self.currAlarmRect.size.width / 2) {
-    if (x < 0){
-      [self switchAlarmWithIndex:alarmIndex-1];
-    } else{
-      [self switchAlarmWithIndex:alarmIndex+1];
-    }
+    [self switchAlarmWithIndex:alarmIndex + (x < 0 ? -1 : 1)];
   } else if (self.shouldSwitch != SwitchAlarmNone) {
-    
     [self switchAlarmWithIndex:alarmIndex + self.shouldSwitch];
-  } else {
     
+  } else {
     [self switchAlarmWithIndex:self.currAlarmIndex];
   }
 }

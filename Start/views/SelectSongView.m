@@ -92,7 +92,6 @@ static CGFloat const TallerRowHeight = 70.0f;
       NSIndexPath *cellIndexPath = [NSIndexPath indexPathForRow:0 inSection:i];
       NSIndexPath *lastCellPath = [NSIndexPath indexPathForRow:[_songTableView numberOfRowsInSection:i]-1 inSection:i];
       
-      
       CGRect cellRect = [_songTableView rectForRowAtIndexPath:cellIndexPath];
       CGRect lastRect = [_songTableView rectForRowAtIndexPath:lastCellPath];
       
@@ -177,8 +176,7 @@ static CGFloat const TallerRowHeight = 70.0f;
 #pragma mark - Positioning
 
 - (void)viewTapped {
-  if ([self.delegate respondsToSelector:@selector(expandSelectSongView)])
-  if ([self.delegate expandSelectSongView]) {
+  if ([self.delegate respondsToSelector:@selector(expandSelectSongView)] && [self.delegate expandSelectSongView]) {
     [self.songTableView setUserInteractionEnabled:YES];
     
     // Show surrounding cells
@@ -230,9 +228,9 @@ static CGFloat const TallerRowHeight = 70.0f;
 
 - (void)selectCellWithID:(NSNumber *)cellNumID {
   [self.songTableView reloadData];
-  if ([cellNumID isEqualToNumber:[NSNumber numberWithInt:-1]])
-  self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];// No song
-  else {
+  if ([cellNumID isEqualToNumber:[NSNumber numberWithInt:-1]]) {
+    self.selectedIndexPath = [NSIndexPath indexPathForRow:0 inSection:1];// No song
+  } else {
     self.selectedIndexPath = [self songIndexPathFromID:cellNumID];
   }
   [self quickSelectCell];
@@ -392,8 +390,9 @@ static CGFloat const TallerRowHeight = 70.0f;
   [tableView scrollRectToVisible:contentRect animated:YES];
   
   // Animation
-  if ([self.delegate respondsToSelector:@selector(compressSelectSong)])
-  [self.delegate compressSelectSong];
+  if ([self.delegate respondsToSelector:@selector(compressSelectSong)]) {
+    [self.delegate compressSelectSong];
+  }
   
   [self.songTableView setUserInteractionEnabled:NO];
   
@@ -442,12 +441,7 @@ static CGFloat const TallerRowHeight = 70.0f;
   // Move the fade out of way of the search divider
   float searchHeight = [self.songTableView rectForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].size.height;
   CGRect maskFrame = self.layer.mask.frame;
-  if (scrollView.contentOffset.y <= searchHeight){
-    maskFrame.origin.x = scrollView.contentOffset.y;
-  } else {
-    maskFrame.origin.x = 0;
-  }
-  
+  maskFrame.origin.x = scrollView.contentOffset.y <= searchHeight ? scrollView.contentOffset.y : 0;
   self.layer.mask.frame = maskFrame;
 }
 
@@ -461,8 +455,7 @@ static CGFloat const TallerRowHeight = 70.0f;
     NSMutableArray *applicableSongs = [[NSMutableArray alloc] init];
     
     for (MPMediaItem *mediaItem in self.librarySongs) {
-      if ([[mediaItem valueForKey:MPMediaItemPropertyTitle] rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound ||
-          [[mediaItem valueForKey:MPMediaItemPropertyArtist] rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound) {
+      if ([[mediaItem valueForKey:MPMediaItemPropertyTitle] rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound || [[mediaItem valueForKey:MPMediaItemPropertyArtist] rangeOfString:searchString options:NSCaseInsensitiveSearch].location != NSNotFound) {
         [applicableSongs addObject:mediaItem];
       }
     }
